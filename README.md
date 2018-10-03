@@ -4,8 +4,12 @@ Analyzing metaphors in cancer-related fundraising campaigns.
 
 # Resources
 
-Kickstarter datasets:
+Datasets:
 https://webrobots.io/kickstarter-datasets/
+
+https://github.com/lmeninato/GoFundMe
+
+https://webrobots.io/indiegogo-dataset/
 
 
 # Steps
