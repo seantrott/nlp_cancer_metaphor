@@ -1,12 +1,16 @@
 import pandas as pd
+import nltk
+from nltk.tokenize import RegexpTokenizer
+tokenizer = RegexpTokenizer(r'\w+')
 
 def main():
+
     data = pd.read_csv('data/processed/cancer_projects.csv')
 
     data['mean_donation'] = data['usd_pledged'] / data['backers']
     data['text_length_chars'] = len(data['text'])
-    data['text_length_words'] = 0
-    data['text_length_sentences'] = 0
+    data['text_length_words'] = data['text'].apply(lambda t: len(tokenizer.tokenize(t)))
+    data['text_length_sentences'] = data['text'].apply(lambda t: len(nltk.sent_tokenize(t)))
     data['text_length_paragraphs'] = 0
     data['punctuation_count'] = 0
     data['metaphor'] = False #descriptor about metaphor presence
