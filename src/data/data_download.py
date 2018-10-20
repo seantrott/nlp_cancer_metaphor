@@ -21,6 +21,8 @@ filenames = ["Kickstarter_2018-09-13T03_20_17_777Z.json.gz",
              "Kickstarter_2018-02-15T03_20_44_743Z.json.gz",
              "Kickstarter_2018-01-12T10_20_09_196Z.json.gz"]
 
+# fx_rate
+
 csv_columns = ['id', 'name', 'blurb', 'created', 'launched', 'deadline', 'goal', 'spotlight', 'staff_pick', 'status',
                'status_changed_at', 'backers', 'usd_pledged', 'pledged', 'currency', 'current_currency', 'category',
                'geo_country', 'geo_state', 'geo_type', 'url', 'text']
@@ -132,7 +134,7 @@ def main():
 
                     if project_data[0] not in ids:
 
-                        project_data.append('')# fetch_text_data(project_data[20]))
+                        project_data.append(fetch_text_data(project_data[20]))
 
                         cancer_projects.append(project_data)
                         ids.append(project_data[0])
