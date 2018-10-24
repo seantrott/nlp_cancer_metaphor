@@ -11,6 +11,11 @@ https://github.com/lmeninato/GoFundMe
 
 https://webrobots.io/indiegogo-dataset/
 
+# Run
+
+1. `make data_download`
+2. `make data_process`
+3. Use `data/processed/cancer_projects_full.csv` for analysis
 
 # Steps
 

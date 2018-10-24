@@ -1,5 +1,7 @@
 data/raw/*
 data/processed/cancer_projects.csv
+data/processed/cancer_projects_full.csv
+
 .idea
 
 */.ipynb_checkpoints
