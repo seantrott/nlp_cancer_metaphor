@@ -17,9 +17,6 @@ def main():
     data = pd.read_csv('data/processed/cancer_projects.csv')
 
     data['usd_pledged'] = data['usd_pledged'].astype(float)
-    data['deadline'] = pd.to_datetime(data['deadline'], unit='s')
-    data['created'] = pd.to_datetime(data['created'], unit='s')
-    data['launched'] = pd.to_datetime(data['launched'], unit='s')
 
     data['mean_donation'] = data['usd_pledged'] / data['backers']
     data['mean_donation'] = data['mean_donation'].fillna(0)
@@ -30,9 +27,9 @@ def main():
     # data['first_metaphor_index'] = 0
     data['pledged_to_goal'] = data['pledged'] / data['goal']
     data['duration'] = data['deadline'] - data['launched']
-    data['month'] = data['launched'].dt.month
-    data['day_of_week'] = data['launched'].dt.dayofweek
-    data['year'] = data['launched'].dt.year
+    data['month'] = pd.to_datetime(data['launched'], unit='s').dt.month
+    data['day_of_week'] = pd.to_datetime(data['launched'], unit='s').dt.dayofweek
+    data['year'] = pd.to_datetime(data['launched'], unit='s').dt.year
     data['from_US'] = data['geo_country'].apply(lambda x: 1 if x == 'US' else 0)
     data['from_Town'] = data['geo_type'].apply(lambda x: 1 if x == 'Town' else 0)
     data['category'] = data['category'].apply(get_parent_category)
