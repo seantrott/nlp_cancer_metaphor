@@ -9,13 +9,15 @@ import nltk
 import operator
 import pandas as pd
 
+from tqdm import tqdm
+
 
 BATTLE_WORDS = ['fight', 'battle', 'war']
 JOURNEY_WORDS = ['path', 'journey', 'destination']
 METAPHORS = {'battle': BATTLE_WORDS,
              'journey': JOURNEY_WORDS}
 
-DATA_PATH = "data/processed/kickstarter_plus_text.csv"
+DATA_PATH = "data/processed/cancer_projects_full.csv"
 
 
 def concept_salience(text_block, keywords):
@@ -55,7 +57,7 @@ def extract_features_from_campaign(campaign_text):
 def extract_features_from_blocks(text_blocks):
     """Extract features from text blocks."""
     features = []
-    for tb in text_blocks:
+    for tb in tqdm(text_blocks):
         features.append(extract_features_from_campaign(tb))
 
     return pd.DataFrame.from_dict(features)
