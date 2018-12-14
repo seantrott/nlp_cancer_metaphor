@@ -23,7 +23,8 @@ While there is some work on the role of message framing and valence in charitabl
 ```{r}
 
 setwd("/Users/seantrott/Dropbox/UCSD/Research/ComputationalLinguistics/nlp_cancer_metaphor")
-df = read_csv("data/processed/kickstarter_plus_metaphor.csv")
+df = read_csv("data/processed/projects_with_metaphors.csv")
+
 
 df = na.omit(df)
 ```
@@ -53,7 +54,7 @@ We create two new columns: the amount pledged (logged), and the average transact
 df$pledged_logged = log10(df$pledged + 1)
 df$avg_transaction = df$pledged / df$backers
 df$status = factor(df$status)
-df$dominant_metaphor = factor(df$dominant_metaphor)
+df$dominant_metaphor = factor(df$dominant)
 ```
 
 # Metaphor detection and tagging
@@ -91,20 +92,12 @@ For these initial analyses, we will proceed by log-transfomring the dependent va
 
 ```{r}
 df %>%
-  # filter(dominant_metaphor %in% c("battle", "journey")) %>%
+  # filter(dominant_metaphor %in% c("Battle", "Journey")) %>%
   ggplot(aes(x = dominant_metaphor,
              y = avg_transaction)) +
   geom_boxplot(outlier.shape = NA) +
   scale_y_log10() +
   theme_minimal()
-```
-
-A simple OLS regression modeling log(average transaction) as a function of the dominant metaphor in a campaign suggests that **journey** campaigns have higher average gift sizes, consistent with the figure above.
-
-```{r}
-simple = lm(data = df,
-            log10(avg_transaction) ~ dominant_metaphor)
-summary(simple)
 ```
 
 
@@ -116,11 +109,11 @@ We then use model comparisons to ask whether including a fixed effect of the *do
 
 ```{r}
 avg_transaction_full = lmer(data = df,
-                            log10(avg_transaction) ~ dominant_metaphor + staff_pick + num_words + (1 | geo_country) + (1 | geo_state),
+                            log10(avg_transaction) ~ dominant_metaphor + staff_pick + text_length_words + (1 | geo_country) + (1 | geo_state),
                     REML=FALSE)
 
 avg_transaction_reduced = lmer(data = df,
-                            log10(avg_transaction) ~  staff_pick + num_words + (1 | geo_country) + (1 | geo_state),
+                            log10(avg_transaction) ~  staff_pick + text_length_words + (1 | geo_country) + (1 | geo_state),
                             REML=FALSE)
 
 
@@ -130,13 +123,13 @@ anova(avg_transaction_full, avg_transaction_reduced)
 Notably, when we restrict our analysis to only those campaigns with a more salient "battle" or "journey" metaphor, including **dominant_metaphor** yields a much more significant improvement.
 
 ```{r}
-coded = filter(df, dominant_metaphor %in% c("battle", "journey"))
+coded = filter(df, dominant_metaphor %in% c("Battle", "Journey"))
 avg_transaction_full = lmer(data = coded,
-                            log10(avg_transaction) ~ dominant_metaphor + staff_pick + num_words + (1 | geo_country) + (1 | geo_state),
+                            log10(avg_transaction) ~ dominant_metaphor + staff_pick + text_length_words + (1 | geo_country) + (1 | geo_state),
                     REML=FALSE)
 
 avg_transaction_reduced = lmer(data = coded,
-                            log10(avg_transaction) ~  staff_pick + num_words + (1 | geo_country) + (1 | geo_state),
+                            log10(avg_transaction) ~  staff_pick + text_length_words + (1 | geo_country) + (1 | geo_state),
                             REML=FALSE)
 
 
@@ -150,9 +143,8 @@ Campaigns are also tagged with a **status**, including whether they succeeded or
 ```{r}
 df_finished = df %>%
   filter(status %in% c("successful", "failed"))
-df_finished$status = factor(df_finished$status)
 simple = glm(data = df_finished,
-             status ~ dominant_metaphor,
+             status ~ metaphor,
              family = binomial())
 summary(simple)
 ```
@@ -163,6 +155,15 @@ df_finished %>%
              fill = status)) +
   geom_bar(stat = "count", position = "dodge") +
   theme_minimal()
+
+
+df_finished %>%
+  ggplot(aes(x = metaphor,
+             fill = status)) +
+  geom_bar(stat = "count", position = "dodge") +
+  theme_minimal()
 ```
+
+
 
 
