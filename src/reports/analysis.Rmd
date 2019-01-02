@@ -9,15 +9,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Metaphor Analysis
 
+We have several dependent variables which we would like to model as accurately as possible to determine the variables which contribute most to their outcomes. In particular, we care about the effect of the dominance (or lack thereof) of metaphor in each project. We first explore the data a little, and then begin a series of model comparisons for the dependent variables. Comparing models gives transparency to the contributions of each variable toward the target.
+
+## Load Data
 
 ```{r cars}
-dat = read.csv('projects_with_metaphors.csv')
+dat = read.csv('../../data/processed/cancer_projects_full.csv')
 head(dat)
 ```
 ```{r}
 colnames(dat)
 unique(dat$category)
-# TODO: merge publishing + comics, design + art + crafts, theater + dance
 ```
 
 ```{r}
@@ -26,131 +28,138 @@ library(lme4)
 ```
 
 ```{r}
-ggplot(dat, aes(x=dominant)) + geom_bar(stat="count", position="dodge")
+ggplot(dat) + geom_bar(aes(x=year), stat="count") + ggtitle("Number of projects per year")
 ```
+
+Very few projects are in 2009, and so for simplicity's sake and to simplify the model just a tad, we remove 2009.
 ```{r}
-ggplot(dat, aes(x=category)) + geom_bar(stat="count")
+dat <- dat[dat$year >= 2010, ]
 ```
+
+```{r}
+ggplot(dat) + geom_bar(aes(x=geo_country, y=..prop.., group=1), stat="count") + ggtitle("Proportion of projects per country")
+```
+
+```{r}
+dat <- dat[dat$geo_country == "US", ]
+```
+
+```{r}
+nrow(dat[dat$from_Town == 0, ])
+nrow(dat[dat$from_Town == 1, ])
+```
+
+There are only 10 projects not from Towns, so we'll just remove them for simplicity's sake.
+
+```{r}
+dat <- dat[dat$from_Town == 1, ]
+```
+
+
+```{r}
+ggplot(dat) + geom_bar(aes(x=category), stat="count")
+```
+
+We scale the data and convert binary values to floating point values.
+
+```{r}
+dat$goal_sc <- scale(dat$goal)
+dat$duration_float_sc <- scale(dat$duration_float)
+dat$text_length_words_sc <- scale(dat$text_length_words)
+dat$staff_pick_sc <- scale(dat$staff_pick * 1)
+
+dat$dominant_battle_sc <- scale(dat$dominant_battle * 1)
+dat$dominant_journey_sc <- scale(dat$dominant_journey * 1)
+dat$dominant_neither_sc <- scale(dat$dominant_neither * 1)
+```
+
 
 Seems like a comprehensive source:
 https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#model-definition
 https://ase.tufts.edu/gsc/gradresources/guidetomixedmodelsinr/mixed%20model%20guide.html
 
 
+We are interested in the effect that metaphor dominance has on the funding status of a project.
+
+Each sample is independent (what is in one project has no affect on whats in another sample).
+
+DV: status, pledged_to_goal, mean_donation, backers
+IV: Goal amount, staff_pick, category, geo_state, from_town, text_length_words, duration_float, month, dow, year, dominant_*
+
+Various sources were used to determine what should be a random effect and what should be fixed, and how to model interactions and correlations between variables, including:
+
+ - Data Analysis Using Regression and Multilevel/Hierarchical Models (Gelman and Hill, 2006)
+ - Interactions in Generalized Linear Models: Theoretical Issues and an Application to Personal Vote-Earning Attributes (Tsai and Gill, 2013)
+ - Should I Use Fixed or Random Effects? (Clark and Linzer, 2012)
+ - Random effects structure for confirmatory hypothesis testing: Keep it maximal (Barr et al., 2013)
+ - https://stats.stackexchange.com/questions/13166/rs-lmer-cheat-sheet
+ - https://stats.stackexchange.com/questions/4700/what-is-the-difference-between-fixed-effect-random-effect-and-mixed-effect-mode/151800#151800
+ - https://rlbarter.github.io/Practical-Statistics/2017/03/03/fixed-mixed-and-random-effects/
+ - https://stats.stackexchange.com/questions/323273/what-to-do-with-random-effects-correlation-that-equals-1-or-1
+ - Fitting linear mixed-effects models using lme4 (Bates et al., 2014)
+
 # Status
 
 ```{r}
-dat$goal_sc <- scale(dat$goal)
+mod.none.corr <- glmer(status ~ month + (month|year) + (1|geo_state), data = dat, family = "binomial")
 
-# no fixed effects
-mod.none <- glmer(status ~ (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                  data = dat, family = "binomial")
+as.data.frame(VarCorr(mod.none.corr))
+```
+
+The slopes of `month` and `year` are highly correlated (0.999), so we continue to estiamte their correlations (as opposed to using e.g. `(month||year)`).
+
+```{r}
+# no fixed effects, only random
+mod.none <- glmer(status ~ (1|geo_state) + month + (month|year), data = dat, family = "binomial", nAGQ = 1)
+
+# add staff pick
+mod.staff <- glmer(status ~ staff_pick + (1|geo_state) + month + (month|year), data = dat, family = "binomial", nAGQ = 1)
 
 # add duration of campaign (in days)
-mod.dur <- glmer(status ~ duration_float +  (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                 data = dat, family = "binomial")
+mod.staff.dur <- glmer(status ~ duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), data = dat, family = "binomial", nAGQ = 1)
 
 # add length of text (in words)
-mod.dur.textwords <- glmer(status ~ duration_float + text_length_words + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "binomial")
-
-# add length of text (in sentences)
-mod.dur.textwords.textsents <- glmer(status ~ duration_float + text_length_words + text_length_sentences + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "binomial")
+mod.staff.dur.length <- glmer(status ~ text_length_words_sc + duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), data = dat, family = "binomial", nAGQ = 1)
 
 # add scaled goal amount
-mod.dur.textwords.textsents.goal <- glmer(status ~ duration_float + text_length_words + text_length_sentences + goal_sc + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "binomial")
+mod.staff.dur.length.goal <- glmer(status ~ goal_sc + text_length_words_sc + duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), data = dat, family = "binomial", nAGQ = 1)
+
+
+anova(mod.none, mod.staff, test='Chisq')
+anova(mod.staff, mod.staff.dur, test='Chisq')
+anova(mod.staff.dur, mod.staff.dur.length, test='Chisq')
+anova(mod.staff.dur.length, mod.staff.dur.length.goal, test='Chisq')
+```
+```{r}
+summary(mod.staff.dur.length.goal)
+```
+
+Use `nAQG=0` because `nAQG=1` cannot converge in a reasonable number (10,000) of iterations
+
+See https://stats.stackexchange.com/questions/77313/why-cant-i-match-glmer-family-binomial-output-with-manual-implementation-of-g and https://www.rdocumentation.org/packages/lme4/versions/1.1-19/topics/glmer
+
+```{r}
+mod.dom.battle <- glmer(status ~ dominant_battle_sc + goal_sc + text_length_words_sc + duration_float_sc + staff_pick + (from_Town||geo_state) + (month||year), data = dat, family = "binomial", nAGQ = 0)
+
+mod.dom.journey <- glmer(status ~ dominant_journey_sc + goal_sc + text_length_words_sc + duration_float_sc + staff_pick + (from_Town||geo_state) + (month||year), data = dat, family = "binomial", nAGQ = 0)
+
+mod.dom.neither <- glmer(status ~ dominant_neither_sc + goal_sc + text_length_words_sc + duration_float_sc + staff_pick + (from_Town||geo_state) + (month||year), data = dat, family = "binomial", nAGQ = 0)
+
+mod.dom.all <- glmer(status ~ dominant + goal_sc + text_length_words_sc + duration_float_sc + staff_pick + (from_Town||geo_state) + (month||year), data = dat, family = "binomial", nAGQ = 0)
+
+anova(mod.staff.dur.length.goal, mod.dom.battle)
+anova(mod.staff.dur.length.goal, mod.dom.journey)
+anova(mod.staff.dur.length.goal, mod.dom.neither)
+anova(mod.staff.dur.length.goal, mod.dom.all)
 ```
 
 ```{r}
-### add battle as the dominant
-mod.dur.textwords.textsents.goal.battle <- glmer(status ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_battle + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                               data = dat, family = "binomial")
-
-### add journey as the dominant
-mod.dur.textwords.textsents.goal.journey <- glmer(status ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_journey + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                                data = dat, family = "binomial")
-
-### add both as the dominant
-mod.dur.textwords.textsents.goal.both <- glmer(status ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_both + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "binomial")
-
-### add neither as the dominant
-mod.dur.textwords.textsents.goal.neither <- glmer(status ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_neither + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "binomial")
-
-### add all dominant
-mod.dur.textwords.textsents.goal.all <- glmer(status ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "binomial")
-
-anova(mod.none, mod.dur, test='Chisq')
-anova(mod.dur, mod.dur.textwords, test='Chisq')
-anova(mod.dur.textwords, mod.dur.textwords.textsents, test='Chisq')
-anova(mod.dur.textwords.textsents, mod.dur.textwords.textsents.goal, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.battle, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.journey, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.both, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.neither, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.all, test='Chisq')
+summary(mod.dom.neither)
 ```
+
+Interestingly, having no metaphors provides a significant explanation to the model. An insignificant intercept of -0.15 on the dominant_neither variable.
 
 # Number of Backers
-
-```{r}
-# no fixed effects
-mod.none <- glmer(backers ~ (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                  data = dat, family = "poisson")
-
-# add duration of campaign (in days)
-mod.dur <- glmer(backers ~ duration_float +  (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                 data = dat, family = "poisson")
-
-# add length of text (in words)
-mod.dur.textwords <- glmer(backers ~ duration_float + text_length_words + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "poisson")
-
-# add length of text (in sentences)
-mod.dur.textwords.textsents <- glmer(backers ~ duration_float + text_length_words + text_length_sentences + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "poisson")
-
-# add scaled goal amount
-mod.dur.textwords.textsents.goal <- glmer(backers ~ duration_float + text_length_words + text_length_sentences + goal_sc + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "poisson")
-```
-
-
-```{r}
-### add battle as the dominant
-mod.dur.textwords.textsents.goal.battle <- glmer(backers ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_battle + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                               data = dat, family = "poisson")
-
-### add journey as the dominant
-mod.dur.textwords.textsents.goal.journey <- glmer(backers ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_journey + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                                data = dat, family = "poisson")
-
-### add both as the dominant
-mod.dur.textwords.textsents.goal.both <- glmer(backers ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_both + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "poisson")
-
-### add neither as the dominant
-mod.dur.textwords.textsents.goal.neither <- glmer(backers ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_neither + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "poisson")
-
-### add all dominant
-mod.dur.textwords.textsents.goal.all <- glmer(backers ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "poisson")
-
-anova(mod.none, mod.dur, test='Chisq')
-anova(mod.dur, mod.dur.textwords, test='Chisq')
-anova(mod.dur.textwords, mod.dur.textwords.textsents, test='Chisq')
-anova(mod.dur.textwords.textsents, mod.dur.textwords.textsents.goal, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.battle, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.journey, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.both, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.neither, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.all, test='Chisq')
-```
 
 # Mean Donation
 
@@ -166,59 +175,4 @@ qqp(dat$mean_donation, "lnorm")
 ```
 
 mean_donation isn't really gaussian, but for simplicity's sake, we'll use that for now. Pick a better dist later. Unsurprisingly, there aren't any significant effects when adding in dominant metaphors.
-
-```{r}
-# no fixed effects
-mod.none <- glmer(mean_donation ~ (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                  data = dat, family = "gaussian")
-
-# add duration of campaign (in days)
-mod.dur <- glmer(mean_donation ~ duration_float +  (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                 data = dat, family = "gaussian")
-
-# add length of text (in words)
-mod.dur.textwords <- glmer(mean_donation ~ duration_float + text_length_words + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "gaussian")
-
-# add length of text (in sentences)
-mod.dur.textwords.textsents <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "gaussian")
-
-# add scaled goal amount
-mod.dur.textwords.textsents.goal <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "gaussian")
-```
-
-
-```{r}
-### add battle as the dominant
-mod.dur.textwords.textsents.goal.battle <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_battle + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                               data = dat, family = "gaussian")
-
-### add journey as the dominant
-mod.dur.textwords.textsents.goal.journey <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_journey + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                                data = dat, family = "gaussian")
-
-### add both as the dominant
-mod.dur.textwords.textsents.goal.both <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_both + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "gaussian")
-
-### add neither as the dominant
-mod.dur.textwords.textsents.goal.neither <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_neither + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "gaussian")
-
-### add all dominant
-mod.dur.textwords.textsents.goal.all <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "gaussian")
-
-anova(mod.none, mod.dur, test='Chisq')
-anova(mod.dur, mod.dur.textwords, test='Chisq')
-anova(mod.dur.textwords, mod.dur.textwords.textsents, test='Chisq')
-anova(mod.dur.textwords.textsents, mod.dur.textwords.textsents.goal, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.battle, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.journey, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.both, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.neither, test='Chisq')
-anova(mod.dur.textwords.textsents.goal, mod.dur.textwords.textsents.goal.all, test='Chisq')
-```
 
