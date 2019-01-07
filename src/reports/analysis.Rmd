@@ -295,6 +295,7 @@ mod.dom.battle <- glmer(backers ~ dominant_battle + goal_sc + text_length_words_
                         data = dat.pois, family = "poisson", nAGQ = 1)
 mod.dom.journey <- glmer(backers ~ dominant_journey + goal_sc + text_length_words_sc + 
                            duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), 
+                         control=glmerControl(optimizer="bobyqa"),
                          data = dat.pois, family = "poisson", nAGQ = 1)
 mod.dom.neither <- glmer(backers ~ dominant_neither + goal_sc + text_length_words_sc + 
                            duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), 
