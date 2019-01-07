@@ -1,10 +1,10 @@
 # nlp_cancer_metaphor
 Analyzing metaphors in cancer-related fundraising campaigns.
 
-
 # Resources
 
 Datasets:
+
 https://webrobots.io/kickstarter-datasets/
 
 https://github.com/lmeninato/GoFundMe
@@ -24,3 +24,9 @@ https://webrobots.io/indiegogo-dataset/
 3. Detect metaphors using keyword search.
 4. Regress campaign success ~ metaphors used.
 
+# To-do
+
+ - [ ] Mine GoFundMe projects (annotate instances of metaphor)
+ - [ ] Implement a measure of diversity/productivity
+ - [ ] Add productivity to model analysis
+ - [ ] Implement analyses for all DVs
