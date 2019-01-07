@@ -3,6 +3,18 @@ title: "analysis"
 output: html_document
 ---
 
+
+**Questions to ask**: 
+
+Characterizing:
+1. What's the distribution of metaphors overall? Does it differ by campaign category?
+2. What about metaphor productivity? Within a metaphor family, are there canonical instantiations of a metaphor? (E.g. "fight battle"). Or even if productivity is low generally, are instantiations varied?
+3. How do metaphors relate to the *length* of campaigns?
+
+Predicting campaigns:
+1. How does having a metaphor influence campaign success/failure, #backers, and mean donation?
+2. How does having a *specific metaphor* (battles vs. journeys) influence campaign success/failure, #backers, mean donation?
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -11,9 +23,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r cars}
-dat = read.csv('projects_with_metaphors.csv')
+setwd("/Users/seantrott/Dropbox/UCSD/Research/ComputationalLinguistics/nlp_cancer_metaphor")
+dat = read.csv('data/processed/projects_with_metaphors.csv')
 head(dat)
 ```
+
 ```{r}
 colnames(dat)
 unique(dat$category)
@@ -28,6 +42,7 @@ library(lme4)
 ```{r}
 ggplot(dat, aes(x=dominant)) + geom_bar(stat="count", position="dodge")
 ```
+
 ```{r}
 ggplot(dat, aes(x=category)) + geom_bar(stat="count")
 ```
@@ -43,20 +58,37 @@ https://ase.tufts.edu/gsc/gradresources/guidetomixedmodelsinr/mixed%20model%20gu
 dat$goal_sc <- scale(dat$goal)
 
 # no fixed effects
-mod.none <- glmer(status ~ (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                  data = dat, family = "binomial")
+mod.none <- glmer(status ~ (1|category) + (1|year) + (1|month) + 
+                    (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                  control=glmerControl(optimizer="bobyqa"),
+                  data = dat, 
+                  family = "binomial")
 
 # add duration of campaign (in days)
-mod.dur <- glmer(status ~ duration_float +  (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                 data = dat, family = "binomial")
+mod.dur <- glmer(status ~ duration_float + (1|category) + (1|year) + (1|month) + 
+                    (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                  control=glmerControl(optimizer="bobyqa"),
+                  data = dat, 
+                  family = "binomial")
+
 
 # add length of text (in words)
-mod.dur.textwords <- glmer(status ~ duration_float + text_length_words + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "binomial")
+# Doesn't converge, text_length_words is not scaled the same
+mod.dur.textwords <- glmer(status ~ duration_float + text_length_words +
+                             (1|category) + (1|year) + (1|month) + 
+                             (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                            control=glmerControl(optimizer="bobyqa"),
+                            data = dat, 
+                            family = "binomial")
+
 
 # add length of text (in sentences)
-mod.dur.textwords.textsents <- glmer(status ~ duration_float + text_length_words + text_length_sentences + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "binomial")
+mod.dur.textwords.textsents <- glmer(status ~ duration_float + text_length_words +
+                                       text_length_sentences + (1|category) + (1|year) + 
+                                       (1|month) + (1|day_of_week) + (1|from_US) + 
+                                       (1|geo_state) + (1|staff_pick), 
+                                     control=glmerControl(optimizer="bobyqa"),
+                                      data = dat, family = "binomial")
 
 # add scaled goal amount
 mod.dur.textwords.textsents.goal <- glmer(status ~ duration_float + text_length_words + text_length_sentences + goal_sc + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
@@ -169,47 +201,47 @@ mean_donation isn't really gaussian, but for simplicity's sake, we'll use that f
 
 ```{r}
 # no fixed effects
-mod.none <- glmer(mean_donation ~ (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                  data = dat, family = "gaussian")
+mod.none <- lmer(mean_donation ~ (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                  data = dat)
 
 # add duration of campaign (in days)
-mod.dur <- glmer(mean_donation ~ duration_float +  (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                 data = dat, family = "gaussian")
+mod.dur <- lmer(mean_donation ~ duration_float +  (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                 data = dat)
 
 # add length of text (in words)
-mod.dur.textwords <- glmer(mean_donation ~ duration_float + text_length_words + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "gaussian")
+mod.dur.textwords <- lmer(mean_donation ~ duration_float + text_length_words + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                     data = dat)
 
 # add length of text (in sentences)
-mod.dur.textwords.textsents <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "gaussian")
+mod.dur.textwords.textsents <- lmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                     data = dat)
 
 # add scaled goal amount
-mod.dur.textwords.textsents.goal <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                     data = dat, family = "gaussian")
+mod.dur.textwords.textsents.goal <- lmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                     data = dat)
 ```
 
 
 ```{r}
 ### add battle as the dominant
-mod.dur.textwords.textsents.goal.battle <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_battle + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                               data = dat, family = "gaussian")
+mod.dur.textwords.textsents.goal.battle <- lmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_battle + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                               data = dat)
 
 ### add journey as the dominant
-mod.dur.textwords.textsents.goal.journey <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_journey + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                                data = dat, family = "gaussian")
+mod.dur.textwords.textsents.goal.journey <- lmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_journey + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                                data = dat)
 
 ### add both as the dominant
-mod.dur.textwords.textsents.goal.both <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_both + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "gaussian")
+mod.dur.textwords.textsents.goal.both <- lmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_both + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                             data = dat)
 
 ### add neither as the dominant
-mod.dur.textwords.textsents.goal.neither <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_neither + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "gaussian")
+mod.dur.textwords.textsents.goal.neither <- lmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant_neither + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                             data = dat)
 
 ### add all dominant
-mod.dur.textwords.textsents.goal.all <- glmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
-                             data = dat, family = "gaussian")
+mod.dur.textwords.textsents.goal.all <- lmer(mean_donation ~ duration_float + text_length_words + text_length_sentences + goal_sc + dominant + (1|category) + (1|year) + (1|month) + (1|day_of_week) + (1|from_US) + (1|geo_state) + (1|staff_pick), 
+                             data = dat)
 
 anova(mod.none, mod.dur, test='Chisq')
 anova(mod.dur, mod.dur.textwords, test='Chisq')
