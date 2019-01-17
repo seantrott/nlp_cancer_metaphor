@@ -46,6 +46,7 @@ unique(dat$category)
 library(ggplot2)
 library(lme4)
 library(tidyverse)
+library(Hmisc)
 ```
 
 ```{r}
@@ -90,15 +91,28 @@ Very few projects are equally dominated by both battle and journey metaphors.
 ggplot(dat) + geom_bar(aes(x=dominant), stat="count") + ggtitle("Dominant metaphor type count")
 ```
 
+```{r}
+short <- 30 - 3.5
+long <- 30 + 3.5
+very_long <- 30 + 14
+
+dat$duration_cat = ""
+dat[dat$duration_float < short, ]$duration_cat = "short"
+dat[dat$duration_float > short & dat$duration_float <= long, ]$duration_cat = "exp"
+dat[dat$duration_float > long & dat$duration_float <= very_long, ]$duration_cat = "long"
+dat[dat$duration_float > very_long, ]$duration_cat = "vlong"
+```
+
 We scale/z-score the continuous variables according to how we wish to interpret the coefficients of the model. From Andrew Gelman: "Standardizing puts things on an approximately common scale .... (Standarize for) comparing coefficients for different predictors within a model". Binary and categorical variables are left as is.
 
 Looking to further justify these decisions a little more rigorously...
 
 ```{r}
 dat$goal_sc <- scale(dat$goal)
-dat$duration_float_sc <- scale(dat$duration_float)
 dat$text_length_words_sc <- scale(dat$text_length_words)
 dat$month <- factor(dat$month)
+
+dat$any_metaphor = 1 - dat$dominant_neither
 ```
 
 
@@ -141,25 +155,29 @@ https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chis
 # no fixed effects, only random
 mod.none <- glmer(status ~ (1|geo_state) + (1|month) + (1|year), 
                   data = dat, family = "binomial", nAGQ = 0)
+
 # add staff pick
 mod.staff <- glmer(status ~ staff_pick + (1|geo_state) + (1|month) + (1|year), 
                    data = dat, family = "binomial", nAGQ = 0)
-# add duration of campaign (in days)
-mod.staff.dur <- glmer(status ~ duration_float_sc + staff_pick + (1|geo_state) + (1|month) +
+
+# add duration category
+mod.staff.dur <- glmer(status ~ duration_cat + staff_pick + (1|geo_state) + (1|month) +
                          (1|year), 
                        data = dat, family = "binomial", nAGQ = 0)
+
 # add length of text (in words)
-mod.staff.dur.length <- glmer(status ~ text_length_words_sc + duration_float_sc + staff_pick +
+mod.staff.dur.length <- glmer(status ~ text_length_words_sc + duration_cat + staff_pick +
                                 (1|geo_state) + (1|month) + (1|year), 
                               data = dat, family = "binomial", nAGQ = 0)
+
 # add scaled goal amount
-mod.staff.dur.length.goal <- glmer(status ~ goal_sc + text_length_words_sc + duration_float_sc +
+mod.staff.dur.length.goal <- glmer(status ~ goal_sc + text_length_words_sc + duration_cat +
                                      staff_pick + (1|geo_state) + (1|month) + (1|year), 
                                    data = dat, family = "binomial", nAGQ = 0)
 
 # add category
 mod.staff.dur.length.goal.cat <- glmer(status ~ category + goal_sc + text_length_words_sc + 
-                                     duration_float_sc + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                                     duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                                    data = dat, family = "binomial", nAGQ = 0)
 
 anova(mod.none, mod.staff, test='Chisq')
@@ -197,19 +215,28 @@ We exclude the both metaphors as dominant variable since there are so few in thi
 
 ```{r}
 mod.dom.battle <- glmer(status ~ dominant_battle + category + goal_sc + text_length_words_sc +
-                          duration_float_sc + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                          duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                         data = dat, 
                         family = "binomial", 
                         nAGQ = 0)
+
 mod.dom.journey <- glmer(status ~ dominant_journey + category + goal_sc + text_length_words_sc +
-                           duration_float_sc + staff_pick + (1|geo_state) + (1|month) + (1|year),
+                           duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year),
                          data = dat, 
                          family = "binomial", 
                          nAGQ = 0)
+
 mod.dom.neither <- glmer(status ~ dominant_neither + category + goal_sc + text_length_words_sc +
-                           duration_float_sc + staff_pick + (1|geo_state) + (1|month) + (1|year),
+                           duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year),
                          data = dat, family = "binomial", nAGQ = 0)
-mod.dom.all <- glmer(status ~ dominant + category + goal_sc + text_length_words_sc + duration_float_sc +
+
+mod.dom.all <- glmer(status ~ dominant + category + goal_sc + text_length_words_sc + duration_cat +
+                       staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                     data = dat, 
+                     family = "binomial", 
+                     nAGQ = 0)
+
+mod.dom.any <- glmer(status ~ any_metaphor + category + goal_sc + text_length_words_sc + duration_cat +
                        staff_pick + (1|geo_state) + (1|month) + (1|year), 
                      data = dat, 
                      family = "binomial", 
@@ -219,6 +246,8 @@ anova(mod.staff.dur.length.goal.cat, mod.dom.battle)
 anova(mod.staff.dur.length.goal.cat, mod.dom.journey)
 anova(mod.staff.dur.length.goal.cat, mod.dom.neither)
 anova(mod.staff.dur.length.goal.cat, mod.dom.all)
+anova(mod.staff.dur.length.goal.cat, mod.dom.any)
+
 ```
 
 ```{r}
@@ -247,7 +276,7 @@ dat.pois <- dat[dat$backers < 600, ]
 
 
 ```{r}
-mod.none.corr <- glmer(backers ~ month + (month|year) + (1|geo_state), data = dat.pois, family = "poisson")
+mod.none.corr <- glmer(backers ~ (1|month) + (1|year) + (1|geo_state), data = dat.pois, family = "poisson")
 as.data.frame(VarCorr(mod.none.corr))
 ```
 
@@ -255,23 +284,23 @@ These poisson models are very complex due to the potential outcomes, this seems 
 
 ```{r}
 # no fixed effects, only random
-mod.none <- glmer(backers ~ (1|geo_state) + month + (month|year), 
+mod.none <- glmer(backers ~ (1|geo_state) + (1|month) + (1|year), 
                   data = dat.pois, family = "poisson", nAGQ = 1)
 # add staff pick
-mod.staff <- glmer(backers ~ staff_pick + (1|geo_state) + month + (month|year), 
+mod.staff <- glmer(backers ~ staff_pick + (1|geo_state) + (1|month) + (1|year), 
                    data = dat.pois, family = "poisson", nAGQ = 1)
 # add duration of campaign (in days)
-mod.staff.dur <- glmer(backers ~ duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), 
+mod.staff.dur <- glmer(backers ~ duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                        data = dat.pois, family = "poisson", nAGQ = 1)
 # add length of text (in words)
-mod.staff.dur.length <- glmer(backers ~ text_length_words_sc + duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), 
+mod.staff.dur.length <- glmer(backers ~ text_length_words_sc + duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                               data = dat.pois, family = "poisson", nAGQ = 1)
 # add scaled goal amount
-mod.staff.dur.length.goal <- glmer(backers ~ goal_sc + text_length_words_sc + duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), 
+mod.staff.dur.length.goal <- glmer(backers ~ goal_sc + text_length_words_sc + duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                                    data = dat.pois, family = "poisson", nAGQ = 1)
 
 # add category
-mod.staff.dur.length.goal.cat <- glmer(backers ~ category + goal_sc + text_length_words_sc + duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), 
+mod.staff.dur.length.goal.cat <- glmer(backers ~ category + goal_sc + text_length_words_sc + duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                                    data = dat.pois, family = "poisson", nAGQ = 1)
 
 anova(mod.none, mod.staff, test='Chisq')
@@ -308,22 +337,31 @@ dat.pois %>%
 
 ```{r}
 mod.dom.battle <- glmer(backers ~ dominant_battle + category + goal_sc + text_length_words_sc + 
-                          duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), 
+                          duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                         data = dat.pois, family = "poisson", nAGQ = 1)
+
 mod.dom.journey <- glmer(backers ~ dominant_journey + category + goal_sc + text_length_words_sc + 
-                           duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), 
+                           duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                          control=glmerControl(optimizer="bobyqa"),
                          data = dat.pois, family = "poisson", nAGQ = 1)
+
 mod.dom.neither <- glmer(backers ~ dominant_neither + category + goal_sc + text_length_words_sc + 
-                           duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), 
+                           duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                          data = dat.pois, family = "poisson", nAGQ = 1)
+
 mod.dom.all <- glmer(backers ~ dominant + category + goal_sc + text_length_words_sc + 
-                       duration_float_sc + staff_pick + (1|geo_state) + month + (month|year), 
+                       duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                      data = dat.pois, family = "poisson", nAGQ = 1)
+
+mod.dom.any <- glmer(backers ~ any_metaphor + category + goal_sc + text_length_words_sc + 
+                       duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                     data = dat.pois, family = "poisson", nAGQ = 1)
+
 anova(mod.staff.dur.length.goal.cat, mod.dom.battle)
 anova(mod.staff.dur.length.goal.cat, mod.dom.journey)
 anova(mod.staff.dur.length.goal.cat, mod.dom.neither)
 anova(mod.staff.dur.length.goal.cat, mod.dom.all)
+anova(mod.staff.dur.length.goal.cat, mod.dom.any)
 ```
 
 ```{r}
@@ -335,11 +373,6 @@ dat.pois %>%
 
 ```
 
-```{r}
-
-```
-
-
 # Mean Donation
 
 ```{r}
@@ -348,14 +381,11 @@ library(car)
 
 Quickly playing around with the distribution of mean_donation.
 
-```{r}
-qqp(dat$mean_donation)
-qqp(dat$mean_donation, "lnorm")
-
-```
 
 ```{r}
 nrow(dat[dat$backers == 0, ])
 ```
 
 mean_donation isn't really gaussian, but for simplicity's sake, we'll use that for now. Pick a better dist later. Unsurprisingly, there aren't any significant effects when adding in dominant metaphors.
+
+
