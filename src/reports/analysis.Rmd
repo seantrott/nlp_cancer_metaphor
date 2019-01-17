@@ -370,7 +370,6 @@ dat.pois %>%
              y = backers)) +
   geom_boxplot() +
   theme_minimal()
-
 ```
 
 # Mean Donation
@@ -381,11 +380,76 @@ library(car)
 
 Quickly playing around with the distribution of mean_donation.
 
-
-```{r}
-nrow(dat[dat$backers == 0, ])
-```
-
 mean_donation isn't really gaussian, but for simplicity's sake, we'll use that for now. Pick a better dist later. Unsurprisingly, there aren't any significant effects when adding in dominant metaphors.
 
+```{r}
+# no fixed effects, only random
+mod.none <- lmer(log(mean_donation+1) ~ (1|geo_state) + (1|month) + (1|year), 
+                  data = dat)
+# add staff pick
+mod.staff <- lmer(log(mean_donation+1) ~ staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                   data = dat)
 
+# add duration of campaign (in days)
+mod.staff.dur <- lmer(log(mean_donation+1) ~ duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                       data = dat)
+
+# add length of text (in words)
+mod.staff.dur.length <- lmer(log(mean_donation+1) ~ text_length_words_sc + duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                              data = dat)
+
+# add scaled goal amount
+mod.staff.dur.length.goal <- lmer(log(mean_donation+1) ~ goal_sc + text_length_words_sc + duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                                   data = dat)
+
+# add category
+mod.staff.dur.length.goal.cat <- lmer(log(mean_donation+1) ~ category + goal_sc + text_length_words_sc + duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                                   data = dat)
+
+anova(mod.none, mod.staff, test='Chisq')
+anova(mod.staff, mod.staff.dur, test='Chisq')
+anova(mod.staff.dur, mod.staff.dur.length, test='Chisq')
+anova(mod.staff.dur.length, mod.staff.dur.length.goal, test='Chisq')
+anova(mod.staff.dur.length.goal, mod.staff.dur.length.goal.cat, test='Chisq')
+```
+
+```{r}
+summary(mod.staff.dur.length.goal.cat)
+```
+
+```{r}
+mod.dom.battle <- lmer(log(mean_donation+1) ~ dominant_battle + category + goal_sc + text_length_words_sc + 
+                          duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                        data = dat)
+
+mod.dom.journey <- lmer(log(mean_donation+1) ~ dominant_journey + category + goal_sc + text_length_words_sc + 
+                           duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year),
+                         data = dat)
+
+mod.dom.neither <- lmer(log(mean_donation+1) ~ dominant_neither + category + goal_sc + text_length_words_sc + 
+                           duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                         data = dat)
+
+mod.dom.all <- lmer(log(mean_donation+1) ~ dominant + category + goal_sc + text_length_words_sc + 
+                       duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                     data = dat)
+
+mod.dom.any <- lmer(log(mean_donation+1) ~ any_metaphor + category + goal_sc + text_length_words_sc + 
+                       duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
+                     data = dat)
+
+anova(mod.staff.dur.length.goal.cat, mod.dom.battle)
+anova(mod.staff.dur.length.goal.cat, mod.dom.journey)
+anova(mod.staff.dur.length.goal.cat, mod.dom.neither)
+anova(mod.staff.dur.length.goal.cat, mod.dom.all)
+anova(mod.staff.dur.length.goal.cat, mod.dom.any)
+```
+
+
+```{r}
+dat.pois %>%
+  ggplot(aes(x = dominant,
+             y = log(mean_donation+1))) +
+  geom_boxplot() +
+  theme_minimal()
+```
