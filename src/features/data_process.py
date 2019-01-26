@@ -88,8 +88,9 @@ def main():
     data['battle_salience'] = data['battle_metaphor'] / data['text_length_words']
     data['journey_salience'] = data['journey_metaphor'] / data['text_length_words']
 
-    data['battle_productivity'] = data['battle_uniques'] / data['battle_metaphor']
-    data['journey_productivity'] = data['journey_uniques'] / data['journey_metaphor']
+    data['first_instantiation'] = data['id'].apply(
+        lambda ix: labeled[labeled['project_id'] == id, 'char_location'].values.min() / (len(data.loc[data['id'] == id, 'text'].values[0])+1)
+    )
 
     # TODO: add productivity
 
