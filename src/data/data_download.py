@@ -103,7 +103,7 @@ def main():
 
     # create or overwrite files
 
-    pd.DataFrame([], columns=['id']).to_csv('data/processed/cancer_projects.csv')
+    pd.DataFrame([], columns=['id']).to_csv('data/raw/kickstarter_projects.csv')
 
     for file in filenames:
         print(f'Decompressing {file}')
@@ -116,7 +116,7 @@ def main():
 
         # Load data files
 
-        loaded_data = pd.read_csv('data/processed/cancer_projects.csv')
+        loaded_data = pd.read_csv('data/raw/kickstarter_projects.csv')
         ids = loaded_data['id'].values.tolist()
 
         # Read each project in file
@@ -150,7 +150,7 @@ def main():
         if len(loaded_data) > 0:
             new = pd.concat([loaded_data, new], axis=0, sort=False, ignore_index=True)
 
-        new.to_csv('data/processed/cancer_projects.csv', index=False)
+        new.to_csv('data/raw/kickstarter_projects.csv', index=False)
 
         # Print status
 
