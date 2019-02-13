@@ -33,27 +33,22 @@ We have several dependent variables which we would like to model as accurately a
 ## Load Data
 
 ```{r cars}
-dat <- read.csv('../../data/processed/cancer_projects_full.csv')
+dat <- read.csv('../../data/processed/combined_projects.csv')
 head(dat)
 ```
 
-
-
 ```{r}
 colnames(dat)
-unique(dat$category)
 ```
 
 ```{r}
-library(ggplot2)
 library(lme4)
 library(tidyverse)
 # library(Hmisc)
-library(dplyr)
 ```
 
 ```{r}
-ggplot(dat) + geom_bar(aes(x=year), stat="count") + ggtitle("Number of projects per year")
+ggplot(dat) + geom_bar(aes(x=year, fill=source), stat="count") + ggtitle("Number of projects per year")
 ```
 
 Very few projects are in 2009, and so for simplicity's sake and to simplify the model just a tad, we remove 2009.
@@ -62,24 +57,24 @@ dat <- dat[dat$year >= 2010, ]
 ```
 
 ```{r}
-ggplot(dat) + geom_bar(aes(x=geo_country, y=..prop.., group=1), stat="count") + ggtitle("Proportion of projects per country")
+ggplot(dat) + geom_bar(aes(x=from_US, fill=source), stat="count") + ggtitle("Proportion of projects per country")
 ```
 
 Most projects are US based. Reduce model complexity by restricting to US then.
 
 ```{r}
-dat <- dat[dat$geo_country == "US", ]
+dat <- dat[dat$from_US == 1, ]
 ```
 
 ```{r}
 nrow(dat[dat$from_Town == 0, ])
-nrow(dat[dat$from_Town == 1, ])
+nrow(dat[dat$from_Town != 0, ])
 ```
 
 There are only 10 projects not from Towns, so we'll just remove them for simplicity's sake.
 
 ```{r}
-dat <- dat[dat$from_Town == 1, ]
+dat <- dat[dat$from_Town = 1, ]
 ```
 
 There is a reasonable amount of projects in each of the aggregated categories (see the data processing python script for more information on the aggregation).
@@ -89,35 +84,16 @@ ggplot(dat) + geom_bar(aes(x=category), stat="count") +
   theme(axis.text.x=element_text(angle = 60, hjust=1))
 ```
 
-```{r}
-
-library(reshape2)
-dg <- dat %>%
-  group_by(category) %>%
-  summarise(
-    battle_sal_mean = mean(battle_salience),
-    journey_sal_mean = mean(journey_salience)
-  )
-
-dgm <- melt(dg, experiment=c("Battle", "Journey"), variable.name="Type")
-
-ggplot(dgm, aes(category, value, fill=Type)) +
-  geom_bar(stat="identity", position = "dodge") +
-  ylab("Mean Salience") +
-  theme(axis.text.x=element_text(angle = 60, hjust=1))
-```
-
 Very few projects are equally dominated by both battle and journey metaphors.
 
 ```{r}
-ggplot(dat) + geom_bar(aes(x=dominant), stat="count") + ggtitle("Dominant metaphor type count")
+ggplot(dat) + geom_bar(aes(x=dominant, fill=source), stat="count") + ggtitle("Dominant metaphor type count")
 ```
 
 
 Is it enough to just have it or does the amount matter
 
 Why not have both salience and dominant (they might both be sig)
-
 
 ```{r}
 short <- 30 - 3.5
@@ -208,21 +184,23 @@ mod.staff.dur.length.goal.cat <- glmer(status ~ category + goal_sc + text_length
                                      duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                                    data = dat, family = "binomial", nAGQ = 0)
 
+# add first instantiation
+mod.staff.dur.length.goal.cat.inst <- glmer(status ~ category + goal_sc + text_length_words_sc + 
+                                           duration_cat + staff_pick + first_instantiation + (1|geo_state) + (1|month) + (1|year), 
+                                         data = dat, family = "binomial", nAGQ = 0)
+
 anova(mod.none, mod.staff, test='Chisq')
 anova(mod.staff, mod.staff.dur, test='Chisq')
 anova(mod.staff.dur, mod.staff.dur.length, test='Chisq')
 anova(mod.staff.dur.length, mod.staff.dur.length.goal, test='Chisq')
 anova(mod.staff.dur.length, mod.staff.dur.length.goal.cat, test='Chisq')
+anova(mod.staff.dur.length.goal.cat, mod.staff.dur.length.goal.cat.inst, test='Chisq')
 ```
 
 The final base model before adding metaphor variables:
 
 ```{r}
 summary(mod.staff.dur.length.goal.cat)
-```
-
-```{r}
-dat[dat$text_length_words == 0, c("mean_donation", "backers", "dominant")]
 ```
 
 
@@ -252,7 +230,7 @@ mod.dom.battle <- glmer(status ~ dominant_battle + category + goal_sc + text_len
                         family = "binomial", 
                         nAGQ = 0)
 
-mod.dom.battle.sal <- glmer(status ~ battle_salience + dominant_battle + category + goal_sc + text_length_words_sc +
+mod.dom.battle.prod <- glmer(status ~ battle_prod + dominant_battle + category + goal_sc + text_length_words_sc +
                           duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
                         data = dat, 
                         family = "binomial", 
@@ -264,7 +242,7 @@ mod.dom.journey <- glmer(status ~ dominant_journey + category + goal_sc + text_l
                          family = "binomial",
                          nAGQ = 0)
 
-mod.dom.journey.sal <- glmer(status ~ journey_salience + dominant_journey + category + goal_sc + text_length_words_sc +
+mod.dom.journey.prod <- glmer(status ~ journey_prod + dominant_journey + category + goal_sc + text_length_words_sc +
                            duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year),
                          data = dat,
                          family = "binomial",
@@ -287,9 +265,9 @@ mod.dom.journey.sal <- glmer(status ~ journey_salience + dominant_journey + cate
 #                      nAGQ = 0)
 
 anova(mod.staff.dur.length.goal.cat, mod.dom.battle)
-anova(mod.dom.battle, mod.dom.battle.sal)
+anova(mod.dom.battle, mod.dom.battle.prod)
 anova(mod.staff.dur.length.goal.cat, mod.dom.journey)
-anova(mod.dom.journey, mod.dom.journey.sal)
+anova(mod.dom.journey, mod.dom.journey.prod)
 # anova(mod.staff.dur.length.goal.cat, mod.dom.neither)
 # anova(mod.staff.dur.length.goal.cat, mod.dom.all)
 # anova(mod.staff.dur.length.goal.cat, mod.dom.any)
