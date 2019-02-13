@@ -33,11 +33,12 @@ We have several dependent variables which we would like to model as accurately a
 ## Load Data
 
 ```{r cars}
-dat <- read.csv('../../data/processed/combined_projects.csv')
+dat <- read.csv('../../data/processed/kickstarter_projects.csv')
 head(dat)
 ```
 
 ```{r}
+nrow(dat)
 colnames(dat)
 ```
 
@@ -48,7 +49,7 @@ library(tidyverse)
 ```
 
 ```{r}
-ggplot(dat) + geom_bar(aes(x=year, fill=source), stat="count") + ggtitle("Number of projects per year")
+ggplot(dat) + geom_bar(aes(x=year), stat="count") + ggtitle("Number of projects per year")
 ```
 
 Very few projects are in 2009, and so for simplicity's sake and to simplify the model just a tad, we remove 2009.
@@ -57,7 +58,7 @@ dat <- dat[dat$year >= 2010, ]
 ```
 
 ```{r}
-ggplot(dat) + geom_bar(aes(x=from_US, fill=source), stat="count") + ggtitle("Proportion of projects per country")
+ggplot(dat) + geom_bar(aes(x=from_US), stat="count") + ggtitle("Proportion of projects per country")
 ```
 
 Most projects are US based. Reduce model complexity by restricting to US then.
@@ -74,7 +75,7 @@ nrow(dat[dat$from_Town != 0, ])
 There are only 10 projects not from Towns, so we'll just remove them for simplicity's sake.
 
 ```{r}
-dat <- dat[dat$from_Town = 1, ]
+dat <- dat[dat$from_Town == 1, ]
 ```
 
 There is a reasonable amount of projects in each of the aggregated categories (see the data processing python script for more information on the aggregation).
@@ -87,7 +88,7 @@ ggplot(dat) + geom_bar(aes(x=category), stat="count") +
 Very few projects are equally dominated by both battle and journey metaphors.
 
 ```{r}
-ggplot(dat) + geom_bar(aes(x=dominant, fill=source), stat="count") + ggtitle("Dominant metaphor type count")
+ggplot(dat) + geom_bar(aes(x=dominant), stat="count") + ggtitle("Dominant metaphor type count")
 ```
 
 
@@ -477,8 +478,6 @@ anova(mod.staff.dur.length.goal.cat, mod.dom.neither)
 anova(mod.staff.dur.length.goal.cat, mod.dom.all)
 anova(mod.staff.dur.length.goal.cat, mod.dom.any)
 ```
-
-Priority to getting more data from GoFundMe
 
 ```{r}
 mod <- lm(status ~ staff_pick, data = dat)

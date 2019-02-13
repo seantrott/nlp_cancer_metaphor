@@ -327,8 +327,8 @@ def process_gofundme():
 
     data['source'] = 'gofundme'
 
-    data.to_csv('data/processed/gofundme_project.csv', index=False)
-    print('Saved new features in data/processed/gofundme_project.csv')
+    data.to_csv('data/processed/gofundme_projects.csv', index=False)
+    print('Saved new features in data/processed/gofundme_projects.csv')
 
     return data
 

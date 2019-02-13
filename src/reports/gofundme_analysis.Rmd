@@ -1,5 +1,5 @@
 ---
-title: "Metaphor Analysis in Kickstarter Campaigns"
+title: "Metaphor Analysis in GoFundMe Campaigns"
 output:
   pdf_document:
     toc: yes
@@ -33,11 +33,12 @@ We have several dependent variables which we would like to model as accurately a
 ## Load Data
 
 ```{r cars}
-dat <- read.csv('../../data/processed/combined_projects.csv')
+dat <- read.csv('../../data/processed/gofundme_projects.csv')
 head(dat)
 ```
 
 ```{r}
+nrow(dat)
 colnames(dat)
 ```
 
@@ -48,16 +49,17 @@ library(tidyverse)
 ```
 
 ```{r}
-ggplot(dat) + geom_bar(aes(x=year, fill=source), stat="count") + ggtitle("Number of projects per year")
+ggplot(dat) + geom_bar(aes(x=year), stat="count") + ggtitle("Number of projects per year")
 ```
 
-Very few projects are in 2009, and so for simplicity's sake and to simplify the model just a tad, we remove 2009.
+Very few projects are in 2014, and so for simplicity's sake and to simplify the model just a tad, we remove years less than 2015.
+
 ```{r}
-dat <- dat[dat$year >= 2010, ]
+dat <- dat[dat$year >= 2015, ]
 ```
 
 ```{r}
-ggplot(dat) + geom_bar(aes(x=from_US, fill=source), stat="count") + ggtitle("Proportion of projects per country")
+ggplot(dat) + geom_bar(aes(x=from_US), stat="count") + ggtitle("Proportion of projects per country")
 ```
 
 Most projects are US based. Reduce model complexity by restricting to US then.
@@ -66,28 +68,10 @@ Most projects are US based. Reduce model complexity by restricting to US then.
 dat <- dat[dat$from_US == 1, ]
 ```
 
-```{r}
-nrow(dat[dat$from_Town == 0, ])
-nrow(dat[dat$from_Town != 0, ])
-```
-
-There are only 10 projects not from Towns, so we'll just remove them for simplicity's sake.
-
-```{r}
-dat <- dat[dat$from_Town = 1, ]
-```
-
-There is a reasonable amount of projects in each of the aggregated categories (see the data processing python script for more information on the aggregation).
-
-```{r}
-ggplot(dat) + geom_bar(aes(x=category), stat="count") +
-  theme(axis.text.x=element_text(angle = 60, hjust=1))
-```
-
 Very few projects are equally dominated by both battle and journey metaphors.
 
 ```{r}
-ggplot(dat) + geom_bar(aes(x=dominant, fill=source), stat="count") + ggtitle("Dominant metaphor type count")
+ggplot(dat) + geom_bar(aes(x=dominant), stat="count") + ggtitle("Dominant metaphor type count")
 ```
 
 
@@ -131,7 +115,7 @@ We are interested in the effect that metaphor dominance has on the funding statu
 Each sample is independent (what is in one project has no affect on whats in another sample).
 
 **DV**: status, pledged_to_goal, mean_donation, backers
-**IV**: Goal amount, staff_pick, category, geo_state, text_length_words, duration_float, month, year, dominant_*
+**IV**: Goal amount, text_length_words, duration_float, month, year, dominant_*
 
 Various sources were used to determine what should be a random effect and what should be fixed, and how to model interactions and correlations between variables, including:
 
@@ -148,7 +132,7 @@ Various sources were used to determine what should be a random effect and what s
 # Status
 
 ```{r}
-mod.none.corr <- glmer(status ~ (1|year) + (1|month) + (1|geo_state), data = dat, family = "binomial")
+mod.none.corr <- glmer(status ~ (1|year) + (1|month), data = dat, family = "binomial")
 as.data.frame(VarCorr(mod.none.corr))
 ```
 
@@ -157,50 +141,36 @@ https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chis
 
 ```{r}
 # no fixed effects, only random
-mod.none <- glmer(status ~ (1|geo_state) + (1|month) + (1|year), 
+mod.none <- glmer(status ~ (1|month) + (1|year), 
                   data = dat, family = "binomial", nAGQ = 0)
 
-# add staff pick
-mod.staff <- glmer(status ~ staff_pick + (1|geo_state) + (1|month) + (1|year), 
-                   data = dat, family = "binomial", nAGQ = 0)
-
-# add duration category
-mod.staff.dur <- glmer(status ~ duration_cat + staff_pick + (1|geo_state) + (1|month) +
-                         (1|year), 
-                       data = dat, family = "binomial", nAGQ = 0)
-
 # add length of text (in words)
-mod.staff.dur.length <- glmer(status ~ text_length_words_sc + duration_cat + staff_pick +
-                                (1|geo_state) + (1|month) + (1|year), 
+mod.length <- glmer(status ~ text_length_words_sc + (1|month) + (1|year), 
                               data = dat, family = "binomial", nAGQ = 0)
 
 # add scaled goal amount
-mod.staff.dur.length.goal <- glmer(status ~ goal_sc + text_length_words_sc + duration_cat +
-                                     staff_pick + (1|geo_state) + (1|month) + (1|year), 
+mod.length.goal <- glmer(status ~ goal_sc + text_length_words_sc + (1|month) + (1|year), 
                                    data = dat, family = "binomial", nAGQ = 0)
 
 # add category
-mod.staff.dur.length.goal.cat <- glmer(status ~ category + goal_sc + text_length_words_sc + 
-                                     duration_cat + staff_pick + (1|geo_state) + (1|month) + (1|year), 
-                                   data = dat, family = "binomial", nAGQ = 0)
+# mod.staff.dur.length.goal.cat <- glmer(status ~ goal_sc + text_length_words_sc + 
+#                                      duration_cat + (1|month) + (1|year), 
+#                                    data = dat, family = "binomial", nAGQ = 0)
 
 # add first instantiation
-mod.staff.dur.length.goal.cat.inst <- glmer(status ~ category + goal_sc + text_length_words_sc + 
-                                           duration_cat + staff_pick + first_instantiation + (1|geo_state) + (1|month) + (1|year), 
+mod.length.goal.inst <- glmer(status ~ goal_sc + text_length_words_sc + 
+                                           first_instantiation + (1|month) + (1|year), 
                                          data = dat, family = "binomial", nAGQ = 0)
 
-anova(mod.none, mod.staff, test='Chisq')
-anova(mod.staff, mod.staff.dur, test='Chisq')
-anova(mod.staff.dur, mod.staff.dur.length, test='Chisq')
-anova(mod.staff.dur.length, mod.staff.dur.length.goal, test='Chisq')
-anova(mod.staff.dur.length, mod.staff.dur.length.goal.cat, test='Chisq')
-anova(mod.staff.dur.length.goal.cat, mod.staff.dur.length.goal.cat.inst, test='Chisq')
+anova(mod.none, mod.length, test='Chisq')
+anova(mod.length, mod.length.goal, test='Chisq')
+anova(mod.length.goal, mod.length.goal.inst, test='Chisq')
 ```
 
 The final base model before adding metaphor variables:
 
 ```{r}
-summary(mod.staff.dur.length.goal.cat)
+summary(mod.length.goal.inst)
 ```
 
 
@@ -288,19 +258,19 @@ dat %>%
 # Number of Backers
 
 ```{r}
-nrow(dat[dat$backers > 600, ])
-hist(dat$backers[dat$backers < 600])
+nrow(dat[dat$backers > 1200, ])
+hist(dat$backers[dat$backers < 1200])
 ```
 
 We limit to 600 because removing the outliers leaves us with a nicely poisson shaped distribution.
 
 ```{r}
-dat.pois <- dat[dat$backers < 600, ]
+dat.pois <- dat[dat$backers < 1200, ]
 ```
 
 
 ```{r}
-mod.none.corr <- glmer(backers ~ (1|month) + (1|year) + (1|geo_state), data = dat.pois, family = "poisson")
+mod.none.corr <- glmer(backers ~ (1|month) + (1|year), data = dat.pois, family = "poisson")
 as.data.frame(VarCorr(mod.none.corr))
 ```
 
