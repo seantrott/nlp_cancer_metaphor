@@ -15,7 +15,6 @@ https://webrobots.io/indiegogo-dataset/
 
 1. `make data_download`
 2. `make data_process`
-3. Use `data/processed/cancer_projects_full.csv` for analysis
 
 # Steps
 
@@ -26,7 +25,7 @@ https://webrobots.io/indiegogo-dataset/
 
 # To-do
 
- - [ ] Mine GoFundMe projects (annotate instances of metaphor)
- - [ ] Implement a measure of diversity/productivity
- - [ ] Add productivity to model analysis
- - [ ] Implement analyses for all DVs
+ - [x] Mine GoFundMe projects (annotate instances of metaphor)
+ - [x] Implement a measure of diversity/productivity
+ - [x] Add productivity to model analysis
+ - [x] Implement analyses for all DVs
