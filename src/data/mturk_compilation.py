@@ -81,7 +81,7 @@ def remove_NEs(text):
 
 def main():
     print('Beginning Text Cleaning')
-    projects = pd.read_csv('data/processed/combined_projects.csv', nrows=10)
+    projects = pd.read_csv('data/processed/combined_projects.csv', nrows=1000)
 
     texts = []
 
