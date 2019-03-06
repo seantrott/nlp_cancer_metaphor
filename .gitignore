@@ -2,6 +2,8 @@ data/raw/*
 data/processed/cancer_projects.csv
 data/processed/cancer_projects_full.csv
 
+*.pdf
+
 .idea
 
 */.ipynb_checkpoints
@@ -12,3 +14,5 @@ data/processed/cancer_projects_full.csv
 
 .DS_Store
 */.DS_Store
+
+*.h5
