@@ -241,26 +241,33 @@ def process_gofundme():
 
     print('Processing GoFundMe Projects')
 
-    pbar = tqdm(total=19)
+    pbar = tqdm(total=20)
 
-    hour = re.compile(r'^(\d{1,2}) hour(?:s?)$')
-    day = re.compile(r'^(\d{1,2}) day(?:s?)$')
-    month = re.compile(r'^(\d{1,2}) month(?:s?)$')
+    # hour = re.compile(r'^(\d{1,2}) hour(?:s?)$')
+    # day = re.compile(r'^(\d{1,2}) day(?:s?)$')
+    # month = re.compile(r'^(\d{1,2}) month(?:s?)$')
+    #
+    # def durtnum(dur):
+    #     hour_s = hour.search(dur)
+    #     if hour_s:
+    #         return float(hour_s.group(1)) / 24
+    #
+    #     day_s = day.search(dur)
+    #     if day_s:
+    #         return int(day_s.group(1))
+    #
+    #     month_s = month.search(dur)
+    #     if month_s:
+    #         return int(month_s.group(1)) * 30
+    #
+    #     return np.nan
 
-    def durtnum(dur):
-        hour_s = hour.search(dur)
-        if hour_s:
-            return float(hour_s.group(1)) / 24
 
-        day_s = day.search(dur)
-        if day_s:
-            return int(day_s.group(1))
-
-        month_s = month.search(dur)
-        if month_s:
-            return int(month_s.group(1)) * 30
-
-        return np.nan
+    def clean_shares(val):
+        try:
+            return int(val)
+        except:
+            return int(float(val[:-1]) * 1000)
 
     labeled = pd.read_csv('data/processed/labeled.csv')
     data = pd.read_csv('data/raw/gofundme_projects.csv').dropna()
@@ -286,8 +293,9 @@ def process_gofundme():
     data['launched'] = pd.to_datetime(data['launched'], infer_datetime_format=True)
     pbar.update()
     # data['duration'] = data['duration'].apply(durtnum)
-    data['duration_float'] = data['duration'].apply(durtnum)
-    data.drop('duration', axis=1, inplace=True)
+    data['duration_float'] = (pd.Timestamp.today() - pd.to_datetime(data['launched'])).dt.total_seconds() / (60 * 60 * 24)
+    # data['duration_float'] = data['duration'].apply(durtnum)
+    # data.drop('duration', axis=1, inplace=True)
     pbar.update()
     data['day_of_week'] = pd.to_datetime(data['launched'], infer_datetime_format=True).dt.dayofweek
     pbar.update()
@@ -300,6 +308,9 @@ def process_gofundme():
     # data['category'] = np.nan
     # data['category'] = data['category'].apply(merge_negligible_categories)
     # data['blurb_length_words'] = np.nan
+
+    data['shares'] = data['shares'].apply(clean_shares)
+    pbar.update()
 
     data['status'] = data['pledged_to_goal'].apply(lambda ptg: 1 if ptg >= 1.0 else 0)
     pbar.update()
@@ -380,36 +391,6 @@ def process_gofundme():
 
     pbar.update()
 
-    # division by zero (if say there's none of one type of metaphor) results in NA, just fill it with 0
-    # data = data.fillna(0)
-
-    data = data.loc[data['id'].isin(labeled['project_id'])]
-
-    # data['dominant_battle'] = np.array(data['battle_salience'] > data['journey_salience']).astype(int)
-    # data['dominant_journey'] = np.array(data['battle_salience'] < data['journey_salience']).astype(int)
-    # data['dominant_both'] = ((data['battle_salience'] == data['journey_salience']) & (
-    #         data['battle_salience'] > 0)).astype(int)
-    # data['dominant_neither'] = ((data['battle_salience'] == data['journey_salience']) & (
-    #         data['battle_salience'] == 0)).astype(int)
-    # pbar.update()
-    #
-    # # set a single column to denote the dominant metaphor based on the previous set four columns
-    # def merge(row):
-    #
-    #     if row['dominant_both'] == 1:
-    #         return 'Both'
-    #     elif row['dominant_neither'] == 1:
-    #         return 'Neither'
-    #     elif row['dominant_battle'] == 1:
-    #         return 'Battle'
-    #     elif row['dominant_journey'] == 1:
-    #         return 'Journey'
-    #
-    #     return 'Unknown'
-    #
-    # data['dominant'] = data.apply(merge, axis=1)
-    # pbar.update()
-
     data['source'] = 'gofundme'
 
     data.to_csv('data/processed/gofundme_projects.csv', index=False)
@@ -420,13 +401,13 @@ def process_gofundme():
 
 def main():
 
-    kickstarter_projs = process_kickstarter()
+    # kickstarter_projs = process_kickstarter()
     gofundme_projs = process_gofundme()
 
-    combined_projs = pd.concat([kickstarter_projs, gofundme_projs], axis=0, ignore_index=True, sort=False)
-
-    combined_projs.to_csv('data/processed/combined_projects.csv', index=False)
-    print('Projects Combined into data/processed/combined_projects.csv')
+    # combined_projs = pd.concat([kickstarter_projs, gofundme_projs], axis=0, ignore_index=True, sort=False)
+    #
+    # combined_projs.to_csv('data/processed/combined_projects.csv', index=False)
+    # print('Projects Combined into data/processed/combined_projects.csv')
 
 
 if __name__ == '__main__':

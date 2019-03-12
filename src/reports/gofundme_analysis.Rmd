@@ -37,7 +37,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Load Data
 
 ```{r cars}
-dat <- read.csv('../../data/processed/gofundme_projects.csv')
+dat = read.csv('../../data/processed/gofundme_projects_new.csv')
+labs = read.csv('../../data/processed/labeled.csv')
+dat = dat[dat$id %in% labs$project_id, ]
 head(dat)
 ```
 
@@ -158,6 +160,36 @@ dat %>%
   ggplot() + labs(title="Text Length Distribution") +
   geom_density(aes(text_length_words))
 
+dat$photos_sc <- scale(dat$photos)
+
+dat %>%
+  ggplot() + labs(title="Photos Distribution") +
+  geom_density(aes(photos))
+
+dat$updates_sc <- scale(dat$updates)
+
+dat %>%
+  ggplot() + labs(title="Updates Distribution") +
+  geom_density(aes(updates))
+
+dat$shares_sc <- scale(dat$shares)
+
+dat %>%
+  ggplot() + labs(title="FB Shares Distribution") +
+  geom_density(aes(shares))
+
+dat$comments_sc <- scale(dat$comments)
+
+dat %>%
+  ggplot() + labs(title="Comments Distribution") +
+  geom_density(aes(comments))
+
+dat$friends_sc <- scale(dat$friends)
+
+dat %>%
+  ggplot() + labs(title="FB Friends Distribution") +
+  geom_density(aes(friends))
+
 dat %>%
   ggplot() + labs(title="Cancer Type Counts") +
   geom_bar(aes(x=cancer_type)) +
@@ -220,7 +252,7 @@ Various sources were used to determine what should be a random effect and what s
 nrow(dat)
 ```
 
-In total, we have 800 iid samples to work with.
+In total, we have 950 iid samples to work with.
 
 ```{r}
 dat %>%
@@ -230,6 +262,26 @@ dat %>%
 dat %>%
   ggplot() + labs(title="Text Length Distribution") + guides(color=guide_legend(title="Status")) +
   geom_density(aes(text_length_words, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+dat %>%
+  ggplot() + labs(title="Photos Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(photos, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+dat %>%
+  ggplot() + labs(title="Updates Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(updates, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+dat %>%
+  ggplot() + labs(title="FB Friends Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(friends, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+dat %>%
+  ggplot() + labs(title="Comments Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(comments, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+dat %>%
+  ggplot() + labs(title="FB Shares Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(shares, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
 
 dat %>%
   ggplot() + labs(title="Cancer Type Counts") + guides(fill=guide_legend(title="Status")) +
@@ -247,36 +299,61 @@ https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chis
 
 ```{r}
 # no fixed effects, only random
-mod.none <- glmer(status ~ (1|year), 
+mod.n = glmer(status ~ (1|year), 
                   data = dat, family = "binomial", nAGQ = 0)
 
 
 # add duration category
-mod.dur <- glmer(status ~ duration_cat + (1|year), 
+mod.d = glmer(status ~ duration_cat + (1|year), 
                        data = dat, family = "binomial", nAGQ = 0)
 
 # add length of text (in words)
-mod.dur.length <- glmer(status ~ text_length_words_sc + duration_cat + (1|year), 
+mod.d.l = glmer(status ~ text_length_words_sc + duration_cat + (1|year), 
                               data = dat, family = "binomial", nAGQ = 0)
 
 # add scaled goal amount
-mod.dur.length.goal <- glmer(status ~ goal_sc + text_length_words_sc + duration_cat + (1|year), 
+mod.d.l.g = glmer(status ~ goal_sc + text_length_words_sc + duration_cat + (1|year), 
                                    data = dat, family = "binomial", nAGQ = 0)
 
 # add first instantiation
-mod.dur.length.goal.inst <- glmer(status ~ inst + goal_sc + text_length_words_sc + duration_cat + (1|year), 
+mod.d.l.g.i = glmer(status ~ inst + goal_sc + text_length_words_sc + duration_cat + (1|year), 
                                          data = dat, family = "binomial", nAGQ = 0)
 
-anova(mod.none, mod.dur, test='Chisq')
-anova(mod.dur, mod.dur.length, test='Chisq')
-anova(mod.dur.length, mod.dur.length.goal, test='Chisq')
-anova(mod.dur.length.goal, mod.dur.length.goal.inst, test='Chisq')
+# add photos
+mod.d.l.g.i.p = glmer(status ~ photos_sc + inst + goal_sc + text_length_words_sc + duration_cat + (1|year), 
+                                         data = dat, family = "binomial", nAGQ = 0)
+
+# add updates
+mod.d.l.g.i.p.u = glmer(status ~ updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + duration_cat + (1|year), 
+                                         data = dat, family = "binomial", nAGQ = 0)
+
+# add comments
+mod.d.l.g.i.p.u.c = glmer(status ~ comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + duration_cat + (1|year), 
+                                         data = dat, family = "binomial", nAGQ = 0)
+
+# add friends
+mod.d.l.g.i.p.u.c.f = glmer(status ~ friends_sc + comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + duration_cat + (1|year), 
+                                         data = dat, family = "binomial", nAGQ = 0)
+
+# add shares
+mod.d.l.g.i.p.u.c.f.s = glmer(status ~ shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + duration_cat + (1|year), 
+                                         data = dat, family = "binomial", nAGQ = 0)
+
+anova(mod.n, mod.d, test='Chisq')
+anova(mod.d, mod.d.l, test='Chisq')
+anova(mod.d.l, mod.d.l.g, test='Chisq')
+anova(mod.d.l.g, mod.d.l.g.i, test='Chisq')
+anova(mod.d.l.g.i, mod.d.l.g.i.p, test='Chisq')
+anova(mod.d.l.g.i.p, mod.d.l.g.i.p.u, test='Chisq')
+anova(mod.d.l.g.i.p.u, mod.d.l.g.i.p.u.c, test='Chisq')
+anova(mod.d.l.g.i.p.u.c, mod.d.l.g.i.p.u.c.f, test='Chisq')
+anova(mod.d.l.g.i.p.u.c.f, mod.d.l.g.i.p.u.c.f.s, test='Chisq')
 ```
 
 The final base model before adding metaphor variables:
 
 ```{r}
-summary(mod.dur.length.goal.inst)
+summary(mod.d.l.g.i.p.u.c.f.s)
 ```
 
 ## Add metaphors
@@ -287,34 +364,34 @@ See https://stats.stackexchange.com/questions/77313/why-cant-i-match-glmer-famil
 
 
 ```{r}
-mod.no_metaphor = glmer(status ~ no_metaphor + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.no_metaphor = glmer(status ~ no_metaphor + shares_sc + friends_sc + comments_sc + goal_sc + updates_sc + photos_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.any_metaphor = glmer(status ~ any_metaphor + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.any_metaphor = glmer(status ~ any_metaphor + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.dom_journey = glmer(status ~ dom_journey + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.dom_journey = glmer(status ~ dom_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.dom_journey.prod = glmer(status ~ journey_prod + dom_journey + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.dom_journey.prod = glmer(status ~ journey_prod + dom_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.dom_battle = glmer(status ~ dom_battle + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.dom_battle = glmer(status ~ dom_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.dom_battle.prod = glmer(status ~ battle_prod + dom_battle + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.dom_battle.prod = glmer(status ~ battle_prod + dom_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.only_journey = glmer(status ~ only_journey + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.only_journey = glmer(status ~ only_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.only_battle = glmer(status ~ only_battle + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.only_battle = glmer(status ~ only_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.both_metaphor = glmer(status ~ both_metaphor + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.both_metaphor = glmer(status ~ both_metaphor + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
 
-anova(mod.dur.length.goal.inst, mod.no_metaphor)
-anova(mod.dur.length.goal.inst, mod.any_metaphor)
-anova(mod.dur.length.goal.inst, mod.dom_journey)
+anova(mod.d.l.g.i.p.u.c.f.s, mod.no_metaphor)
+anova(mod.d.l.g.i.p.u.c.f.s, mod.any_metaphor)
+anova(mod.d.l.g.i.p.u.c.f.s, mod.dom_journey)
 anova(mod.dom_journey, mod.dom_journey.prod)
-anova(mod.dur.length.goal.inst, mod.dom_battle)
+anova(mod.d.l.g.i.p.u.c.f.s, mod.dom_battle)
 anova(mod.dom_battle, mod.dom_battle.prod)
-anova(mod.dur.length.goal.inst, mod.only_journey)
-anova(mod.dur.length.goal.inst, mod.only_battle)
-anova(mod.dur.length.goal.inst, mod.both_metaphor)
+anova(mod.d.l.g.i.p.u.c.f.s, mod.only_journey)
+anova(mod.d.l.g.i.p.u.c.f.s, mod.only_battle)
+anova(mod.d.l.g.i.p.u.c.f.s, mod.both_metaphor)
 ```
 
 # Number of Backers
@@ -336,14 +413,48 @@ dat.b <- dat[dat$backers < 1200, ]
 ```
 
 ```{r}
+pchisq(2 * sum(dat$backers * log(dat$backers / mean(dat$backers))), length(dat$backers) - 1, lower.tail = F)
+```
+
+H0: The data are fit well by a Poisson Distribution
+H1: Poisson fails to fit the data well
+
+The Poisson distribution obviously does not fit the data well since p~0.
+
+```{r}
 dat.b %>%
   ggplot(aes(goal, backers)) + labs(title="Goal Amount Distribution") +
-  geom_density2d(aes(color=..level..)) +
+  geom_point(aes(alpha=0.1)) +
   theme_minimal()
 
 dat.b %>%
   ggplot(aes(text_length_words, backers)) + labs(title="Text Length Distribution") +
-  geom_density2d(aes(color=..level..)) + ylim(0, 250) +
+  geom_point(aes(alpha=0.1)) +
+  theme_minimal()
+
+dat.b %>%
+  ggplot(aes(photos, backers)) + labs(title="Photos Distribution") +
+  geom_point(aes(alpha=0.1)) +
+  theme_minimal()
+
+dat.b %>%
+  ggplot(aes(updates, backers)) + labs(title="Updates Distribution") +
+  geom_point(aes(alpha=0.1)) + 
+  theme_minimal()
+
+dat.b %>%
+  ggplot(aes(friends, backers)) + labs(title="FB Friends Distribution") +
+  geom_point(aes(alpha=0.1)) + 
+  theme_minimal()
+
+dat.b %>%
+  ggplot(aes(comments, backers)) + labs(title="Comments Distribution") +
+  geom_point(aes(alpha=0.1)) + 
+  theme_minimal()
+
+dat.b %>%
+  ggplot(aes(shares, backers)) + labs(title="FB Shares Distribution") +
+  geom_point(aes(alpha=0.1)) + 
   theme_minimal()
 
 dat.b %>%
@@ -372,47 +483,55 @@ mod.dur.length.goal <- glmmTMB(backers ~ goal_sc + text_length_words_sc + durati
 # add first instantiation
 mod.dur.length.goal.inst <- glmmTMB(backers ~ inst + goal_sc + text_length_words_sc + duration_cat + (1|year), data = dat.b, family="nbinom2")
 
+# add photos
+mod.dur.length.goal.inst.photos <- glmmTMB(backers ~ photos_sc + inst + goal_sc + text_length_words_sc + duration_cat + (1|year), data = dat.b, family="nbinom2")
+
+# add updates
+mod.dur.length.goal.inst.photos.updates <- glmmTMB(backers ~ updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + duration_cat + (1|year), data = dat.b, family="nbinom2")
+
 anova(mod.none, mod.dur, test='Chisq')
 anova(mod.dur, mod.dur.length, test='Chisq')
 anova(mod.dur.length, mod.dur.length.goal, test='Chisq')
 anova(mod.dur.length.goal, mod.dur.length.goal.inst, test='Chisq')
+anova(mod.dur.length.goal.inst, mod.dur.length.goal.inst.photos, test='Chisq')
+anova(mod.dur.length.goal.inst.photos, mod.dur.length.goal.inst.photos.updates, test='Chisq')
 ```
 
 ```{r}
-summary(mod.dur.length.goal.inst)
+summary(mod.dur.length.goal.inst.photos.updates)
 ```
 
 ## Add metaphors
 
 ```{r}
-mod.no_metaphor = glmmTMB(backers ~ no_metaphor + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.no_metaphor = glmmTMB(backers ~ no_metaphor + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat.b, family = "nbinom2")
-mod.any_metaphor = glmmTMB(backers ~ any_metaphor +goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.any_metaphor = glmmTMB(backers ~ any_metaphor + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat.b, family = "nbinom2")
-mod.dom_journey = glmmTMB(backers ~ dom_journey + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.dom_journey = glmmTMB(backers ~ dom_journey + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat.b, family = "nbinom2")
-mod.dom_journey.prod = glmmTMB(backers ~ journey_prod + dom_journey + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.dom_journey.prod = glmmTMB(backers ~ journey_prod + dom_journey + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat.b, family = "nbinom2")
-mod.dom_battle = glmmTMB(backers ~ dom_battle + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.dom_battle = glmmTMB(backers ~ dom_battle + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat.b, family = "nbinom2")
-mod.dom_battle.prod = glmmTMB(backers ~ battle_prod + dom_battle + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.dom_battle.prod = glmmTMB(backers ~ battle_prod + dom_battle + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat.b, family = "nbinom2")
-mod.only_journey = glmmTMB(backers ~ only_journey + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.only_journey = glmmTMB(backers ~ only_journey + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat.b, family = "nbinom2")
-mod.only_battle = glmmTMB(backers ~ only_battle + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.only_battle = glmmTMB(backers ~ only_battle + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat.b, family = "nbinom2")
-mod.both_metaphor = glmmTMB(backers ~ both_metaphor + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
+mod.both_metaphor = glmmTMB(backers ~ both_metaphor + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_cat + inst + (1|year),
                         data = dat.b, family = "nbinom2")
 
-anova(mod.dur.length.goal.inst, mod.no_metaphor)
-anova(mod.dur.length.goal.inst, mod.any_metaphor)
-anova(mod.dur.length.goal.inst, mod.dom_journey)
+anova(mod.dur.length.goal.inst.photos.updates, mod.no_metaphor)
+anova(mod.dur.length.goal.inst.photos.updates, mod.any_metaphor)
+anova(mod.dur.length.goal.inst.photos.updates, mod.dom_journey)
 anova(mod.dom_journey, mod.dom_journey.prod)
-anova(mod.dur.length.goal.inst, mod.dom_battle)
+anova(mod.dur.length.goal.inst.photos.updates, mod.dom_battle)
 anova(mod.dom_battle, mod.dom_battle.prod)
-anova(mod.dur.length.goal.inst, mod.only_journey)
-anova(mod.dur.length.goal.inst, mod.only_battle)
-anova(mod.dur.length.goal.inst, mod.both_metaphor)
+anova(mod.dur.length.goal.inst.photos.updates, mod.only_journey)
+anova(mod.dur.length.goal.inst.photos.updates, mod.only_battle)
+anova(mod.dur.length.goal.inst.photos.updates, mod.both_metaphor)
 ```
 
 # Mean Donation
