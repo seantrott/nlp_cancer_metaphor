@@ -401,13 +401,13 @@ def process_gofundme():
 
 def main():
 
-    # kickstarter_projs = process_kickstarter()
+    kickstarter_projs = process_kickstarter()
     gofundme_projs = process_gofundme()
 
-    # combined_projs = pd.concat([kickstarter_projs, gofundme_projs], axis=0, ignore_index=True, sort=False)
-    #
-    # combined_projs.to_csv('data/processed/combined_projects.csv', index=False)
-    # print('Projects Combined into data/processed/combined_projects.csv')
+    combined_projs = pd.concat([kickstarter_projs, gofundme_projs], axis=0, ignore_index=True, sort=False)
+
+    combined_projs.to_csv('data/processed/combined_projects.csv', index=False)
+    print('Projects Combined into data/processed/combined_projects.csv')
 
 
 if __name__ == '__main__':
