@@ -283,7 +283,9 @@ def process_gofundme():
     data['mean_donation'] = data['mean_donation'].fillna(0)
     pbar.update()
 
-    data['text_length_words'] = data['text'].apply(lambda t: len(tokenizer.tokenize(t)) if isinstance(t, str) else 0)
+    data = data[data['text'].apply(lambda t: isinstance(t, str))]
+    data['text_length_words'] = data['text'].apply(lambda t: len(tokenizer.tokenize(t)))
+    data = data[data['text_length_words'] > 0]
     data['text_length_sentences'] = data['text'].apply(
         lambda t: len(nltk.sent_tokenize(t)) if isinstance(t, str) else 0
     )

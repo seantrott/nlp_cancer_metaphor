@@ -36,15 +36,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Load Data
 
+Total projects and columns available
+
 ```{r cars}
 dat = read.csv('../../data/processed/gofundme_projects.csv')
 labs = read.csv('../../data/processed/labeled.csv')
 dat = dat[dat$id %in% labs$project_id, ]
-```
 
-Total projects and columns available
-
-```{r}
 nrow(dat)
 colnames(dat)
 ```
@@ -59,13 +57,13 @@ library(tidyverse)
 ### Projects per year
 
 ```{r}
-ggplot(dat) + geom_bar(aes(year), stat="count") + ggtitle("Number of projects per year")
+ggplot(dat) + geom_bar(aes(year), stat="count") + labs(title="Number of projects per year")
 ```
 
-There are very few projects before 2014, and so for simplicity's sake and to simplify the model just a tad, we remove 2013 and before.
+There are very few projects before 2013, and so for simplicity's sake and to simplify the model just a tad, we remove 2012 and before.
 
 ```{r}
-dat = dat[dat$year >= 2014, ]
+dat = dat[dat$year >= 2013, ]
 ```
 
 ### Projects per month
@@ -104,46 +102,6 @@ Most projects are US based. Reduce the model complexity by restricting to US the
 dat <- dat[dat$from_US == 1, ]
 ```
 
-### Project durations
-
-Kickstarter projects are usually given 30 days to meet their goal, so most projects revolve around that duration. Some are shorter and some are longer though. Categorize each of those bins.
-
-```{r}
-probs = c(0.0, 0.1, 0.25, 0.5, 0.75, 0.9, 1.0)
-labs = c("10", "25", "50", "75", "90", "100")
-quants = quantile(dat$duration_float, probs, names=F)
-
-dat$dur_cat = ""
-
-for (i in 1:6) {
-  dat[dat$duration_float >= quants[i] & dat$duration_float <= quants[i+1], ]$dur_cat = labs[i]
-}
-dat$dur_cat = factor(dat$dur_cat, ordered = T, levels = labs)
-
-dat %>%
-  ggplot() + labs(title = "Duration Categories") +
-  geom_bar(aes(dur_cat, fill=dur_cat), position="dodge")
-```
-
-### Metaphor instantiation
-
-Where is the first metaphor instantiated? If it comes within the first quarter of the text, does that make a difference, compared to the second quarter or second half? Categorize each project.
-
-```{r}
-dat$inst = ""
-dat[dat$first_instantiation == -1.0, ]$inst = "none"
-dat[dat$first_instantiation >= 0 & dat$first_instantiation < 0.25, ]$inst = "firstquarter"
-dat[dat$first_instantiation >= 0.25 & dat$first_instantiation < 0.5, ]$inst = "secondquarter"
-dat[dat$first_instantiation >= 0.5, ]$inst = "secondhalf"
-
-dat$inst = factor(dat$inst)
-
-dat %>%
-  ggplot() + labs(x="First Metaphor Instantiation Category", title="Counts in First Metaphor Instantiation Categories") +
-  geom_bar(aes(inst)) +
-  scale_x_discrete(labels = c("No Metaphor", "First Quarter", "Second Quarter", "Second Half"))
-```
-
 ### Project goals, text lengths, and cancer types
 
 We scale/z-score the continuous variables according to how we wish to interpret the coefficients of the model. From Andrew Gelman: "Standardizing puts things on an approximately common scale .... (Standarize for) comparing coefficients for different predictors within a model". Binary and categorical variables are left as is.
@@ -156,6 +114,12 @@ dat %>%
   geom_density(aes(goal))
 
 dat$text_length_words_sc <- scale(dat$text_length_words)
+
+dat %>%
+  ggplot() + labs(title="Duration Distribution") +
+  geom_density(aes(duration_float))
+
+dat$duration_float_sc = scale(dat$duration_float)
 
 dat %>%
   ggplot() + labs(title="Text Length Distribution") +
@@ -197,18 +161,17 @@ dat %>%
   theme(axis.text.x=element_text(angle = 60, hjust=1))
 ```
 
-Potential outliers which we may want to remove:
+For now, simply just remove some far outliers. Looking for a more methododical way to do this.
 
 ```{r}
-# nrow(dat[dat$comments > 25, ])
-nrow(dat[dat$goal > 4e5, ])
-dat = dat[dat$goal <= 4e5, ]
+# nrow(dat[dat$goal > 4e5, ])
+# dat = dat[dat$goal <= 4e5, ]
+# 
+# nrow(dat[dat$photos > 50, ])
+# dat = dat[dat$photos <= 50, ]
 
-nrow(dat[dat$photos > 100, ])
-dat = dat[dat$photos <= 100, ]
-
-nrow(dat[dat$updates > 100, ])
-dat = dat[dat$updates <= 100, ]
+nrow(dat[dat$updates > 200, ])
+dat = dat[dat$updates <= 200, ]
 
 nrow(dat[dat$shares > 20000, ])
 dat = dat[dat$shares <= 20000, ]
@@ -217,15 +180,7 @@ dat = dat[dat$shares <= 20000, ]
 
 ### Project metaphors
 
-No metaphor (b = 0 & j = 0)
-Any metaphor (b > 0 || j > 0)
-Some journey (j > 0)
-Some battle (b > 0)
-Some journey, no battle (b = 0 & j > 0)
-Some battle, no journey (b > 0 & j = 0)
-Some both (b > 0 & j > 0)
-
-We break down each project into how the metaphor families are distributed within the project. Very few projects have both metaphors (< 25), are dominated by journey metaphors (< 25), or have only journey metaphors (< 20). 
+We break down each project into how the metaphor families are distributed within the project.
 
 ```{r}
 dat$no_metaphor = dat$battle_salience == 0.0 & dat$journey_salience == 0.0
@@ -242,8 +197,8 @@ ggplot() + labs(x="Metaphor Type", y="Count", title="Count in Metaphor Types") +
   geom_bar(stat="identity", aes(x=row.names(metaphor_counts), y=metaphor_counts$counts))
 ```
 
-Seem like comprehensive sources:
-https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#model-definition
+Good resources:
+https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html
 https://ase.tufts.edu/gsc/gradresources/guidetomixedmodelsinr/mixed%20model%20guide.html
 
 # Primary Analyses
@@ -251,7 +206,13 @@ https://ase.tufts.edu/gsc/gradresources/guidetomixedmodelsinr/mixed%20model%20gu
 We are interested in the effect that metaphor presence has on the funding status of a project.
 
 **DV**: status, backers, mean donation
-**IV**: Goal amount, staff pick, category, text length words, duration category, year, metaphor instantiation, metaphor family salience, metaphor productivity
+
+**IV**: Goal amount, text length words, duration category, year, month, day of the week, photos, updates, comments, FB shares, FB friends, cancer type
+
+Many of these covariates explained in:
+
+ - Astrauskaitė, I., & Paškevičius, A. (2018). An analysis of crowdfunded projects: KPI’s to success. Entrepreneurship and Sustainability Issues, 6(1), 23–24. https://doi.org/10.9770/jesi.2018.6.1(2)
+
 
 Various sources were used to determine what should be a random effect and what should be fixed, and how to model interactions and correlations between variables, including:
 
@@ -264,6 +225,7 @@ Various sources were used to determine what should be a random effect and what s
  - https://rlbarter.github.io/Practical-Statistics/2017/03/03/fixed-mixed-and-random-effects/
  - https://stats.stackexchange.com/questions/323273/what-to-do-with-random-effects-correlation-that-equals-1-or-1
  - Fitting linear mixed-effects models using lme4 (Bates et al., 2014)
+ - http://www.leg.ufpr.br/~eder/Variance%20Components.pdf
 
 # Status
 
@@ -271,7 +233,7 @@ Various sources were used to determine what should be a random effect and what s
 nrow(dat)
 ```
 
-In total, we have 1049 iid samples to work with.
+In total, we have 3134 IID samples to work with.
 
 ```{r}
 dat %>%
@@ -280,8 +242,8 @@ dat %>%
   theme_minimal()
 
 dat %>%
-  ggplot() + labs(title="Duration Distribution") + guides(fill=guide_legend(title="Status")) +
-  geom_bar(aes(dur_cat, fill=fct_recode(factor(status), "Successful"="1", "Failed"="0")), position="dodge") +
+  ggplot() + labs(title="Duration Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(duration_float, color=fct_recode(factor(status), "Successful"="1", "Failed"="0"))) +
   theme_minimal()
 
 dat %>%
@@ -321,7 +283,7 @@ dat %>%
 
 ```
 
-Removed all random variabes except year because they didn't help explain any variance in the data beyond what the residuals could capture.
+Removed all random variabes except year because they didn't help explain any variance in the data beyond what the residuals could capture. Year is a reasonable random effect as well (see Variance Components, Searle et al 2006)
 
 Nesting and Chi2 differences:
 https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chisquare_diff_en.pdf
@@ -329,65 +291,48 @@ https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chis
 ## Model status
 
 ```{r}
-# no fixed effects, only random
-mod.n = glmer(status ~ (1|year), 
-                  data = dat, family = "binomial", nAGQ = 0)
+formula = status ~ shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
 
+mod = glmer(formula, data = dat, family = "binomial")
 
-# add duration category
-mod.d = glmer(status ~ dur_cat + (1|year), 
-                       data = dat, family = "binomial", nAGQ = 0)
+formula = update(formula,  ~ . - duration_float_sc)
+new.mod = glmer(formula, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add length of text (in words)
-mod.d.l = glmer(status ~ text_length_words_sc + dur_cat + (1|year), 
-                              data = dat, family = "binomial", nAGQ = 0)
+formula = update(formula,  ~ . - cancer_type)
+new.mod = glmer(formula, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add scaled goal amount
-mod.d.l.g = glmer(status ~ goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                   data = dat, family = "binomial", nAGQ = 0)
+formula = update(formula,  ~ . - day_of_week)
+new.mod = glmer(formula, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add first instantiation
-mod.d.l.g.i = glmer(status ~ inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat, family = "binomial", nAGQ = 0)
+formula = update(formula,  ~ . - friends_sc)
+new.mod = glmer(formula, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add photos
-mod.d.l.g.i.p = glmer(status ~ photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat, family = "binomial", nAGQ = 0)
+formula = update(formula,  ~ . - month)
+new.mod = glmer(formula, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add updates
-mod.d.l.g.i.p.u = glmer(status ~ updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat, family = "binomial", nAGQ = 0)
-
-# add comments
-mod.d.l.g.i.p.u.c = glmer(status ~ comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat, family = "binomial", nAGQ = 0)
-
-# add friends
-mod.d.l.g.i.p.u.c.f = glmer(status ~ friends_sc + comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat, family = "binomial", nAGQ = 0)
-
-# add shares
-mod.d.l.g.i.p.u.c.f.s = glmer(status ~ shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat, family = "binomial", nAGQ = 0)
-
-anova(mod.n, mod.d, test='Chisq')
-anova(mod.d, mod.d.l, test='Chisq')
-anova(mod.d.l, mod.d.l.g, test='Chisq')
-anova(mod.d.l.g, mod.d.l.g.i, test='Chisq')
-anova(mod.d.l.g.i, mod.d.l.g.i.p, test='Chisq')
-anova(mod.d.l.g.i.p, mod.d.l.g.i.p.u, test='Chisq')
-anova(mod.d.l.g.i.p.u, mod.d.l.g.i.p.u.c, test='Chisq')
-anova(mod.d.l.g.i.p.u.c, mod.d.l.g.i.p.u.c.f, test='Chisq')
-anova(mod.d.l.g.i.p.u.c.f, mod.d.l.g.i.p.u.c.f.s, test='Chisq')
+formula = update(formula,  ~ . - photos_sc)
+new.mod = glmer(formula, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 ```
 
 The final base model before adding metaphor variables:
 
 ```{r}
-summary(mod.d.l.g.i.p.u.c.f.s)
+summary(mod)
 ```
 
-It appears that the intercept itself, the number of shares via Facebook, and the goal amount are all highly significant predictors of success. The goal amount is also a significant predictor.
+The probability of project success increases with increases in shares, comments, and text length. It decreases with increases in updates and goal amounts.
 
 ## Add metaphors
 
@@ -395,39 +340,49 @@ Use `nAQG=0` because `nAQG=1` cannot converge in a reasonable number (10,000) of
 
 See https://stats.stackexchange.com/questions/77313/why-cant-i-match-glmer-family-binomial-output-with-manual-implementation-of-g and https://www.rdocumentation.org/packages/lme4/versions/1.1-19/topics/glmer
 
-
 ```{r}
-# mod.no_metaphor = glmer(status ~ no_metaphor + shares_sc + friends_sc + comments_sc + goal_sc + updates_sc + photos_sc + text_length_words_sc + dur_cat + inst + (1|year),
-#                         data = dat, family = "binomial", nAGQ = 0)
-# mod.any_metaphor = glmer(status ~ any_metaphor + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-#                         data = dat, family = "binomial", nAGQ = 0)
-mod.dom_journey = glmer(status ~ dom_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = "binomial", nAGQ = 0)
-mod.dom_journey.prod = glmer(status ~ journey_prod + dom_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = "binomial", nAGQ = 0)
-mod.dom_battle = glmer(status ~ dom_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = "binomial", nAGQ = 0)
-mod.dom_battle.prod = glmer(status ~ battle_prod + dom_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = "binomial", nAGQ = 0)
-mod.only_journey = glmer(status ~ only_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = "binomial", nAGQ = 0)
-mod.only_battle = glmer(status ~ only_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = "binomial", nAGQ = 0)
-mod.both_metaphor = glmer(status ~ both_metaphor + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = "binomial", nAGQ = 0)
+formula.temp = update(formula,  ~ . + no_metaphor)
+new.mod = glmer(formula.temp, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
 
-# anova(mod.d.l.g.i.p.u.c.f.s, mod.no_metaphor)
-# anova(mod.d.l.g.i.p.u.c.f.s, mod.any_metaphor)
-anova(mod.d.l.g.i.p.u.c.f.s, mod.dom_journey)
-anova(mod.dom_journey, mod.dom_journey.prod)
-anova(mod.d.l.g.i.p.u.c.f.s, mod.dom_battle)
-anova(mod.dom_battle, mod.dom_battle.prod)
-anova(mod.d.l.g.i.p.u.c.f.s, mod.only_journey)
-anova(mod.d.l.g.i.p.u.c.f.s, mod.only_battle)
-anova(mod.d.l.g.i.p.u.c.f.s, mod.both_metaphor)
+formula.temp = update(formula,  ~ . + any_metaphor)
+new.mod = glmer(formula.temp, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+
+formula.temp = update(formula,  ~ . + dom_journey)
+new.mod = glmer(formula.temp, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+
+formula.temp = update(formula,  ~ . + dom_journey + journey_prod)
+new.mod = glmer(formula.temp, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+
+formula.temp = update(formula,  ~ . + dom_battle)
+new.mod = glmer(formula.temp, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+
+formula.temp = update(formula,  ~ . + dom_battle + battle_prod)
+new.mod = glmer(formula.temp, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+
+formula.temp = update(formula,  ~ . + only_battle)
+new.mod = glmer(formula.temp, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+
+formula.temp = update(formula,  ~ . + only_journey)
+new.mod = glmer(formula.temp, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+
+formula.temp = update(formula,  ~ . + scale(battle_salience))
+new.mod = glmer(formula.temp, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
+
+formula.temp = update(formula,  ~ . + scale(journey_salience))
+new.mod = glmer(formula.temp, data = dat, family = "binomial")
+anova(new.mod, mod, test="Chisq")
 ```
 
-The journey metaphor as the dominant metaphor almost signficantly predicts lower success (higher failure). Having only journey metaphors almost significantly lowers success.
+The probability of project success decreases when journey is the only metaphor family present (beta = -0.65701).
 
 # Number of Backers
 
@@ -450,7 +405,8 @@ dat.b <- dat[dat$backers < 1200, ]
 Runa quick data dispersion test (see Rice 1995):
 
 ```{r}
-pchisq(2 * sum(dat$backers * log(dat$backers / mean(dat$backers))), length(dat$backers) - 1, lower.tail = F)
+s = na.omit(dat.b)
+pchisq(2 * sum(dat.b$backers * log(dat.b$backers / mean(dat.b$backers))), length(dat.b$backers) - 1, lower.tail = F)
 ```
 
 H0: The data are fit well by a Poisson Distribution
@@ -465,8 +421,8 @@ dat.b %>%
   theme_minimal()
 
 dat.b %>%
-  ggplot(aes(dur_cat, backers)) + labs(title="Duration Distribution") +
-  geom_boxplot() +
+  ggplot(aes(duration_float, backers)) + labs(title="Duration Distribution") +
+  geom_point(aes(alpha=0.1)) +
   theme_minimal()
 
 dat.b %>%
@@ -509,95 +465,75 @@ dat.b %>%
 ## Model backers
 
 ```{r}
-# no fixed effects, only random
-mod.n <- glmmTMB(backers ~ (1|year), data = dat.b, family="nbinom2")
+formula = backers ~ shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
 
-# add duration category
-mod.d <- glmmTMB(backers ~ dur_cat + (1|year), data = dat.b, family="nbinom2")
+mod = glmmTMB(formula, data = dat.b, family = "nbinom2")
 
-# add length of text (in words)
-mod.d.l <- glmmTMB(backers ~ text_length_words_sc + dur_cat + (1|year), data = dat.b, family="nbinom2")
+formula = update(formula,  ~ . - friends_sc)
+new.mod = glmmTMB(formula, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add scaled goal amount
-mod.d.l.g <- glmmTMB(backers ~ goal_sc + text_length_words_sc + dur_cat + (1|year), data = dat.b, family="nbinom2")
+formula = update(formula,  ~ . - comments_sc)
+new.mod = glmmTMB(formula, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add first instantiation
-mod.d.l.g.i <- glmmTMB(backers ~ inst + goal_sc + text_length_words_sc + dur_cat + (1|year), data = dat.b, family="nbinom2")
-
-# add photos
-mod.d.l.g.i.p <- glmmTMB(backers ~ photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), data = dat.b, family="nbinom2")
-
-# add updates
-mod.d.l.g.i.p.u <- glmmTMB(backers ~ updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), data = dat.b, family="nbinom2")
-
-# add comments
-mod.d.l.g.i.p.u.c = glmmTMB(backers ~ comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat.b, family="nbinom2")
-
-# add friends
-mod.d.l.g.i.p.u.c.f = glmmTMB(backers ~ friends_sc + comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat.b, family="nbinom2")
-
-# add shares
-mod.d.l.g.i.p.u.c.f.s = glmmTMB(backers ~ shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat.b, family="nbinom2")
-
-anova(mod.n, mod.d, test='Chisq')
-anova(mod.d, mod.d.l, test='Chisq')
-anova(mod.d.l, mod.d.l.g, test='Chisq')
-anova(mod.d.l.g, mod.d.l.g.i, test='Chisq')
-anova(mod.d.l.g.i, mod.d.l.g.i.p, test='Chisq')
-anova(mod.d.l.g.i.p, mod.d.l.g.i.p.u, test='Chisq')
-anova(mod.d.l.g.i.p.u, mod.d.l.g.i.p.u.c, test='Chisq')
-anova(mod.d.l.g.i.p.u.c, mod.d.l.g.i.p.u.c.f, test='Chisq')
-anova(mod.d.l.g.i.p.u.c.f, mod.d.l.g.i.p.u.c.f.s, test='Chisq')
+formula = update(formula,  ~ . - day_of_week)
+new.mod = glmmTMB(formula, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 ```
 
 ```{r}
-summary(mod.d.l.g.i.p.u.c.f.s)
+summary(mod)
 ```
 
 ## Add metaphors
 
 ```{r}
-# mod.no_metaphor = glmmTMB(backers ~ no_metaphor + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-#                         data = dat.b, family = "nbinom2")
-# mod.any_metaphor = glmmTMB(backers ~ any_metaphor + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-#                         data = dat.b, family = "nbinom2")
+formula.temp = update(formula,  ~ . + no_metaphor)
+new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
 
-mod.dom_journey = glmmTMB(backers ~ dom_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat.b, family = "nbinom2")
+formula.temp = update(formula,  ~ . + any_metaphor)
+new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
 
-mod.dom_journey.prod = glmmTMB(backers ~ journey_prod + dom_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat.b, family = "nbinom2")
+formula.temp = update(formula,  ~ . + dom_journey)
+new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
 
-mod.dom_battle = glmmTMB(backers ~ dom_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat.b, family = "nbinom2")
+formula.temp = update(formula,  ~ . + dom_journey + journey_prod)
+new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
 
-mod.dom_battle.prod = glmmTMB(backers ~ battle_prod + dom_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat.b, family = "nbinom2")
+formula.temp = update(formula,  ~ . + dom_battle)
+new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
 
-mod.only_journey = glmmTMB(backers ~ only_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat.b, family = "nbinom2")
+formula.temp = update(formula,  ~ . + dom_battle + battle_prod)
+new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
 
-mod.only_battle = glmmTMB(backers ~ only_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat.b, family = "nbinom2")
+formula.temp = update(formula,  ~ . + only_battle)
+new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
 
-mod.both_metaphor = glmmTMB(backers ~ both_metaphor + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat.b, family = "nbinom2")
+formula.temp = update(formula,  ~ . + only_journey)
+new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
 
-# anova(mod.d.l.g.i.p.u.c.f.s, mod.no_metaphor)
-# anova(mod.d.l.g.i.p.u.c.f.s, mod.any_metaphor)
-anova(mod.d.l.g.i.p.u.c.f.s, mod.dom_journey)
-anova(mod.dom_journey, mod.dom_journey.prod)
-anova(mod.d.l.g.i.p.u.c.f.s, mod.dom_battle)
-anova(mod.dom_battle, mod.dom_battle.prod)
-anova(mod.d.l.g.i.p.u.c.f.s, mod.only_journey)
-anova(mod.d.l.g.i.p.u.c.f.s, mod.only_battle)
-anova(mod.d.l.g.i.p.u.c.f.s, mod.both_metaphor)
+formula.temp = update(formula,  ~ . + scale(battle_salience))
+new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
+
+formula.temp = update(formula,  ~ . + scale(journey_salience))
+new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
+anova(new.mod, mod, test="Chisq")
 ```
 
-It appears that the intercept itself, the number of shares via Facebook, the number of updates on the project page, the number of photos uploaded by the project creator, and the goal amount are all highly significant indicators of the number of backers. Not having any metaphors significantly decreases backers and higher number of words increases backers. A quartic regression of duration explains the data well. No metaphorical variables significantly explain the data.
+On average, not having metaphors present lowers the expected value of log(backers) by 17.3%. When battle metaphors are dominant, the expected value of log(backers) increases by 13.1%. When battle metaphors are dominant, then an additional unit of battle productivity increases the expected value of log(backers) by 1.1%. When there are only battle metaphors present, we see an increase of 12.9%. Unit increases in battle salience lead to 7.2% increases in log(backers) expected value, and similarly, a unit increase in journey salience leads to a 3.8% increase.
 
 # Mean Donation
 
@@ -619,7 +555,7 @@ dat %>%
   theme_minimal()
 
 dat %>%
-  ggplot(aes(dur_cat, mean_donation)) + labs(title="Duration Distribution") +
+  ggplot(aes(duration_float, mean_donation)) + labs(title="Duration Distribution") +
   geom_boxplot() +
   theme_minimal()
 
@@ -667,94 +603,93 @@ The data fit an exponential fairly well, so we model with Gamma and a log link (
 ## Model mean donation
 
 ```{r}
-# no fixed effects, only random
-mod.n = glmer(mean_donation+1 ~ (1|year), data = dat, family = Gamma(link = "log"))
+formula = mean_donation+1 ~ shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
 
-# add duration category
-mod.d = glmer(mean_donation+1 ~ dur_cat + (1|year), data = dat, family = Gamma(link = "log"))
+mod = glmer(formula, data = dat, family = Gamma(link = "log"))
 
-# add length of text (in words)
-mod.d.l = glmer(mean_donation+1 ~ text_length_words_sc + dur_cat + (1|year), data = dat, family = Gamma(link = "log"))
+formula = update(formula,  ~ . - friends_sc)
+new.mod = glmer(formula, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add scaled goal amount
-mod.d.l.g = glmer(mean_donation+1 ~ goal_sc + text_length_words_sc + dur_cat + (1|year), data = dat, family = Gamma(link = "log"))
+formula = update(formula,  ~ . - month)
+new.mod = glmer(formula, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add first instantiation
-mod.d.l.g.i = glmer(mean_donation+1 ~ inst + goal_sc + text_length_words_sc + dur_cat + (1|year), data = dat, family = Gamma(link = "log"))
+formula = update(formula,  ~ . - day_of_week)
+new.mod = glmer(formula, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add photos
-mod.d.l.g.i.p <- glmer(mean_donation+1 ~ photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), data = dat, family = Gamma(link = "log"))
+formula = update(formula,  ~ . - updates_sc)
+new.mod = glmer(formula, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add updates
-mod.d.l.g.i.p.u <- glmer(mean_donation+1 ~ updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), data = dat, family = Gamma(link = "log"))
+formula = update(formula,  ~ . - photos_sc)
+new.mod = glmer(formula, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add comments
-mod.d.l.g.i.p.u.c = glmer(mean_donation+1 ~ comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat, family = Gamma(link = "log"))
+formula = update(formula,  ~ . - duration_float_sc)
+new.mod = glmer(formula, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 
-# add friends
-mod.d.l.g.i.p.u.c.f = glmer(mean_donation+1 ~ friends_sc + comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat, family = Gamma(link = "log"))
-
-# add shares
-mod.d.l.g.i.p.u.c.f.s = glmer(mean_donation+1 ~ shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + inst + goal_sc + text_length_words_sc + dur_cat + (1|year), 
-                                         data = dat, family = Gamma(link = "log"))
-
-anova(mod.n, mod.d, test='Chisq')
-anova(mod.d, mod.d.l, test='Chisq')
-anova(mod.d.l, mod.d.l.g, test='Chisq')
-anova(mod.d.l.g, mod.d.l.g.i, test='Chisq')
-anova(mod.d.l.g.i, mod.d.l.g.i.p, test='Chisq')
-anova(mod.d.l.g.i.p, mod.d.l.g.i.p.u, test='Chisq')
-anova(mod.d.l.g.i.p.u, mod.d.l.g.i.p.u.c, test='Chisq')
-anova(mod.d.l.g.i.p.u.c, mod.d.l.g.i.p.u.c.f, test='Chisq')
-anova(mod.d.l.g.i.p.u.c.f, mod.d.l.g.i.p.u.c.f.s, test='Chisq')
+formula = update(formula,  ~ . - comments_sc)
+new.mod = glmer(formula, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
+mod = new.mod
 ```
 
+
 ```{r}
-summary(mod.d.l.g.i.p.u.c.f.s)
+summary(mod)
 ```
 
 ## Add metaphors
 
 ```{r}
-# mod.no_metaphor = glmer(mean_donation+1 ~ no_metaphor + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-#                         data = dat, family = Gamma(link = "log"))
-# mod.any_metaphor = glmer(mean_donation+1 ~ any_metaphor + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-#                         data = dat, family = Gamma(link = "log"))
+formula.temp = update(formula,  ~ . + no_metaphor)
+new.mod = glmer(formula.temp, data = dat, family = Gamma(link = "log"))
+summary(new.mod)
+anova(new.mod, mod, test="Chisq")
 
-mod.dom_journey = glmer(mean_donation+1 ~ dom_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = Gamma(link = "log"))
+formula.temp = update(formula,  ~ . + any_metaphor)
+new.mod = glmer(formula.temp, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
 
-mod.dom_journey.prod = glmer(mean_donation+1 ~ journey_prod + dom_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat  + inst + (1|year),
-                        data = dat, family = Gamma(link = "log"))
+formula.temp = update(formula,  ~ . + dom_journey)
+new.mod = glmer(formula.temp, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
 
-mod.dom_battle = glmer(mean_donation+1 ~ dom_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = Gamma(link = "log"))
+formula.temp = update(formula,  ~ . + dom_journey + journey_prod)
+new.mod = glmer(formula.temp, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
 
-mod.dom_battle.prod = glmer(mean_donation+1 ~ battle_prod + dom_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = Gamma(link = "log"))
+formula.temp = update(formula,  ~ . + dom_battle)
+new.mod = glmer(formula.temp, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
 
-mod.only_journey = glmer(mean_donation+1 ~ only_journey + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = Gamma(link = "log"))
+formula.temp = update(formula,  ~ . + dom_battle + battle_prod)
+new.mod = glmer(formula.temp, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
 
-mod.only_battle = glmer(mean_donation+1 ~ only_battle + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = Gamma(link = "log"))
+formula.temp = update(formula,  ~ . + only_battle)
+new.mod = glmer(formula.temp, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
 
-mod.both_metaphor = glmer(mean_donation+1 ~ both_metaphor + shares_sc + friends_sc + comments_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + dur_cat + inst + (1|year),
-                        data = dat, family = Gamma(link = "log"))
+formula.temp = update(formula,  ~ . + only_journey)
+new.mod = glmer(formula.temp, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
 
-# anova(mod.d.l.g.i.p.u.c.f.s, mod.no_metaphor, test="Chisq")
-# anova(mod.d.l.g.i.p.u.c.f.s, mod.any_metaphor, test="Chisq")
-anova(mod.d.l.g.i.p.u.c.f.s, mod.dom_journey, test="Chisq")
-anova(mod.dom_journey, mod.dom_journey.prod, test="Chisq")
-anova(mod.d.l.g.i.p.u.c.f.s, mod.dom_battle, test="Chisq")
-anova(mod.dom_battle, mod.dom_battle.prod, test="Chisq")
-anova(mod.d.l.g.i.p.u.c.f.s, mod.only_journey, test="Chisq")
-anova(mod.d.l.g.i.p.u.c.f.s, mod.only_battle, test="Chisq")
-anova(mod.d.l.g.i.p.u.c.f.s, mod.both_metaphor, test="Chisq")
+formula.temp = update(formula,  ~ . + scale(battle_salience))
+new.mod = glmer(formula.temp, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
+
+formula.temp = update(formula,  ~ . + scale(journey_salience))
+new.mod = glmer(formula.temp, data = dat, family = Gamma(link = "log"))
+anova(new.mod, mod, test="Chisq")
 ```
-
-It appears that the number of shares via Facebook, the number of Facebook friends the project creator has, and the number of photos uploaded to the project page all significantly decrease the mean donation. Higher numbers of updates and higher goal amounts significantly increase the mean donation. The data is explained well by a cubic regression over duration. Most importantly though, having only battle metaphors significantly (although only slightly) increases mean donation, having the battle metaphor dominate significantly increases mean donation, having both metaphors almost significantly decreases mean donation.
-
 
