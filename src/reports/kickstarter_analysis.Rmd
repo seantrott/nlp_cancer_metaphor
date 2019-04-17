@@ -21,7 +21,7 @@ We have several dependent variables which we would like to model as accurately a
 
 4. Within a metaphor family, are there canonical instantiations of a metaphor? (E.g. "fight battle"). Or even if productivity is low generally, are instantiations varied?
 
-5. How does metaphor vary with other interesting features, such as project description length, goal amount, project type/category, cancer type, or recipient gender?
+5. How does metaphor vary with other interesting features, such as project description length, goal amount, project type/category, or cancer type?
 
 # Related Work
 
@@ -112,41 +112,21 @@ There are only 10 projects not from Towns, so we'll just remove them for simplic
 dat <- dat[dat$from_Town == 1, ]
 ```
 
-### Project durations
-
-Kickstarter projects are usually given 30 days to meet their goal, so most projects revolve around that duration. Some are shorter and some are longer though. Categorize each of those bins.
-
-```{r}
-short <- 30 - 3.5
-long <- 30 + 3.5
-
-dat$duration_cat = ""
-dat[dat$duration_float < short, ]$duration_cat = "short"
-dat[dat$duration_float > short & dat$duration_float <= long, ]$duration_cat = "exp"
-dat[dat$duration_float > long, ]$duration_cat = "long"
-dat$duration_cat = factor(dat$duration_cat, ordered = T, levels = c("short", "exp", "long"))
-
-dat %>%
-  ggplot() + labs(x="Duration Category", title="Counts in Duration Categories") +
-  geom_bar(aes(duration_cat)) +
-  scale_x_discrete(labels = c("Short", "Expected", "Long"))
-```
-
 ### Metaphor instantiation
 
 Where is the first metaphor instantiated? If it comes within the first quarter of the text, does that make a difference, compared to the second quarter or second half? Categorize each project.
 
 ```{r}
-dat$inst = ""
-dat[dat$first_instantiation == -1.0, ]$inst = "none"
-dat[dat$first_instantiation >= 0 & dat$first_instantiation < 0.25, ]$inst = "firstquarter"
-dat[dat$first_instantiation >= 0.25 & dat$first_instantiation < 0.5, ]$inst = "secondquarter"
-dat[dat$first_instantiation >= 0.5, ]$inst = "secondhalf"
-
-dat %>%
-  ggplot() + labs(x="First Metaphor Instantiation Category", title="Counts in First Metaphor Instantiation Categories") +
-  geom_bar(aes(inst)) +
-  scale_x_discrete(labels = c("No Metaphor", "First Quarter", "Second Quarter", "Second Half"))
+# dat$inst = ""
+# dat[dat$first_instantiation == -1.0, ]$inst = "none"
+# dat[dat$first_instantiation >= 0 & dat$first_instantiation < 0.25, ]$inst = "firstquarter"
+# dat[dat$first_instantiation >= 0.25 & dat$first_instantiation < 0.5, ]$inst = "secondquarter"
+# dat[dat$first_instantiation >= 0.5, ]$inst = "secondhalf"
+# 
+# dat %>%
+#   ggplot() + labs(x="First Metaphor Instantiation Category", title="Counts in First Metaphor Instantiation Categories") +
+#   geom_bar(aes(inst)) +
+#   scale_x_discrete(labels = c("No Metaphor", "First Quarter", "Second Quarter", "Second Half"))
 ```
 
 ### Project goals, text lengths, and 
@@ -163,26 +143,22 @@ dat %>%
   geom_bar(aes(spotlight))
 
 dat$goal_sc <- scale(dat$goal)
-dat = dat[dat$goal_sc < 1.0, ]
 
 dat %>%
-  ggplot() + labs(title="Scaled Goal Amount Distribution") +
-  geom_density(aes(goal_sc))
-
-dat %>%
-  ggplot() + labs(title="Pledged Distribution") +
-  geom_density(aes(pledged))
-
-dat %>%
-  ggplot() + labs(title="Pledged to Goal Distribution", subtitle = "Line represents a 1-1 relationship") +
-  geom_point(aes(pledged, goal)) +
-  geom_abline(intercept = 0, slope = 1)
+  ggplot() + labs(title="Goal Amount Distribution") +
+  geom_density(aes(goal))
 
 dat$text_length_words_sc <- scale(dat$text_length_words)
 
 dat %>%
-  ggplot() + labs(title="Scaled Text Length Distribution") +
-  geom_density(aes(text_length_words_sc))
+  ggplot() + labs(title="Duration Distribution") +
+  geom_density(aes(duration_float))
+
+dat$duration_float_sc <- scale(dat$duration_float)
+
+dat %>%
+  ggplot() + labs(title="Text Length Distribution") +
+  geom_density(aes(text_length_words))
 
 dat %>%
   ggplot() + labs(title="Counts in Categories") +
@@ -213,6 +189,16 @@ metaphor_counts = data.frame(counts = colSums(dat[, c("no_metaphor", "any_metaph
 ggplot() + labs(x="Metaphor Type", y="Count", title="Count in Metaphor Types") +
   geom_bar(stat="identity", aes(x=row.names(metaphor_counts), y=metaphor_counts$counts))
 ```
+
+Concerned with model-fit influential outliers: "accurate data points that lie at a distance from other data points, are not error or interesting outliers, and also affect substantive conclusions"
+
+```{r}
+# lb = quantile(dat$goal, 0.025)
+# ub = quantile(dat$goal, 0.975)
+# dat.c = dat[dat$goal > lb & dat$goal < ub, ]
+# dat.c$goal_sc = scale(dat.c$goal)
+```
+
 
 Seem like comprehensive sources:
 https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#model-definition
@@ -259,17 +245,12 @@ dat %>%
   geom_density(aes(goal, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
 
 dat %>%
-  ggplot() + labs(title="Pledged Distribution") + guides(color=guide_legend(title="Status")) +
-  geom_density(aes(pledged, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
-
-dat %>%
-  ggplot() + labs(title="Pledged to Goal Distribution", subtitle = "Line represents a 1-1 relationship") + guides(color=guide_legend(title="Status")) +
-  geom_point(aes(pledged, goal, color=fct_recode(factor(status), "Successful"="1", "Failed"="0"))) +
-  geom_abline(intercept = 0, slope = 1)
-
-dat %>%
   ggplot() + labs(title="Text Length Distribution") + guides(color=guide_legend(title="Status")) +
   geom_density(aes(text_length_words, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+dat %>%
+  ggplot() + labs(title="Duration Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(duration_float, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
 
 dat %>%
   ggplot() + labs(title="Counts in Categories") + guides(fill=guide_legend(title="Status")) +
@@ -289,47 +270,94 @@ Nesting and Chi2 differences:
 https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chisquare_diff_en.pdf
 
 ```{r}
+formula = status ~ goal_sc + staff_pick + category + geo_state + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
+
+formula = update(formula,  ~ . - geo_state)
+formula = update(formula,  ~ . - category)
+formula = update(formula,  ~ . - month)
+formula = update(formula,  ~ . - day_of_week)
+formula = update(formula,  ~ . - cancer_type)
+
+mod = glmer(formula, data = dat, family = "binomial", nAGQ = 100)
+
+summary(mod)
+```
+
+
+```{r}
+formula = status ~ goal_sc + spotlight + staff_pick + category + geo_state + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
+
+mod = glmer(formula, data = dat, family = "binomial", nAGQ = 0)
+
+formula = update(formula,  ~ . - geo_state)
+new.mod = glmer(formula, data = dat, family = "binomial", nAGQ = 0)
+
+anova(new.mod, mod, test="Chisq")
+
+mod = new.mod
+
+formula = update(formula,  ~ . - month)
+new.mod = glmer(formula, data = dat, family = "binomial", nAGQ = 0)
+
+anova(new.mod, mod, test="Chisq")
+
+mod = new.mod
+
+formula = update(formula,  ~ . - day_of_week)
+new.mod = glmer(formula, data = dat, family = "binomial", nAGQ = 0)
+
+anova(new.mod, mod, test="Chisq")
+
+# formula = update(formula,  ~ . - cancer_type)
+# new.mod = glmer(formula, data = dat, family = "binomial")
+# 
+# anova(new.mod, mod)
+# 
+# formula = update(formula,  ~ . - category)
+# new.mod = glmer(formula, data = dat, family = "binomial")
+# 
+# anova(new.mod, mod)
+```
+
+
+```{r}
 # no fixed effects, only random
-mod.none <- glmer(status ~ (1|year), 
-                  data = dat, family = "binomial", nAGQ = 0)
+mod.none <- glm(status ~ 1, 
+                  data = dat, family = "binomial")
 
 # add staff pick
-mod.staff <- glmer(status ~ staff_pick + (1|year), 
-                   data = dat, family = "binomial", nAGQ = 0)
+mod.staff <- glm(status ~ staff_pick, 
+                   data = dat, family = "binomial")
 
 # add duration category
-mod.staff.dur <- glmer(status ~ duration_cat + staff_pick + (1|year), 
-                       data = dat, family = "binomial", nAGQ = 0)
+mod.staff.dur <- glm(status ~ scale(duration_float) + staff_pick, 
+                       data = dat, family = "binomial")
 
 # add length of text (in words)
-mod.staff.dur.length <- glmer(status ~ text_length_words_sc + duration_cat + staff_pick + (1|year), 
-                              data = dat, family = "binomial", nAGQ = 0)
+mod.staff.dur.length <- glm(status ~ text_length_words_sc + scale(duration_float) + staff_pick, 
+                              data = dat, family = "binomial")
 
 # add scaled goal amount
-mod.staff.dur.length.goal <- glmer(status ~ goal_sc + text_length_words_sc + duration_cat + staff_pick + (1|year), 
-                                   data = dat, family = "binomial", nAGQ = 0)
+mod.staff.dur.length.goal <- glm(status ~ goal_sc + text_length_words_sc + scale(duration_float) + staff_pick, 
+                                   data = dat, family = "binomial")
 
 # add category
-mod.staff.dur.length.goal.cat <- glmer(status ~ category + goal_sc + text_length_words_sc + duration_cat + staff_pick + (1|year), 
-                                   data = dat, family = "binomial", nAGQ = 0)
-
-# add first instantiation
-mod.staff.dur.length.goal.cat.inst <- glmer(status ~ category + goal_sc + text_length_words_sc + duration_cat + staff_pick + inst + (1|year), 
-                                         data = dat, family = "binomial", nAGQ = 0)
+mod.staff.dur.length.goal.cat <- glm(status ~ category + goal_sc + text_length_words_sc + scale(duration_float) + staff_pick, 
+                                   data = dat, family = "binomial")
 
 anova(mod.none, mod.staff, test='Chisq')
 anova(mod.staff, mod.staff.dur, test='Chisq')
 anova(mod.staff.dur, mod.staff.dur.length, test='Chisq')
 anova(mod.staff.dur.length, mod.staff.dur.length.goal, test='Chisq')
 anova(mod.staff.dur.length.goal, mod.staff.dur.length.goal.cat, test='Chisq')
-anova(mod.staff.dur.length.goal.cat, mod.staff.dur.length.goal.cat.inst, test='Chisq')
 ```
 
 The final base model before adding metaphor variables:
 
 ```{r}
-summary(mod.staff.dur.length.goal.cat.inst)
+summary(mod.staff.dur.length.goal.cat)
 ```
+
 
 ## Add metaphors
 
@@ -339,34 +367,65 @@ See https://stats.stackexchange.com/questions/77313/why-cant-i-match-glmer-famil
 
 
 ```{r}
-mod.no_metaphor = glmer(status ~ no_metaphor + category + goal_sc + text_length_words_sc + duration_cat + staff_pick + inst + (1|year),
+mod.no_metaphor = glmer(status ~ no_metaphor + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.any_metaphor = glmer(status ~ any_metaphor + category + goal_sc + text_length_words_sc + duration_cat + staff_pick + inst + (1|year),
+mod.any_metaphor = glmer(status ~ any_metaphor + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.dom_journey = glmer(status ~ dom_journey + category + goal_sc + text_length_words_sc + duration_cat + staff_pick + inst + (1|year),
+mod.dom_journey = glmer(status ~ dom_journey + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.dom_journey.prod = glmer(status ~ journey_prod + dom_journey + category + goal_sc + text_length_words_sc + duration_cat + staff_pick + inst + (1|year),
+mod.dom_journey.prod = glmer(status ~ journey_prod + dom_journey + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.dom_battle = glmer(status ~ dom_battle + category + goal_sc + text_length_words_sc + duration_cat + staff_pick + inst + (1|year),
+mod.dom_battle = glmer(status ~ dom_battle + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.dom_battle.prod = glmer(status ~ battle_prod + dom_battle + category + goal_sc + text_length_words_sc + duration_cat + staff_pick + inst + (1|year),
+mod.dom_battle.prod = glmer(status ~ battle_prod + dom_battle + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.only_journey = glmer(status ~ only_journey + category + goal_sc + text_length_words_sc + duration_cat + staff_pick + inst + (1|year),
+mod.only_journey = glmer(status ~ only_journey + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.only_battle = glmer(status ~ only_battle + category + goal_sc + text_length_words_sc + duration_cat + staff_pick + inst + (1|year),
+mod.only_battle = glmer(status ~ only_battle + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
-mod.both_metaphor = glmer(status ~ both_metaphor + category + goal_sc + text_length_words_sc + duration_cat + staff_pick + inst + (1|year),
+mod.both_metaphor = glmer(status ~ both_metaphor + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
                         data = dat, family = "binomial", nAGQ = 0)
 
-anova(mod.staff.dur.length.goal.cat.inst, mod.no_metaphor)
-anova(mod.staff.dur.length.goal.cat.inst, mod.any_metaphor)
-anova(mod.staff.dur.length.goal.cat.inst, mod.dom_journey)
+anova(mod.staff.dur.length.goal.cat, mod.no_metaphor)
+anova(mod.staff.dur.length.goal.cat, mod.any_metaphor)
+anova(mod.staff.dur.length.goal.cat, mod.dom_journey)
 anova(mod.dom_journey, mod.dom_journey.prod)
-anova(mod.staff.dur.length.goal.cat.inst, mod.dom_battle)
+anova(mod.staff.dur.length.goal.cat, mod.dom_battle)
 anova(mod.dom_battle, mod.dom_battle.prod)
-anova(mod.staff.dur.length.goal.cat.inst, mod.only_journey)
-anova(mod.staff.dur.length.goal.cat.inst, mod.only_battle)
-anova(mod.staff.dur.length.goal.cat.inst, mod.both_metaphor)
+anova(mod.staff.dur.length.goal.cat, mod.only_journey)
+anova(mod.staff.dur.length.goal.cat, mod.only_battle)
+anova(mod.staff.dur.length.goal.cat, mod.both_metaphor)
+```
+
+```{r}
+mod.no_metaphor = glmer(status ~ no_metaphor + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
+                        data = dat.c, family = "binomial", nAGQ = 0)
+mod.any_metaphor = glmer(status ~ any_metaphor + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
+                        data = dat.c, family = "binomial", nAGQ = 0)
+mod.dom_journey = glmer(status ~ dom_journey + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
+                        data = dat.c, family = "binomial", nAGQ = 0)
+mod.dom_journey.prod = glmer(status ~ journey_prod + dom_journey + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
+                        data = dat.c, family = "binomial", nAGQ = 0)
+mod.dom_battle = glmer(status ~ dom_battle + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
+                        data = dat.c, family = "binomial", nAGQ = 0)
+mod.dom_battle.prod = glmer(status ~ battle_prod + dom_battle + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
+                        data = dat.c, family = "binomial", nAGQ = 0)
+mod.only_journey = glmer(status ~ only_journey + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
+                        data = dat.c, family = "binomial", nAGQ = 0)
+mod.only_battle = glmer(status ~ only_battle + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
+                        data = dat.c, family = "binomial", nAGQ = 0)
+mod.both_metaphor = glmer(status ~ both_metaphor + category + goal_sc + text_length_words_sc + duration_float + staff_pick + (1|year),
+                        data = dat.c, family = "binomial", nAGQ = 0)
+
+anova(mod.c.staff.dur.length.goal.cat, mod.no_metaphor)
+anova(mod.c.staff.dur.length.goal.cat, mod.any_metaphor)
+anova(mod.c.staff.dur.length.goal.cat, mod.dom_journey)
+anova(mod.dom_journey, mod.dom_journey.prod)
+anova(mod.c.staff.dur.length.goal.cat, mod.dom_battle)
+anova(mod.dom_battle, mod.dom_battle.prod)
+anova(mod.c.staff.dur.length.goal.cat, mod.only_journey)
+anova(mod.c.staff.dur.length.goal.cat, mod.only_battle)
+anova(mod.c.staff.dur.length.goal.cat, mod.both_metaphor)
 ```
 
 # Number of Backers
