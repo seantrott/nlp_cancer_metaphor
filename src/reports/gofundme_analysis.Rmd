@@ -38,7 +38,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Total projects and columns available
 
-```{r cars}
+```{r}
 dat = read.csv('../../data/processed/gofundme_projects.csv')
 labs = read.csv('../../data/processed/labeled.csv')
 dat = dat[dat$id %in% labs$project_id, ]
@@ -90,13 +90,13 @@ dat %>%
   scale_x_discrete(labels = c("Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"))
 ```
 
-Fairly uniform, with slightly more projects being launched in the middle of the week (Wednesday) anda bit fewer being launched on the weekend (notably Saturday).
+Fairly uniform, with slightly more projects being launched in the middle of the week (Thursday) anda bit fewer being launched on the weekend (notably Saturday).
 
 ```{r}
 chisq.test(table(dat$day_of_week))
 ```
 
-There is significant difference between the observed and the expected number of projects launched each day of the week. 
+There is significant difference between the observed and the expected number of projects launched each day of the week. Therefore import to include this variable in the models. 
 
 ### Projects from the US
 
@@ -104,7 +104,7 @@ There is significant difference between the observed and the expected number of 
 ggplot(dat) + geom_bar(aes(x=factor(from_US)), stat="count") + labs(x="From US", title="Number of projects from US")
 ```
 
-Most projects are US based. Reduce the model complexity by restricting to US then.
+Most projects are US based. Reduce model complexity by restricting to the US then. Moreover, worrying about non-US projects means doing currency conversion and other strange things.
 
 ```{r}
 dat <- dat[dat$from_US == 1, ]
@@ -166,7 +166,22 @@ dat %>%
 dat %>%
   ggplot() + labs(title="Cancer Type Counts") +
   geom_bar(aes(x=cancer_type)) +
-  theme(axis.text.x=element_text(angle = 60, hjust=1))
+  coord_flip()
+```
+
+```{r}
+na.omit(labs) %>% ggplot() + geom_bar(aes(x=reorder(keyword, keyword, function(x)-length(x)), fill=metaphorical)) + coord_flip() + theme_minimal()
+```
+
+Taking a look at differences in instantiation across metaphor family.
+
+```{r}
+ggplot() + 
+  geom_density(aes(dat[dat$only_journey == T, "first_instantiation"]), fill=rgb(1,0.5,0.5), alpha=0.3,) +
+  geom_density(aes(dat[dat$only_battle == T, "first_instantiation"]), fill=rgb(0.5,0.5,1), alpha=0.3) +
+  geom_density(aes(dat[dat$dom_battle == T, "first_instantiation"]), fill=rgb(0,0,1), alpha=0.3) +
+  geom_density(aes(dat[dat$dom_journey == T, "first_instantiation"]), fill=rgb(1,0,0), alpha=0.3) +
+  labs(x="Instantiation Position")
 ```
 
 ### Project metaphors
@@ -190,6 +205,11 @@ dat$only_journey = dat$journey_salience > 0 & dat$battle_salience == 0.0
 dat$only_battle = dat$journey_salience == 0.0 & dat$battle_salience > 0
 dat$both_metaphor = dat$battle_salience > 0.0 & dat$journey_salience > 0.0
 
+dat$battle_prod = scale(dat$battle_prod)
+dat$journey_prod = scale(dat$journey_prod)
+dat$battle_salience = scale(dat$battle_salience)
+dat$journey_salience = scale(dat$journey_salience)
+
 metaphor_counts = data.frame(counts = colSums(dat[, c("no_metaphor", "any_metaphor", "dom_journey", "dom_battle", "only_journey", "only_battle", "both_metaphor")]))
 
 ggplot() + labs(x="Metaphor Type", y="Count", title="Count in Metaphor Types") +
@@ -206,12 +226,13 @@ We are interested in the effect that metaphor presence has on the funding status
 
 **DV**: status, backers, mean donation
 
-**IV**: Goal amount, text length words, duration category, year, month, day of the week, photos, updates, comments, FB shares, FB friends, cancer type
+**IV**: Goal amount, text length words, duration, year, month, day of the week, photos, updates, FB shares, FB friends, cancer type
 
 Many of these covariates explained in:
 
  - Astrauskaitė, I., & Paškevičius, A. (2018). An analysis of crowdfunded projects: KPI’s to success. Entrepreneurship and Sustainability Issues, 6(1), 23–24. https://doi.org/10.9770/jesi.2018.6.1(2)
 
+We perform drop1 model comparisons for each regression. The least significant (highest p-value) variable is removed in the subsequent model.
 
 Various sources were used to determine what should be a random effect and what should be fixed, and how to model interactions and correlations between variables, including:
 
@@ -232,7 +253,7 @@ Various sources were used to determine what should be a random effect and what s
 nrow(dat)
 ```
 
-In total, we have 5104 IID samples to work with.
+In total, we have N=5223 IID samples to work with.
 
 ```{r}
 dat %>%
@@ -290,104 +311,103 @@ https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chis
 ## Model status
 
 ```{r}
-formula = status ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
+status.formula = status ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
 
-mod = glmer(formula, data = dat, family = "binomial")
+status.mod = glmer(status.formula, data = dat, family = "binomial")
 
-formula = update(formula,  ~ . - day_of_week)
-new.mod = glmer(formula, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-mod = new.mod
+drop1(status.mod, test="Chisq")
+```
 
-formula = update(formula,  ~ . - friends_sc)
-new.mod = glmer(formula, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-mod = new.mod
+```{r}
+status.formula = update(status.formula,  ~ . - day_of_week)
+drop1(glmer(status.formula, data = dat, family = "binomial"), test="Chisq")
+```
 
-formula = update(formula,  ~ . - month)
-new.mod = glmer(formula, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-mod = new.mod
+```{r}
+status.formula = update(status.formula,  ~ . - month)
+drop1(glmer(status.formula, data = dat, family = "binomial"), test="Chisq")
+```
 
-formula = update(formula,  ~ . - text_length_words_sc)
-new.mod = glmer(formula, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-mod = new.mod
+```{r}
+status.formula = update(status.formula,  ~ . - text_length_words_sc)
+drop1(glmer(status.formula, data = dat, family = "binomial"), test="Chisq")
+```
+
+```{r}
+status.formula = update(status.formula,  ~ . - friends_sc)
+drop1(glmer(status.formula, data = dat, family = "binomial"), test="Chisq")
 ```
 
 The final base model before adding metaphor variables:
 
 ```{r}
-summary(mod)
+status.mod = glmer(status.formula, data = dat, family = "binomial")
+summary(status.mod)
 ```
 
 ## Add metaphors
 
-Use `nAQG=0` because `nAQG=1` cannot converge in a reasonable number (10,000) of iterations
-
 See https://stats.stackexchange.com/questions/77313/why-cant-i-match-glmer-family-binomial-output-with-manual-implementation-of-g and https://www.rdocumentation.org/packages/lme4/versions/1.1-19/topics/glmer
 
 ```{r}
-formula.temp = update(formula,  ~ . + no_metaphor)
-new.mod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["no_metaphorTRUE"]
-
-formula.temp = update(formula,  ~ . + any_metaphor)
-new.mod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["any_metaphorTRUE"]
-
-formula.temp = update(formula,  ~ . + dom_journey)
-new.mod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["dom_journeyTRUE"]
-
-formula.temp = update(formula,  ~ . + dom_journey + journey_prod)
-new.mod.prod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)["journey_prod"]
-
-formula.temp = update(formula,  ~ . + dom_battle)
-new.mod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["dom_battleTRUE"]
-
-formula.temp = update(formula,  ~ . + dom_battle + battle_prod)
-new.mod.prod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)["battle_prod"]
-
-formula.temp = update(formula,  ~ . + only_battle)
-new.mod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["only_battleTRUE"]
-
-formula.temp = update(formula,  ~ . + only_battle + battle_prod)
-new.mod.prod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)["battle_prod"]
-
-formula.temp = update(formula,  ~ . + only_journey)
-new.mod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["only_journeyTRUE"]
-
-formula.temp = update(formula,  ~ . + only_journey + journey_prod)
-new.mod.prod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)["journey_prod"]
-
-formula.temp = update(formula,  ~ . + scale(battle_salience))
-new.mod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["scale(battle_salience)"]
-
-formula.temp = update(formula,  ~ . + scale(journey_salience))
-new.mod = glmer(formula.temp, data = dat, family = "binomial")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["scale(journey_salience)"]
+status.refit = function(formula, key) {
+  new.mod = glmer(formula, data = dat, family = "binomial")
+  print(anova(new.mod, status.mod, test="Chisq"))
+  print(fixef(new.mod)[key])
+}
 ```
+
+```{r}
+addMetaphors = function(formula, refit) {
+  refit(update(formula,  ~ . + no_metaphor), "no_metaphorTRUE")
+  refit(update(formula,  ~ . + any_metaphor), "any_metaphorTRUE")
+  refit(update(formula,  ~ . + both_metaphor), "both_metaphorTRUE")
+  refit(update(formula,  ~ . + dom_journey), "dom_journeyTRUE")
+  refit(update(formula,  ~ . + dom_journey + journey_prod), "journey_prod")
+  refit(update(formula,  ~ . + dom_battle), "dom_battleTRUE")
+  refit(update(formula,  ~ . + dom_battle + battle_prod), "battle_prod")
+  refit(update(formula,  ~ . + only_battle), "only_battleTRUE")
+  refit(update(formula,  ~ . + only_battle + battle_prod), "battle_prod")
+  refit(update(formula,  ~ . + only_journey), "only_journeyTRUE")
+  refit(update(formula,  ~ . + only_journey + journey_prod), "journey_prod")
+  refit(update(formula,  ~ . + scale(battle_salience)), "scale(battle_salience)")
+  refit(update(formula,  ~ . + scale(journey_salience)), "scale(journey_salience)")
+}
+```
+
+```{r status metaphor}
+addMetaphors(status.formula, status.refit)
+```
+
+```{r}
+# inst.formula = status ~ shares_sc + updates_sc + photos_sc + goal_sc + duration_float_sc + cancer_type + (1|year)
+# inst.status.mod = glmer(inst.formula, data = dat[dat$only_journey, ], family = "binomial")
+# inst.mod = glmer(update(inst.formula, ~ . + first_instantiation), data = dat[dat$only_journey, ], family = "binomial")
+# anova(inst.mod, inst.status.mod, test="Chisq")
+# fixef(inst.mod)["first_instantiation"]
+```
+
+Trying out a Bayesian regression for status. Not really developed yet and not fully Bayesian, but just playing around. Instead of comparing a bunch of models again, just took the structure of the fit glmer model and used that. Results are what one would expect but shed a little more light on how each varaible effects the model.
+
+```{r}
+library(brms)
+```
+
+Again, just reusing the glmer model for simplicity.
+
+```{r}
+m = brm(status ~ shares_sc + updates_sc + photos_sc + goal_sc + duration_float_sc + cancer_type + (1 | year), data = dat, family = "bernoulli", cores = 4)
+```
+
+```{r}
+summary(m)
+```
+
+
+```{r}
+marginal_effects(m)
+```
+
 
 # Number of Backers
 
@@ -407,7 +427,7 @@ We limit to 1200 because removing the outliers leaves us with a nicely shaped di
 dat.b <- dat[dat$backers < 1200, ]
 ```
 
-Runa quick data dispersion test (see Rice 1995):
+Run a quick data dispersion test (see Rice 1995):
 
 ```{r}
 s = na.omit(dat.b)
@@ -464,104 +484,68 @@ dat.b %>%
 
 ## Model backers
 
+It might be the case that a quasi-Poisson model fits better, see:
+https://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1141&context=usdeptcommercepub
+
+Negative binomial has a lower residual deviance than quasi-poisson. Therefore we use NegBin.
+
+Inherently, the number of backers must be > 0, thus we model using a truncated NegBin fit.
+
 ```{r}
-formula = backers ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
+backers.formula = backers ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
 
-mod = glmmTMB(formula, data = dat.b, family = "nbinom2")
+backers.mod = glmmTMB(backers.formula, data = dat.b, family = "truncated_nbinom2")
+drop1(backers.mod, test="Chisq")
+```
 
-formula = update(formula,  ~ . - day_of_week)
-new.mod = glmmTMB(formula, data = dat.b, family = "nbinom2")
-anova(new.mod, mod, test="Chisq")
-mod = new.mod
+```{r}
+backers.formula = update(backers.formula,  ~ . - day_of_week)
+drop1(glmmTMB(backers.formula, data = dat.b, family = "truncated_nbinom2"), test="Chisq")
+```
 
-formula = update(formula,  ~ . - friends_sc)
-new.mod = glmmTMB(formula, data = dat.b, family = "nbinom2")
-anova(new.mod, mod, test="Chisq")
-mod = new.mod
+```{r}
+backers.formula = update(backers.formula,  ~ . - friends_sc)
+drop1(glmmTMB(backers.formula, data = dat.b, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 
 ```{r}
-summary(mod)
+backers.formula = update(backers.formula,  ~ . - month)
+drop1(glmmTMB(backers.formula, data = dat.b, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+backers.mod = glmmTMB(backers.formula, data = dat.b, family = "truncated_nbinom2")
+summary(backers.mod)
 ```
 
 ## Add metaphors
 
-```{r}
-formula.temp = update(formula,  ~ . + no_metaphor)
-new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)$cond["no_metaphorTRUE"]
+```{r backers metaphor}
+backers.refit = function(formula, key) {
+  new.mod = glmmTMB(formula, data = dat.b, family = "truncated_nbinom2")
+  print(anova(new.mod, backers.mod, test="Chisq"))
+  print(fixef(new.mod)$cond[key])
+}
 
-formula.temp = update(formula,  ~ . + any_metaphor)
-new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)$cond["any_metaphorTRUE"]
-
-formula.temp = update(formula,  ~ . + dom_journey)
-new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)$cond["dom_journeyTRUE"]
-
-formula.temp = update(formula,  ~ . + dom_journey + journey_prod)
-new.mod.prod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)$cond["journey_prod"]
-
-formula.temp = update(formula,  ~ . + dom_battle)
-new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)$cond["dom_battleTRUE"]
-
-formula.temp = update(formula,  ~ . + dom_battle + battle_prod)
-new.mod.prod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)$cond["battle_prod"]
-
-formula.temp = update(formula,  ~ . + only_battle)
-new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)$cond["only_battleTRUE"]
-
-formula.temp = update(formula,  ~ . + only_battle + battle_prod)
-new.mod.prod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)$cond["battle_prod"]
-
-formula.temp = update(formula,  ~ . + only_journey)
-new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)$cond["only_journeyTRUE"]
-
-formula.temp = update(formula,  ~ . + only_journey + journey_prod)
-new.mod.prod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)$cond["journey_prod"]
-
-formula.temp = update(formula,  ~ . + scale(battle_salience))
-new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)$cond["scale(battle_salience)"]
-
-formula.temp = update(formula,  ~ . + scale(journey_salience))
-new.mod = glmmTMB(formula.temp, data = dat.b, family = "nbinom2")
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)$cond["scale(journey_salience)"]
-
+addMetaphors(backers.formula, backers.refit)
 ```
 
+OLD, IGNORE:
 On average, not having metaphors present lowers the expected value of log(backers) by 17.3%. When battle metaphors are dominant, the expected value of log(backers) increases by 13.1%. When battle metaphors are dominant, then an additional unit of battle productivity increases the expected value of log(backers) by 1.1%. When there are only battle metaphors present, we see an increase of 12.9%. Unit increases in battle salience lead to 7.2% increases in log(backers) expected value, and similarly, a unit increase in journey salience leads to a 3.8% increase.
-
-
 
 # Mean Donation
 
 ```{r}
 dat %>%
   ggplot() + labs(title="Mean Donation Density") +
-  geom_density(aes(mean_donation+1))
+  geom_density(aes(mean_donation))
 
 dat.m = dat[dat$mean_donation < 500, ]
+
+dat.m %>%
+  ggplot() + labs(title="Mean Donation Density") +
+  geom_density(aes(mean_donation))
 
 dat.m %>%
   ggplot() + geom_qq(aes(sample=mean_donation+1), distribution = qexp) + geom_qq_line(aes(sample=mean_donation+1), distribution = qexp)
@@ -612,100 +596,151 @@ dat.m %>%
 
  - https://stats.stackexchange.com/questions/142013/correct-glmer-distribution-family-and-link-for-a-continuous-zero-inflated-data-s
  
-The data fit an exponential fairly well, so we model with Gamma and a log link (see above answer for reason).
+The data look like a Gamma, so we model with Gamma and a log link (see above answer for reason). It might be nice 
+
+Ideally, I could run a distributional test and confirm (or reject) this intuition.
 
 ## Model mean donation
 
 ```{r}
-formula = mean_donation+1 ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
+mean.formula = mean_donation ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
 
-mod = glmer(formula, data = dat.m, family = Gamma(link = "log"))
-
-formula = update(formula,  ~ . - month)
-new.mod = glmer(formula, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-mod = new.mod
-
-formula = update(formula,  ~ . - day_of_week)
-new.mod = glmer(formula, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-mod = new.mod
-
-formula = update(formula,  ~ . - duration_float_sc)
-new.mod = glmer(formula, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-mod = new.mod
-
-formula = update(formula,  ~ . - photos_sc)
-new.mod = glmer(formula, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-mod = new.mod
+mean.mod = glmer(mean.formula, data = dat.m, family = Gamma(link = "log"))
+drop1(mean.mod, test="Chisq")
 ```
 
 ```{r}
-summary(mod)
+mean.formula = update(mean.formula,  ~ . - duration_float_sc)
+drop1(glmer(mean.formula, data = dat.m, family = Gamma(link = "log")), test="Chisq")
 ```
+
+```{r}
+mean.formula = update(mean.formula,  ~ . - day_of_week)
+drop1(glmer(mean.formula, data = dat.m, family = Gamma(link = "log")), test="Chisq")
+```
+
+
+```{r}
+mean.formula = update(mean.formula,  ~ . - photos_sc)
+drop1(glmer(mean.formula, data = dat.m, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+mean.formula = update(mean.formula,  ~ . - month)
+drop1(glmer(mean.formula, data = dat.m, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+mean.mod = glmer(mean.formula, data = dat.m, family = Gamma(link = "log"))
+summary(mean.mod)
+```
+
+lmer produces AIC of 54710, with shares_sc + friends_sc + updates_sc + goal_sc + text_length_words_sc + cancer_type + (1 | year)
 
 ## Add metaphors
 
+```{r mean donation metaphor}
+mean.refit = function(formula, key) {
+  new.mod = glmer(formula, data = dat.m, family = Gamma(link = "log"))
+  print(anova(new.mod, mean.mod, test="Chisq"))
+  print(fixef(new.mod)[key])
+}
+
+addMetaphors(mean.formula, mean.refit)
+```
+
+Mean donation but with lmer
+
 ```{r}
-formula.temp = update(formula,  ~ . + no_metaphor)
-new.mod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["no_metaphorTRUE"]
+# mean2.formula = mean_donation+1 ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
+# 
+# mean2.mod = lmer(formula, data = dat.m)
+# 
+# mean2.formula = update(mean2.formula,  ~ . - month)
+# new.mod = lmer(mean2.formula, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# mean2.mod = new.mod
+# 
+# mean2.formula = update(mean2.formula,  ~ . - day_of_week)
+# new.mod = lmer(mean2.formula, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# mean2.mod = new.mod
+# 
+# mean2.formula = update(mean2.formula,  ~ . - duration_float_sc)
+# new.mod = lmer(mean2.formula, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# mean2.mod = new.mod
+# 
+# mean2.formula = update(mean2.formula,  ~ . - photos_sc)
+# new.mod = lmer(mean2.formula, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# mean2.mod = new.mod
+```
 
-formula.temp = update(formula,  ~ . + any_metaphor)
-new.mod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["any_metaphorTRUE"]
 
-formula.temp = update(formula,  ~ . + dom_journey)
-new.mod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["dom_journeyTRUE"]
+```{r}
+# summary(mean2.mod)
+# AIC(mean2.mod)
+```
 
-formula.temp = update(formula,  ~ . + dom_journey + journey_prod)
-new.mod.prod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)["journey_prod"]
-
-formula.temp = update(formula,  ~ . + dom_battle)
-new.mod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["dom_battleTRUE"]
-
-formula.temp = update(formula,  ~ . + dom_battle + battle_prod)
-new.mod.prod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)["battle_prod"]
-
-formula.temp = update(formula,  ~ . + only_battle)
-new.mod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["only_battleTRUE"]
-
-formula.temp = update(formula,  ~ . + only_battle + battle_prod)
-new.mod.prod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)["battle_prod"]
-
-formula.temp = update(formula,  ~ . + only_journey)
-new.mod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["only_journeyTRUE"]
-
-formula.temp = update(formula,  ~ . + only_journey + journey_prod)
-new.mod.prod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod.prod, new.mod, test="Chisq")
-fixef(new.mod.prod)["journey_prod"]
-
-formula.temp = update(formula,  ~ . + scale(battle_salience))
-new.mod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["scale(battle_salience)"]
-
-formula.temp = update(formula,  ~ . + scale(journey_salience))
-new.mod = glmer(formula.temp, data = dat.m, family = Gamma(link = "log"))
-anova(new.mod, mod, test="Chisq")
-fixef(new.mod)["scale(journey_salience)"]
+```{r}
+# formula.temp = update(mean2.formula,  ~ . + no_metaphor)
+# new.mod = lmer(formula.temp, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# fixef(new.mod)["no_metaphorTRUE"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + any_metaphor)
+# new.mod = lmer(formula.temp, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# fixef(new.mod)["any_metaphorTRUE"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + dom_journey)
+# new.mod = lmer(formula.temp, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# fixef(new.mod)["dom_journeyTRUE"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + dom_journey + journey_prod)
+# new.mod.prod = lmer(formula.temp, data = dat.m)
+# anova(new.mod.prod, new.mod, test="Chisq")
+# fixef(new.mod.prod)["journey_prod"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + dom_battle)
+# new.mod = lmer(formula.temp, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# fixef(new.mod)["dom_battleTRUE"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + dom_battle + battle_prod)
+# new.mod.prod = lmer(formula.temp, data = dat.m)
+# anova(new.mod.prod, new.mod, test="Chisq")
+# fixef(new.mod.prod)["battle_prod"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + only_battle)
+# new.mod = lmer(formula.temp, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# fixef(new.mod)["only_battleTRUE"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + only_battle + battle_prod)
+# new.mod.prod = lmer(formula.temp, data = dat.m)
+# anova(new.mod.prod, new.mod, test="Chisq")
+# fixef(new.mod.prod)["battle_prod"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + only_journey)
+# new.mod = lmer(formula.temp, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# fixef(new.mod)["only_journeyTRUE"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + only_journey + journey_prod)
+# new.mod.prod = lmer(formula.temp, data = dat.m)
+# anova(new.mod.prod, new.mod, test="Chisq")
+# fixef(new.mod.prod)["journey_prod"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + scale(battle_salience))
+# new.mod = lmer(formula.temp, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# fixef(new.mod)["scale(battle_salience)"]
+# 
+# formula.temp = update(mean2.formula,  ~ . + scale(journey_salience))
+# new.mod = lmer(formula.temp, data = dat.m)
+# anova(new.mod, mean2.mod, test="Chisq")
+# fixef(new.mod)["scale(journey_salience)"]
 ```
