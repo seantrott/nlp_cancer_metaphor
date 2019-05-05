@@ -15,10 +15,7 @@ tokenizer = RegexpTokenizer(r'\w+')
 #
 # *_salience: A ratio of (battle/journey)-related keywords to total words in the project body text.
 #
-# *_productivity: TODO
-#
-# dominant_*: Boolean value if the dominant metaphor type used in the project body text was either battle, journey,
-#   equal amount of both, or neither.
+# *_productivity: see code or Jupyter Notebook
 
 
 STATE_ABRV = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS',
@@ -74,7 +71,7 @@ def process_kickstarter():
 
     print('Processing Kickstarter Projects')
 
-    pbar = tqdm(total=21)
+    pbar = tqdm(total=20)
 
     labeled = pd.read_csv('data/processed/labeled.csv')
     data = pd.read_csv('data/raw/kickstarter_projects.csv')
@@ -156,8 +153,8 @@ def process_kickstarter():
 
         return -1
 
-    data['first_instantiation'] = data['id'].apply(first_instantiation)
-    pbar.update()
+    # data['first_instantiation'] = data['id'].apply(first_instantiation)
+    # pbar.update()
 
     battle_vc = labeled.dropna().loc[(labeled['type'] == 'battle') & (labeled['metaphorical'] == True), 'keyword'].value_counts()
     journey_vc = labeled.dropna().loc[(labeled['type'] == 'journey') & (labeled['metaphorical'] == True), 'keyword'].value_counts()
@@ -326,6 +323,7 @@ def process_gofundme():
         lambda ix: len(labeled.loc[(labeled['project_id'] == ix) & (labeled['type'] == 'journey') & (labeled['metaphorical'] == True)])
     )
     pbar.update()
+
     # for every project ID, how many specific keywords of type x were labeled for them?
     data['battle_uniques'] = data['id'].apply(
         lambda ix: len(set(labeled.loc[(labeled['project_id'] == ix) & (labeled['type'] == 'battle') & (labeled['metaphorical'] == True), 'keyword']))
@@ -351,11 +349,14 @@ def process_gofundme():
     data['first_instantiation'] = data['id'].apply(first_instantiation)
     pbar.update()
 
-    battle_vc = labeled.dropna().loc[(labeled['type'] == 'battle') & (labeled['metaphorical'] == True), 'keyword'].value_counts()
-    journey_vc = labeled.dropna().loc[(labeled['type'] == 'journey') & (labeled['metaphorical'] == True), 'keyword'].value_counts()
+    # count the number of instances for each metaphor keyword
+    battle_vc = labeled.dropna().loc[(labeled['type'] == 'battle') & labeled['metaphorical'], 'keyword'].value_counts()
+    journey_vc = labeled.dropna().loc[(labeled['type'] == 'journey') & labeled['metaphorical'], 'keyword'].value_counts()
 
+    # set the constant factor exponent
     r = 0.4
 
+    # compute frequency maps
     battle_freq_map = (sum(battle_vc) / battle_vc) ** r
     battle_freq_map = dict(battle_freq_map / min(battle_freq_map))
 
@@ -369,19 +370,13 @@ def process_gofundme():
         # get the number of words total for the project text
         all_words = data.loc[data['id'] == i, 'text_length_words']
 
-        # some (~20) projects don't have data on text body size... potential bug
-        if all_words.size > 0 and all_words.values[0] > 0:
+        kw = g.loc[g['type'] == 'battle', 'keyword'].value_counts()
+        s = [battle_freq_map[k] * kw[k] for k in dict(kw) if k in battle_freq_map]
+        battle_div = sum(s)
 
-            kw = g.loc[g['type'] == 'battle', 'keyword'].value_counts()
-            s = [battle_freq_map[k] * kw[k] for k in dict(kw) if k in battle_freq_map]
-            battle_div = sum(s)
-
-            kw = g.loc[g['type'] == 'journey', 'keyword'].value_counts()
-            s = [journey_freq_map[k] * kw[k] for k in dict(kw) if k in journey_freq_map]
-            journey_div = sum(s)
-
-        else:
-            battle_div, journey_div = 0.0, 0.0
+        kw = g.loc[g['type'] == 'journey', 'keyword'].value_counts()
+        s = [journey_freq_map[k] * kw[k] for k in dict(kw) if k in journey_freq_map]
+        journey_div = sum(s)
 
         productivities.append([i, battle_div, journey_div])
 
@@ -403,13 +398,13 @@ def process_gofundme():
 
 def main():
 
-    kickstarter_projs = process_kickstarter()
+    # kickstarter_projs = process_kickstarter()
     gofundme_projs = process_gofundme()
 
-    combined_projs = pd.concat([kickstarter_projs, gofundme_projs], axis=0, ignore_index=True, sort=False)
-
-    combined_projs.to_csv('data/processed/combined_projects.csv', index=False)
-    print('Projects Combined into data/processed/combined_projects.csv')
+    # combined_projs = pd.concat([kickstarter_projs, gofundme_projs], axis=0, ignore_index=True, sort=False)
+    #
+    # combined_projs.to_csv('data/processed/combined_projects.csv', index=False)
+    # print('Projects Combined into data/processed/combined_projects.csv')
 
 
 if __name__ == '__main__':
