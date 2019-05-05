@@ -1,0 +1,282 @@
+---
+title: "Metaphor Analysis in Kickstarter Campaigns"
+output:
+  html_document:
+    toc: yes
+---
+
+**Sean Trott and Alex Liebscher**
+
+# Introduction
+
+We have several dependent variables which we would like to model as accurately as possible to determine the variables which contribute most to their outcomes. In particular, we care about the effect of the metaphor (or lack thereof) in each project. We first explore the data a little, and then begin a series of model comparisons for the dependent variables. Comparing models gives transparency to the contributions of each variable toward the target.
+
+1. Do projects that use metaphor generally receive better funding? How does using metaphor (and which type of metaphor family) influence campaign success, number of backers, and mean donation?
+
+2. Does higher metaphor productivity change the result?
+
+3. How can we characterize projects by the metaphors they employ?
+
+4. Within a metaphor family, are there canonical instantiations of a metaphor? (E.g. "fight battle"). Or even if productivity is low generally, are instantiations varied?
+
+5. How does metaphor vary with other interesting features, such as project description length, goal amount, project type/category, or cancer type?
+
+# Related Work
+
+Hendricks, R. K., Demjén, Z., Semino, E., & Boroditsky, L. (2018). Emotional Implications of Metaphor: Consequences of Metaphor Framing for Mindset about Cancer. Metaphor and Symbol, 33(4), 267–279. https://doi.org/10.1080/10926488.2018.1549835
+
+Semino, E., Demjén, Z., Demmen, J., Koller, V., Payne, S., Hardie, A., & Rayson, P. (2017). The online use of Violence and Journey metaphors by patients with cancer, as compared with health professionals: a mixed methods study. BMJ Supportive & Palliative Care, 7(1), 60–66. https://doi.org/10.1136/bmjspcare-2014-000785
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Data
+
+Total projects and columns available
+
+```{r}
+dat = read.csv('../../data/processed/gofundme_projects.csv')
+labs = read.csv('../../data/processed/labeled.csv')
+dat = dat[dat$id %in% labs$project_id, ]
+
+nrow(dat)
+colnames(dat)
+```
+
+```{r}
+library(tidyverse)
+```
+
+# Data Exploration
+
+### Projects per year
+
+```{r}
+ggplot(dat) + geom_bar(aes(year), stat="count") + labs(title="Number of projects per year")
+```
+
+There are very few projects before 2013, and so for simplicity's sake and to simplify the model just a tad, we remove 2012 and before.
+
+```{r}
+dat = dat[dat$year >= 2013, ]
+```
+
+### Projects per month
+
+```{r}
+dat$month <- factor(dat$month)
+
+dat %>%
+  ggplot() + labs(title="Counts in Months") +
+  geom_bar(aes(month)) +
+  scale_x_discrete(labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+```
+
+Interestingly, there are a ton of January projects. This might have to do with scraping the site which lists projects chronologically.
+
+### Projects per day of the week
+
+```{r}
+dat$day_of_week <- factor(dat$day_of_week)
+
+dat %>%
+  ggplot() + labs(title="Counts in Days of the Week") +
+  geom_bar(aes(day_of_week)) +
+  scale_x_discrete(labels = c("Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"))
+```
+
+Fairly uniform, with slightly more projects being launched in the middle of the week (Thursday) anda bit fewer being launched on the weekend (notably Saturday).
+
+```{r}
+chisq.test(table(dat$day_of_week))
+```
+
+There is significant difference between the observed and the expected number of projects launched each day of the week. Therefore import to include this variable in the models. 
+
+### Projects from the US
+
+```{r}
+ggplot(dat) + geom_bar(aes(x=factor(from_US)), stat="count") + labs(x="From US", title="Number of projects from US")
+```
+
+Most projects are US based. Reduce model complexity by restricting to the US then. Moreover, worrying about non-US projects means doing currency conversion and other strange things.
+
+```{r}
+dat <- dat[dat$from_US == 1, ]
+```
+
+### Project goals, text lengths, and cancer types
+
+We scale/z-score the continuous variables according to how we wish to interpret the coefficients of the model. From Andrew Gelman: "Standardizing puts things on an approximately common scale .... (Standarize for) comparing coefficients for different predictors within a model". Binary and categorical variables are left as is.
+
+```{r}
+dat$goal_sc <- scale(dat$goal)
+
+dat %>%
+  ggplot() + labs(title="Goal Amount Distribution") +
+  geom_density(aes(goal))
+
+dat$duration_float_sc = scale(dat$duration_float)
+
+dat %>%
+  ggplot() + labs(title="Duration Distribution") +
+  geom_density(aes(duration_float))
+
+dat$text_length_words_sc <- scale(dat$text_length_words)
+
+dat %>%
+  ggplot() + labs(title="Text Length Distribution") +
+  geom_density(aes(text_length_words))
+
+dat$photos_sc <- scale(dat$photos)
+
+dat %>%
+  ggplot() + labs(title="Photos Distribution") +
+  geom_density(aes(photos))
+
+dat$updates_sc <- scale(dat$updates)
+
+dat %>%
+  ggplot() + labs(title="Updates Distribution") +
+  geom_density(aes(updates))
+
+dat$shares_sc <- scale(dat$shares)
+
+dat %>%
+  ggplot() + labs(title="FB Shares Distribution") +
+  geom_density(aes(shares))
+
+dat$comments_sc <- scale(dat$comments)
+
+dat %>%
+  ggplot() + labs(title="Comments Distribution") +
+  geom_density(aes(comments))
+
+dat$friends_sc <- scale(dat$friends)
+
+dat %>%
+  ggplot() + labs(title="FB Friends Distribution") +
+  geom_density(aes(friends))
+
+dat %>%
+  ggplot() + labs(title="Cancer Type Counts") +
+  geom_bar(aes(x=cancer_type)) +
+  coord_flip()
+```
+
+```{r}
+na.omit(labs) %>% ggplot() + geom_bar(aes(x=reorder(keyword, keyword, function(x)-length(x)), fill=metaphorical)) + coord_flip() + theme_minimal()
+```
+
+### Project metaphors
+
+We break down each project into how the metaphor families are distributed within the project text.
+
+`no_metaphor` : Does the project lack metaphorical instances of keywords?
+`any_metaphor` : Does the project contain any metaphors at all?
+`dom_journey` : Is the journey metaphor family the dominant family?
+`dom_battle` : Is the battle metaphor family the dominant family?
+`only_journey` : Is the journey metaphor family the only family present?
+`only_battle` : Is the battle metaphor family the only family present?
+`both_metaphor` : Are both metaphor families present?
+
+```{r}
+# d = dat[dat$battle_metaphor > 0, "battle_prod"]
+# round(c(0, 1, 1.15)*sd(d) + mean(d), 2)
+# round((c(0, 1)*sd(dat$journey_prod) + mean(dat$journey_prod)), 2)
+round((c(0, 0.15, 0.5, 1, 2)*sd(dat$battle_salience) + mean(dat$battle_salience)) * 1000, 2)
+# round((c(0, 0.5, 1, 5)*sd(dat$journey_salience) + mean(dat$journey_salience)) * 1000, 2)
+```
+
+```{r}
+max(d)
+```
+
+
+```{r}
+summary(dat[dat$battle_metaphor > 0, "battle_prod"])
+```
+
+
+```{r}
+dat$no_metaphor = dat$battle_salience == 0.0 & dat$journey_salience == 0.0
+dat$any_metaphor = as.logical(1 - dat$no_metaphor)
+dat$dom_journey = dat$journey_salience > dat$battle_salience
+dat$dom_battle = dat$battle_salience > dat$journey_salience
+dat$only_journey = dat$journey_salience > 0 & dat$battle_salience == 0.0
+dat$only_battle = dat$journey_salience == 0.0 & dat$battle_salience > 0
+dat$both_metaphor = dat$battle_salience > 0.0 & dat$journey_salience > 0.0
+
+metaphor_counts = data.frame(counts = colSums(dat[, c("no_metaphor", "any_metaphor", "dom_journey", "only_journey", "dom_battle", "only_battle", "both_metaphor")]))
+
+ggplot() + labs(x="Metaphor Type", y="Count", title="Count in Metaphor Types") +
+  geom_bar(stat="identity", aes(x=row.names(metaphor_counts), y=metaphor_counts$counts))
+```
+
+How frequent are the metaphor keywords per 1,000 words? (compared to Semino et al 2017)
+
+```{r}
+sum(dat$battle_metaphor) / sum(dat$text_length_words) * 1000
+sum(dat$journey_metaphor) / sum(dat$text_length_words) * 1000
+```
+
+Taking a look at differences in instantiation across metaphor family.
+
+Light red  = Only Journey
+Red        = Dominant Journey
+Light blue = Only Battle
+Blue       = Dominant Battle
+
+```{r}
+ggplot() + 
+  geom_density(aes(dat[dat$only_journey == T, "first_instantiation"]), fill=rgb(1,0.5,0.5), alpha=0.3) +
+  geom_density(aes(dat[dat$only_battle == T, "first_instantiation"]), fill=rgb(0.5,0.5,1), alpha=0.3) +
+  geom_density(aes(dat[dat$dom_battle == T, "first_instantiation"]), fill=rgb(0,0,1), alpha=0.3) +
+  geom_density(aes(dat[dat$dom_journey == T, "first_instantiation"]), fill=rgb(1,0,0), alpha=0.3) +
+  labs(x="Instantiation Position")
+```
+
+Good resources:
+https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html
+https://ase.tufts.edu/gsc/gradresources/guidetomixedmodelsinr/mixed%20model%20guide.html
+
+```{r}
+write.csv(dat, "../../data/processed/gofundme_projects_clean.csv")
+```
+
+
+# Primary Analyses
+
+We are interested in the effect that metaphor presence has on the funding status, the number of backers, and the mean donation of a project.
+
+**DV**: status, backers, mean donation
+
+**IV**: Goal amount, text length words, duration, year, month, day of the week, photos, updates, FB shares, FB friends, cancer type
+
+Many of these covariates explained in:
+
+ - Astrauskaitė, I., & Paškevičius, A. (2018). An analysis of crowdfunded projects: KPI’s to success. Entrepreneurship and Sustainability Issues, 6(1), 23–24. https://doi.org/10.9770/jesi.2018.6.1(2)
+
+We perform drop1 model comparisons for each regression. The least significant (highest p-value) variable is removed in the subsequent model.
+
+Various sources were used to determine what should be a random effect and what should be fixed, and how to model interactions and correlations between variables, including:
+
+ - Data Analysis Using Regression and Multilevel/Hierarchical Models (Gelman and Hill, 2006)
+ - Interactions in Generalized Linear Models: Theoretical Issues and an Application to Personal Vote-Earning Attributes (Tsai and Gill, 2013)
+ - Should I Use Fixed or Random Effects? (Clark and Linzer, 2012)
+ - Random effects structure for confirmatory hypothesis testing: Keep it maximal (Barr et al., 2013)
+ - https://stats.stackexchange.com/questions/13166/rs-lmer-cheat-sheet
+ - https://stats.stackexchange.com/questions/4700/what-is-the-difference-between-fixed-effect-random-effect-and-mixed-effect-mode/151800#151800
+ - https://rlbarter.github.io/Practical-Statistics/2017/03/03/fixed-mixed-and-random-effects/
+ - https://stats.stackexchange.com/questions/323273/what-to-do-with-random-effects-correlation-that-equals-1-or-1
+ - Fitting linear mixed-effects models using lme4 (Bates et al., 2014)
+ - http://www.leg.ufpr.br/~eder/Variance%20Components.pdf
+
+
+https://data.library.virginia.edu/hierarchical-linear-regression/
+https://files.eric.ed.gov/fulltext/ED534385.pdf
+https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2656.2006.01141.x
+
+Faraway, J. J. (2016). Extending the linear model with R: generalized linear, mixed effects and nonparametric regression models. Chapman and Hall/CRC.
