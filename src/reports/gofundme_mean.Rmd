@@ -1,6 +1,9 @@
 ---
 title: "GoFundMe — Mean Donation"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 https://stats.stackexchange.com/questions/96972/how-to-interpret-parameters-in-glm-with-family-gamma
@@ -14,7 +17,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(lme4)
-library(glue)
+library(gridExtra)
+library(glue) # for pretty printing
+library(tictoc) # for cell/function profiling
 ```
 
 ## GoFundMe Analysis of Mean Donation
@@ -25,11 +30,7 @@ projects$month = factor(projects$month)
 projects$day_of_week = factor(projects$day_of_week)
 ```
 
-```{r}
-nrow(projects)
-```
-
-In total, we have N=5223 IID samples to work with.
+In total, we have N=`r nrow(projects)` IID samples to work with.
 
 Removed all random variabes except year because they didn't help explain any variance in the data beyond what the residuals could capture. Year is a reasonable random effect as well (see Variance Components, Searle et al 2006)
 
@@ -39,57 +40,54 @@ https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chis
 # Mean Donation
 
 ```{r}
-projects %>%
+upper_limit = quantile(projects$mean_donation, 0.995) # remove the top 0.5% of projects, eventually create models with these data included
+projects.trunc = projects[projects$mean_donation < upper_limit, ]
+
+projects.trunc %>%
   ggplot() + labs(title="Mean Donation Density") +
   geom_density(aes(mean_donation))
 
-projects.m = projects[projects$mean_donation < 500, ]
-
-projects.m %>%
-  ggplot() + labs(title="Mean Donation Density") +
-  geom_density(aes(mean_donation))
-
-projects.m %>%
+projects.trunc %>%
   ggplot() + geom_qq(aes(sample=mean_donation), distribution = qexp) + geom_qq_line(aes(sample=mean_donation), distribution = qexp)
 ```
 
 ```{r}
-projects.m %>%
+projects.trunc %>%
   ggplot(aes(goal, mean_donation)) + labs(title="Goal Amount Distribution") +
   geom_point(aes(alpha=0.1)) +
   theme_minimal()
 
-projects.m %>%
+projects.trunc %>%
   ggplot(aes(duration_float, mean_donation)) + labs(title="Duration Distribution") +
   geom_point(aes(alpha=0.1)) +
   theme_minimal()
 
-projects.m %>%
+projects.trunc %>%
   ggplot(aes(text_length_words, mean_donation)) + labs(title="Text Length Distribution") +
   geom_point(aes(alpha=0.1)) +
   theme_minimal()
 
-projects.m %>%
+projects.trunc %>%
   ggplot(aes(photos, mean_donation)) + labs(title="Photos Distribution") +
   geom_point(aes(alpha=0.1)) +
   theme_minimal()
 
-projects.m %>%
+projects.trunc %>%
   ggplot(aes(updates, mean_donation)) + labs(title="Updates Distribution") +
   geom_point(aes(alpha=0.1)) + 
   theme_minimal()
 
-projects.m %>%
+projects.trunc %>%
   ggplot(aes(friends, mean_donation)) + labs(title="FB Friends Distribution") +
   geom_point(aes(alpha=0.1)) + 
   theme_minimal()
 
-projects.m %>%
+projects.trunc %>%
   ggplot(aes(shares, mean_donation)) + labs(title="FB Shares Distribution") +
   geom_point(aes(alpha=0.1)) + 
   theme_minimal()
 
-projects.m %>%
+projects.trunc %>%
   ggplot(aes(cancer_type, mean_donation)) + labs(title="Cancer Types") +
   geom_boxplot() +
   theme_minimal() +
@@ -102,50 +100,32 @@ The data look like a Gamma, so we model with Gamma and a log link (see above ans
 
 Ideally, I could run a distributional test and confirm (or reject) this intuition.
 
-## Model mean donation
-
-```{r setup base model}
-mean.formula.base = mean_donation ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
-
-mean.mod.base = glmer(mean.formula.base, data = projects.m, family = Gamma(link = "log"))
-```
+Establish the base formula to build models off of:
 
 ```{r}
-# drop1(mean.mod.base, test="Chisq")
+base.formula = mean_donation ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
 ```
+
+Create a helper function to easily compare two models and pretty print the output:
 
 ```{r}
-mean.formula = update(mean.formula.base,  ~ . - duration_float_sc)
-# drop1(glmer(mean.formula, data = projects.m, family = Gamma(link = "log")), test="Chisq")
+compare = function(model.old, model.new, key, multiplier=1.0) {
+  a = anova(model.old, model.new)
+  p = a$`Pr(>Chisq)`[2]
+  print(glue("Variable: {key}"))
+  print(glue("DF diff: {a$`Chi Df`[2]}\t New AIC: {round(a$AIC[2], 1)}\t\t Chisq: {round(a$Chisq[2],1)}\t P(>chisq) = {round(p,4)} {if (p < 0.05) '(significant)' else ''})"))
+  effect = as.numeric(summary(mod)$coefficients[key, ])
+  print(glue("beta: {round(effect[1],4)} (+/- {round(effect[2],3)})\t stat: {round(effect[3], 2)} => P(>|z|) = {round(effect[4], 4)}"))
+  print(glue("rate ratio: {round((exp(effect[1]*multiplier) - 1)*100, 1)}% ({round((exp((effect[1] - effect[2])*multiplier) - 1)*100, 1)}% to {round((exp((effect[1] + effect[2])*multiplier) - 1)*100, 1)}%)"))
+  print(glue(""))
+}
 ```
-
-```{r}
-mean.formula = update(mean.formula,  ~ . - day_of_week)
-# drop1(glmer(mean.formula, data = projects.m, family = Gamma(link = "log")), test="Chisq")
-```
-
-```{r}
-mean.formula = update(mean.formula,  ~ . - photos_sc)
-# drop1(glmer(mean.formula, data = projects.m, family = Gamma(link = "log")), test="Chisq")
-```
-
-```{r}
-mean.formula = update(mean.formula,  ~ . - month)
-# drop1(glmer(mean.formula, data = projects.m, family = Gamma(link = "log")), test="Chisq")
-```
-
-```{r create reduced model}
-mean.mod = glmer(mean.formula, data = projects.m, family = Gamma(link = "log"))
-summary(mean.mod)
-```
-
-lmer produces AIC of 54710, with shares_sc + friends_sc + updates_sc + goal_sc + text_length_words_sc + cancer_type + (1 | year)
-
-## Add metaphors
 
 https://stats.stackexchange.com/questions/96972/how-to-interpret-parameters-in-glm-with-family-gamma
 
 Key to interpretation is the log link used here
+
+To put the results from the continuous predictors on interpretable scales, we use a multiplier within the exponent (see `factor` in `compare()`). For example, if the multiplier is 1, this leads to: for a one unit increase in this predictor, we see an *x*-fold increase in the DV.
 
 ```{r}
 p = function(var, scl=1, digits=6, mult=1.00, mask=T) {
@@ -161,156 +141,428 @@ p("first_instantiation", digits = 4, mask = projects$journey_metaphor > 0, mult 
 p("first_instantiation", digits = 4, mask = projects$battle_metaphor > 0, mult = 1.6)
 ```
 
-```{r}
-addMetaphors = function(formula, refit, model) {
-  refit(update(formula,  ~ . + any_metaphor), "any_metaphorTRUE", model)
-  refit(update(formula,  ~ . + both_metaphor), "both_metaphorTRUE", model)
-  refit(update(formula,  ~ . + dom_journey), "dom_journeyTRUE", model)
-  refit(update(formula,  ~ . + dom_battle), "dom_battleTRUE", model)
-  refit(update(formula,  ~ . + only_battle), "only_battleTRUE", model)
-  refit(update(formula,  ~ . + only_journey), "only_journeyTRUE", model)
-  refit(update(formula,  ~ . + scale(battle_salience)), "scale(battle_salience)", model, 0.16)
-  refit(update(formula,  ~ . + scale(journey_salience)), "scale(journey_salience)", model, 0.6)
-}
+## Any Metaphor
 
-mean.refit = function(formula, key, model, multiplier=1.0) {
-  new.mod = glmer(formula, data = projects.m, family = Gamma(link = "log"))
-  print(anova(new.mod, model, test="Chisq"))
-  fe = fixef(new.mod)[key]
-  # intercept = fixef(new.mod)["(Intercept)"] ${round(exp(intercept) * (factor - 1), 2)}
-  factor = exp(multiplier*fe)
-  print(glue("{key}:\t beta: {round(fe,4)}\t multiplicative factor: {round(factor, 3)}\t Delta: {round((factor - 1)*100, 1)}%"))
-}
-```
+Examine: does having any instance of metaphor influence mean donation?
 
-```{r reduced model mean donation metaphors}
-addMetaphors(mean.formula, mean.refit, mean.mod)
-```
-
-```{r base model mean donation metaphors}
-addMetaphors(mean.formula.base, mean.refit, mean.mod.base)
-```
-
-## Journey Specific
+Null: having any metaphor is not significantly different from having no metaphor
 
 ```{r}
-projects.m.j = projects.m[projects.m$journey_metaphor > 0, ]
-
-mean.formula.base = mean_donation ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
-
-# mean.mod.base = glmer(mean.formula.base, data = projects.m.j, family = Gamma(link = "log"))
+projects.trunc %>%
+  ggplot() + theme_minimal() +
+  geom_violin(aes(any_metaphor, mean_donation, fill=any_metaphor)) + 
+  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
+  geom_hline(yintercept = mean(projects.trunc[projects.trunc$any_metaphor == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.trunc[projects.trunc$any_metaphor, ]$mean_donation), lty=2, color="blue")
 ```
 
 ```{r}
+mean.mod.base = glmer(base.formula, data = projects.trunc, family = Gamma(link = "log"))
 # drop1(mean.mod.base, test="Chisq")
 ```
 
 ```{r}
-mean.formula = update(mean.formula.base,  ~ . - text_length_words_sc)
-# drop1(glmer(mean.formula, data = projects.m.j, family = Gamma(link = "log")), test="Chisq")
+f = update(base.formula,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.formula = update(mean.formula,  ~ . - updates_sc)
-# drop1(glmer(mean.formula, data = projects.m.j, family = Gamma(link = "log")), test="Chisq")
+f = update(f,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.formula = update(mean.formula,  ~ . - cancer_type)
-# drop1(glmer(mean.formula, data = projects.m.j, family = Gamma(link = "log")), test="Chisq")
+f = update(f,  ~ . - photos_sc)
+# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.formula = update(mean.formula,  ~ . - day_of_week)
-# drop1(glmer(mean.formula, data = projects.m.j, family = Gamma(link = "log")), test="Chisq")
+f = update(f,  ~ . - month)
+# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.formula = update(mean.formula,  ~ . - duration_float_sc)
-# drop1(glmer(mean.formula, data = projects.m.j, family = Gamma(link = "log")), test="Chisq")
+mean.mod = glmer(f, data = projects.trunc, family = Gamma(link = "log"))
+# summary(mean.mod)
+```
+
+### Results
+
+```{r}
+# m2 = glm(status ~ shares_sc + friends_sc + updates_sc + goal_sc + text_length_words_sc + cancer_type + scale(journey_salience), data = projects.trunc.jor, family = "binomial")
+# 
+# m1 = glm(status ~ shares_sc + friends_sc + updates_sc + goal_sc + text_length_words_sc + cancer_type, data = projects.trunc.jor, family = "binomial")
 ```
 
 ```{r}
-mean.formula = update(mean.formula,  ~ . - photos_sc)
-# drop1(glmer(mean.formula, data = projects.m.j, family = Gamma(link = "log")), test="Chisq")
+# anova(m1,m2, test="Chisq")
 ```
 
 ```{r}
-mean.formula = update(mean.formula,  ~ . - month)
-# drop1(glmer(mean.formula, data = projects.m.j, family = Gamma(link = "log")), test="Chisq")
+# d = data.frame(name = names(coef(m2)), mu = as.numeric(coef(m2)))
+# d$LB = ci[as.character(d$name), 1]
+# d$UB = ci[as.character(d$name), 2]
+# d$sig = 0 > d$UB | 0 < d$LB
+# d = d[d$name != "(Intercept)", ]
+# d
 ```
+
 
 ```{r}
-mean.mod = glmer(mean.formula, data = projects.m.j, family = Gamma(link = "log"))
-summary(mean.mod)
+# ggplot(d) +
+#   geom_bar(aes(x=name, y=mu, fill=sig), stat="identity") + 
+#   geom_point(aes(x=name, y=LB), color="red") +
+#   geom_point(aes(x=name, y=UB), color="blue") +
+#   coord_flip()
 ```
 
-```{r journey specific}
-new.mod = glmer(update(mean.formula,  ~ . + journey_prod), data = projects.m.j, family = Gamma(link = "log"))
-print(anova(new.mod, mean.mod, test="Chisq"))
-fe = fixef(new.mod)["journey_prod"]
-intercept = fixef(new.mod)["(Intercept)"]
-factor = exp(1.0*fe)
-print(glue("journey_prod:\t beta: {round(fe,4)}\t multiplicative factor: {round(factor, 3)}\t Delta: ${round(exp(intercept) * (factor - 1), 2)} ({round((factor - 1)*100, 1)}%)"))
 
-new.mod = glmer(update(mean.formula,  ~ . + first_instantiation), data = projects.m.j, family = Gamma(link = "log"))
-print(anova(new.mod, mean.mod, test="Chisq"))
-fe = fixef(new.mod)["first_instantiation"]
-intercept = fixef(new.mod)["(Intercept)"]
-factor = exp(1.6*fe)
-print(glue("first_instantiation:\t beta: {round(fe,4)}\t multiplicative factor: {round(factor, 3)}\t Delta: ${round(exp(intercept) * (factor - 1), 2)} ({round((factor - 1)*100, 1)}%)"))
+```{r any metaphor}
+mod = glmer(update(f,  ~ . + any_metaphor), data = projects.trunc, family = Gamma(link = "log"))
+compare(mean.mod, mod, "any_metaphorTRUE")
+
+mod = glmer(update(base.formula,  ~ . + any_metaphor), data = projects.trunc, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "any_metaphorTRUE")
 ```
 
-## Battle Specific
+## Both Metaphors
+
+Examine: does having both metaphor families present influence mean donation?
+
+Null: having both metaphor families is not significantly different from having no metaphor
 
 ```{r}
-projects.m.b = projects.m[projects.m$battle_metaphor > 0, ]
-
-mean.formula.base = mean_donation ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
-
-# mean.mod.base = glmer(mean.formula.base, data = projects.m.b, family = Gamma(link = "log"))
+projects.trunc.both = projects.trunc[(1-projects.trunc$any_metaphor) | projects.trunc$both_metaphor, ] # only projects with both or none
 ```
 
+N = `r nrow(projects.trunc.both)`
+
 ```{r}
+projects.trunc.both %>%
+  ggplot() + theme_minimal() +
+  geom_violin(aes(both_metaphor, mean_donation, fill=both_metaphor)) + 
+  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
+  geom_hline(yintercept = mean(projects.trunc.both[projects.trunc.both$both_metaphor == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.trunc.both[projects.trunc.both$both_metaphor, ]$mean_donation), lty=2, color="blue")
+
+```
+
+Perform model selection to prevent overfitting:
+
+```{r}
+mean.mod.base = glmer(base.formula, data = projects.trunc.both, family = Gamma(link = "log"))
 # drop1(mean.mod.base, test="Chisq")
 ```
 
 ```{r}
-mean.formula = update(mean.formula.base,  ~ . - day_of_week)
-# drop1(glmer(mean.formula, data = projects.m.b, family = Gamma(link = "log")), test="Chisq")
+f = update(base.formula,  ~ . - month)
+# drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.formula = update(mean.formula,  ~ . - duration_float_sc)
-# drop1(glmer(mean.formula, data = projects.m.b, family = Gamma(link = "log")), test="Chisq")
+f = update(f,  ~ . - photos_sc)
+# drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.formula = update(mean.formula,  ~ . - text_length_words_sc)
-# drop1(glmer(mean.formula, data = projects.m.b, family = Gamma(link = "log")), test="Chisq")
+f = update(f,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.mod = glmer(mean.formula, data = projects.m.b, family = Gamma(link = "log"))
-summary(mean.mod)
+f = update(f,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
-```{r battle specific}
-new.mod = glmer(update(mean.formula,  ~ . + battle_prod), data = projects.m.b, family = Gamma(link = "log"))
-print(anova(new.mod, mean.mod, test="Chisq"))
-fe = fixef(new.mod)["battle_prod"]
-intercept = fixef(new.mod)["(Intercept)"]
-factor = exp(1.0*fe)
-print(glue("battle_prod:\t beta: {round(fe,4)}\t multiplicative factor: {round(factor, 3)}\t Delta: ${round(exp(intercept) * (factor - 1), 2)} ({round((factor - 1)*100, 1)}%)"))
-
-new.mod = glmer(update(mean.formula,  ~ . + first_instantiation), data = projects.m.b, family = Gamma(link = "log"))
-print(anova(new.mod, mean.mod, test="Chisq"))
-fe = fixef(new.mod)["first_instantiation"]
-intercept = fixef(new.mod)["(Intercept)"]
-factor = exp(1.6*fe)
-print(glue("first_instantiation:\t beta: {round(fe,4)}\t multiplicative factor: {round(factor, 3)}\t Delta: ${round(exp(intercept) * (factor - 1), 2)} ({round((factor - 1)*100, 1)}%)"))
+```{r}
+mean.mod = glmer(f, data = projects.trunc.both, family = Gamma(link = "log"))
+# summary(mean.mod)
 ```
 
+### Results
 
+```{r both metaphors}
+mod = glmer(update(f,  ~ . + both_metaphor), data = projects.trunc.both, family = Gamma(link = "log"))
+compare(mean.mod, mod, "both_metaphorTRUE")
 
+mod = glmer(update(base.formula,  ~ . + both_metaphor), data = projects.trunc.both, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "both_metaphorTRUE")
+```
 
+## Some Metaphor
+
+Examine: does having only journey/battle, or dominant journey/battle, influence mean donation?
+
+Null: having only journey/battle, or dominant journey/battle, is not significantly different from negative
+
+If journey is not the dominant metaphor, that means battle is or there are equal amounts of each family
+If journey is not the only metaphor family, that means there is at least some battle metaphor
+
+Dominant Journey:
+Null: There is no difference in outcomes when journey dominates compared to when battle dominates or there is no dominant family.
+
+Dominant Battle:
+Null: There is no difference in outcomes when battle dominates compared to when journey dominates or there is no dominant family.
+
+Only journey:
+Null: There is no difference in outcomes when journey is the only metaphor family present compared to when there is also battle metaphor.
+
+```{r}
+projects.trunc.some = projects.trunc[projects.trunc$any_metaphor, ]
+```
+
+N = `r nrow(projects.trunc.some)`
+
+```{r}
+p1 = projects.trunc.some %>%
+  ggplot() + theme_minimal() +
+  geom_violin(aes(dom_journey, mean_donation, fill=dom_journey)) + 
+  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
+  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_journey == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_journey, ]$mean_donation), lty=2, color="blue")
+
+p2 = projects.trunc.some %>%
+  ggplot() + theme_minimal() +
+  geom_violin(aes(dom_battle, mean_donation, fill=dom_battle)) + 
+  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
+  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_battle == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_battle, ]$mean_donation), lty=2, color="blue")
+
+p3 = projects.trunc.some %>%
+  ggplot() + theme_minimal() +
+  geom_violin(aes(only_journey, mean_donation, fill=only_journey)) + 
+  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
+  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_journey == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_journey, ]$mean_donation), lty=2, color="blue")
+
+p4 = projects.trunc.some %>%
+  ggplot() + theme_minimal() +
+  geom_violin(aes(only_battle, mean_donation, fill=only_battle)) + 
+  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
+  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_battle == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_battle, ]$mean_donation), lty=2, color="blue")
+
+grid.arrange(p1, p2, p3, p4, nrow=1)
+```
+
+Perform model selection to prevent overfitting:
+
+```{r}
+mean.mod.base = glmer(base.formula, data = projects.trunc.some, family = Gamma(link = "log"))
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.trunc.some, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.trunc.some, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+mean.mod = glmer(f, data = projects.trunc.some, family = Gamma(link = "log"))
+# summary(mean.mod)
+```
+
+### Results
+
+```{r some metaphors reduced}
+mod = glmer(update(f,  ~ . + dom_journey), data = projects.trunc.some, family = Gamma(link = "log"))
+compare(mean.mod, mod, "dom_journeyTRUE")
+
+mod = glmer(update(f,  ~ . + dom_battle), data = projects.trunc.some, family = Gamma(link = "log"))
+compare(mean.mod, mod, "dom_battleTRUE")
+
+mod = glmer(update(f,  ~ . + only_journey), data = projects.trunc.some, family = Gamma(link = "log"))
+compare(mean.mod, mod, "only_journeyTRUE")
+
+mod = glmer(update(f,  ~ . + only_battle), data = projects.trunc.some, family = Gamma(link = "log"))
+compare(mean.mod, mod, "only_battleTRUE")
+```
+
+```{r some metaphors full}
+mod = glmer(update(base.formula,  ~ . + dom_journey), data = projects.trunc.some, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "dom_journeyTRUE")
+
+mod = glmer(update(base.formula,  ~ . + dom_battle), data = projects.trunc.some, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "dom_battleTRUE")
+
+mod = glmer(update(base.formula,  ~ . + only_journey), data = projects.trunc.some, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "only_journeyTRUE")
+
+mod = glmer(update(base.formula,  ~ . + only_battle), data = projects.trunc.some, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "only_battleTRUE")
+```
+
+## Journey
+
+```{r}
+projects.trunc.jor = projects.trunc[projects.trunc$journey_metaphor > 0, ]
+```
+
+N = `r nrow(projects.trunc.jor)`
+
+```{r}
+p1 = projects.trunc.jor %>%
+  ggplot(aes(scale(journey_salience), mean_donation)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+
+p2 = projects.trunc.jor %>%
+  ggplot(aes(scale(journey_prod), mean_donation)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+
+p3 = projects.trunc.jor %>%
+  ggplot(aes(scale(first_instantiation), mean_donation)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+
+grid.arrange(p1, p2, p3, nrow=1)
+```
+
+Perform model selection to prevent overfitting:
+
+```{r}
+mean.mod.base = glmer(base.formula, data = projects.trunc.jor, family = Gamma(link = "log"))
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - text_length_words_sc)
+# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - updates_sc)
+# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - cancer_type)
+# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - photos_sc)
+# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
+# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+mean.mod = glmer(f, data = projects.trunc.jor, family = Gamma(link = "log"))
+# summary(mean.mod)
+```
+
+### Results
+
+```{r journey specific reduced}
+mod = glmer(update(f,  ~ . + scale(journey_salience)), data = projects.trunc.jor, family = Gamma(link = "log"))
+compare(mean.mod, mod, "scale(journey_salience)", 0.6)
+
+mod = glmer(update(f,  ~ . + scale(journey_prod)), data = projects.trunc.jor, family = Gamma(link = "log"))
+compare(mean.mod, mod, "scale(journey_prod)")
+
+mod = glmer(update(f,  ~ . + scale(first_instantiation)), data = projects.trunc.jor, family = Gamma(link = "log"))
+compare(mean.mod, mod, "scale(first_instantiation)")
+```
+
+```{r journey specific full}
+mod = glmer(update(base.formula,  ~ . + scale(journey_salience)), data = projects.trunc.jor, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "scale(journey_salience)", 0.6)
+
+mod = glmer(update(base.formula,  ~ . + scale(journey_prod)), data = projects.trunc.jor, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "scale(journey_prod)")
+
+mod = glmer(update(base.formula,  ~ . + scale(first_instantiation)), data = projects.trunc.jor, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "scale(first_instantiation)")
+```
+
+## Battle
+
+```{r}
+projects.trunc.bat = projects.trunc[projects.trunc$battle_metaphor > 0, ]
+```
+
+N = `r nrow(projects.trunc.bat)`
+
+```{r}
+p1 = projects.trunc.bat %>%
+  ggplot(aes(scale(battle_salience), mean_donation)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+
+p2 = projects.trunc.bat %>%
+  ggplot(aes(scale(battle_prod), mean_donation)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+
+p3 = projects.trunc.bat %>%
+  ggplot(aes(scale(first_instantiation), mean_donation)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+
+grid.arrange(p1, p2, p3, nrow=1)
+```
+
+Perform model selection to prevent overfitting:
+
+```{r}
+mean.mod.base = glmer(base.formula, data = projects.trunc.bat, family = Gamma(link = "log"))
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.trunc.bat, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.trunc.bat, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - text_length_words_sc)
+# drop1(glmer(f, data = projects.trunc.bat, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+mean.mod = glmer(f, data = projects.trunc.bat, family = Gamma(link = "log"))
+# summary(mean.mod)
+```
+
+### Results
+
+```{r battle specific reduced}
+mod = glmer(update(f,  ~ . + scale(battle_salience)), data = projects.trunc.bat, family = Gamma(link = "log"))
+compare(mean.mod, mod, "scale(battle_salience)", 0.16)
+
+mod = glmer(update(f,  ~ . + scale(battle_prod)), data = projects.trunc.bat, family = Gamma(link = "log"))
+compare(mean.mod, mod, "scale(battle_prod)")
+
+mod = glmer(update(f,  ~ . + scale(first_instantiation)), data = projects.trunc.bat, family = Gamma(link = "log"))
+compare(mean.mod, mod, "scale(first_instantiation)")
+```
+
+```{r battle specific full}
+mod = glmer(update(base.formula,  ~ . + scale(battle_salience)), data = projects.trunc.bat, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "scale(battle_salience)", 0.16)
+
+mod = glmer(update(base.formula,  ~ . + scale(battle_prod)), data = projects.trunc.bat, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "scale(battle_prod)")
+
+mod = glmer(update(base.formula,  ~ . + scale(first_instantiation)), data = projects.trunc.bat, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "scale(first_instantiation)")
+```

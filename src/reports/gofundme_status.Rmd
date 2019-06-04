@@ -1,6 +1,9 @@
 ---
 title: "GoFundMe — Status"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
@@ -10,7 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(lme4)
-library(glue)
+library(gridExtra)
+library(glue) # for pretty printing
 ```
 
 ## GoFundMe Analysis of Status
@@ -19,111 +23,90 @@ library(glue)
 projects = read.csv("../../data/processed/gofundme_projects_clean.csv")
 projects$month = factor(projects$month)
 projects$day_of_week = factor(projects$day_of_week)
+projects$status = factor(projects$status)
 ```
 
 ```{r}
-nrow(projects)
+mean(projects[projects$any_metaphor, ]$text_length_words)
+mean(projects[projects$dom_journey, ]$text_length_words)
+mean(projects[projects$dom_battle, ]$text_length_words)
+mean(projects[projects$dom_journey, ]$journey_salience) * 1000
+mean(projects[projects$dom_battle, ]$battle_salience) * 1000
+mean(projects[projects$dom_journey, ]$journey_salience) * mean(projects[projects$dom_journey, ]$text_length_words)
+mean(projects[projects$dom_battle, ]$battle_salience) * mean(projects[projects$dom_battle, ]$text_length_words)
 ```
 
-In total, we have N=5223 IID samples to work with.
-
-```{r}
-projects %>%
-  ggplot() + labs(title="Goal Amount Distribution") + guides(color=guide_legend(title="Status")) +
-  geom_density(aes(goal, color=fct_recode(factor(status), "Successful"="1", "Failed"="0"))) +
-  theme_minimal()
-
-projects %>%
-  ggplot() + labs(title="Duration Distribution") + guides(color=guide_legend(title="Status")) +
-  geom_density(aes(duration_float, color=fct_recode(factor(status), "Successful"="1", "Failed"="0"))) +
-  theme_minimal()
-
-projects %>%
-  ggplot() + labs(title="Text Length Distribution") + guides(color=guide_legend(title="Status")) +
-  geom_density(aes(text_length_words, color=fct_recode(factor(status), "Successful"="1", "Failed"="0"))) +
-  theme_minimal()
-
-projects %>%
-  ggplot() + labs(title="Photos Distribution") + guides(color=guide_legend(title="Status")) +
-  geom_density(aes(photos, color=fct_recode(factor(status), "Successful"="1", "Failed"="0"))) +
-  theme_minimal()
-
-projects %>%
-  ggplot() + labs(title="Updates Distribution") + guides(color=guide_legend(title="Status")) +
-  geom_density(aes(updates, color=fct_recode(factor(status), "Successful"="1", "Failed"="0"))) +
-  theme_minimal()
-
-projects %>%
-  ggplot() + labs(title="FB Friends Distribution") + guides(color=guide_legend(title="Status")) +
-  geom_density(aes(friends, color=fct_recode(factor(status), "Successful"="1", "Failed"="0"))) +
-  theme_minimal()
-
-projects %>%
-  ggplot() + labs(title="Comments Distribution") + guides(color=guide_legend(title="Status")) +
-  geom_density(aes(comments, color=fct_recode(factor(status), "Successful"="1", "Failed"="0"))) +
-  theme_minimal()
-
-projects %>%
-  ggplot() + labs(title="FB Shares Distribution") + guides(color=guide_legend(title="Status")) +
-  geom_density(aes(shares, color=fct_recode(factor(status), "Successful"="1", "Failed"="0"))) +
-  theme_minimal()
-
-projects %>%
-  ggplot() + labs(title="Cancer Type Counts") + guides(fill=guide_legend(title="Status")) +
-  geom_bar(aes(x=cancer_type, fill=fct_recode(factor(status), "Successful"="1", "Failed"="0")), position="dodge") +
-  theme(axis.text.x=element_text(angle = 60, hjust=1))
-
-```
+In total, we have N=`r nrow(projects)` IID samples to work with.
 
 Removed all random variabes except year because they didn't help explain any variance in the data beyond what the residuals could capture. Year is a reasonable random effect as well (see Variance Components, Searle et al 2006)
 
 Nesting and Chi2 differences:
 https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chisquare_diff_en.pdf
 
-## Model status
-
-```{r setup base model}
-status.formula.base = status ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
-
-status.mod.base = glmer(status.formula.base, data = projects, family = "binomial")
-```
+# Status
 
 ```{r}
-# drop1(status.mod.base, test="Chisq")
+th = theme_minimal()
+projects %>%
+  ggplot() + th + labs(title="Goal Amount Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(goal, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+projects %>%
+  ggplot() + th + labs(title="Duration Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(duration_float, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+projects %>%
+  ggplot() + th + labs(title="Text Length Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(text_length_words, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+projects %>%
+  ggplot() + th + labs(title="Photos Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(photos, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+projects %>%
+  ggplot() + th + labs(title="Updates Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(updates, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+projects %>%
+  ggplot() + th + labs(title="FB Friends Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(friends, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+projects %>%
+  ggplot() + th + labs(title="Comments Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(comments, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+projects %>%
+  ggplot() + th + labs(title="FB Shares Distribution") + guides(color=guide_legend(title="Status")) +
+  geom_density(aes(shares, color=fct_recode(factor(status), "Successful"="1", "Failed"="0")))
+
+projects %>%
+  ggplot() + th + labs(title="Cancer Type Counts") + guides(fill=guide_legend(title="Status")) +
+  geom_bar(aes(x=cancer_type, fill=fct_recode(factor(status), "Successful"="1", "Failed"="0")), position="dodge") +
+  theme(axis.text.x=element_text(angle = 60, hjust=1))
 ```
+
+Establish the base formula to build models off of:
 
 ```{r}
-status.formula = update(status.formula.base,  ~ . - day_of_week)
-# drop1(glmer(status.formula, data = projects, family = "binomial"), test="Chisq")
+base.formula = status ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
 ```
+
+Create a helper function to easily compare two models and pretty print the output:
 
 ```{r}
-status.formula = update(status.formula,  ~ . - month)
-# drop1(glmer(status.formula, data = projects, family = "binomial"), test="Chisq")
+compare = function(model.old, model.new, key, multiplier=1.0) {
+  a = anova(model.old, model.new)
+  p = a$`Pr(>Chisq)`[2]
+  print(glue("Variable: {key}"))
+  print(glue("DF diff: {a$`Chi Df`[2]}\t New AIC: {round(a$AIC[2], 1)}\t\t Chisq: {round(a$Chisq[2],1)}\t P(>chisq) = {round(p,4)} {if (p < 0.05) '(significant)' else ''})"))
+  effect = as.numeric(summary(mod)$coefficients[key, ])
+  print(glue("beta: {round(effect[1],4)} (+/- {round(effect[2],3)})\t stat: {round(effect[3], 2)} => P(>|z|) = {round(effect[4], 4)}"))
+  print(glue("odds change: {round((exp(effect[1]*multiplier) - 1)*100, 1)}% ({round((exp((effect[1] - effect[2])*multiplier) - 1)*100, 1)}% to {round((exp((effect[1] + effect[2])*multiplier) - 1)*100, 1)}%)"))
+  print(glue(""))
+}
 ```
 
-```{r}
-status.formula = update(status.formula,  ~ . - text_length_words_sc)
-# drop1(glmer(status.formula, data = projects, family = "binomial"), test="Chisq")
-```
-
-```{r}
-status.formula = update(status.formula,  ~ . - friends_sc)
-# drop1(glmer(status.formula, data = projects, family = "binomial"), test="Chisq")
-```
-
-The final base model before adding metaphor variables:
-
-```{r create reduced model}
-status.mod = glmer(status.formula, data = projects, family = "binomial")
-summary(status.mod)
-```
-
-## Add metaphors
-
-See https://www.rdocumentation.org/packages/lme4/versions/1.1-19/topics/glmer
-
-https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/
+To put the results from the continuous predictors on interpretable scales, we use a multiplier within the exponent (see `factor` in `compare()`). For example, if the multiplier is 1, this leads to: for a one unit increase in this predictor, we see an *x*-fold increase in the DV.
 
 ```{r}
 p = function(var, scl=1, digits=6, mult=1.00, mask=T) {
@@ -139,155 +122,420 @@ p("first_instantiation", digits = 4, mask = projects$journey_metaphor > 0, mult 
 p("first_instantiation", digits = 4, mask = projects$battle_metaphor > 0, mult = 1.6)
 ```
 
-```{r}
-addMetaphors = function(formula, refit, model) {
-  refit(update(formula,  ~ . + any_metaphor), "any_metaphorTRUE", model)
-  refit(update(formula,  ~ . + both_metaphor), "both_metaphorTRUE", model)
-  refit(update(formula,  ~ . + dom_journey), "dom_journeyTRUE", model)
-  refit(update(formula,  ~ . + dom_battle), "dom_battleTRUE", model)
-  refit(update(formula,  ~ . + only_battle), "only_battleTRUE", model)
-  refit(update(formula,  ~ . + only_journey), "only_journeyTRUE", model)
-  refit(update(formula,  ~ . + scale(battle_salience)), "scale(battle_salience)", model, 0.16)
-  refit(update(formula,  ~ . + scale(journey_salience)), "scale(journey_salience)", model, 0.6)
-}
+## Any Metaphor
 
-status.refit = function(formula, key, model, multiplier = 1.0) {
-  new.mod = glmer(formula, data = projects, family = "binomial")
-  print(anova(new.mod, model, test="Chisq"))
-  fe = fixef(new.mod)[key]
-  # intercept = fixef(new.mod)["(Intercept)"]
-  print(glue("{key}:\t beta: {round(fe,5)}\t odds change: {round((exp(fe*multiplier) - 1)*100, 1)}%"))
-}
-```
+Examine: does having any instance of metaphor influence status?
 
-```{r reduced model with metaphor}
-addMetaphors(status.formula, status.refit, status.mod)
-```
-
-```{r base model with metaphor}
-addMetaphors(status.formula.base, status.refit, status.mod.base)
-```
-
-## Journey Specific
+Null: having any metaphor is not significantly different from having no metaphor
 
 ```{r}
-projects.j = projects[projects$journey_metaphor > 0, ]
-
-status.formula.base = status ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
-
-# status.mod.base = glmer(status.formula.base, data = projects.j, family = "binomial")
+projects %>%
+  ggplot() + th + geom_bar(aes(status, fill=any_metaphor), position="dodge")
 ```
 
 ```{r}
+status.mod.base = glmer(base.formula, data = projects, family = "binomial")
 # drop1(status.mod.base, test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula.base,  ~ . - friends_sc)
-# drop1(glmer(status.formula, data = projects.j, family = "binomial"), test="Chisq")
+f = update(base.formula,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula,  ~ . - day_of_week)
-# drop1(glmer(status.formula, data = projects.j, family = "binomial"), test="Chisq")
+f = update(f,  ~ . - month)
+# drop1(glmer(f, data = projects, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula,  ~ . - text_length_words_sc)
-# drop1(glmer(status.formula, data = projects.j, family = "binomial"), test="Chisq")
+f = update(f,  ~ . - text_length_words_sc)
+# drop1(glmer(f, data = projects, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula,  ~ . - cancer_type)
-# drop1(glmer(status.formula, data = projects.j, family = "binomial"), test="Chisq")
+f = update(f,  ~ . - friends_sc)
+# drop1(glmer(f, data = projects, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula,  ~ . - duration_float_sc)
-# drop1(glmer(status.formula, data = projects.j, family = "binomial"), test="Chisq")
-```
-
-```{r}
-status.formula = update(status.formula,  ~ . - month)
-# drop1(glmer(status.formula, data = projects.j, family = "binomial"), test="Chisq")
-```
-
-```{r}
-status.mod = glmer(status.formula, data = projects.j, family = "binomial")
+status.mod = glmer(f, data = projects, family = "binomial")
 summary(status.mod)
 ```
 
-```{r journey specific}
-new.mod = glmer(update(status.formula,  ~ . + journey_prod), data = projects.j, family = "binomial")
-print(anova(new.mod, status.mod, test="Chisq"))
-fe = fixef(new.mod)["journey_prod"]
-print(glue("journey_prod:\t beta: {round(fe,5)}\t odds change: {round((exp(fe) - 1)*100, 1)}%"))
+### Results
 
-new.mod = glmer(update(status.formula,  ~ . + first_instantiation), data = projects.j, family = "binomial")
-print(anova(new.mod, status.mod, test="Chisq"))
-fe = fixef(new.mod)["first_instantiation"]
-print(glue("first_instantiation:\t beta: {round(fe,5)}\t odds change: {round((exp(fe*1.6) - 1)*100, 1)}%"))
+```{r any metaphor}
+mod = glmer(update(f,  ~ . + any_metaphor), data = projects, family = "binomial")
+compare(status.mod, mod, "any_metaphorTRUE")
+
+mod = glmer(update(base.formula,  ~ . + any_metaphor), data = projects, family = "binomial")
+compare(status.mod.base, mod, "any_metaphorTRUE")
 ```
 
-## Battle Specific
+## Both Metaphors
+
+Examine: does having both metaphor families present influence status?
+
+Null: having both metaphor families is not significantly different from having no metaphor
 
 ```{r}
-projects.b = projects[projects$battle_metaphor > 0, ]
-
-status.formula.base = status ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
-
-# status.mod.base = glmer(status.formula.base, data = projects.b, family = "binomial")
+projects.both = projects[(1-projects$any_metaphor) | projects$both_metaphor, ] # only projects with both or none
 ```
 
+N = `r nrow(projects.both)`
+
+Perform model selection to prevent overfitting:
+
 ```{r}
+status.mod.base = glmer(base.formula, data = projects.both, family = "binomial")
 # drop1(status.mod.base, test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula.base,  ~ . - friends_sc)
-# drop1(glmer(status.formula, data = projects.b, family = "binomial"), test="Chisq")
+f = update(base.formula,  ~ . - month)
+# drop1(glmer(f, data = projects.both, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula,  ~ . - text_length_words_sc)
-# drop1(glmer(status.formula, data = projects.b, family = "binomial"), test="Chisq")
+f = update(f,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.both, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula,  ~ . - day_of_week)
-# drop1(glmer(status.formula, data = projects.b, family = "binomial"), test="Chisq")
+f = update(f,  ~ . - text_length_words_sc)
+# drop1(glmer(f, data = projects.both, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula,  ~ . - month)
-# drop1(glmer(status.formula, data = projects.b, family = "binomial"), test="Chisq")
+f = update(f,  ~ . - friends_sc)
+# drop1(glmer(f, data = projects.both, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula,  ~ . - photos_sc)
-# drop1(glmer(status.formula, data = projects.b, family = "binomial"), test="Chisq")
+f = update(f,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.both, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
-status.formula = update(status.formula,  ~ . - duration_float_sc)
-# drop1(glmer(status.formula, data = projects.b, family = "binomial"), test="Chisq")
+status.mod = glmer(f, data = projects.both, family = "binomial")
+# summary(status.mod)
+```
+
+### Results
+
+```{r both metaphors}
+mod = glmer(update(f,  ~ . + both_metaphor), data = projects.both, family = "binomial")
+compare(status.mod, mod, "both_metaphorTRUE")
+
+mod = glmer(update(base.formula,  ~ . + both_metaphor), data = projects.both, family = "binomial")
+compare(status.mod.base, mod, "both_metaphorTRUE")
+```
+
+## Some Metaphor
+
+Examine: does having only journey/battle, or dominant journey/battle, influence status?
+
+Null: having only journey/battle, or dominant journey/battle, is not significantly different from negative
+
+```{r}
+projects.some = projects[projects$any_metaphor, ]
+```
+
+N = `r nrow(projects.some)`
+
+```{r}
+projects.some %>%
+  group_by(status, dom_journey) %>%
+  summarize(n = n())
+```
+
+
+```{r fig.width=8}
+p1 = projects.some %>%
+  ggplot() + th +
+  geom_bar(aes(status, fill=dom_journey), position = "dodge") + 
+  lims(y=c(0,2500)) + labs(title="Dominant Journey")
+
+p2 = projects.some %>%
+  ggplot() + th +
+  geom_bar(aes(status, fill=dom_battle), position = "dodge") +
+  lims(y=c(0,2500)) + labs(title="Dominant Battle")
+
+p3 = projects.some %>%
+  ggplot() + th +
+  geom_bar(aes(status, fill=only_journey), position = "dodge") +
+  lims(y=c(0,2500)) + labs(title="Only Journey")
+
+p4 = projects.some %>%
+  ggplot() + th +
+  geom_bar(aes(status, fill=only_battle), position = "dodge") +
+  lims(y=c(0,2500)) + labs(title="Only Battle")
+
+grid.arrange(p1, p2, p3, p4, nrow=1)
+```
+
+Perform model selection to prevent overfitting:
+
+```{r}
+status.mod.base = glmer(base.formula, data = projects.some, family = "binomial")
+# drop1(status.mod.base, test="Chisq")
 ```
 
 ```{r}
-status.mod = glmer(status.formula, data = projects.b, family = "binomial")
-summary(status.mod)
+f = update(base.formula,  ~ . - text_length_words_sc)
+# drop1(glmer(f, data = projects.some, family = "binomial"), test="Chisq")
 ```
 
-```{r battle specific}
-new.mod = glmer(update(status.formula,  ~ . + battle_prod), data = projects.b, family = "binomial")
-print(anova(new.mod, status.mod, test="Chisq"))
-fe = fixef(new.mod)["battle_prod"]
-print(glue("battle_prod:\t beta: {round(fe,5)}\t odds change: {round((exp(fe) - 1)*100, 1)}%"))
-
-new.mod = glmer(update(status.formula,  ~ . + first_instantiation), data = projects.b, family = "binomial")
-print(anova(new.mod, status.mod, test="Chisq"))
-fe = fixef(new.mod)["first_instantiation"]
-print(glue("first_instantiation:\t beta: {round(fe,5)}\t odds change: {round((exp(fe*1.6) - 1)*100, 1)}%"))
+```{r}
+f = update(f,  ~ . - friends_sc)
+# drop1(glmer(f, data = projects.some, family = "binomial"), test="Chisq")
 ```
 
+```{r}
+f = update(f,  ~ . - month)
+# drop1(glmer(f, data = projects.some, family = "binomial"), test="Chisq")
+```
 
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.some, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.some, family = "binomial"), test="Chisq")
+```
+
+```{r}
+status.mod = glmer(f, data = projects.some, family = "binomial")
+# summary(status.mod)
+```
+
+### Results
+
+```{r some metaphors reduced}
+mod = glmer(update(f,  ~ . + dom_journey), data = projects.some, family = "binomial")
+compare(status.mod, mod, "dom_journeyTRUE")
+
+mod = glmer(update(f,  ~ . + dom_battle), data = projects.some, family = "binomial")
+compare(status.mod, mod, "dom_battleTRUE")
+
+mod = glmer(update(f,  ~ . + only_journey), data = projects.some, family = "binomial")
+compare(status.mod, mod, "only_journeyTRUE")
+
+mod = glmer(update(f,  ~ . + only_battle), data = projects.some, family = "binomial")
+compare(status.mod, mod, "only_battleTRUE")
+```
+
+```{r some metaphors full}
+mod = glmer(update(base.formula,  ~ . + dom_journey), data = projects.some, family = "binomial")
+compare(status.mod.base, mod, "dom_journeyTRUE")
+
+mod = glmer(update(base.formula,  ~ . + dom_battle), data = projects.some, family = "binomial")
+compare(status.mod.base, mod, "dom_battleTRUE")
+
+mod = glmer(update(base.formula,  ~ . + only_journey), data = projects.some, family = "binomial")
+compare(status.mod.base, mod, "only_journeyTRUE")
+
+mod = glmer(update(base.formula,  ~ . + only_battle), data = projects.some, family = "binomial")
+compare(status.mod.base, mod, "only_battleTRUE")
+```
+
+## Journey
+
+```{r}
+projects.jor = projects[projects$journey_metaphor > 0, ]
+```
+
+N = `r nrow(projects.jor)`
+
+```{r}
+p1 = projects.jor %>%
+  ggplot() + th +
+  geom_violin(aes(status, journey_salience, fill=status)) +
+  scale_fill_manual(values = c("0" = alpha("red", 0.5), "1" = alpha("blue", 0.5)), guide=F) +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 0, ]$journey_salience), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 1, ]$journey_salience), lty=2, color="blue")
+
+p2 = projects.jor %>%
+  ggplot() + th +
+  geom_violin(aes(status, journey_prod, fill=status)) +
+  scale_fill_manual(values = c("0" = alpha("red", 0.5), "1" = alpha("blue", 0.5)), guide=F) +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 0, ]$journey_prod), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 1, ]$journey_prod), lty=2, color="blue")
+
+p3 = projects.jor %>%
+  ggplot() + th +
+  geom_violin(aes(status, first_instantiation, fill=status)) +
+  scale_fill_manual(values = c("0" = alpha("red", 0.5), "1" = alpha("blue", 0.5)), guide=F) +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 0, ]$first_instantiation), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 1, ]$first_instantiation), lty=2, color="blue")
+
+grid.arrange(p1, p2, p3, nrow=1)
+```
+
+Perform model selection to prevent overfitting:
+
+```{r}
+status.mod.base = glmer(base.formula, data = projects.jor, family = "binomial")
+# drop1(status.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - friends_sc)
+# drop1(glmer(f, data = projects.jor, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.jor, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - text_length_words_sc)
+# drop1(glmer(f, data = projects.jor, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - cancer_type)
+# drop1(glmer(f, data = projects.jor, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.jor, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
+# drop1(glmer(f, data = projects.jor, family = "binomial"), test="Chisq")
+```
+
+```{r}
+status.mod = glmer(f, data = projects.jor, family = "binomial")
+# summary(status.mod)
+```
+
+### Results
+
+```{r journey specific reduced}
+mod = glmer(update(f,  ~ . + scale(journey_salience)), data = projects.jor, family = "binomial")
+compare(status.mod, mod, "scale(journey_salience)", 0.6)
+
+mod = glmer(update(f,  ~ . + scale(journey_prod)), data = projects.jor, family = "binomial")
+compare(status.mod, mod, "scale(journey_prod)")
+
+mod = glmer(update(f,  ~ . + scale(first_instantiation)), data = projects.jor, family = "binomial")
+compare(status.mod, mod, "scale(first_instantiation)")
+```
+
+```{r journey specific full}
+mod = glmer(update(base.formula,  ~ . + scale(journey_salience)), data = projects.jor, family = "binomial")
+compare(status.mod.base, mod, "scale(journey_salience)", 0.6)
+
+mod = glmer(update(base.formula,  ~ . + scale(journey_prod)), data = projects.jor, family = "binomial")
+compare(status.mod.base, mod, "scale(journey_prod)")
+
+mod = glmer(update(base.formula,  ~ . + scale(first_instantiation)), data = projects.jor, family = "binomial")
+compare(status.mod.base, mod, "scale(first_instantiation)")
+```
+
+## Battle
+
+```{r}
+projects.bat = projects[projects$battle_metaphor > 0, ]
+```
+
+N = `r nrow(projects.bat)`
+
+```{r}
+p1 = projects.bat %>%
+  ggplot() + th +
+  geom_violin(aes(status, battle_salience, fill=status)) +
+  scale_fill_manual(values = c("0" = alpha("red", 0.5), "1" = alpha("blue", 0.5)), guide=F) +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 0, ]$battle_salience), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 1, ]$battle_salience), lty=2, color="blue")
+
+p2 = projects.bat %>%
+  ggplot() + th +
+  geom_violin(aes(status, battle_prod, fill=status)) +
+  scale_fill_manual(values = c("0" = alpha("red", 0.5), "1" = alpha("blue", 0.5)), guide=F) +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 0, ]$battle_prod), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 1, ]$battle_prod), lty=2, color="blue")
+
+p3 = projects.bat %>%
+  ggplot() + th +
+  geom_violin(aes(status, first_instantiation, fill=status)) +
+  scale_fill_manual(values = c("0" = alpha("red", 0.5), "1" = alpha("blue", 0.5)), guide=F) +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 0, ]$first_instantiation), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 1, ]$first_instantiation), lty=2, color="blue")
+
+grid.arrange(p1, p2, p3, nrow=1)
+```
+
+Perform model selection to prevent overfitting:
+
+```{r}
+status.mod.base = glmer(base.formula, data = projects.bat, family = "binomial")
+# drop1(status.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - friends_sc)
+# drop1(glmer(f, data = projects.bat, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - text_length_words_sc)
+# drop1(glmer(f, data = projects.bat, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.bat, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
+# drop1(glmer(f, data = projects.bat, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - photos_sc)
+# drop1(glmer(f, data = projects.bat, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.bat, family = "binomial"), test="Chisq")
+```
+
+```{r}
+status.mod = glmer(f, data = projects.bat, family = "binomial")
+# summary(status.mod)
+```
+
+### Results
+
+```{r battle specific reduced}
+mod = glmer(update(f,  ~ . + scale(battle_salience)), data = projects.bat, family = "binomial")
+compare(status.mod, mod, "scale(battle_salience)", 0.16)
+
+mod = glmer(update(f,  ~ . + scale(battle_prod)), data = projects.bat, family = "binomial")
+compare(status.mod, mod, "scale(battle_prod)")
+
+mod = glmer(update(f,  ~ . + scale(first_instantiation)), data = projects.bat, family = "binomial")
+compare(status.mod, mod, "scale(first_instantiation)")
+```
+
+```{r battle specific full}
+mod = glmer(update(base.formula,  ~ . + scale(battle_salience)), data = projects.bat, family = "binomial")
+compare(status.mod.base, mod, "scale(battle_salience)", 0.16)
+
+mod = glmer(update(base.formula,  ~ . + scale(battle_prod)), data = projects.bat, family = "binomial")
+compare(status.mod.base, mod, "scale(battle_prod)")
+
+mod = glmer(update(base.formula,  ~ . + scale(first_instantiation)), data = projects.bat, family = "binomial")
+compare(status.mod.base, mod, "scale(first_instantiation)")
+```
