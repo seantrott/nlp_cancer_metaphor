@@ -1,0 +1,309 @@
+---
+title: "Visualizations"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Visualizations
+
+```{r}
+projects = read.csv("../data/processed/gofundme_projects_clean.csv")
+projects$status = factor(projects$status)
+
+projects$any_metaphor = factor(projects$any_metaphor)
+projects$both_metaphor = factor(projects$both_metaphor)
+
+# projects$any_metaphor = factor(projects$any_metaphor, levels = c(TRUE, FALSE), labels = c("Any Metaphor", "None"))
+# projects$both_metaphor = factor(projects$both_metaphor, levels = c(TRUE, FALSE), labels = c("Both Metaphors", "None"))
+
+projects.m = projects[projects$mean_donation < quantile(projects$mean_donation, 0.995), ]
+projects.b = projects[projects$backers < quantile(projects$backers, 0.995), ]
+```
+
+
+```{r}
+library(gridExtra)
+library(tidyverse)
+library(reshape2)
+```
+
+```{r}
+library(boot)
+```
+
+```{r}
+t = theme_minimal() + theme(
+  legend.position = c(0.7, 0.9), 
+  text = element_text(family = "Avenir"),
+  title = element_text(size=15),
+  axis.text = element_text(size = 12),
+  axis.title = element_text(size = 14),
+  legend.text = element_text(size = 11),
+  legend.title = element_text(size = 14))
+```
+
+## Dependent Variables
+
+```{r}
+r = projects %>% group_by(status) %>% summarize(n = n())
+p = as.numeric(r[r$status == "1", "n"] / sum(r$n))
+
+a = 0.05
+p
+p - qnorm(a/2)*sqrt(p * (1-p) / sum(r$n))
+p + qnorm(a/2)*sqrt(p * (1-p) / sum(r$n))
+```
+
+
+```{r}
+p1  = projects.b %>%
+  ggplot() + t + labs(title = "Number of Donors", x="", y="Density") +
+  geom_density(aes(backers, color="a")) +
+  scale_color_manual(values = c("a" = alpha("black", 1)), guide="none")
+
+d = data.frame(x = c(1, 2),
+               y = c(
+                 nrow(projects[projects$status == "0", ])/2,
+                 nrow(projects[projects$status == "1", ])/2
+               ),
+               vals = c(
+                 round(nrow(projects[projects$status == "0", ]) / nrow(projects),2), 
+                 round(nrow(projects[projects$status == "1", ]) / nrow(projects),2))
+               )
+
+p2 = projects %>%
+  ggplot() + t + labs(title = "Outcome", x="", y="Count") +
+  geom_bar(aes(status, fill="a")) + scale_x_discrete(labels = c("0"="Failure", "1"="Success")) +
+  geom_text(data = d, aes(x=x, y = y, label=vals), color=alpha("white", 1), show.legend = F) +
+  scale_fill_manual(values = c("a" = alpha("black", 1)), guide="none")
+
+p3  = projects.m %>%
+  ggplot() + t + labs(title = "Mean Donation", x="", y="Density") +
+  geom_density(aes(mean_donation, color="a")) +
+  scale_color_manual(values = c("a" = alpha("black", 1)), guide="none")
+
+p = grid.arrange(p1, p2, p3, nrow=1)
+# ggsave("dvs0.png", p, width = 10, height = 4.5)
+```
+
+## Any Metaphor
+
+```{r}
+mus = projects.b %>%
+  group_by(any_metaphor) %>%
+  summarise(mu = mean(backers))
+
+p1 = ggplot(projects.b) + t +
+  geom_density(aes(backers, color=any_metaphor)) +
+  scale_color_manual(values = c(alpha("blue", 0), alpha("red", 0)), labels = c("None", "Metaphors")) +
+  # geom_vline(xintercept = mus[mus$any_metaphor == T, ]$mu, color="red", lty=2) +
+  # geom_vline(xintercept = mus[mus$any_metaphor == F, ]$mu, color="blue", lty=2) +
+  labs(title = "Number of Donors", x=element_blank(), y="Density") +
+  theme(legend.title = element_blank())
+
+d = projects %>% group_by(any_metaphor, status) %>% summarise(n = n()) %>% mutate(m = n / sum(n))
+
+p2 = ggplot(d[d$status == 1, ]) + t +
+  geom_bar(aes(any_metaphor, y=m, fill=any_metaphor), stat="identity") + 
+  scale_fill_manual(values = c("FALSE" = alpha("blue", 0), "TRUE" = alpha("red", 0)), guide="none") +
+  lims(y=c(0,0.4)) +
+  labs(title = "Outcome", x=element_blank(), y="Proportion Successful") +
+  scale_x_discrete(labels = c("FALSE"="None", "TRUE"="Metaphors")) +
+  theme(legend.title = element_blank())
+
+mus = projects.m %>%
+  group_by(any_metaphor) %>%
+  summarise(mu = mean(mean_donation))
+
+p3 = ggplot(projects.m) + t +
+  geom_density(aes(mean_donation, color=any_metaphor)) +
+  scale_color_manual(values = c(alpha("blue", 0), alpha("red", 0)), labels = c("None", "Metaphors")) +
+  # geom_vline(xintercept = mus[mus$any_metaphor == T, ]$mu, color="red", lty=2) +
+  # geom_vline(xintercept = mus[mus$any_metaphor == F, ]$mu, color="blue", lty=2) +
+  labs(title = "Mean Donation", x=element_blank(), y="Density") +
+  theme(legend.title = element_blank())
+
+p = grid.arrange(p1, p2, p3, nrow=1)
+ggsave("any_metaphor0.png", p, width=10, height=5)
+```
+
+## Both Metaphors
+
+```{r}
+projects.b.both = projects[
+  (projects$any_metaphor == "No Metaphors" | projects$both_metaphor == "Both Metaphors") &
+    projects$backers < quantile(projects$backers, 0.995), ]
+
+mus = projects.b.both %>%
+  group_by(both_metaphor) %>%
+  summarise(mu = mean(backers))
+
+p1 = ggplot(projects.b.both) + t +
+  geom_density(aes(backers, color=both_metaphor)) +
+  scale_color_manual(values=c(alpha("red", 1), alpha("blue", 1))) +
+  geom_vline(xintercept = mus[mus$both_metaphor == "Both Metaphors", ]$mu, color="red", lty=2) +
+  geom_vline(xintercept = mus[mus$both_metaphor == "None", ]$mu, color="blue", lty=2) +
+  labs(title = "Number of Donors", x=element_blank(), y="Density", color=element_blank())
+
+projects.m.both = projects[
+  (projects$any_metaphor == "No Metaphors" | projects$both_metaphor == "Both Metaphors") &
+    projects$mean_donation < quantile(projects$mean_donation, 0.995), ]
+
+mus = projects.m.both %>%
+  group_by(both_metaphor) %>%
+  summarise(mu = mean(mean_donation))
+
+p2 = ggplot(projects.m.both) + t +
+  geom_density(aes(mean_donation, color=both_metaphor)) +
+  scale_color_manual(values=c(alpha("red", 1), alpha("blue", 1))) +
+  geom_vline(xintercept = mus[mus$both_metaphor == "Both Metaphors", ]$mu, color="red", lty=2) +
+  geom_vline(xintercept = mus[mus$both_metaphor == "None", ]$mu, color="blue", lty=2) +
+  labs(title = "Mean Donation", x=element_blank(), y="Density", color=element_blank())
+
+p = grid.arrange(p1, p2, nrow=1)
+ggsave("both_metaphor2.png", p, width=12, height=5)
+```
+
+Journey:
+
+Battle:
+
+```{r}
+projects %>%
+  ggplot() + geom_bar
+```
+
+
+```{r}
+ggplot() + t +
+  geom_density(aes(projects.m[projects.m$any_metaphor == T, ]$mean_donation, color="Any metaphor")) +
+  geom_vline(xintercept = mean(projects.m[projects.m$any_metaphor == T, ]$mean_donation), color=alpha("black", 1), lty=2) +
+  geom_density(aes(projects.m[projects.m$dom_battle == T, ]$mean_donation, color="Dominant Battle")) +
+  geom_vline(xintercept = mean(projects.m[projects.m$dom_battle == T, ]$mean_donation), color=alpha("red", 1), lty=2) +
+  geom_density(aes(projects.m[projects.m$only_battle == T, ]$mean_donation, color="Only Battle")) +
+  geom_vline(xintercept = mean(projects.m[projects.m$only_battle == T, ]$mean_donation), color=alpha("blue", 1), lty=2) +
+  scale_color_manual(values =
+                       c("Any metaphor"=alpha("black", 1), "Dominant Battle"=alpha("red", 1), "Only Battle"=alpha("blue", 1)),
+                     name="Data subset") +
+  labs(x = "Mean Donation", y = "Density")
+```
+
+## Salience
+
+```{r}
+p1 = ggplot(projects.b[projects.b$journey_metaphor > 0, ]) + t +
+  geom_point(aes(1000*journey_salience, backers, color="a"), alpha=0, size=0.5) +
+  scale_color_manual(values=c("a"="red")) +
+  # geom_smooth(aes(y=backers, x=1000*journey_salience), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(y=c(0, 1000)) +
+  labs(y = "Donors", x=element_blank(), title="Journey Salience")
+
+p2 = ggplot(projects.b[projects.b$battle_metaphor > 0, ]) + t +
+  geom_point(aes(1000*battle_salience, backers, color="a"), alpha=0, size=0.5) +
+  scale_color_manual(values=c("a"="red")) +
+  # geom_smooth(aes(y=backers, x=1000*battle_salience), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(y=c(0, 1000)) +
+  labs(y = "Donors", x=element_blank(), title="Battle Salience")
+
+p3 = ggplot(projects.m[projects.m$journey_metaphor > 0, ]) + t +
+  geom_point(aes(1000*journey_salience, mean_donation, color="a"), alpha=0, size=0.5) +
+  scale_color_manual(values=c("a"="blue")) +
+  # geom_smooth(aes(y=mean_donation, x=1000*journey_salience), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(y=c(0, 400)) +
+  labs(y = "Mean Donation", x=element_blank(), title=element_blank())
+
+p4 = ggplot(projects.m[projects.m$battle_metaphor > 0, ]) + t +
+  geom_point(aes(1000*battle_salience, mean_donation, color="a"), alpha=0.2, size=0.5) +
+  scale_color_manual(values=c("a"="blue")) +
+  geom_smooth(aes(y=mean_donation, x=1000*battle_salience), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(y=c(0, 400)) +
+  labs(y = "Mean Donation", x=element_blank(), title=element_blank())
+
+p = grid.arrange(p1, p2, p3, p4)
+# ggsave("salience0.png", p, width = 10, height = 5)
+```
+
+## Productivity
+
+```{r warning=FALSE}
+p1 = ggplot(projects.b[projects.b$journey_metaphor > 0, ]) + t +
+  geom_point(aes(journey_prod, backers, color="a"), alpha=0.2, size=0.5) +
+  scale_color_manual(values=c("a"="red")) +
+  geom_smooth(aes(y=backers, x=journey_prod), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(x=c(0,10)) +
+  labs(y = "Donors", x=element_blank(), title="Journey Productivity")
+
+p2 = ggplot(projects.b[projects.b$battle_metaphor > 0, ]) + t +
+  geom_point(aes(battle_prod, backers, color="a"), alpha=0.2, size=0.5) +
+  scale_color_manual(values=c("a"="red")) +
+  geom_smooth(aes(y=backers, x=battle_prod), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(x=c(0,20)) +
+  labs(y = "Donors", x=element_blank(), title="Battle Productivity")
+
+p3 = ggplot(projects.m[projects.m$journey_metaphor > 0, ]) + t +
+  geom_point(aes(journey_prod, mean_donation, color="a"), alpha=0.2, size=0.5) +
+  scale_color_manual(values=c("a"="blue")) +
+  geom_smooth(aes(y=mean_donation, x=journey_prod), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(x=c(0,10)) +
+  labs(y = "Mean Donation", x=element_blank(), title=element_blank())
+
+p4 = ggplot(projects.m[projects.m$battle_metaphor > 0, ]) + t +
+  geom_point(aes(battle_prod, mean_donation, color="a"), alpha=0.2, size=0.5) +
+  scale_color_manual(values=c("a"="blue")) +
+  geom_smooth(aes(y=mean_donation, x=battle_prod), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(x=c(0,20)) +
+  labs(y = "Mean Donation", x=element_blank(), title=element_blank())
+
+p = grid.arrange(p1, p2, p3, p4)
+ggsave("prod4.png", p, width = 10, height = 5)
+```
+
+## Instantiation
+
+```{r warning=FALSE}
+p1 = ggplot(projects.b[projects.b$journey_metaphor > 0, ]) + t +
+  geom_point(aes(first_instantiation, backers, color="a"), alpha=0.2, size=0.5) +
+  scale_color_manual(values=c("a"="red")) +
+  geom_smooth(aes(x=first_instantiation, y=backers), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(x=c(0,1)) +
+  labs(y = "Donors", x=element_blank(), title="Journey Instantiation")
+
+p2 = ggplot(projects.b[projects.b$battle_metaphor > 0, ]) + t +
+  geom_point(aes(first_instantiation, backers, color="a"), alpha=0.2, size=0.5) +
+  scale_color_manual(values=c("a"="red")) +
+  geom_smooth(aes(x=first_instantiation, y=backers), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(x=c(0,1)) +
+  labs(y = "Donors", x=element_blank(), title="Battle Instantiation")
+
+p3 = ggplot(projects.m[projects.m$journey_metaphor > 0, ]) + t +
+  geom_point(aes(first_instantiation, mean_donation, color="a"), alpha=0.2, size=0.5) +
+  scale_color_manual(values=c("a"="blue")) +
+  geom_smooth(aes(x=first_instantiation, y=mean_donation), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(x=c(0,1)) +
+  labs(y = "Mean Donation", x=element_blank(), title=element_blank())
+
+p4 = ggplot(projects.m[projects.m$battle_metaphor > 0, ]) + t +
+  geom_point(aes(first_instantiation, mean_donation, color="a"), alpha=0.2, size=0.5) +
+  scale_color_manual(values=c("a"="blue")) +
+  geom_smooth(aes(x=first_instantiation, y=mean_donation), method = "lm", color="black", se=F) +
+  theme(legend.position = "none") +
+  lims(x=c(0,1)) +
+  labs(y = "Mean Donation", x=element_blank(), title=element_blank())
+
+p = grid.arrange(p1, p2, p3, p4)
+# ggsave("prod4.png", p, width = 10, height = 6)
+```
