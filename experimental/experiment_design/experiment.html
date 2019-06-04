@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <title>Demographics survey</title>
+        <script src="jspsych-6.0.5/jspsych.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-audio-button-response.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-survey-likert.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-survey-multi-choice.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-html-slider-response.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-call-function.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-instructions.js"></script>
+        <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    </head>
+    <body>
+    </body>
+    <script>
+
+  /* Save data .*/
+  function saveData(filename, filedata){
+   $.ajax({
+      type:'post',
+      cache: false,
+      url: 'save_data.php', // this is the path to the above PHP script
+      data: {filename: filename, filedata: filedata}
+   });
+}
+
+
+// Set up variables
+var session_id;
+var ppt_id = jsPsych.randomization.randomID(15)
+
+/// MAIN EXPERIMENT 
+
+
+// Text / html GoFundMe page + slider for donation
+var main_trial = {
+    type: 'html-slider-response',
+    stimulus: '<p>Running</p>',
+    response: 50,
+    labels: ['healthy', 'unhealthy'],
+    prompt: "<p>How healthy/unhealthy is this activity?</p>"
+};
+
+// Secondary page asking about: 1) whether person is at peace; 2) whether person should feel guilty; and 3) what the urgency is.
+// survey-likert
+
+scale_1 = [1, 2, 3, 4, 5, 6, 7]
+var followup_questions = {
+    type: 'survey-likert',
+    preamble: 'Please indicate your agreement with each statement by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
+    questions: [{prompt: "XXX will feel guilty if they do not recover.", labels: scale_1}
+                ],
+   data: {stimType: "closeness_scale"}
+};
+
+////// participant information
+
+// have they been treated for cancer? Etc.
+
+
+/// Demogrpahics
+  var demographics1 = {
+  type: 'survey-multi-choice',
+  questions: [{required: true, prompt: 'Please select the gender with which you identify.', options:['Male', 'Female', 'Non-binary', 'Prefer not to say']},
+              {required: true, prompt: 'Are you a native speaker of English?', options:['Yes', 'No']}
+              ],
+  data: {stimType: "demographic1"}
+}
+
+
+  var age = {
+    type: 'survey-text',
+    questions: [{'prompt':'How old are you?'}],
+    data: {stimType: "age"}
+  }
+
+
+var timeline = [main_trial, followup_questions, demographics1, age]
+
+
+jsPsych.init({
+    timeline: timeline,
+    on_finish: function(data) {
+      var filename = ppt_id + "_metaphor.csv";
+      //saveData(filename, jsPsych.data.get().csv());
+
+      $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the participant ID: <b>" + ppt_id + "</b>");
+      /*
+      $.ajax({
+        type:'post',
+        cache: false,
+        url: "save_data.php",
+        data: {filename: "session_" + session_id + "_pilot.csv", filedata: jsPsych.data.get().csv()}
+      });
+      $.ajax({
+        type:'post',
+        cache: false,
+        url: "save_data.php",
+        data: {filename: "session_" + session_id + "_pilot.json", filedata: jsPsych.data.get().json()}
+      });
+      $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the session ID: <b>" + session_id + "</b>");
+
+    */
+    }
+
+  }
+  );
+
+    </script>
+    </html>
