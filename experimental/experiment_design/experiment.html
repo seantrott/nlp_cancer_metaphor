@@ -1,48 +1,117 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
     <head>
-        <title>Experiment2</title>
+        <meta charset="utf-8">
+        <title>Survey</title>
         <script src="jspsych-6.0.5/jspsych.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
-        <script src="jspsych-6.0.5/plugins/jspsych-audio-button-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-survey-likert.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-survey-multi-choice.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-slider-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-call-function.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-instructions.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-external-html.js"></script>
         <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+        <style>
+        .main-trial {
+          width: 1100px;
+        }
+        .instructions {
+          width: 1000px;
+        }
+        </style>
     </head>
     <body>
     </body>
     <script>
 
-  /* Save data .*/
-  function saveData(filename, filedata){
+/* Save data .*/
+function saveData(filename, filedata){
    $.ajax({
       type:'post',
       cache: false,
-      url: 'save_data.php', // this is the path to the above PHP script
+      url: '../save',
       data: {filename: filename, filedata: filedata}
    });
 }
 
-
 // Set up variables
 var session_id;
-var ppt_id = jsPsych.randomization.randomID(15)
+var ppt_id = jsPsych.randomization.randomID(20)
+var condition_sex = jsPsych.randomization.sampleWithoutReplacement(['male', 'female'], 1)[0];
+var condition_metaphor = jsPsych.randomization.sampleWithoutReplacement(['battle', 'journey', 'literal'], 1)[0];
 
-/// MAIN EXPERIMENT 
+var character = {'name': 'Jason', 'pn': 'He', 'pos': 'His'}
 
+if (condition_sex == "female") {
+  character = {'name': 'Jennifer', 'pn': 'She', 'pos': 'Her'}
+}
+
+jsPsych.data.addProperties({
+  ppt: ppt_id,
+  sex: condition_sex,
+  metaphor: condition_metaphor
+});
+
+var consent = {
+    type: 'external-html',
+    url: "consent.html",
+    cont_btn: "consent"
+}
+
+/// MAIN EXPERIMENT
+
+var instructions = {
+  type: 'instructions',
+  pages: ["<div class='instructions'><p>In this study, you will be presented with a \
+          crowdfunding campaign raising money for an individual.</p><br>\
+          <p>You will carefully read the following campaign and select an amount up \
+          to $50 USD to donate to the individual.</p>\
+          <p>You and all other participants are entered in a drawing upon completion \
+          of this study. After all participant responses are recorded, one participant \
+          will be randomly selected as the winner.</p>\
+          <p>If you are the winner, then in addition to the fixed compensation for your \
+          participation, you will receive as a cash bonus the amount you choose to \
+          not donate to the individual.</p>\
+          <p>Additionally, if you are the winner, the amount you choose to donate will \
+          be donated to an individual in a situation similar to the one you will read about.</p>\
+          <p>In other words: if you are the randomly selected winner, and you choose \
+          to donate $50, then you would receive $0. Similarly, if you choose to \
+          donate $0, then you would receive $50.</p>\
+          <p>The same rules apply to the participant who does win, if it is not you.</p>\
+          <br><p>There is no expense to enter this drawing other than your participation \
+          in this study. The chances of winning are about 1 in 200. Should you be \
+          the randomly selected winner, we will contact you via email.\
+          </p></div>",
+
+          '<p>Click the "Next" button to begin the study.</p>'],
+  show_clickable_nav: true
+}
 
 // Text / html GoFundMe page + slider for donation
+
+condition_image = "condition_" + condition_sex + "_" + condition_metaphor + ".png"
+
 var main_trial = {
     type: 'html-slider-response',
-    stimulus: '<p>Running</p>',
-    response: 50,
-    labels: ['healthy', 'unhealthy'],
-    prompt: "<p>How healthy/unhealthy is this activity?</p>"
+    stimulus: '<h3>Please carefully read the following campaign, and indicate below how \
+    much you would donate.</h3><p>Once you are satisfied, press "Continue" at the bottom.</p>\
+    <br><img src="' + condition_image + '" class="main-trial"/>',
+    min: 0,
+    max: 50,
+    start: 25,
+    labels: ['$0', '$5', '$10', '$15', '$20', '$25', '$30', '$35', '$40', '$45', '$50'],
+    prompt: "<div class='instructions'><h4>How much would you donate to this campaign?</h4>\
+            <p>Remember:</p><p>If you are the randomly selected winner, then in \
+            addition to the fixed compensation for your \
+            participation, you will receive as a cash bonus the amount you choose to \
+            not donate to the cause.</p>\
+            <p>Additionally, if you are the winner, the amount you choose to donate will \
+            actually be donated to the cause.</p></div>"
 };
 
 // Secondary page asking about: 1) whether person is at peace; 2) whether person should feel guilty; and 3) what the urgency is.
@@ -52,41 +121,85 @@ scale_1 = [1, 2, 3, 4, 5, 6, 7]
 var followup_questions = {
     type: 'survey-likert',
     preamble: 'Please indicate your agreement with each statement by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
-    questions: [{prompt: "XXX will feel guilty if they do not recover.", labels: scale_1}
-                ],
-   data: {stimType: "closeness_scale"}
+    questions: jsPsych.randomization.shuffle([
+                {prompt: character["name"] + " will feel guilty that " + character["pn"].toLowerCase() + " hasn’t done enough if " + character["pn"].toLowerCase() + " does not recover.", labels: scale_1, required: true},
+                {prompt: character["name"] + " can make peace with " + character["pos"].toLowerCase() + " experience.", labels: scale_1, required: true},
+                {prompt: character["name"] + "'s situation is urgent.", labels: scale_1, required: true},
+                {prompt: character["name"] + "'s situation is serious.", labels: scale_1, required: true},
+                {prompt: character["name"] + "'s situation is one I sympathize with.", labels: scale_1, required: true}
+              ])
 };
 
 ////// participant information
 
 // have they been treated for cancer? Etc.
 
-
-/// Demogrpahics
-  var demographics1 = {
-  type: 'survey-multi-choice',
-  questions: [{required: true, prompt: 'Please select the gender with which you identify.', options:['Male', 'Female', 'Non-binary', 'Prefer not to say']},
-              {required: true, prompt: 'Are you a native speaker of English?', options:['Yes', 'No']}
-              ],
-  data: {stimType: "demographic1"}
+var cancer_info = {
+type: 'survey-multi-choice',
+questions: jsPsych.randomization.shuffle([
+            {required: true, prompt: 'Have you ever been treated for cancer?', options:['Yes', 'No']},
+            {required: true, prompt: 'Has anyone in your immediate family been treated for cancer?', options:['Yes', 'No']}
+          ])
 }
 
+/// Demogrpahics
+var demographics = {
+  type: 'survey-multi-choice',
+  questions: [{required: true, prompt: 'Please select the gender which you identify most with.', options:['Male', 'Female', 'Non-binary', 'Prefer not to say']},
+              {required: true, prompt: 'What is the highest degree or level of school \
+              you have completed? (If you’re currently enrolled in school, please indicate the highest degree you have received.)',
+                options:['Less than a high school diploma',
+                          'High school degree or equivalent (e.g. GED)',
+                          'Associate degree (e.g. AA, AS)',
+                          'Bachelor’s degree (e.g. BA, BS)',
+                          'Master’s degree (e.g. MA, MS, MEd)',
+                          'Professional degree (e.g. MD, DDS, DVM)',
+                          'Doctorate (e.g. PhD, EdD)']},
+              {required: true, prompt: 'How much did you earn, before taxes and other deductions, during the past 12 months?',
+                options:['Less than $10,000',
+                        '$10,000 through $24,999',
+                        '$25,000 through $49,999',
+                        '$50,000 through $74,999',
+                        '$75,000 through $99,999',
+                        '$100,000 through $149,999',
+                        'More than $150,000']},
+              {required: true, prompt: 'Are you a native speaker of English?', options:['Yes', 'No']}
 
-  var age = {
+              ]
+}
+
+var age = {
     type: 'survey-text',
-    questions: [{'prompt':'How old are you?'}],
-    data: {stimType: "age"}
-  }
+    questions: [{'prompt':'How old are you? Please answer in years, using only numbers. (optional)'}]
+}
 
+var feedback = {
+    type: 'survey-text',
+    questions: [{'prompt':'Do you have any additional feedback about this experiment for the researchers? (optional)',
+                  'columns': 80,
+                  'rows': 14}]
+}
 
-var timeline = [main_trial, followup_questions, demographics1, age]
+var debrief = {
+    type: 'external-html',
+    url: "debrief.html",
+    cont_btn: "finish"
+}
 
+// without Node.js
+var timeline = [instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback]
+
+// with Node.js
+// var timeline = [consent, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback, debrief]
 
 jsPsych.init({
     timeline: timeline,
+    show_progress_bar: true,
     on_finish: function(data) {
       var filename = ppt_id + "_metaphor.csv";
-      //saveData(filename, jsPsych.data.get().csv());
+      // saveData(filename, jsPsych.data.get().csv());
+
+      console.log(jsPsych.data.get().csv())
 
       $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the participant ID: <b>" + ppt_id + "</b>");
       /*
@@ -111,4 +224,4 @@ jsPsych.init({
   );
 
     </script>
-    </html>
+</html>
