@@ -42,7 +42,7 @@ function saveData(filename, filedata){
    $.ajax({
       type:'post',
       cache: false,
-      url: 'save_data.php', // this is the path to the above PHP script
+      url: '../save',
       data: {filename: filename, filedata: filedata}
    });
 }
@@ -128,40 +128,55 @@ var main_trial = {
 
 scale_1 = [1, 2, 3, 4, 5, 6, 7]
 
-
-var q1 = {
-  type: 'survey-likert',
+var followup_q1 = {
+  type: "survey-likert",
   preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
-  questions: [{prompt: character["pn"] + " will feel guilty that " + character["pn"].toLowerCase() + " hasn’t done enough if " + character["pn"].toLowerCase() + " does not recover.", labels: scale_1, required: true}],
-  data: {'qtype': 'guilty'}
+  questions: [
+    {prompt: character["pn"] + " will feel guilty that " + character["pn"].toLowerCase() + " hasn’t done enough if " + character["pn"].toLowerCase() + " does not recover.", labels: scale_1, required: true}
+  ],
+  data: {qtype: 'guilty'}
 }
 
-var q2 = {
-  type: 'survey-likert',
+var followup_q2 = {
+  type: "survey-likert",
   preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
-  questions: [{prompt: character["pn"] + " can make peace with " + character["pos"].toLowerCase() + " experience.", labels: scale_1, required: true}],
-  data: {'qtype': 'peace'}
+  questions: [
+    {prompt: character["pn"] + " can make peace with " + character["pos"].toLowerCase() + " experience.", labels: scale_1, required: true}
+  ],
+  data: {qtype: 'peace'}
 }
 
+var followup_q3 = {
+  type: "survey-likert",
+  preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
+  questions: [
+    {prompt: character["pos"] + " situation is urgent.", labels: scale_1, required: true}
+  ],
+  data: {qtype: 'urgent'}
+}
 
+var followup_q4 = {
+  type: "survey-likert",
+  preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
+  questions: [
+    {prompt: character["pos"] + " situation is serious.", labels: scale_1, required: true}
+  ],
+  data: {qtype: 'serious'}
+}
+
+var followup_q5 = {
+  type: "survey-likert",
+  preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
+  questions: [
+    {prompt: character["pos"] + " situation is one I sympathize with.", labels: scale_1, required: true}
+  ],
+  data: {qtype: 'sympathy'}
+}
 
 var followup_questions = {
-  timeline: jsPsych.randomization.shuffle([q1, q2])
+  timeline: jsPsych.randomization.shuffle([followup_q1, followup_q2, followup_q3, followup_q4, followup_q5])
 }
 
-/*
-var followup_questions = {
-  type: 'survey-likert',
-  preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
-  timeline: jsPsych.randomization.shuffle([
-    {questions: [{prompt: character["pn"] + " will feel guilty that " + character["pn"].toLowerCase() + " hasn’t done enough if " + character["pn"].toLowerCase() + " does not recover.", labels: scale_1, required: true}]},
-    {questions: [{prompt: character["pn"] + " can make peace with " + character["pos"].toLowerCase() + " experience.", labels: scale_1, required: true}]},
-    {questions: [{prompt: character["pos"] + " situation is urgent.", labels: scale_1, required: true}]},
-    {questions: [{prompt: character["pos"] + " situation is serious.", labels: scale_1, required: true}]},
-    {questions: [{prompt: character["pos"] + " situation is one I sympathize with.", labels: scale_1, required: true}]}
-  ])
-}
-*/
 ////// participant information
 
 // have they been treated for cancer? Etc.
@@ -231,15 +246,11 @@ var debrief = {
 // with Node.js
 var timeline = [consent, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback, debrief]
 
-
-var timeline = [followup_questions, cancer_info]
-
 jsPsych.init({
     timeline: timeline,
     show_progress_bar: true,
     on_finish: function(data) {
       var filename = ppt_id + "_metaphor.csv";
-
       saveData(filename, jsPsych.data.get().csv());
 
       console.log(jsPsych.data.get().csv())
