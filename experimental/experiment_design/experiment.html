@@ -142,15 +142,13 @@ scale_1 = [1, 2, 3, 4, 5, 6, 7]
 var followup_questions = {
   type: 'survey-likert',
   preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
-  timeline: [
+  timeline: jsPsych.randomization.shuffle([
     {questions: [{prompt: character["pn"] + " will feel guilty that " + character["pn"].toLowerCase() + " hasn’t done enough if " + character["pn"].toLowerCase() + " does not recover.", labels: scale_1, required: true}]},
     {questions: [{prompt: character["pn"] + " can make peace with " + character["pos"].toLowerCase() + " experience.", labels: scale_1, required: true}]},
     {questions: [{prompt: character["pos"] + " situation is urgent.", labels: scale_1, required: true}]},
     {questions: [{prompt: character["pos"] + " situation is serious.", labels: scale_1, required: true}]},
     {questions: [{prompt: character["pos"] + " situation is one I sympathize with.", labels: scale_1, required: true}]}
-  ],
-  randomize_order: true
-  // data: {q_order: []}
+  ])
 }
 
 ////// participant information
