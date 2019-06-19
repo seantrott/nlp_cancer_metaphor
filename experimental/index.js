@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 
 app.post("/save", function (req, res) {
   d = req.body
-  fs.writeFile("data/" + d.filename + ".csv", d.filedata, function (err) {
+  fs.writeFile("data/" + d.filename, d.filedata, function (err) {
     console.log("saved")
   })
 })

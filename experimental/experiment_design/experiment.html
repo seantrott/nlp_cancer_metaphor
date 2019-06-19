@@ -22,6 +22,14 @@
         }
         .instructions {
           width: 1000px;
+          margin: 0 auto;
+          text-align: left;
+        }
+        ul {
+          list-style-position: inside;
+        }
+        .jspsych-content {
+          padding-bottom: 80px;
         }
         </style>
     </head>
@@ -65,29 +73,32 @@ var consent = {
 
 /// MAIN EXPERIMENT
 
+page1 = "<p>Thank you for agreeing to participate in this study!</p> \
+        <p>Shortly, you will be presented with a crowdfunding campaign raising \
+        money for an individual.</p>\
+        <br>\
+        <p>You will carefully read this campaign and select an amount up to $50 \
+        USD to donate.</p>"
+page2 = "<p>You and all other participants are entered in an opportunity drawing upon completion \
+        of this study. After all participant responses are recorded, one participant will \
+        be randomly selected as the winner.</p>\
+        <p>If you are the winner, the amount you choose to donate \
+        will be given to an individual who's in a situation similar to the one you will read about.</p>\
+        <p>Additionally, if you are the winner, you will receive as a cash bonus the amount you \
+        choose to not donate to the individual. This bonus is in addition to the \
+        fixed compensation for your participation.</p>\
+        <p>For example: if you are the randomly selected winner, and you choose \
+        to donate $50, then you would receive $0. Similarly, if you choose to donate \
+        $0, then you would receive $50.</p>"
+page3 = "<p>There is no expense to enter this drawing other than your participation \
+        in this study. The chances of winning are about 1 in 200. Should you be the randomly \
+        selected winner, we will contact you via email.</p>"
+
 var instructions = {
   type: 'instructions',
-  pages: ["<div class='instructions'><p>In this study, you will be presented with a \
-          crowdfunding campaign raising money for an individual.</p><br>\
-          <p>You will carefully read the following campaign and select an amount up \
-          to $50 USD to donate to the individual.</p>\
-          <p>You and all other participants are entered in a drawing upon completion \
-          of this study. After all participant responses are recorded, one participant \
-          will be randomly selected as the winner.</p>\
-          <p>If you are the winner, then in addition to the fixed compensation for your \
-          participation, you will receive as a cash bonus the amount you choose to \
-          not donate to the individual.</p>\
-          <p>Additionally, if you are the winner, the amount you choose to donate will \
-          be donated to an individual in a situation similar to the one you will read about.</p>\
-          <p>In other words: if you are the randomly selected winner, and you choose \
-          to donate $50, then you would receive $0. Similarly, if you choose to \
-          donate $0, then you would receive $50.</p>\
-          <p>The same rules apply to the participant who does win, if it is not you.</p>\
-          <br><p>There is no expense to enter this drawing other than your participation \
-          in this study. The chances of winning are about 1 in 200. Should you be \
-          the randomly selected winner, we will contact you via email.\
-          </p></div>",
-
+  pages: ["<div class='instructions'>" + page1 + "</div>",
+          "<div class='instructions'>" + page2 + "</div>",
+          "<div class='instructions'>" + page3 + "</div>",
           '<p>Click the "Next" button to begin the study.</p>'],
   show_clickable_nav: true
 }
@@ -105,30 +116,42 @@ var main_trial = {
     max: 50,
     start: 25,
     labels: ['$0', '$5', '$10', '$15', '$20', '$25', '$30', '$35', '$40', '$45', '$50'],
-    prompt: "<div class='instructions'><h4>How much would you donate to this campaign?</h4>\
-            <p>Remember:</p><p>If you are the randomly selected winner, then in \
-            addition to the fixed compensation for your \
-            participation, you will receive as a cash bonus the amount you choose to \
-            not donate to the cause.</p>\
-            <p>Additionally, if you are the winner, the amount you choose to donate will \
-            actually be donated to the cause.</p></div>"
+    prompt: "<div class='instructions'><h4>How much would you like to donate to this campaign?</h4>\
+            <p>Remember, if you are the randomly selected winner:</p><p><ul>\
+            <li>The amount you choose to donate will go to a real individual who also has cancer.</li>\
+            <li>You will receive as a cash bonus the amount you choose to not donate.</li>\
+            </ul></p></div>"
 };
 
 // Secondary page asking about: 1) whether person is at peace; 2) whether person should feel guilty; and 3) what the urgency is.
 // survey-likert
 
 scale_1 = [1, 2, 3, 4, 5, 6, 7]
+// var followup_questions = {
+//     type: 'survey-likert',
+//     preamble: 'Please indicate your agreement with each statement by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
+//     questions: jsPsych.randomization.shuffle([
+//                 {prompt: character["name"] + " will feel guilty that " + character["pn"].toLowerCase() + " hasn’t done enough if " + character["pn"].toLowerCase() + " does not recover.", labels: scale_1, required: true},
+//                 {prompt: character["name"] + " can make peace with " + character["pos"].toLowerCase() + " experience.", labels: scale_1, required: true},
+//                 {prompt: character["name"] + "'s situation is urgent.", labels: scale_1, required: true},
+//                 {prompt: character["name"] + "'s situation is serious.", labels: scale_1, required: true},
+//                 {prompt: character["name"] + "'s situation is one I sympathize with.", labels: scale_1, required: true}
+//               ])
+// };
+
 var followup_questions = {
-    type: 'survey-likert',
-    preamble: 'Please indicate your agreement with each statement by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
-    questions: jsPsych.randomization.shuffle([
-                {prompt: character["name"] + " will feel guilty that " + character["pn"].toLowerCase() + " hasn’t done enough if " + character["pn"].toLowerCase() + " does not recover.", labels: scale_1, required: true},
-                {prompt: character["name"] + " can make peace with " + character["pos"].toLowerCase() + " experience.", labels: scale_1, required: true},
-                {prompt: character["name"] + "'s situation is urgent.", labels: scale_1, required: true},
-                {prompt: character["name"] + "'s situation is serious.", labels: scale_1, required: true},
-                {prompt: character["name"] + "'s situation is one I sympathize with.", labels: scale_1, required: true}
-              ])
-};
+  type: 'survey-likert',
+  preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
+  timeline: [
+    {questions: [{prompt: character["pn"] + " will feel guilty that " + character["pn"].toLowerCase() + " hasn’t done enough if " + character["pn"].toLowerCase() + " does not recover.", labels: scale_1, required: true}]},
+    {questions: [{prompt: character["pn"] + " can make peace with " + character["pos"].toLowerCase() + " experience.", labels: scale_1, required: true}]},
+    {questions: [{prompt: character["pos"] + " situation is urgent.", labels: scale_1, required: true}]},
+    {questions: [{prompt: character["pos"] + " situation is serious.", labels: scale_1, required: true}]},
+    {questions: [{prompt: character["pos"] + " situation is one I sympathize with.", labels: scale_1, required: true}]}
+  ],
+  randomize_order: true
+  // data: {q_order: []}
+}
 
 ////// participant information
 
@@ -137,34 +160,41 @@ var followup_questions = {
 var cancer_info = {
 type: 'survey-multi-choice',
 questions: jsPsych.randomization.shuffle([
-            {required: true, prompt: 'Have you ever been treated for cancer?', options:['Yes', 'No']},
-            {required: true, prompt: 'Has anyone in your immediate family been treated for cancer?', options:['Yes', 'No']}
+            {required: true, prompt: 'Have you ever been treated for cancer?', options:['Yes', 'No', 'Prefer not to say']},
+            {required: true, prompt: 'Have any of your close friends or family members been treated for cancer?', options:['Yes', 'No', 'Prefer not to say']}
           ])
 }
 
 /// Demogrpahics
 var demographics = {
   type: 'survey-multi-choice',
-  questions: [{required: true, prompt: 'Please select the gender which you identify most with.', options:['Male', 'Female', 'Non-binary', 'Prefer not to say']},
-              {required: true, prompt: 'What is the highest degree or level of school \
-              you have completed? (If you’re currently enrolled in school, please indicate the highest degree you have received.)',
+  questions: [{required: true,
+                prompt: 'Please select the gender which you identify most with.',
+                options:['Male', 'Female', 'Non-binary', 'Prefer not to say']},
+              {required: true,
+                prompt: 'What is the highest degree or level of school you have completed? \
+                (If you’re currently enrolled in school, please indicate the highest degree you have received.)',
                 options:['Less than a high school diploma',
                           'High school degree or equivalent (e.g. GED)',
                           'Associate degree (e.g. AA, AS)',
                           'Bachelor’s degree (e.g. BA, BS)',
                           'Master’s degree (e.g. MA, MS, MEd)',
                           'Professional degree (e.g. MD, DDS, DVM)',
-                          'Doctorate (e.g. PhD, EdD)']},
-              {required: true, prompt: 'How much did you earn, before taxes and other deductions, during the past 12 months?',
+                          'Doctorate (e.g. PhD, EdD)',
+                          'Prefer not to say']},
+              {required: true,
+                prompt: 'How much did you earn, before taxes and other deductions, during the past 12 months?',
                 options:['Less than $10,000',
                         '$10,000 through $24,999',
                         '$25,000 through $49,999',
                         '$50,000 through $74,999',
                         '$75,000 through $99,999',
                         '$100,000 through $149,999',
-                        'More than $150,000']},
-              {required: true, prompt: 'Are you a native speaker of English?', options:['Yes', 'No']}
-
+                        'More than $150,000',
+                        'Prefer not to say']},
+              {required: true,
+                prompt: 'Are you a native speaker of English?',
+                options:['Yes', 'No', 'Prefer not to say']}
               ]
 }
 
@@ -187,17 +217,17 @@ var debrief = {
 }
 
 // without Node.js
-var timeline = [instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback]
+// var timeline = [instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback]
 
 // with Node.js
-// var timeline = [consent, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback, debrief]
+var timeline = [consent, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback, debrief]
 
 jsPsych.init({
     timeline: timeline,
     show_progress_bar: true,
     on_finish: function(data) {
       var filename = ppt_id + "_metaphor.csv";
-      // saveData(filename, jsPsych.data.get().csv());
+      saveData(filename, jsPsych.data.get().csv());
 
       console.log(jsPsych.data.get().csv())
 
