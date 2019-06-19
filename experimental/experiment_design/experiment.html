@@ -42,7 +42,7 @@ function saveData(filename, filedata){
    $.ajax({
       type:'post',
       cache: false,
-      url: 'save_data.php',
+      url: '../save',
       data: {filename: filename, filedata: filedata}
    });
 }
@@ -120,7 +120,8 @@ var main_trial = {
             <p>Remember, if you are the randomly selected winner:</p><p><ul>\
             <li>The amount you choose to donate will go to a real individual who also has cancer.</li>\
             <li>You will receive as a cash bonus the amount you choose to not donate.</li>\
-            </ul></p></div>"
+            </ul></p></div>",
+    data: {qtype: "trial"}
 };
 
 // Secondary page asking about: 1) whether person is at peace; 2) whether person should feel guilty; and 3) what the urgency is.
@@ -181,12 +182,24 @@ var followup_questions = {
 
 // have they been treated for cancer? Etc.
 
+var cancer_q1 = {
+  type: 'survey-multi-choice',
+  questions: [
+    {required: true, prompt: 'Have you ever been treated for cancer?', options:['Yes', 'No', 'Prefer not to say']}
+  ],
+  data: {qtype: 'self-cancer'}
+}
+
+var cancer_q2 = {
+  type: 'survey-multi-choice',
+  questions: [
+    {required: true, prompt: 'Have any of your close friends or family members been treated for cancer?', options:['Yes', 'No', 'Prefer not to say']}
+  ],
+  data: {qtype: 'ff-cancer'}
+}
+
 var cancer_info = {
-type: 'survey-multi-choice',
-questions: jsPsych.randomization.shuffle([
-            {required: true, prompt: 'Have you ever been treated for cancer?', options:['Yes', 'No', 'Prefer not to say']},
-            {required: true, prompt: 'Have any of your close friends or family members been treated for cancer?', options:['Yes', 'No', 'Prefer not to say']}
-          ])
+  timeline: jsPsych.randomization.shuffle([cancer_q1, cancer_q2])
 }
 
 /// Demogrpahics
@@ -219,19 +232,22 @@ var demographics = {
               {required: true,
                 prompt: 'Are you a native speaker of English?',
                 options:['Yes', 'No', 'Prefer not to say']}
-              ]
+              ],
+  data: {qtype: "demographics"}
 }
 
 var age = {
     type: 'survey-text',
-    questions: [{'prompt':'How old are you? Please answer in years, using only numbers. (optional)'}]
+    questions: [{'prompt':'How old are you? Please answer in years, using only numbers. (optional)'}],
+    data: {qtype: "age"}
 }
 
 var feedback = {
     type: 'survey-text',
     questions: [{'prompt':'Do you have any additional feedback about this experiment for the researchers? (optional)',
                   'columns': 80,
-                  'rows': 14}]
+                  'rows': 14}],
+    data: {qtype: "feedback"}
 }
 
 var debrief = {
@@ -245,8 +261,6 @@ var debrief = {
 
 // with Node.js
 var timeline = [consent, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback, debrief]
-
-var timeline = [followup_questions]
 
 jsPsych.init({
     timeline: timeline,
