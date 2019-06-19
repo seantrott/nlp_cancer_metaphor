@@ -253,6 +253,8 @@ jsPsych.init({
       var filename = ppt_id + "_metaphor.csv";
       saveData(filename, jsPsych.data.get().csv());
 
+      console.log(filename)
+
       console.log(jsPsych.data.get().csv())
 
       $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the participant ID: <b>" + ppt_id + "</b>");
