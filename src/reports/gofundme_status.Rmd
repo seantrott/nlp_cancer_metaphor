@@ -21,19 +21,10 @@ library(glue) # for pretty printing
 
 ```{r}
 projects = read.csv("../../data/processed/gofundme_projects_clean.csv")
+projects$year = factor(projects$year)
 projects$month = factor(projects$month)
 projects$day_of_week = factor(projects$day_of_week)
 projects$status = factor(projects$status)
-```
-
-```{r}
-mean(projects[projects$any_metaphor, ]$text_length_words)
-mean(projects[projects$dom_journey, ]$text_length_words)
-mean(projects[projects$dom_battle, ]$text_length_words)
-mean(projects[projects$dom_journey, ]$journey_salience) * 1000
-mean(projects[projects$dom_battle, ]$battle_salience) * 1000
-mean(projects[projects$dom_journey, ]$journey_salience) * mean(projects[projects$dom_journey, ]$text_length_words)
-mean(projects[projects$dom_battle, ]$battle_salience) * mean(projects[projects$dom_battle, ]$text_length_words)
 ```
 
 In total, we have N=`r nrow(projects)` IID samples to work with.
@@ -539,3 +530,39 @@ compare(status.mod.base, mod, "scale(battle_prod)")
 mod = glmer(update(base.formula,  ~ . + scale(first_instantiation)), data = projects.bat, family = "binomial")
 compare(status.mod.base, mod, "scale(first_instantiation)")
 ```
+
+## Without RE
+
+```{r}
+base.formula = status ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + year
+```
+
+```{r}
+status.mod.base = glm(base.formula, data = projects, family = "binomial")
+drop1(status.mod.base, test="Chisq")
+```
+
+```{r}
+summary(status.mod.base)
+```
+
+
+```{r}
+f = update(base.formula,  ~ . - duration_float_sc)
+drop1(glm(f, data = projects, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+drop1(glm(f, data = projects, family = "binomial"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
+drop1(glm(f, data = projects, family = "binomial"), test="Chisq")
+```
+
+```{r}
+summary(glm(f, data = projects, family = "binomial"))
+```
+
