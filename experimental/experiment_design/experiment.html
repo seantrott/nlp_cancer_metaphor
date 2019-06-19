@@ -240,7 +240,7 @@ jsPsych.init({
     timeline: timeline,
     show_progress_bar: true,
     on_finish: function(data) {
-      var filename = ppt_id + "_metaphor.csv";
+      var filename = "metaphor_pilot_" + ppt_id + ".csv";
 
       saveData(filename, jsPsych.data.get().csv());
 
