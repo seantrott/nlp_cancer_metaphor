@@ -42,7 +42,7 @@ function saveData(filename, filedata){
    $.ajax({
       type:'post',
       cache: false,
-      url: '../save',
+      url: 'save_data.php',
       data: {filename: filename, filedata: filedata}
    });
 }
@@ -245,6 +245,8 @@ var debrief = {
 
 // with Node.js
 var timeline = [consent, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback, debrief]
+
+var timeline = [followup_questions]
 
 jsPsych.init({
     timeline: timeline,
