@@ -42,7 +42,7 @@ function saveData(filename, filedata){
    $.ajax({
       type:'post',
       cache: false,
-      url: '../save',
+      url: 'save_data.php',
       data: {filename: filename, filedata: filedata}
    });
 }
@@ -65,10 +65,20 @@ jsPsych.data.addProperties({
   metaphor: condition_metaphor
 });
 
+const checkConsent = function (elm) {
+  if ($("#consent-check").is(":checked")) {
+    return true
+  }
+
+  alert("In order to participate in this study, you must read and consent to the terms.")
+  return false
+}
+
 var consent = {
     type: 'external-html',
     url: "consent.html",
-    cont_btn: "consent"
+    cont_btn: "consent",
+    check_fn: checkConsent
 }
 
 /// MAIN EXPERIMENT
@@ -256,10 +266,10 @@ var debrief = {
     cont_btn: "finish"
 }
 
-// without Node.js
+// without server
 // var timeline = [instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback]
 
-// with Node.js
+// with server
 var timeline = [consent, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback, debrief]
 
 jsPsych.init({
@@ -268,30 +278,12 @@ jsPsych.init({
     on_finish: function(data) {
       var filename = "metaphor_pilot_" + ppt_id + ".csv";
 
-
       saveData(filename, jsPsych.data.get().csv());
 
-      console.log(filename)
-
-      console.log(jsPsych.data.get().csv())
-
-      $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the participant ID: <b>" + ppt_id + "</b>");
-      /*
-      $.ajax({
-        type:'post',
-        cache: false,
-        url: "save_data.php",
-        data: {filename: "session_" + session_id + "_pilot.csv", filedata: jsPsych.data.get().csv()}
-      });
-      $.ajax({
-        type:'post',
-        cache: false,
-        url: "save_data.php",
-        data: {filename: "session_" + session_id + "_pilot.json", filedata: jsPsych.data.get().json()}
-      });
-      $(".jspsych-display-element").html("The results have been recorded! Data was recorded under the session ID: <b>" + session_id + "</b>");
-
-    */
+      $(".jspsych-display-element").html("<p>The results have been recorded! \
+      Data was recorded under the participant ID: <b>" + ppt_id + "</b></p>\
+      <br>\
+      <h3>Your Mechanical Turk code is: <u>LCL19</u></h3>");
     }
 
   }
