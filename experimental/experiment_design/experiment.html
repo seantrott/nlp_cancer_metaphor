@@ -40,9 +40,9 @@
 /* Save data .*/
 function saveData(filename, filedata){
    $.ajax({
-      type:'post',
+      type: 'post',
       cache: false,
-      url: "../save", //'save_data.php',
+      url: "save_data.php", //'../save',
       data: {filename: filename, filedata: filedata}
    });
 }
