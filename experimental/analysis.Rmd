@@ -12,64 +12,155 @@ library(tidyverse)
 theme = theme_minimal()
 ```
 
+# Experimental Analysis
+
+## Load and Clean Data
+
+Created via `clean_data.R`.
+
 ```{r}
 data = read_csv("clean_pilot.csv")
 
+data$cond_sex = factor(data$cond_sex, levels = c("male", "female"))
+data$cond_metaphor = factor(data$cond_metaphor, levels = c("literal", "battle", "journey"))
 
-data$urgent = factor(data$urgent, levels = seq(0,6))
-data$serious = factor(data$serious, levels = seq(0,6))
-data$sympathy = factor(data$sympathy, levels = seq(0,6))
-data$peace = factor(data$peace, levels = seq(0,6))
-data$guilty = factor(data$guilty, levels = seq(0,6))
+data$cond = paste(data$cond_sex, "_", data$cond_metaphor, sep="")
+
+data$urgent = as.integer(data$urgent)
+data$serious = as.integer(data$serious)
+data$sympathy = as.integer(data$sympathy)
+data$peace = as.integer(data$peace)
+data$guilty = as.integer(data$guilty)
 
 
 head(data)
 ```
 
 ```{r}
-data %>%
-  group_by(cond_sex, cond_metaphor) %>%
-  summarise(avg_donation = mean(donation)) %>%
-  ggplot() + theme + 
-  geom_tile(aes(x = cond_sex, y = cond_metaphor, fill = avg_donation)) +
-  labs(x = "Condition: sex", y = "Condition: metaphor", title = "Average donation by Condition", fill = "Avgerage\nDonation")
+ggplot(data) + geom_density(aes(rt_trial / (1000 * 60))) + labs(title = "Main Trial RT", x = "Response Time (mins)")
 ```
 
 
+## Comparison of Conditions
+
+```{r}
+ggplot(data) + theme + 
+  geom_density(aes(donation, color = cond)) +
+  labs(x = "Donation Amount", y = "Density", title = "Donation Distributions by Condition", fill = "Condition") +
+  lims(x=c(0, 50))
+```
+
+```{r}
+data %>%
+  group_by(cond_sex, cond_metaphor) %>%
+  summarise(avg = mean(donation)) %>%
+  ggplot() + theme +
+  geom_point(aes(cond_metaphor, avg, color = cond_sex, shape = cond_sex), size=4) +
+  geom_line(aes(cond_metaphor, avg, group = cond_sex), lty=2) +
+  labs(x = "Condition: Metaphor", y = "Mean Donation", title = "Condition Interactions") #, color = "Condition:\nSex"
+```
+
+## Covariates
+
 ```{r}
 ggplot(data) + theme +
-  geom_density(aes(donation)) +
-  labs(x = "Donation Amount", y = "Density", title = "Donation Amount Distribution") +
-  lims(x = c(0,50))
-
-ggplot(data) + theme +
-  geom_density(aes(total_time))
+  geom_density(aes(total_time / (1000 * 60))) +
+  labs(x = "Total Duration (mins)", y = "Density", title = "Total Duration Distribution")
 
 ggplot(data) + theme +
   geom_bar(aes(urgent, group=1, y=..prop..)) +
-  scale_x_discrete(drop = F) +
+  scale_x_discrete(limits = seq(0,6)) +
   labs(x = "Urgent", y = "Proportion", title = "Urgent Distribution", subtitle = "\"Her situation is urgent.\"")
 
 ggplot(data) + theme +
   geom_bar(aes(serious, group=1, y=..prop..)) +
-  scale_x_discrete(drop = F) +
+  scale_x_discrete(limits = seq(0,6)) +
   labs(x = "Serious", y = "Proportion", title = "Serious Distribution", subtitle = "\"Her situation is serious.\"")
 
 ggplot(data) + theme +
   geom_bar(aes(sympathy, group=1, y=..prop..)) +
-  scale_x_discrete(drop = F) +
+  scale_x_discrete(limits = seq(0,6)) +
   labs(x = "Sympathy", y = "Proportion", title = "Sympathy Distribution", subtitle = "\"Her situation is one I sympathize with.\"")
+```
 
+```{r}
+sympathy.model = lm(sympathy ~ cond_metaphor, data = data)
+
+summary(sympathy.model)
+anova(sympathy.model)
+```
+
+```{r}
+urgent.model = lm(urgent ~ cond_metaphor, data = data)
+
+summary(urgent.model)
+anova(urgent.model)
+```
+
+```{r}
+serious.model = lm(serious ~ cond_metaphor, data = data)
+
+summary(serious.model)
+anova(serious.model)
+```
+
+```{r}
 ggplot(data) + theme +
   geom_bar(aes(peace, group=1, y=..prop..)) +
-  scale_x_discrete(drop = F) +
+  scale_x_discrete(limits = seq(0,6)) +
   labs(x = "Peace", y = "Proportion", title = "Peace Distribution", subtitle = "\"She can make peace with her experience.\"")
 
 ggplot(data) + theme +
   geom_bar(aes(guilty, group=1, y=..prop..)) +
-  scale_x_discrete(drop = F) +
+  scale_x_discrete(limits = seq(0,6)) +
   labs(x = "Guilty", y = "Proportion", title = "Guilty Distribution", subtitle = "\"She will feel guilty that she hasn’t done enough if she does not recover.\"")
 ```
+
+```{r}
+s = data %>% 
+  group_by(cond_metaphor) %>% 
+  summarize(med = median(guilty), 
+            Q1 = quantile(guilty, 0.25),
+            Q3 = quantile(guilty, 0.75))
+
+ggplot(s) + theme +
+  geom_point(aes(cond_metaphor, med), shape=4, size=3) +
+  geom_errorbar(aes(x=cond_metaphor, ymin=Q1, ymax=Q3,
+                    width=0.1)) +
+  lims(y=c(0,6)) +
+  labs(x = "Metaphor Condition", y = "Score", title = "Guilty Scores")
+```
+
+```{r}
+s = data %>% 
+  group_by(cond_metaphor) %>% 
+  summarize(med = median(peace), 
+            Q1 = quantile(peace, 0.25),
+            Q3 = quantile(peace, 0.75))
+
+ggplot(s) + theme +
+  geom_point(aes(cond_metaphor, med), shape=4, size=3) +
+  geom_errorbar(aes(x=cond_metaphor, ymin=Q1, ymax=Q3,
+                    width=0.1)) +
+  lims(y=c(0,6)) +
+  labs(x = "Metaphor Condition", y = "Score", title = "Peace Scores")
+```
+
+```{r}
+guilt.model = lm(guilty ~ cond_metaphor*cond_sex, data = data)
+
+summary(guilt.model)
+anova(guilt.model)
+```
+
+```{r}
+peace.model = lm(peace ~ cond_metaphor*cond_sex, data = data)
+
+summary(peace.model)
+anova(peace.model)
+```
+
+## Demographics
 
 ```{r}
 ggplot(data) +
@@ -103,10 +194,25 @@ ggplot(data) +
   labs(x = "Donation Amount", y = "Density", color = "Native English", title = "Donation Distributions by Native English")
 ```
 
-```{r}
-m = lm(donation ~ english, data = data)
+## Regression
 
-summary(m)
+**Does simply having either metaphor family present explain donation behavior?**
+
+Note: with more data, will include covariates
+
+```{r}
+data$cond_any = (data$cond_metaphor != "literal")
+full.model = lm(donation ~ cond_any*cond_sex, data = data) # + gender + education + socioeconomic + english
+
+summary(full.model)
+```
+
+**Does either the battle or the journey metaphor family explain donation behavior beyond the literal condition?**
+
+```{r}
+full.model = lm(donation ~ cond_metaphor*cond_sex + gender + education + socioeconomic + english, data = data)
+
+summary(full.model)
 ```
 
 

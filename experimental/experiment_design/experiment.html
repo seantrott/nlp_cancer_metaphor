@@ -42,7 +42,7 @@ function saveData(filename, filedata){
    $.ajax({
       type:'post',
       cache: false,
-      url: 'save_data.php',
+      url: "../save", //'save_data.php',
       data: {filename: filename, filedata: filedata}
    });
 }
