@@ -19,7 +19,7 @@ theme = theme_minimal()
 Created via `clean_data.R`.
 
 ```{r}
-data = read_csv("clean_pilot.csv")
+data = read_csv("clean_pilot.csv", col_types = cols())
 
 data$cond_sex = factor(data$cond_sex, levels = c("male", "female"))
 data$cond_metaphor = factor(data$cond_metaphor, levels = c("literal", "battle", "journey"))
@@ -33,6 +33,7 @@ data$peace = as.integer(data$peace)
 data$guilty = as.integer(data$guilty)
 
 
+nrow(data)
 head(data)
 ```
 

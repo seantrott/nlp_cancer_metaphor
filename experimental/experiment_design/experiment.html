@@ -38,11 +38,11 @@
     <script>
 
 /* Save data .*/
-function saveData(filename, filedata){
+function saveData(filename, filedata) {
    $.ajax({
       type: 'post',
       cache: false,
-      url: "save_data.php", //'../save',
+      url: "save_data.php", //../save
       data: {filename: filename, filedata: filedata}
    });
 }
@@ -98,8 +98,8 @@ page2 = "<p>You and all other participants are entered in an opportunity drawing
         choose to not donate to the individual. This bonus is in addition to the \
         fixed compensation for your participation.</p>\
         <p>For example: if you are the randomly selected winner, and you choose \
-        to donate $50, then you would receive $0. Similarly, if you choose to donate \
-        $0, then you would receive $50.</p>"
+        to donate $50, then you would receive a $0 bonus. Similarly, if you choose to donate \
+        $0, then you would receive a $50 bonus.</p>"
 page3 = "<p>There is no expense to enter this drawing other than your participation \
         in this study. The chances of winning are about 1 in 200. Should you be the randomly \
         selected winner, we will contact you via email.</p>"
@@ -288,6 +288,5 @@ jsPsych.init({
 
   }
   );
-
-    </script>
+  </script>
 </html>
