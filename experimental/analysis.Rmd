@@ -41,6 +41,11 @@ head(data)
 ggplot(data) + geom_density(aes(rt_trial / (1000 * 60))) + labs(title = "Main Trial RT", x = "Response Time (mins)")
 ```
 
+```{r}
+summary(data$donation)
+mean(data$donation == 1)
+mean(data$donation == 50)
+```
 
 ## Comparison of Conditions
 
@@ -60,6 +65,17 @@ data %>%
   geom_line(aes(cond_metaphor, avg, group = cond_sex), lty=2) +
   labs(x = "Condition: Metaphor", y = "Mean Donation", title = "Condition Interactions") #, color = "Condition:\nSex"
 ```
+
+```{r}
+data %>%
+  group_by(cond_sex, cond_metaphor) %>%
+  summarise(avg = mean(donation), sd = sd(donation)) %>%
+  ggplot() + theme +
+  geom_bar(aes(cond_metaphor, avg, fill = cond_sex), stat="identity", position = "dodge") +
+  geom_errorbar(aes(cond_metaphor, ymin = avg - 2*sd, ymax = avg + 2*sd), position = "dodge", width = 0.2) +
+  labs(x = "Condition: Metaphor", y = "Mean Donation")
+```
+
 
 ## Covariates
 
@@ -104,6 +120,29 @@ serious.model = lm(serious ~ cond_metaphor, data = data)
 summary(serious.model)
 anova(serious.model)
 ```
+
+```{r}
+data$investment = data$serious + data$urgent + data$sympathy
+```
+
+```{r}
+data
+```
+
+
+```{r}
+investment.model = lm(investment ~ cond_metaphor*cond_sex + english, data = data)
+
+summary(investment.model)
+anova(investment.model)
+```
+
+```{r}
+hist(resid(investment.model))
+```
+
+
+
 
 ```{r}
 ggplot(data) + theme +

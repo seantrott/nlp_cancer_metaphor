@@ -88,21 +88,20 @@ page1 = "<p>Thank you for agreeing to participate in this study!</p> \
         money for an individual.</p>\
         <br>\
         <p>You will carefully read this campaign and select an amount up to $50 \
-        USD to donate.</p>"
-page2 = "<p>You and all other participants are entered in an opportunity drawing upon completion \
-        of this study. After all participant responses are recorded, one participant will \
-        be randomly selected as the winner.</p>\
-        <p>If you are the winner, the amount you choose to donate \
-        will be given to an individual who's in a situation similar to the one you will read about.</p>\
-        <p>Additionally, if you are the winner, you will receive as a cash bonus the amount you \
-        choose to not donate to the individual. This bonus is in addition to the \
-        fixed compensation for your participation.</p>\
+        to donate.</p>"
+page2 = "<p>In addition to your fixed compensation for participating, you and \
+        all other participants in this study will be entered in an opportunity \
+        drawing.</p>\
+        <p>One participant will be randomly selected to win up to $50.</p>\
+        <p>If you win, the amount you choose to donate will be given to an \
+        individual who is in a situation similar to the one you will read about. \
+        You will receive the remainder as a bonus.</p>\
         <p>For example: if you are the randomly selected winner, and you choose \
-        to donate $50, then you would receive a $0 bonus. Similarly, if you choose to donate \
-        $0, then you would receive a $50 bonus.</p>"
-page3 = "<p>There is no expense to enter this drawing other than your participation \
-        in this study. The chances of winning are about 1 in 200. Should you be the randomly \
-        selected winner, we will contact you via email.</p>"
+        to donate $45, then you will receive a $5 bonus. If you choose to donate \
+        $15, then you will receive a $35 bonus.</p>"
+page3 = "<p>There is no cost to enter this drawing. The chances of winning are \
+        about 1 in 200. Should you be the randomly selected winner, we will \
+        contact you via email.</p>"
 
 var instructions = {
   type: 'instructions',
@@ -252,6 +251,14 @@ var age = {
     data: {qtype: "age"}
 }
 
+var purpose = {
+    type: 'survey-text',
+    questions: [{'prompt':'What do you believe is the purpose of this experiment? (optional)',
+                  'columns': 80,
+                  'rows': 14}],
+    data: {qtype: "purpose"}
+}
+
 var feedback = {
     type: 'survey-text',
     questions: [{'prompt':'Do you have any additional feedback about this experiment for the researchers? (optional)',
@@ -270,7 +277,7 @@ var debrief = {
 // var timeline = [instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback]
 
 // with server
-var timeline = [consent, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback, debrief]
+var timeline = [consent, instructions, main_trial, followup_questions, cancer_info, demographics, age, purpose, feedback, debrief]
 
 jsPsych.init({
     timeline: timeline,
@@ -285,7 +292,6 @@ jsPsych.init({
       <br>\
       <h3>Your Mechanical Turk code is: <u>LCL19</u></h3>");
     }
-
   }
   );
   </script>

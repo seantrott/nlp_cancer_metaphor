@@ -69,6 +69,7 @@ dataf = dataf %>%
                     levels = c('Yes', 'No', 'Prefer not to say'), 
                     labels = c("Y", "N", "NA")),
     age = fromJSON(responses[qtype %in% "age"])$Q0,
+    purpose = fromJSON(responses[qtype %in% "purpose"])$Q0,
     feedback = fromJSON(responses[qtype %in% "feedback"])$Q0
   )
 
