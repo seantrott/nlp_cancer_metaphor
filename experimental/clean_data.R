@@ -77,4 +77,4 @@ m = dataf$age > 1900 & !is.na(dataf$age)
 dataf[m, ]$age = 2019 - dataf[m, ]$age # if the age field is > 1900, assume they entered their birth year. Subtract that from the current year, 2019.
 
 
-write_csv(dataf, "experimental/clean_pilot.csv")
+write_csv(dataf, "experimental/clean_data.csv")
