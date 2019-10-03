@@ -32,7 +32,6 @@ dataf = dataf %>%
     rt_debrief = rt[14],
     total_time = time_elapsed[14],
     urgent = fromJSON(responses[qtype %in% "urgent"])$Q0,
-    serious = fromJSON(responses[qtype %in% "serious"])$Q0,
     sympathy = fromJSON(responses[qtype %in% "sympathy"])$Q0,
     peace = fromJSON(responses[qtype %in% "peace"])$Q0,
     guilty = fromJSON(responses[qtype %in% "guilty"])$Q0,

@@ -1,0 +1,174 @@
+---
+title: "Inference"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(MASS)
+library(censReg)
+library(tidyverse)
+theme = theme_minimal()
+```
+
+# Experimental Analysis
+
+Hypotheses:
+
+H1a: The metaphorical conditions are more likely to have a higher mean donation than the literal condition.
+
+H1b: There is a difference in mean donation given whether the metaphor was battle or journey.
+
+ - Note: this is unsupported by the observational work, but differences in behavior due to the metaphor family are worth testing.
+
+H2: Consistent findings to Hendricks and Boroditsky 2016:	 	 	 		
+
+People who read the battle metaphor agreed more with the statement that the patient “will feel guilty if he does not recover,” than did people who read about the journey
+									
+People who read the journey metaphor agreed more with the statement that the patient “can make peace with his situation,” than the group who read the battle metaphor
+
+Men, more than women, will say the patient will feel guilty
+
+## Load and Clean Data
+
+Created via `clean_data.R`.
+
+```{r}
+sc = function(x) {
+  return((x - mean(x, na.rm = T)) / (2 * sd(x, na.rm = T)))
+}
+
+
+data = read_csv("clean_pilot_real.csv", col_types = cols()) %>%
+              mutate(
+              cond_sex = factor(cond_sex, levels = c("male", "female")),
+              cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
+              cond = paste(cond_sex, "_", cond_metaphor, sep=""),
+              
+              rt_trial = rt_trial / (1000 * 60), # convert to floating point minutes
+              total_time = total_time / (1000 * 60), # convert to floating point minutes
+              
+              age.z = sc(age),
+              exp_cancer = (self_cancer == "Y" | ff_cancer == "Y"),
+              
+              urgent = as.integer(urgent),
+              sympathy = as.integer(sympathy),
+              peace = as.integer(peace),
+              guilty = as.integer(guilty),
+              
+              gender = factor(gender, levels = c("M", "F", "NB", "NA")),
+              self_cancer = factor(self_cancer, levels = c("Y", "N", "NA")),
+              ff_cancer = factor(ff_cancer, levels = c("Y", "N", "NA")),
+              english = factor(english, levels = c("Y", "N", "NA")),
+              socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "NA")),
+              education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D", "NA")))
+```
+
+## Regression
+
+### H1
+
+**Does simply having either metaphor family present explain donation behavior?**
+
+```{r}
+data$cond_anymet = data$cond_metaphor %in% c("battle", "journey")
+```
+
+```{r}
+h1a.model = lm(donation ~ cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
+h1a.model.full = lm(donation ~ cond_anymet + cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
+
+summary(h1a.model.full)
+anova(h1a.model, h1a.model.full, test = "Chisq")
+```
+
+Censored regression with bounds [0, 50].
+
+```{r}
+h1a.cen.model = censReg(donation ~ cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, left = 0, right = 50, data = data)
+h1a.cen.model.full = censReg(donation ~ cond_anymet + cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, left = 0, right = 50, data = data)
+
+# `anova` doesn't support the class censReg, run a ChiSq model difference test manually
+# see http://people.stat.sfu.ca/~raltman/stat402/402L11.pdf
+# This code doesn't seem to be correct - working to fix now
+
+# pchisq(2*(h1a.cen.model.full$maximum - h1a.cen.model$maximum), h1a.cen.model$df.residual - h1a.cen.model.full$df.residual, lower.tail = F)
+```
+
+**Does either the battle or the journey metaphor family explain donation behavior beyond the literal condition?**
+
+To be compared with the similar analysis from the observational work.
+
+```{r}
+h1b.model = lm(donation ~ cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
+h1b.model.full = lm(donation ~ cond_metaphor + cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
+
+summary(h1b.model.full)
+anova(h1b.model, h1b.model.full, test = "Chisq")
+```
+
+
+
+
+Attempt a censored regression with bounds [0, 50].
+
+```{r}
+h1b.cen.model = censReg(donation ~ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, left = 0, right = 50, data = data)
+h1b.cen.model.full = censReg(donation ~ cond_metaphor*cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, left = 0, right = 50, data = data)
+
+# `anova` doesn't support the class censReg, run a ChiSq model difference test manually
+
+# pchisq(h1b.cen.model.full$maximum - h1b.cen.model$maximum, h1b.cen.model$df.residual - h1b.cen.model.full$df.residual, lower.tail = F)
+```
+
+### H2
+
+Can we replicate Hendricks & Boroditsky?
+
+Does the metaphorical and sex conditions have a relationship to participant's rating of perceived guilt?
+
+```{r}
+guilt.model = lm(guilty ~ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
+guilt.model.full = lm(guilty ~ cond_metaphor*cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
+
+summary(guilt.model.full)
+anova(guilt.model, guilt.model.full, test = "Chisq")
+```
+
+Guilt - as ordinally distributed
+
+```{r}
+guilt.model.ord = polr(as.factor(guilty) ~ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data, Hess = T)
+guilt.model.ord.full = polr(as.factor(guilty) ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data, Hess = T)
+
+summary(guilt.model.ord.full)
+anova(guilt.model.ord, guilt.model.ord.full, test = "Chisq")
+```
+
+Does the metaphorical and sex conditions have a relationship to participant's rating of perceived peace?
+
+```{r}
+peace.model = lm(peace ~ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
+peace.model.full = lm(peace ~ cond_metaphor*cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
+
+summary(peace.model.full)
+anova(peace.model, peace.model.full, test = "Chisq")
+```
+
+Peace - as ordinally distributed
+
+```{r}
+peace.model.ord = polr(as.factor(peace) ~ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data, Hess = T)
+peace.model.ord.full = polr(as.factor(peace) ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data, Hess = T)
+
+summary(peace.model.ord.full)
+exp(coef(peace.model.ord))
+anova(peace.model.ord, peace.model.ord.full, test = "Chisq")
+```
