@@ -25,7 +25,7 @@ library(tictoc) # for cell/function profiling
 ## GoFundMe Analysis of Mean Donation
 
 ```{r}
-projects = read.csv("../../data/processed/gofundme_projects_clean.csv")
+projects = read_csv("../../data/processed/gofundme_projects_clean.csv")
 projects$month = factor(projects$month)
 projects$day_of_week = factor(projects$day_of_week)
 ```
@@ -41,6 +41,7 @@ https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chis
 
 ```{r}
 upper_limit = quantile(projects$mean_donation, 0.995) # remove the top 0.5% of projects, eventually create models with these data included
+nrow(projects[projects$mean_donation > upper_limit, ])
 projects.trunc = projects[projects$mean_donation < upper_limit, ]
 
 projects.trunc %>%
@@ -54,37 +55,37 @@ projects.trunc %>%
 ```{r}
 projects.trunc %>%
   ggplot(aes(goal, mean_donation)) + labs(title="Goal Amount Distribution") +
-  geom_point(aes(alpha=0.1)) +
+  geom_point(alpha=0.1) +
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(duration_float, mean_donation)) + labs(title="Duration Distribution") +
-  geom_point(aes(alpha=0.1)) +
+  geom_point(alpha=0.1) +
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(text_length_words, mean_donation)) + labs(title="Text Length Distribution") +
-  geom_point(aes(alpha=0.1)) +
+  geom_point(alpha=0.1) +
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(photos, mean_donation)) + labs(title="Photos Distribution") +
-  geom_point(aes(alpha=0.1)) +
+  geom_point(alpha=0.1) +
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(updates, mean_donation)) + labs(title="Updates Distribution") +
-  geom_point(aes(alpha=0.1)) + 
+  geom_point(alpha=0.1) + 
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(friends, mean_donation)) + labs(title="FB Friends Distribution") +
-  geom_point(aes(alpha=0.1)) + 
+  geom_point(alpha=0.1) + 
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(shares, mean_donation)) + labs(title="FB Shares Distribution") +
-  geom_point(aes(alpha=0.1)) + 
+  geom_point(alpha=0.1) + 
   theme_minimal()
 
 projects.trunc %>%
@@ -133,8 +134,8 @@ p = function(var, scl=1, digits=6, mult=1.00, mask=T) {
   sd = sd(projects[mask, var])
   print(glue("Var: {var}\t Mean: {round(mu,digits)*scl}\t SD: {round(sd,digits)*scl}\t Scale (x{round(mult, 2)}): {paste(round(mult*sd + mu, digits)*scl)}"))
 }
-p("journey_salience", scl = 1000, digits = 5, mult = 0.6)
-p("battle_salience", scl = 1000, digits = 5, mult = 0.16)
+# p("journey_salience", scl = 1000, digits = 5, mult = 0.6)
+# p("battle_salience", scl = 1000, digits = 5, mult = 0.16)
 p("journey_prod", digits = 4, mask = projects$journey_metaphor > 0)
 p("battle_prod", digits = 4, mask = projects$battle_metaphor > 0)
 p("first_instantiation", digits = 4, mask = projects$journey_metaphor > 0, mult = 1.6)
@@ -162,17 +163,13 @@ mean.mod.base = glmer(base.formula, data = projects.trunc, family = Gamma(link =
 ```
 
 ```{r}
+
+```
+
+
+
+```{r}
 f = update(base.formula,  ~ . - duration_float_sc)
-# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
-```
-
-```{r}
-f = update(f,  ~ . - day_of_week)
-# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
-```
-
-```{r}
-f = update(f,  ~ . - photos_sc)
 # drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
 ```
 
@@ -182,8 +179,19 @@ f = update(f,  ~ . - month)
 ```
 
 ```{r}
+f = update(f,  ~ . - day_of_week)
+drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+# f = update(f,  ~ . - photos_sc)
+# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
+```
+
+
+```{r}
 mean.mod = glmer(f, data = projects.trunc, family = Gamma(link = "log"))
-# summary(mean.mod)
+summary(mean.mod)
 ```
 
 ### Results
@@ -251,12 +259,12 @@ Perform model selection to prevent overfitting:
 
 ```{r}
 mean.mod.base = glmer(base.formula, data = projects.trunc.both, family = Gamma(link = "log"))
-# drop1(mean.mod.base, test="Chisq")
+drop1(mean.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - month)
-# drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
+drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}

@@ -37,6 +37,7 @@ https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chis
 
 ```{r}
 upper_limit = quantile(projects$backers, 0.995)
+upper_limit
 nrow(projects[projects$backers > upper_limit, ])
 projects.trunc = projects[projects$backers < upper_limit, ]
 
@@ -59,37 +60,37 @@ The Poisson distribution obviously does not fit the data well since p approx 0. 
 ```{r}
 projects.trunc %>%
   ggplot(aes(goal, backers)) + labs(title="Goal Amount Distribution") +
-  geom_point(aes(alpha=0.1)) +
+  geom_point(alpha=0.1) +
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(duration_float, backers)) + labs(title="Duration Distribution") +
-  geom_point(aes(alpha=0.1)) +
+  geom_point(alpha=0.1) +
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(text_length_words, backers)) + labs(title="Text Length Distribution") +
-  geom_point(aes(alpha=0.1)) +
+  geom_point(alpha=0.1) +
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(photos, backers)) + labs(title="Photos Distribution") +
-  geom_point(aes(alpha=0.1)) +
+  geom_point(alpha=0.1) +
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(updates, backers)) + labs(title="Updates Distribution") +
-  geom_point(aes(alpha=0.1)) + 
+  geom_point(alpha=0.1) + 
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(friends, backers)) + labs(title="FB Friends Distribution") +
-  geom_point(aes(alpha=0.1)) + 
+  geom_point(alpha=0.1) + 
   theme_minimal()
 
 projects.trunc %>%
   ggplot(aes(shares, backers)) + labs(title="FB Shares Distribution") +
-  geom_point(aes(alpha=0.1)) + 
+  geom_point(alpha=0.1) + 
   theme_minimal()
 
 projects.trunc %>%
@@ -102,7 +103,7 @@ projects.trunc %>%
 Establish the base formula to build models off of:
 
 ```{r}
-base.formula = backers ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
+base.formula = backers ~ shares + friends + updates + photos + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
 ```
 
 Create a helper function to easily compare two models and pretty print the output:
@@ -168,7 +169,7 @@ f = update(base.formula,  ~ . - day_of_week)
 ```
 
 ```{r}
-f = update(f,  ~ . - friends_sc)
+f = update(f,  ~ . - friends)
 # drop1(glmmTMB(f, data = projects.trunc, family = "truncated_nbinom2"), test="Chisq")
 ```
 
