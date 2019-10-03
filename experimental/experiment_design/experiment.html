@@ -165,16 +165,7 @@ var followup_q3 = {
   data: {qtype: 'urgent'}
 }
 
-// var followup_q4 = {
-//   type: "survey-likert",
-//   preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
-//   questions: [
-//     {prompt: character["pos"] + " situation is serious.", labels: scale_1, required: true}
-//   ],
-//   data: {qtype: 'serious'}
-// }
-
-var followup_q5 = {
+var followup_q4 = {
   type: "survey-likert",
   preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
   questions: [
@@ -184,7 +175,7 @@ var followup_q5 = {
 }
 
 var followup_questions = {
-  timeline: jsPsych.randomization.shuffle([followup_q1, followup_q2, followup_q3, followup_q5])
+  timeline: jsPsych.randomization.shuffle([followup_q1, followup_q2, followup_q3, followup_q4])
 }
 
 ////// participant information
