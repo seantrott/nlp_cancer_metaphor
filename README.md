@@ -15,10 +15,64 @@ https://github.com/lmeninato/GoFundMe
 1. `make data_download`
 2. `make data_process`
 
-# Steps
+# Structure
 
-1. Scrape text from Kickstarter campaigns (and other platforms).  
-2. Put into .csv format, associated with other campaign statistics (amount raised, etc.).
-3. Detect metaphors using keyword search.
-4. Regress campaign success ~ metaphors used.
+## `/data/processed`
 
+Processed data files
+
+## `/data/raw`
+
+Raw data files
+
+## `/experimental/data`
+
+Experimental data
+
+## `/experimental/experiment_design`
+
+JPsych files
+
+## `/experimental/Fundraiser_files`
+
+Content and design files for the GoFundMe template for JPsych
+
+## `/exploration`
+
+Jupyter Notebooks for exploring the observational data
+
+## `/reports`
+
+Visualizations and files to create report visualizations.
+
+`visualizations.Rmd`
+
+## `/src/data`
+
+`data_download.py`: for downloading or organizing Kickstarter pilot data
+
+`mturk_compilation.py`: for creating items for Mechanical Turkers to label metaphors
+
+`project_search.Rmd`: for exploring projects
+
+## `/src/features`
+
+Creating features
+
+`build_text_features.py`: for creating text features for Kickstarter data. Uses `data/processed/cancer_projects_full.csv` to create `data/processed/kickstarter_plus_metaphor.csv`.
+
+`data_process.py`: for creating features to denote metaphor usage within each campaign (e.g. salience, productivity, etc.). Uses `data/processed/labeled.csv` and `data/raw/gofundme_projects.csv` to create `data/processed/gofundme_projects.csv`.
+
+`extract_metaphors.py`: deprecated.
+
+## `/src/reports`
+
+Analyses and reporting
+
+`campaigns.py`: for creating metaphor features for custom set of fictional campaigns. Uses `projects.csv` and `labeled.csv` to create `projects_full.csv`
+
+`make_campaigns.py`: for labeling metaphors of custom set of fictional campaigns. Uses `projects.csv` to create `labeled.csv`.
+
+# Coding
+
+After labeling metaphors in `extract_metaphors.ipynb`, run `make data_process`.
