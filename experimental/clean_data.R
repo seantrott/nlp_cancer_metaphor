@@ -1,11 +1,15 @@
 library(tidyverse)
 library(jsonlite)
 
+
+setwd("/Users/seantrott/Dropbox/UCSD/Research/ComputationalLinguistics/nlp_cancer_metaphor/experimental/")
+
+
 read = function (x) {
-  read_csv(paste("experimental/data/", x, sep=""), col_types = cols())
+  read_csv(paste("data/raw/", x, sep=""), col_types = cols())
 }
 data =
-  list.files("experimental/data/", pattern="*.csv") %>%
+  list.files("data/raw/", pattern="*.csv") %>%
   map_df(~read(.))
 
 dataf = data[, c("rt", "time_elapsed", "ppt", "recipient_sex", "metaphor", "response", "responses", "qtype")]
@@ -72,8 +76,10 @@ dataf = dataf %>%
     feedback = fromJSON(responses[qtype %in% "feedback"])$Q0
   )
 
+
+dataf$age = as.integer(dataf$age)
 m = dataf$age > 1900 & !is.na(dataf$age)
 dataf[m, ]$age = 2019 - dataf[m, ]$age # if the age field is > 1900, assume they entered their birth year. Subtract that from the current year, 2019.
 
 
-write_csv(dataf, "experimental/clean_data.csv")
+write_csv(dataf, "data/clean_data.csv")
