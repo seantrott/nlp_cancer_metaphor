@@ -358,7 +358,7 @@ df_just_metaphor %>%
                 position=position_dodge(width=0.95)) +
   labs(x = "Metaphor condition",
        y = "Peace - guilt score",
-       title = "Peace/guilt score by metaphor conditon and gender") +
+       title = "Peace/guilt score by metaphor and gender") +
   theme_minimal() +
   facet_grid(~cond_sex)
 
@@ -382,7 +382,7 @@ df_just_metaphor %>%
                 position=position_dodge(width=0.95)) +
   labs(x = "Metaphor condition",
        y = "Peace - guilt score",
-       title = "Peace/guilt score by metaphor conditon and gender congruence") +
+       title = "Peace/guilt score by metaphor and gender congruence") +
   theme_minimal()
 
 summary(lm(data = df_just_metaphor,
