@@ -29,7 +29,7 @@ sc = function(x) {
 }
 
 
-data = read_csv("clean_pilot_real.csv", col_types = cols()) %>%
+data = read_csv("data/clean_data.csv", col_types = cols()) %>%
               mutate(
               cond_sex = factor(cond_sex, levels = c("male", "female")),
               cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
@@ -45,12 +45,12 @@ data = read_csv("clean_pilot_real.csv", col_types = cols()) %>%
               peace = as.integer(peace),
               guilty = as.integer(guilty),
               
-              gender = factor(gender, levels = c("M", "F", "NB", "NA")),
-              self_cancer = factor(self_cancer, levels = c("Y", "N", "NA")),
-              ff_cancer = factor(ff_cancer, levels = c("Y", "N", "NA")),
-              english = factor(english, levels = c("Y", "N", "NA")),
-              socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "NA")),
-              education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D", "NA")))
+              gender = factor(gender, levels = c("M", "F", "NB")),
+              self_cancer = factor(self_cancer, levels = c("Y", "N")),
+              ff_cancer = factor(ff_cancer, levels = c("Y", "N")),
+              english = factor(english, levels = c("Y", "N")),
+              socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k")),
+              education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D")))
 ```
 
 ## Exploration
@@ -317,4 +317,55 @@ exp.cancer.model.full = lm(donation ~ exp_cancer + gender + education + socioeco
 summary(exp.cancer.model.full)
 anova(exp.cancer.model, exp.cancer.model.full, test = "Chisq")
 ```
+
+
+
+# Sean's explorations
+
+## Predicting guilt/peace scores
+
+```{r}
+
+data$ppt_gender = fct_recode(data$gender,
+                             "male" = "M",
+                             "female" = "F")
+data$ppt_gender = factor(data$ppt_gender, levels=c("male", "female"))
+
+data$congruent_gender = data$ppt_gender == data$cond_sex
+
+
+data$diff = data$peace - data$guilty
+df_just_metaphor = data %>%
+  filter(cond_metaphor != "literal")
+```
+
+
+### Possible 3-way interaction?
+
+Probably spurious, but there's a strange 3-way interaction going on between `ppt gender`, `metaphor`, and `patient gender`.
+
+```{r}
+
+
+df_just_metaphor %>%
+  ggplot(aes(x = cond_metaphor,
+             y = diff,
+             color = gender)) +
+  stat_summary (fun.y = function(x){mean(x)},
+                fun.ymin = function(x){mean(x) - 1*sd(x)/sqrt(length(x))},
+                fun.ymax = function(x){mean(x) + 1*sd(x)/sqrt(length(x))},
+                geom= 'pointrange', 
+                position=position_dodge(width=0.95)) +
+  labs(x = "Metaphor condition",
+       y = "Peace - guilt score",
+       title = "Peace/guilt score by metaphor conditon and gender") +
+  theme_minimal() +
+  facet_grid(~cond_sex)
+
+summary(lm(data = df_just_metaphor,
+           diff ~ cond_metaphor * cond_sex * gender))
+
+```
+
+
 
