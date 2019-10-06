@@ -342,7 +342,7 @@ df_just_metaphor = data %>%
 
 ### Possible 3-way interaction?
 
-Probably spurious, but there's a strange 3-way interaction going on between `ppt gender`, `metaphor`, and `patient gender`.
+Probably spurious, but there's a strange 3-way interaction going on between `ppt gender`, `metaphor`, and `patient gender`. 
 
 ```{r}
 
@@ -365,6 +365,28 @@ df_just_metaphor %>%
 summary(lm(data = df_just_metaphor,
            diff ~ cond_metaphor * cond_sex * gender))
 
+
+```
+
+Effect of gender **congruence**?
+
+```{r}
+df_just_metaphor %>%
+  ggplot(aes(x = cond_metaphor,
+             y = diff,
+             color = congruent_gender)) +
+  stat_summary (fun.y = function(x){mean(x)},
+                fun.ymin = function(x){mean(x) - 1*sd(x)/sqrt(length(x))},
+                fun.ymax = function(x){mean(x) + 1*sd(x)/sqrt(length(x))},
+                geom= 'pointrange', 
+                position=position_dodge(width=0.95)) +
+  labs(x = "Metaphor condition",
+       y = "Peace - guilt score",
+       title = "Peace/guilt score by metaphor conditon and gender congruence") +
+  theme_minimal()
+
+summary(lm(data = df_just_metaphor,
+           diff ~ cond_metaphor * congruent_gender))
 ```
 
 
