@@ -115,7 +115,7 @@ mean(data$donation == 25)
 mean(data$donation == 50)
 ```
 
-Given that 15% of participants donated \$25, we should see if this means anything. If the participant is rushing through the experiment and donates the default amount, we might expect to see that a donation of $25 predicts the trial response time (beyond what is predicted by the conditions).
+If the participant is rushing through the experiment and donates the default amount, we might expect to see that a donation of $25 predicts the trial response time (beyond what is predicted by the conditions).
 
 ```{r}
 time.model = lm(rt_trial ~ cond_sex*cond_metaphor, data = data)
@@ -252,6 +252,15 @@ cor.test(data$guilty, data$donation, method = "spearman", alternative = "two.sid
 cor.test(data$peace, data$guilty, method = "spearman", alternative = "two.sided")
 ```
 
+```{r}
+data$pg_diff = data$peace - data$guilty
+```
+
+```{r}
+summary(aov(pg_diff ~ cond_metaphor, data = data))
+```
+
+
 ## Demographics
 
 Explore the distributions of demographic variables.
@@ -368,6 +377,7 @@ summary(lm(data = df_just_metaphor,
 
 ```
 
+
 Effect of gender **congruence**?
 
 ```{r}
@@ -389,5 +399,25 @@ summary(lm(data = df_just_metaphor,
            diff ~ cond_metaphor * congruent_gender))
 ```
 
+# Sample Random ppt
 
+```{r}
+pilot = read_csv("pilot_data/clean_pilot.csv")
+```
+
+```{r}
+length(unique(pilot$ppt))
+length(unique(data$ppt))
+ids = c(pilot$ppt, data$ppt)
+length(ids)
+```
+
+```{r}
+id = sample(ids, 1)
+if (id %in% pilot$ppt) {
+  print(pilot[pilot$ppt == id, c("ppt", "donation")])
+} else {
+  print(data[data$ppt == id, c("ppt", "donation")])
+}
+```
 
