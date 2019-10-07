@@ -136,10 +136,10 @@ p = function(var, scl=1, digits=6, mult=1.00, mask=T) {
 }
 # p("journey_salience", scl = 1000, digits = 5, mult = 0.6)
 # p("battle_salience", scl = 1000, digits = 5, mult = 0.16)
-p("journey_prod", digits = 4, mask = projects$journey_metaphor > 0)
-p("battle_prod", digits = 4, mask = projects$battle_metaphor > 0)
-p("first_instantiation", digits = 4, mask = projects$journey_metaphor > 0, mult = 1.6)
-p("first_instantiation", digits = 4, mask = projects$battle_metaphor > 0, mult = 1.6)
+# p("journey_prod", digits = 4, mask = projects$journey_metaphor > 0)
+# p("battle_prod", digits = 4, mask = projects$battle_metaphor > 0)
+# p("first_instantiation", digits = 4, mask = projects$journey_metaphor > 0, mult = 1.6)
+# p("first_instantiation", digits = 4, mask = projects$battle_metaphor > 0, mult = 1.6)
 ```
 
 ## Any Metaphor
@@ -163,12 +163,6 @@ mean.mod.base = glmer(base.formula, data = projects.trunc, family = Gamma(link =
 ```
 
 ```{r}
-
-```
-
-
-
-```{r}
 f = update(base.formula,  ~ . - duration_float_sc)
 # drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
 ```
@@ -180,7 +174,7 @@ f = update(f,  ~ . - month)
 
 ```{r}
 f = update(f,  ~ . - day_of_week)
-drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
@@ -189,41 +183,13 @@ drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq
 ```
 
 
+
 ```{r}
 mean.mod = glmer(f, data = projects.trunc, family = Gamma(link = "log"))
 summary(mean.mod)
 ```
 
 ### Results
-
-```{r}
-# m2 = glm(status ~ shares_sc + friends_sc + updates_sc + goal_sc + text_length_words_sc + cancer_type + scale(journey_salience), data = projects.trunc.jor, family = "binomial")
-# 
-# m1 = glm(status ~ shares_sc + friends_sc + updates_sc + goal_sc + text_length_words_sc + cancer_type, data = projects.trunc.jor, family = "binomial")
-```
-
-```{r}
-# anova(m1,m2, test="Chisq")
-```
-
-```{r}
-# d = data.frame(name = names(coef(m2)), mu = as.numeric(coef(m2)))
-# d$LB = ci[as.character(d$name), 1]
-# d$UB = ci[as.character(d$name), 2]
-# d$sig = 0 > d$UB | 0 < d$LB
-# d = d[d$name != "(Intercept)", ]
-# d
-```
-
-
-```{r}
-# ggplot(d) +
-#   geom_bar(aes(x=name, y=mu, fill=sig), stat="identity") + 
-#   geom_point(aes(x=name, y=LB), color="red") +
-#   geom_point(aes(x=name, y=UB), color="blue") +
-#   coord_flip()
-```
-
 
 ```{r any metaphor}
 mod = glmer(update(f,  ~ . + any_metaphor), data = projects.trunc, family = Gamma(link = "log"))
