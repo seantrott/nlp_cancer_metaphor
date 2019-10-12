@@ -154,7 +154,7 @@ dat %>%
   ggplot() + labs(title="Updates Distribution") +
   geom_density(aes(updates))
 
-dat$shares_sc <- dat$shares / dat$shares
+dat$shares_sc <- dat$shares / sd(dat$shares)
 
 dat %>%
   ggplot() + labs(title="FB Shares Distribution") +

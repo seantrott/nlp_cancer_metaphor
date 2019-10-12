@@ -218,23 +218,22 @@ projects.trunc.both %>%
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
   geom_hline(yintercept = mean(projects.trunc.both[projects.trunc.both$both_metaphor == F, ]$mean_donation), lty=2, color="red") + 
   geom_hline(yintercept = mean(projects.trunc.both[projects.trunc.both$both_metaphor, ]$mean_donation), lty=2, color="blue")
-
 ```
 
 Perform model selection to prevent overfitting:
 
 ```{r}
 mean.mod.base = glmer(base.formula, data = projects.trunc.both, family = Gamma(link = "log"))
-drop1(mean.mod.base, test="Chisq")
+# drop1(mean.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - month)
-drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-f = update(f,  ~ . - photos_sc)
+f = update(f,  ~ . - duration_float_sc)
 # drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
@@ -244,7 +243,7 @@ f = update(f,  ~ . - day_of_week)
 ```
 
 ```{r}
-f = update(f,  ~ . - duration_float_sc)
+f = update(f,  ~ . - photos_sc)
 # drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
@@ -284,7 +283,7 @@ Null: There is no difference in outcomes when journey is the only metaphor famil
 ```{r}
 projects.trunc.some = projects.trunc[projects.trunc$any_metaphor, ]
 ```
-
+  
 N = `r nrow(projects.trunc.some)`
 
 ```{r}
@@ -403,27 +402,12 @@ mean.mod.base = glmer(base.formula, data = projects.trunc.jor, family = Gamma(li
 ```
 
 ```{r}
-f = update(base.formula,  ~ . - text_length_words_sc)
-# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
-```
-
-```{r}
-f = update(f,  ~ . - updates_sc)
-# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
-```
-
-```{r}
-f = update(f,  ~ . - cancer_type)
+f = update(base.formula,  ~ . - updates_sc)
 # drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - day_of_week)
-# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
-```
-
-```{r}
-f = update(f,  ~ . - duration_float_sc)
 # drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
 ```
 
@@ -434,6 +418,11 @@ f = update(f,  ~ . - photos_sc)
 
 ```{r}
 f = update(f,  ~ . - month)
+# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
 # drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
 ```
 
@@ -498,12 +487,17 @@ mean.mod.base = glmer(base.formula, data = projects.trunc.bat, family = Gamma(li
 ```
 
 ```{r}
-f = update(base.formula,  ~ . - day_of_week)
+f = update(base.formula,  ~ . - duration_float_sc)
 # drop1(glmer(f, data = projects.trunc.bat, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-f = update(f,  ~ . - duration_float_sc)
+f = update(f,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.trunc.bat, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
 # drop1(glmer(f, data = projects.trunc.bat, family = Gamma(link = "log")), test="Chisq")
 ```
 
