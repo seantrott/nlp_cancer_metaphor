@@ -111,7 +111,6 @@ h1b.model.full = lm(donation ~ cond_metaphor + cond_sex + gender + education + s
 
 summary(h1b.model.full)
 anova(h1b.model, h1b.model.full, test = "Chisq")
-
 ```
 
 #### Visualization
@@ -198,4 +197,69 @@ df_just_metaphor %>%
 
 ```
 
+
+# Post-hoc
+
+```{r}
+qs = quantile(df_cleaned$rt_trial, c(0.25, 0.75), names = F)
+
+df_cleaned$rt_trial_q = factor(findInterval(df_cleaned$rt_trial, qs))
+
+table(df_cleaned$rt_trial_q)
+```
+
+```{r}
+for (lvl in levels(df_cleaned$rt_trial_q)) {
+  print(df_cleaned %>%
+    filter(rt_trial_q == lvl) %>%
+    ggplot(aes(x = cond_anymet,
+               y = donation)) +
+    stat_summary (fun.y = function(x){mean(x)},
+                  fun.ymin = function(x){mean(x) - 1*sd(x)/sqrt(length(x))},
+                  fun.ymax = function(x){mean(x) + 1*sd(x)/sqrt(length(x))},
+                  geom= 'pointrange', 
+                  position=position_dodge(width=0.95)) +
+    labs(x = "Contains either BATTLE or JOURNEY metaphor",
+         y = "Donation amount",
+         title = "Donation amounts by metaphor condition") +
+    theme_minimal())
+}
+```
+
+```{r}
+for (lvl in levels(df_cleaned$rt_trial_q)) {
+  print(paste("Level: ", lvl))
+  h1a.model = lm(donation ~ cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned %>% filter(rt_trial_q == lvl))
+  h1a.model.full = lm(donation ~ cond_anymet + cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned %>% filter(rt_trial_q == lvl))
+  
+  print(anova(h1a.model, h1a.model.full, test = "Chisq"))
+  
+  h1b.model = lm(donation ~ cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned %>% filter(rt_trial_q == lvl))
+h1b.model.full = lm(donation ~ cond_metaphor + cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned %>% filter(rt_trial_q == lvl))
+
+  print(anova(h1b.model, h1b.model.full, test = "Chisq"))
+}
+```
+
+```{r}
+for (lvl in levels(df_cleaned$rt_trial_q)) {
+  print(paste("Level: ", lvl))
+  
+  model.reduced = lm(diff ~ cond_sex + gender + education + socioeconomic + self_cancer + ff_cancer, 
+                 data = df_just_metaphor %>% filter(rt_trial_q == lvl))
+  model.just_met = lm(diff ~ cond_metaphor + cond_sex + gender + education + socioeconomic + self_cancer + ff_cancer, 
+                            data = df_just_metaphor %>% filter(rt_trial_q == lvl))
+  model.ppt_gender_metaphor_interaction = lm(diff ~ cond_metaphor*gender + cond_sex + education + socioeconomic + self_cancer + ff_cancer, 
+                            data = df_just_metaphor %>% filter(rt_trial_q == lvl))
+  model.patient_gender_metaphor_interaction = lm(diff ~ cond_metaphor*cond_sex + gender + education + socioeconomic + self_cancer + ff_cancer, 
+                        data = df_just_metaphor %>% filter(rt_trial_q == lvl))
+  model.both_interactions = lm(diff ~ cond_metaphor*cond_sex + cond_metaphor*gender + education + socioeconomic + self_cancer + ff_cancer, 
+                        data = df_just_metaphor %>% filter(rt_trial_q == lvl))
+  
+  print(anova(model.reduced, model.just_met))
+  print(anova(model.just_met, model.ppt_gender_metaphor_interaction))
+  print(anova(model.just_met, model.patient_gender_metaphor_interaction))
+  print(anova(model.patient_gender_metaphor_interaction, model.both_interactions))
+}
+```
 
