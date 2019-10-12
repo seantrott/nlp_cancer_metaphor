@@ -1,0 +1,105 @@
+---
+title: "Mediation"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(simr)
+theme = theme_minimal()
+```
+
+# Mediation Analysis
+
+## Load clean data
+
+Created via `clean_data.R`.
+
+```{r}
+sc = function(x) {
+  return((x - mean(x, na.rm = T)) / (2 * sd(x, na.rm = T)))
+}
+
+df_cleaned = read_csv("data/clean_data.csv", col_types = cols()) %>%
+              mutate(
+              cond_sex = factor(cond_sex, levels = c("male", "female")),
+              cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
+              cond = paste(cond_sex, "_", cond_metaphor, sep=""),
+              
+              rt_trial = rt_trial / (1000 * 60), # convert to floating point minutes
+              total_time = total_time / (1000 * 60), # convert to floating point minutes
+              
+              age.z = sc(age),
+              exp_cancer = (self_cancer == "Y" | ff_cancer == "Y"),
+              
+              urgent = as.integer(urgent),
+              sympathy = as.integer(sympathy),
+              peace = as.integer(peace),
+              guilty = as.integer(guilty),
+              
+              gender = factor(gender, levels = c("M", "F", "NB")),
+              self_cancer = factor(self_cancer, levels = c("Y", "N")),
+              ff_cancer = factor(ff_cancer, levels = c("Y", "N")),
+              english = factor(english, levels = c("Y", "N")),
+              socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k")),
+              education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D")))
+```
+
+```{r}
+df_cleaned$cond_anymet = df_cleaned$cond_metaphor %in% c("battle", "journey")
+```
+
+```{r}
+df = df_cleaned %>%
+  dplyr::select(donation, cond_metaphor, cond_sex, gender, education, socioeconomic, age.z, self_cancer, ff_cancer) %>%
+  drop_na()
+```
+
+```{r}
+table(df$cond_metaphor)
+```
+
+```{r}
+model = glm(donation ~ cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df, family = "gaussian")
+```
+
+```{r}
+ps = powerSim(model, nsim = 500, seed = 42, 
+              test = compare(. ~ . + cond_metaphor))
+
+ps
+```
+
+```{r}
+df2 <- extend(df, within="cond_metaphor", n=200)
+
+model2 = glm(donation ~ cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df2, family = "gaussian")
+
+table(df2$cond_metaphor)
+```
+
+```{r}
+ps = powerSim(model2, nsim = 500, seed = 42, 
+              test = compare(. ~ . + cond_metaphor))
+
+ps
+```
+
+
+
+
+
+
+
+
+
+
+
