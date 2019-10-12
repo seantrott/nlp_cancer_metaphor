@@ -6,6 +6,7 @@
         <script src="jspsych-6.0.5/jspsych.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.0.5/plugins/jspsych-image-button-response.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-survey-likert.js"></script>
         <script src="jspsych-6.0.5/plugins/jspsych-survey-multi-choice.js"></script>
@@ -42,7 +43,8 @@ function saveData(filename, filedata) {
    $.ajax({
       type: 'post',
       cache: false,
-      url: "save_data.php", //../save
+      url: "save_data.php",
+      // url: "../save",
       data: {filename: filename, filedata: filedata}
    });
 }
@@ -79,6 +81,20 @@ var consent = {
     url: "consent.html",
     cont_btn: "consent",
     check_fn: checkConsent
+}
+
+/// Check3
+
+var check1 = {
+  type: 'image-button-response',
+  stimulus: 'check-1.png',
+  choices: ['1', '2', '3', '4']
+}
+
+var check2 = {
+  type: 'image-button-response',
+  stimulus: 'check-2.png',
+  choices: ['Pool', 'Ocean', 'Chair', 'River']
 }
 
 /// MAIN EXPERIMENT
@@ -134,7 +150,6 @@ var main_trial = {
 };
 
 // Secondary page asking about: 1) whether person is at peace; 2) whether person should feel guilty; and 3) what the urgency is.
-// survey-likert
 
 scale_1 = [1, 2, 3, 4, 5, 6, 7]
 
@@ -265,10 +280,10 @@ var debrief = {
 }
 
 // without server
-// var timeline = [instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback]
+// var timeline = [check1, check2, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback]
 
 // with server
-var timeline = [consent, instructions, main_trial, followup_questions, cancer_info, demographics, age, purpose, feedback, debrief]
+var timeline = [consent, check1, check2, instructions, main_trial, followup_questions, cancer_info, demographics, age, purpose, feedback, debrief]
 
 jsPsych.init({
     timeline: timeline,
