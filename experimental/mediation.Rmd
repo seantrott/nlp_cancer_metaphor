@@ -1,0 +1,159 @@
+---
+title: "Mediation"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(MASS)
+library(tidyverse)a
+library(mediation)
+theme = theme_minimal()
+```
+
+# Mediation Analysis
+
+## Load clean data
+
+Created via `clean_data.R`.
+
+```{r}
+sc = function(x) {
+  return((x - mean(x, na.rm = T)) / (2 * sd(x, na.rm = T)))
+}
+
+
+df_cleaned = read_csv("data/clean_data.csv", col_types = cols()) %>%
+              mutate(
+              cond_sex = factor(cond_sex, levels = c("male", "female")),
+              cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
+              cond = paste(cond_sex, "_", cond_metaphor, sep=""),
+              
+              rt_trial = rt_trial / (1000 * 60), # convert to floating point minutes
+              total_time = total_time / (1000 * 60), # convert to floating point minutes
+              
+              age.z = sc(age),
+              exp_cancer = (self_cancer == "Y" | ff_cancer == "Y"),
+              
+              urgent = as.integer(urgent),
+              sympathy = as.integer(sympathy),
+              peace = as.integer(peace),
+              guilty = as.integer(guilty),
+              
+              gender = factor(gender, levels = c("M", "F", "NB")),
+              self_cancer = factor(self_cancer, levels = c("Y", "N")),
+              ff_cancer = factor(ff_cancer, levels = c("Y", "N")),
+              english = factor(english, levels = c("Y", "N")),
+              socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k")),
+              education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D")))
+```
+
+```{r}
+df_cleaned$cond_anymet = df_cleaned$cond_metaphor %in% c("battle", "journey")
+```
+
+# Any Metaphor
+
+```{r}
+med = lm(sympathy ~ cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+out = lm(donation ~ sympathy + cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+
+summary(lm(donation ~ cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))
+summary(med)
+summary(out)
+```
+
+X does not predict Y, although we have reason to believe it might. X does not predict M. Given Y ~ M + X, X does not predict Y. Therefore, mediation analysis does not apply here.
+
+```{r}
+med = lm(urgent ~ cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+out = lm(donation ~ urgent + cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+
+summary(lm(donation ~ cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))
+summary(med)
+summary(out)
+```
+
+X does not predict Y, although we have reason to believe it might. However, X does predict M. Given Y ~ M + X, X does not predict Y, although the effect is slightly less. We attempt mediation analysis.
+
+```{r}
+med.anlys = mediate(med, out, treat = "cond_anymet", mediator = "urgent")
+
+summary(med.anlys)
+```
+
+Urgency is a partial mediator of donation given the *any metaphor* condition.
+
+# Battle and Journey Metaphors
+
+```{r}
+med = lm(sympathy ~ cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+out = lm(donation ~ sympathy + cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+
+summary(lm(donation ~ cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))
+summary(med)
+summary(out)
+```
+
+X does not predict Y, although we have reason to believe it might. X does not predict M. Given Y ~ M + X, X does not predict Y. Therefore, mediation analysis does not apply here.
+
+```{r}
+med = lm(urgent ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+out = lm(donation ~ urgent + cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+
+summary(lm(donation ~ cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))
+summary(med)
+summary(out)
+```
+
+X does not mediate Y, however we have reason to believe it might. X (battle) does predict M, however X (journey) doesn't. The effect of X on Y is less with M included. We test the mediation M of X (battle).
+
+```{r}
+med.anlys = mediate(med, out, treat = "cond_metaphor", mediator = "urgent", control.value = "literal", treat.value = "battle")
+
+summary(med.anlys)
+```
+
+Donation amounts are mediated by the urgent variable given the battle metaphor condition.
+
+# Peace and Guilt
+
+```{r}
+df_cleaned$diff = df_cleaned$peace - df_cleaned$guilty
+df_just_metaphor = df_cleaned %>%
+  filter(cond_metaphor != "literal")
+```
+
+```{r}
+med = lm(sympathy ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+out = lm(diff ~ sympathy + cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+
+summary(lm(diff ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))$coefficients
+summary(med)$coefficients
+summary(out)$coefficients
+```
+
+
+```{r}
+med = lm(urgent ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+out = lm(diff ~ urgent + cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+
+summary(lm(diff ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))$coefficients
+summary(med)$coefficients
+summary(out)$coefficients
+```
+
+```{r}
+med.anlys = mediate(med, out, treat = "cond_metaphor", mediator = "urgent", control.value = "literal", treat.value = "battle")
+
+summary(med.anlys)
+```
+
+Urgent is not a mediator of peace - guilt difference given the metaphor condition, specifically battle.
