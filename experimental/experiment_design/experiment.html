@@ -149,6 +149,17 @@ var main_trial = {
     data: {qtype: "trial"}
 };
 
+// Prompt the ppt to describe the situation
+
+var description = {
+    type: 'survey-text',
+    questions: [{required: true,
+                 prompt:'How would you describe ' + character["name"] + '\'s situation to a friend?',
+                 columns: 100,
+                 rows: 18}],
+    data: {qtype: "description"}
+}
+
 // Secondary page asking about: 1) whether person is at peace; 2) whether person should feel guilty; and 3) what the urgency is.
 
 scale_1 = [1, 2, 3, 4, 5, 6, 7]
@@ -283,7 +294,7 @@ var debrief = {
 // var timeline = [check1, check2, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback]
 
 // with server
-var timeline = [consent, check1, check2, instructions, main_trial, followup_questions, cancer_info, demographics, age, purpose, feedback, debrief]
+var timeline = [consent, check1, check2, instructions, main_trial, description, followup_questions, cancer_info, demographics, age, purpose, feedback, debrief]
 
 jsPsych.init({
     timeline: timeline,
