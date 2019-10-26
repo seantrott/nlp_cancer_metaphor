@@ -197,7 +197,6 @@ df_just_metaphor %>%
 
 ```
 
-
 # Post-hoc
 
 ```{r}

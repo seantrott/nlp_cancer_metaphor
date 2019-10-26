@@ -333,7 +333,7 @@ summary(gender.match.model.full)
 anova(gender.match.model, gender.match.model.full, test = "Chisq")
 ```
 
-### Experience-matching effect
+### Experience effect
 
 Is there a relationship between participant's experience with cancer and donation?
 
@@ -432,8 +432,10 @@ length(ids)
 ```{r}
 id = sample(ids, 1)
 if (id %in% pilot$ppt) {
+  print("Pilot")
   print(pilot[pilot$ppt == id, c("ppt", "donation")])
 } else {
+  print("Main")
   print(data[data$ppt == id, c("ppt", "donation")])
 }
 ```
