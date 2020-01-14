@@ -6,10 +6,6 @@ output:
     toc_float: true
 ---
 
-https://stats.stackexchange.com/questions/96972/how-to-interpret-parameters-in-glm-with-family-gamma
-http://rstudio-pubs-static.s3.amazonaws.com/5691_192685385fc445c9b3fb1619960a20e2.html
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -26,8 +22,11 @@ library(tictoc) # for cell/function profiling
 
 ```{r}
 projects = read_csv("../../data/processed/gofundme_projects_clean.csv")
-projects$month = factor(projects$month)
-projects$day_of_week = factor(projects$day_of_week)
+projects = within(projects, {
+  year = factor(year)
+  month = factor(month)
+  day_of_week = factor(day_of_week)
+})
 ```
 
 In total, we have N=`r nrow(projects)` IID samples to work with.
@@ -37,69 +36,59 @@ Removed all random variabes except year because they didn't help explain any var
 Nesting and Chi2 differences:
 https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chisquare_diff_en.pdf
 
+https://stats.stackexchange.com/questions/96972/how-to-interpret-parameters-in-glm-with-family-gamma
+http://rstudio-pubs-static.s3.amazonaws.com/5691_192685385fc445c9b3fb1619960a20e2.html
+
 # Mean Donation
 
 ```{r}
-upper_limit = quantile(projects$mean_donation, 0.995) # remove the top 0.5% of projects, eventually create models with these data included
-nrow(projects[projects$mean_donation > upper_limit, ])
-projects.trunc = projects[projects$mean_donation < upper_limit, ]
-
-projects.trunc %>%
+projects %>%
   ggplot() + labs(title="Mean Donation Density") +
   geom_density(aes(mean_donation))
-
-projects.trunc %>%
-  ggplot() + geom_qq(aes(sample=mean_donation), distribution = qexp) + geom_qq_line(aes(sample=mean_donation), distribution = qexp)
 ```
 
 ```{r}
-projects.trunc %>%
+projects %>%
   ggplot(aes(goal, mean_donation)) + labs(title="Goal Amount Distribution") +
   geom_point(alpha=0.1) +
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(duration_float, mean_donation)) + labs(title="Duration Distribution") +
   geom_point(alpha=0.1) +
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(text_length_words, mean_donation)) + labs(title="Text Length Distribution") +
   geom_point(alpha=0.1) +
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(photos, mean_donation)) + labs(title="Photos Distribution") +
   geom_point(alpha=0.1) +
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(updates, mean_donation)) + labs(title="Updates Distribution") +
   geom_point(alpha=0.1) + 
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(friends, mean_donation)) + labs(title="FB Friends Distribution") +
   geom_point(alpha=0.1) + 
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(shares, mean_donation)) + labs(title="FB Shares Distribution") +
   geom_point(alpha=0.1) + 
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(cancer_type, mean_donation)) + labs(title="Cancer Types") +
   geom_boxplot() +
   theme_minimal() +
   theme(axis.text.x=element_text(angle = 60, hjust=1))
 ```
-
- - https://stats.stackexchange.com/questions/142013/correct-glmer-distribution-family-and-link-for-a-continuous-zero-inflated-data-s
- 
-The data look like a Gamma, so we model with Gamma and a log link (see above answer for reason). It might be nice 
-
-Ideally, I could run a distributional test and confirm (or reject) this intuition.
 
 Establish the base formula to build models off of:
 
@@ -114,10 +103,11 @@ compare = function(model.old, model.new, key, multiplier=1.0) {
   a = anova(model.old, model.new)
   p = a$`Pr(>Chisq)`[2]
   print(glue("Variable: {key}"))
-  print(glue("DF diff: {a$`Chi Df`[2]}\t New AIC: {round(a$AIC[2], 1)}\t\t Chisq: {round(a$Chisq[2],1)}\t P(>chisq) = {round(p,4)} {if (p < 0.05) '(significant)' else ''})"))
-  effect = as.numeric(summary(mod)$coefficients[key, ])
-  print(glue("beta: {round(effect[1],4)} (+/- {round(effect[2],3)})\t stat: {round(effect[3], 2)} => P(>|z|) = {round(effect[4], 4)}"))
-  print(glue("rate ratio: {round((exp(effect[1]*multiplier) - 1)*100, 1)}% ({round((exp((effect[1] - effect[2])*multiplier) - 1)*100, 1)}% to {round((exp((effect[1] + effect[2])*multiplier) - 1)*100, 1)}%)"))
+  print(glue("DF diff: {a$`Chi Df`[2]}\t\t Chisq: {round(a$Chisq[2],1)}\t P(>chisq) = {round(p,3)} {if (p < 0.05) '(significant)' else ''})"))
+  effect = as.numeric(summary(model.new)$coefficients[key, ])
+  cis = confint(model.new, parm=key, method="Wald")
+  print(glue("beta: {round(effect[1],3)} (SE: {round(effect[2],3)}) (CI: {round(cis[1],3)}, {round(cis[2],3)})\t stat: {round(effect[3], 2)} => P(>|z|) = {round(effect[4], 3)}"))
+  print(glue("rate ratio: {round((exp(effect[1]*multiplier) - 1)*100, 1)}% (CI: {round((exp(cis[1]*multiplier) - 1)*100,1)}%, {round((exp(cis[2]*multiplier) - 1)*100,1)}%)"))
   print(glue(""))
 }
 ```
@@ -126,194 +116,185 @@ https://stats.stackexchange.com/questions/96972/how-to-interpret-parameters-in-g
 
 Key to interpretation is the log link used here
 
-To put the results from the continuous predictors on interpretable scales, we use a multiplier within the exponent (see `factor` in `compare()`). For example, if the multiplier is 1, this leads to: for a one unit increase in this predictor, we see an *x*-fold increase in the DV.
+To put the results from the continuous predictors on interpretable scales, we use a multiplier within the exponent (see `multiplier` in `compare()`). For example, if the multiplier is 1, this leads to: for a one unit increase in this predictor, we see an *x*-fold increase in the DV.
 
 ```{r}
-p = function(var, scl=1, digits=6, mult=1.00, mask=T) {
-  mu = mean(projects[mask, var])
-  sd = sd(projects[mask, var])
-  print(glue("Var: {var}\t Mean: {round(mu,digits)*scl}\t SD: {round(sd,digits)*scl}\t Scale (x{round(mult, 2)}): {paste(round(mult*sd + mu, digits)*scl)}"))
-}
-# p("journey_salience", scl = 1000, digits = 5, mult = 0.6)
+# p = function(var, scl=1, digits=6, mult=1.00, mask=T) {
+#   mu = mean(projects[mask, ][[var]])
+#   sd = sd(projects[mask, ][[var]])
+#   print(glue("Var: {var}\t Mean: {round(mu,digits)*scl}\t SD: {round(sd,digits)*scl}\t Scale (x{round(mult, 2)}): {paste(round(mult*sd + mu, digits)*scl)}"))
+# }
+# p("journey_salience", scl = 1000, digits = 5, mult = 1)
 # p("battle_salience", scl = 1000, digits = 5, mult = 0.16)
 # p("journey_prod", digits = 4, mask = projects$journey_metaphor > 0)
 # p("battle_prod", digits = 4, mask = projects$battle_metaphor > 0)
-# p("first_instantiation", digits = 4, mask = projects$journey_metaphor > 0, mult = 1.6)
-# p("first_instantiation", digits = 4, mask = projects$battle_metaphor > 0, mult = 1.6)
+# p("journey_instantiation", digits = 4, mask = projects$journey_metaphor > 0, mult = 1.6)
+# p("battle_instantiation", digits = 4, mask = projects$battle_metaphor > 0, mult = 1.6)
 ```
 
 ## Any Metaphor
 
-Examine: does having any instance of metaphor influence mean donation?
-
-Null: having any metaphor is not significantly different from having no metaphor
+Null: The presence of metaphor does not significantly predict the mean donation amount, compared to literal campaigns.
 
 ```{r}
-projects.trunc %>%
+projects %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(any_metaphor, mean_donation, fill=any_metaphor)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc[projects.trunc$any_metaphor == F, ]$mean_donation), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc[projects.trunc$any_metaphor, ]$mean_donation), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects[projects$any_metaphor == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects[projects$any_metaphor, ]$mean_donation), lty=2, color="blue")
 ```
 
 ```{r}
-mean.mod.base = glmer(base.formula, data = projects.trunc, family = Gamma(link = "log"))
+mean.mod.base = glmer(base.formula, data = projects, family = Gamma(link = "log"))
 # drop1(mean.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - duration_float_sc)
-# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - month)
-# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - day_of_week)
-# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-# f = update(f,  ~ . - photos_sc)
-# drop1(glmer(f, data = projects.trunc, family = Gamma(link = "log")), test="Chisq")
+f = update(f,  ~ . - photos_sc)
+# drop1(glmer(f, data = projects, family = Gamma(link = "log")), test="Chisq")
 ```
 
-
-
 ```{r}
-mean.mod = glmer(f, data = projects.trunc, family = Gamma(link = "log"))
-summary(mean.mod)
+mean.mod = glmer(f, data = projects, family = Gamma(link = "log"))
+# summary(mean.mod)
 ```
 
 ### Results
 
 ```{r any metaphor}
-mod = glmer(update(f,  ~ . + any_metaphor), data = projects.trunc, family = Gamma(link = "log"))
+mod = glmer(update(f,  ~ . + any_metaphor), data = projects, family = Gamma(link = "log"))
 compare(mean.mod, mod, "any_metaphorTRUE")
 
-mod = glmer(update(base.formula,  ~ . + any_metaphor), data = projects.trunc, family = Gamma(link = "log"))
+mod = glmer(update(base.formula,  ~ . + any_metaphor), data = projects, family = Gamma(link = "log"))
 compare(mean.mod.base, mod, "any_metaphorTRUE")
 ```
 
 ## Both Metaphors
 
-Examine: does having both metaphor families present influence mean donation?
-
-Null: having both metaphor families is not significantly different from having no metaphor
+Null: The presence of both metaphor families (battle and journey) does not significantly predict the mean donation, compared to literal campaigns.
 
 ```{r}
-projects.trunc.both = projects.trunc[(1-projects.trunc$any_metaphor) | projects.trunc$both_metaphor, ] # only projects with both or none
+projects.both = projects[projects$no_metaphor | projects$both_metaphor, ] # only projects with both or none
 ```
 
-N = `r nrow(projects.trunc.both)`
+N = `r nrow(projects.both)`
 
 ```{r}
-projects.trunc.both %>%
+projects.both %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(both_metaphor, mean_donation, fill=both_metaphor)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc.both[projects.trunc.both$both_metaphor == F, ]$mean_donation), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc.both[projects.trunc.both$both_metaphor, ]$mean_donation), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.both[projects.both$both_metaphor == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.both[projects.both$both_metaphor, ]$mean_donation), lty=2, color="blue")
 ```
 
 Perform model selection to prevent overfitting:
 
 ```{r}
-mean.mod.base = glmer(base.formula, data = projects.trunc.both, family = Gamma(link = "log"))
+mean.mod.base = glmer(base.formula, data = projects.both, family = Gamma(link = "log"))
 # drop1(mean.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - month)
-# drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - duration_float_sc)
-# drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - day_of_week)
-# drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - photos_sc)
-# drop1(glmer(f, data = projects.trunc.both, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.both, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.mod = glmer(f, data = projects.trunc.both, family = Gamma(link = "log"))
+f = update(f,  ~ . - updates_sc)
+# drop1(glmer(f, data = projects.both, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+mean.mod = glmer(f, data = projects.both, family = Gamma(link = "log"))
 # summary(mean.mod)
 ```
 
 ### Results
 
 ```{r both metaphors}
-mod = glmer(update(f,  ~ . + both_metaphor), data = projects.trunc.both, family = Gamma(link = "log"))
+mod = glmer(update(f,  ~ . + both_metaphor), data = projects.both, family = Gamma(link = "log"))
 compare(mean.mod, mod, "both_metaphorTRUE")
 
-mod = glmer(update(base.formula,  ~ . + both_metaphor), data = projects.trunc.both, family = Gamma(link = "log"))
+mod = glmer(update(base.formula,  ~ . + both_metaphor), data = projects.both, family = Gamma(link = "log"))
 compare(mean.mod.base, mod, "both_metaphorTRUE")
 ```
 
 ## Some Metaphor
 
-Examine: does having only journey/battle, or dominant journey/battle, influence mean donation?
+Null1: Journey metaphors dominating the campaign text does not significantly predict the mean donation, compared to camapigns with only battle metaphors or fewer battle metaphors than journey metaphors.
 
-Null: having only journey/battle, or dominant journey/battle, is not significantly different from negative
+Null2: Battle metaphors dominating the campaign text does not significantly predict the mean donation, compared to camapigns with only journey metaphors or fewer journey metaphors than battle metaphors.
 
-If journey is not the dominant metaphor, that means battle is or there are equal amounts of each family
-If journey is not the only metaphor family, that means there is at least some battle metaphor
+Null3: Only having the presence of journey metaphors in the campaign text does not significantly predict the mean donation, compared to campaigns with only battle metaphors or a combination of both journey and battle metaphors.
 
-Dominant Journey:
-Null: There is no difference in outcomes when journey dominates compared to when battle dominates or there is no dominant family.
-
-Dominant Battle:
-Null: There is no difference in outcomes when battle dominates compared to when journey dominates or there is no dominant family.
-
-Only journey:
-Null: There is no difference in outcomes when journey is the only metaphor family present compared to when there is also battle metaphor.
+Null4: Only having the presence of battle metaphors in the campaign text does not significantly predict the mean donation, compared to campaigns with only journey metaphors or a combination of both journey and battle metaphors.
 
 ```{r}
-projects.trunc.some = projects.trunc[projects.trunc$any_metaphor, ]
+projects.some = projects[projects$any_metaphor, ]
 ```
   
-N = `r nrow(projects.trunc.some)`
+N = `r nrow(projects.some)`
 
 ```{r}
-p1 = projects.trunc.some %>%
+p1 = projects.some %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(dom_journey, mean_donation, fill=dom_journey)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_journey == F, ]$mean_donation), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_journey, ]$mean_donation), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.some[projects.some$dom_journey == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some[projects.some$dom_journey, ]$mean_donation), lty=2, color="blue")
 
-p2 = projects.trunc.some %>%
+p2 = projects.some %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(dom_battle, mean_donation, fill=dom_battle)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_battle == F, ]$mean_donation), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_battle, ]$mean_donation), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.some[projects.some$dom_battle == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some[projects.some$dom_battle, ]$mean_donation), lty=2, color="blue")
 
-p3 = projects.trunc.some %>%
+p3 = projects.some %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(only_journey, mean_donation, fill=only_journey)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_journey == F, ]$mean_donation), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_journey, ]$mean_donation), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.some[projects.some$only_journey == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some[projects.some$only_journey, ]$mean_donation), lty=2, color="blue")
 
-p4 = projects.trunc.some %>%
+p4 = projects.some %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(only_battle, mean_donation, fill=only_battle)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_battle == F, ]$mean_donation), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_battle, ]$mean_donation), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.some[projects.some$only_battle == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some[projects.some$only_battle, ]$mean_donation), lty=2, color="blue")
 
 grid.arrange(p1, p2, p3, p4, nrow=1)
 ```
@@ -321,75 +302,162 @@ grid.arrange(p1, p2, p3, p4, nrow=1)
 Perform model selection to prevent overfitting:
 
 ```{r}
-mean.mod.base = glmer(base.formula, data = projects.trunc.some, family = Gamma(link = "log"))
+mean.mod.base = glmer(base.formula, data = projects.some, family = Gamma(link = "log"))
 # drop1(mean.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - duration_float_sc)
-# drop1(glmer(f, data = projects.trunc.some, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.some, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - day_of_week)
-# drop1(glmer(f, data = projects.trunc.some, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.some, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.mod = glmer(f, data = projects.trunc.some, family = Gamma(link = "log"))
+f = update(f,  ~ . - month)
+# drop1(glmer(f, data = projects.some, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - photos_sc)
+# drop1(glmer(f, data = projects.some, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - updates_sc)
+# drop1(glmer(f, data = projects.some, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+mean.mod = glmer(f, data = projects.some, family = Gamma(link = "log"))
 # summary(mean.mod)
 ```
 
 ### Results
 
 ```{r some metaphors reduced}
-mod = glmer(update(f,  ~ . + dom_journey), data = projects.trunc.some, family = Gamma(link = "log"))
+mod = glmer(update(f,  ~ . + dom_journey), data = projects.some, family = Gamma(link = "log"))
 compare(mean.mod, mod, "dom_journeyTRUE")
 
-mod = glmer(update(f,  ~ . + dom_battle), data = projects.trunc.some, family = Gamma(link = "log"))
+mod = glmer(update(f,  ~ . + dom_battle), data = projects.some, family = Gamma(link = "log"))
 compare(mean.mod, mod, "dom_battleTRUE")
 
-mod = glmer(update(f,  ~ . + only_journey), data = projects.trunc.some, family = Gamma(link = "log"))
+mod = glmer(update(f,  ~ . + only_journey), data = projects.some, family = Gamma(link = "log"))
 compare(mean.mod, mod, "only_journeyTRUE")
 
-mod = glmer(update(f,  ~ . + only_battle), data = projects.trunc.some, family = Gamma(link = "log"))
+mod = glmer(update(f,  ~ . + only_battle), data = projects.some, family = Gamma(link = "log"))
 compare(mean.mod, mod, "only_battleTRUE")
 ```
 
 ```{r some metaphors full}
-mod = glmer(update(base.formula,  ~ . + dom_journey), data = projects.trunc.some, family = Gamma(link = "log"))
+mod = glmer(update(base.formula,  ~ . + dom_journey), data = projects.some, family = Gamma(link = "log"))
 compare(mean.mod.base, mod, "dom_journeyTRUE")
 
-mod = glmer(update(base.formula,  ~ . + dom_battle), data = projects.trunc.some, family = Gamma(link = "log"))
+mod = glmer(update(base.formula,  ~ . + dom_battle), data = projects.some, family = Gamma(link = "log"))
 compare(mean.mod.base, mod, "dom_battleTRUE")
 
-mod = glmer(update(base.formula,  ~ . + only_journey), data = projects.trunc.some, family = Gamma(link = "log"))
+mod = glmer(update(base.formula,  ~ . + only_journey), data = projects.some, family = Gamma(link = "log"))
 compare(mean.mod.base, mod, "only_journeyTRUE")
 
-mod = glmer(update(base.formula,  ~ . + only_battle), data = projects.trunc.some, family = Gamma(link = "log"))
+mod = glmer(update(base.formula,  ~ . + only_battle), data = projects.some, family = Gamma(link = "log"))
 compare(mean.mod.base, mod, "only_battleTRUE")
 ```
 
-## Journey
+## Only Journey
+
+Null: Campaigns with only journey metaphors are not significantly more predictive of the mean donation, compared to literal campaigns.
 
 ```{r}
-projects.trunc.jor = projects.trunc[projects.trunc$journey_metaphor > 0, ]
+projects.some.jor = projects[projects$only_journey | projects$no_metaphor, ]
 ```
 
-N = `r nrow(projects.trunc.jor)`
+```{r}
+nrow(projects.some.jor)
+table(projects.some.jor$only_journey)
+```
 
 ```{r}
-p1 = projects.trunc.jor %>%
-  ggplot(aes(scale(journey_salience), mean_donation)) + theme_minimal() +
-  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+cbind(projects.some.jor %>% filter(!only_journey) %>% select(mean_donation) %>% summary(),
+      projects.some.jor %>% filter(only_journey) %>% select(mean_donation) %>% summary())
 
-p2 = projects.trunc.jor %>%
-  ggplot(aes(scale(journey_prod), mean_donation)) + theme_minimal() +
-  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+projects.some.jor %>%
+  ggplot() + theme_minimal() +
+  geom_violin(aes(only_journey, mean_donation, fill=only_journey)) + 
+  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
+  geom_hline(yintercept = mean(projects.some.jor[projects.some.jor$only_journey == F, ]$mean_donation), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some.jor[projects.some.jor$only_journey, ]$mean_donation), lty=2, color="blue")
+```
 
-p3 = projects.trunc.jor %>%
-  ggplot(aes(scale(first_instantiation), mean_donation)) + theme_minimal() +
-  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+```{r}
+mean.mod.base = glmer(base.formula, data = projects.some.jor, family = Gamma(link = "log"))
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.some.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - photos_sc)
+# drop1(glmer(f, data = projects.some.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
+# drop1(glmer(f, data = projects.some.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.some.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+mean.mod = glmer(f, data = projects.some.jor, family = Gamma(link = "log"))
+# summary(mean.mod)
+```
+
+### Results
+
+```{r only journey}
+mod = glmer(update(f,  ~ . + only_journey), data = projects.some.jor, family = Gamma(link = "log"))
+compare(mean.mod, mod, "only_journeyTRUE")
+
+mod = glmer(update(base.formula,  ~ . + only_journey), data = projects.some.jor, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "only_journeyTRUE")
+```
+
+## Journey Modulation
+
+```{r}
+projects.jor = projects[projects$journey_metaphor > 0, ]
+```
+
+N = `r nrow(projects.jor)`
+
+```{r}
+cbind(summary(projects.jor$journey_salience),
+      summary(projects.jor$journey_prod),
+      summary(projects.jor$journey_instantiation))
+```
+
+
+```{r}
+p1 = projects.jor %>%
+  ggplot(aes(journey_salience, mean_donation)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="blue")
+
+p2 = projects.jor %>%
+  ggplot(aes(journey_prod, mean_donation)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="blue")
+
+p3 = projects.jor %>%
+  ggplot(aes(journey_instantiation, mean_donation)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="blue")
 
 grid.arrange(p1, p2, p3, nrow=1)
 ```
@@ -397,83 +465,161 @@ grid.arrange(p1, p2, p3, nrow=1)
 Perform model selection to prevent overfitting:
 
 ```{r}
-mean.mod.base = glmer(base.formula, data = projects.trunc.jor, family = Gamma(link = "log"))
+mean.mod.base = glmer(base.formula, data = projects.jor, family = Gamma(link = "log"))
 # drop1(mean.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - updates_sc)
-# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.jor, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - day_of_week)
-# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.jor, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - photos_sc)
-# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.jor, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - month)
-# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.jor, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - duration_float_sc)
-# drop1(glmer(f, data = projects.trunc.jor, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.jor, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.mod = glmer(f, data = projects.trunc.jor, family = Gamma(link = "log"))
+f = update(f,  ~ . - cancer_type)
+# drop1(glmer(f, data = projects.jor, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+mean.mod = glmer(f, data = projects.jor, family = Gamma(link = "log"))
 # summary(mean.mod)
 ```
 
 ### Results
 
-```{r journey specific reduced}
-mod = glmer(update(f,  ~ . + scale(journey_salience)), data = projects.trunc.jor, family = Gamma(link = "log"))
-compare(mean.mod, mod, "scale(journey_salience)", 0.6)
+```{r journey modulation reduced}
+mod = glmer(update(f,  ~ . + journey_salience), data = projects.jor, family = Gamma(link = "log"))
+compare(mean.mod, mod, "journey_salience")
 
-mod = glmer(update(f,  ~ . + scale(journey_prod)), data = projects.trunc.jor, family = Gamma(link = "log"))
-compare(mean.mod, mod, "scale(journey_prod)")
+mod = glmer(update(f,  ~ . + journey_prod), data = projects.jor, family = Gamma(link = "log"))
+compare(mean.mod, mod, "journey_prod")
 
-mod = glmer(update(f,  ~ . + scale(first_instantiation)), data = projects.trunc.jor, family = Gamma(link = "log"))
-compare(mean.mod, mod, "scale(first_instantiation)")
+mod = glmer(update(f,  ~ . + journey_instantiation), data = projects.jor, family = Gamma(link = "log"))
+compare(mean.mod, mod, "journey_instantiation")
 ```
 
-```{r journey specific full}
-mod = glmer(update(base.formula,  ~ . + scale(journey_salience)), data = projects.trunc.jor, family = Gamma(link = "log"))
-compare(mean.mod.base, mod, "scale(journey_salience)", 0.6)
+```{r journey modulation full}
+mod = glmer(update(base.formula,  ~ . + journey_salience), data = projects.jor, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "journey_salience")
 
-mod = glmer(update(base.formula,  ~ . + scale(journey_prod)), data = projects.trunc.jor, family = Gamma(link = "log"))
-compare(mean.mod.base, mod, "scale(journey_prod)")
+mod = glmer(update(base.formula,  ~ . + journey_prod), data = projects.jor, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "journey_prod")
 
-mod = glmer(update(base.formula,  ~ . + scale(first_instantiation)), data = projects.trunc.jor, family = Gamma(link = "log"))
-compare(mean.mod.base, mod, "scale(first_instantiation)")
+mod = glmer(update(base.formula,  ~ . + journey_instantiation), data = projects.jor, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "journey_instantiation")
 ```
 
-## Battle
+## Only Battle
+
+Null: Campaigns with only battle metaphors are not significantly more predictive of the mean donation, compared to literal campaigns.
 
 ```{r}
-projects.trunc.bat = projects.trunc[projects.trunc$battle_metaphor > 0, ]
+projects.some.bat = projects[projects$only_battle | projects$no_metaphor, ]
 ```
 
-N = `r nrow(projects.trunc.bat)`
+```{r}
+nrow(projects.some.bat)
+table(projects.some.bat$only_battle)
+```
 
 ```{r}
-p1 = projects.trunc.bat %>%
-  ggplot(aes(scale(battle_salience), mean_donation)) + theme_minimal() +
+cbind(projects.some.bat %>% filter(!only_battle) %>% select(mean_donation) %>% summary(),
+      projects.some.bat %>% filter(only_battle) %>% select(mean_donation) %>% summary())
+
+projects.some.bat %>%
+  ggplot() + theme_minimal() +
+  geom_violin(aes(only_battle, mean_donation, fill=only_battle)) +
+  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) +
+  geom_hline(yintercept = mean(projects.some.bat[projects.some.bat$only_battle == F, ]$mean_donation), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.some.bat[projects.some.bat$only_battle, ]$mean_donation), lty=2, color="blue")
+```
+
+```{r}
+base.formula = mean_donation ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
+
+mean.mod.base = glmer(base.formula, data = projects.some.bat, family = Gamma(link = "log"))
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - month)
+# drop1(glmer(f, data = projects.some.bat, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(glmer(f, data = projects.some.bat, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(glmer(f, data = projects.some.bat, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - photos_sc)
+# drop1(glmer(f, data = projects.some.bat, family = Gamma(link = "log")), test="Chisq")
+```
+
+```{r}
+mean.mod = glmer(f, data = projects.some.bat, family = Gamma(link = "log"))
+# summary(mean.mod)
+```
+
+### Results
+
+```{r only battle}
+mod = glmer(update(f,  ~ . + only_battle), data = projects.some.bat, family = Gamma(link = "log"))
+compare(mean.mod, mod, "only_battleTRUE")
+
+mod = glmer(update(base.formula,  ~ . + only_battle), data = projects.some.bat, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "only_battleTRUE")
+```
+
+## Battle Modulation
+
+```{r}
+projects.bat = projects[projects$battle_metaphor > 0, ]
+```
+
+N = `r nrow(projects.bat)`
+
+```{r}
+cbind(summary(projects.bat$battle_salience),
+      summary(projects.bat$battle_prod),
+      summary(projects.bat$battle_instantiation))
+```
+
+```{r}
+p1 = projects.bat %>%
+  ggplot(aes(battle_salience, mean_donation)) + theme_minimal() +
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
-p2 = projects.trunc.bat %>%
-  ggplot(aes(scale(battle_prod), mean_donation)) + theme_minimal() +
+p2 = projects.bat %>%
+  ggplot(aes(battle_prod, mean_donation)) + theme_minimal() +
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
-p3 = projects.trunc.bat %>%
-  ggplot(aes(scale(first_instantiation), mean_donation)) + theme_minimal() +
+p3 = projects.bat %>%
+  ggplot(aes(battle_instantiation, mean_donation)) + theme_minimal() +
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
 grid.arrange(p1, p2, p3, nrow=1)
@@ -482,55 +628,55 @@ grid.arrange(p1, p2, p3, nrow=1)
 Perform model selection to prevent overfitting:
 
 ```{r}
-mean.mod.base = glmer(base.formula, data = projects.trunc.bat, family = Gamma(link = "log"))
+mean.mod.base = glmer(base.formula, data = projects.bat, family = Gamma(link = "log"))
 # drop1(mean.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - duration_float_sc)
-# drop1(glmer(f, data = projects.trunc.bat, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.bat, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - day_of_week)
-# drop1(glmer(f, data = projects.trunc.bat, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.bat, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - month)
-# drop1(glmer(f, data = projects.trunc.bat, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.bat, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - text_length_words_sc)
-# drop1(glmer(f, data = projects.trunc.bat, family = Gamma(link = "log")), test="Chisq")
+# drop1(glmer(f, data = projects.bat, family = Gamma(link = "log")), test="Chisq")
 ```
 
 ```{r}
-mean.mod = glmer(f, data = projects.trunc.bat, family = Gamma(link = "log"))
+mean.mod = glmer(f, data = projects.bat, family = Gamma(link = "log"))
 # summary(mean.mod)
 ```
 
 ### Results
 
-```{r battle specific reduced}
-mod = glmer(update(f,  ~ . + scale(battle_salience)), data = projects.trunc.bat, family = Gamma(link = "log"))
-compare(mean.mod, mod, "scale(battle_salience)", 0.16)
+```{r battle modulation reduced}
+mod = glmer(update(f,  ~ . + battle_salience), data = projects.bat, family = Gamma(link = "log"))
+compare(mean.mod, mod, "battle_salience")
 
-mod = glmer(update(f,  ~ . + scale(battle_prod)), data = projects.trunc.bat, family = Gamma(link = "log"))
-compare(mean.mod, mod, "scale(battle_prod)")
+mod = glmer(update(f,  ~ . + battle_prod), data = projects.bat, family = Gamma(link = "log"))
+compare(mean.mod, mod, "battle_prod")
 
-mod = glmer(update(f,  ~ . + scale(first_instantiation)), data = projects.trunc.bat, family = Gamma(link = "log"))
-compare(mean.mod, mod, "scale(first_instantiation)")
+mod = glmer(update(f,  ~ . + battle_instantiation), data = projects.bat, family = Gamma(link = "log"))
+compare(mean.mod, mod, "battle_instantiation")
 ```
 
-```{r battle specific full}
-mod = glmer(update(base.formula,  ~ . + scale(battle_salience)), data = projects.trunc.bat, family = Gamma(link = "log"))
-compare(mean.mod.base, mod, "scale(battle_salience)", 0.16)
+```{r battle modulation full}
+mod = glmer(update(base.formula,  ~ . + battle_salience), data = projects.bat, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "battle_salience")
 
-mod = glmer(update(base.formula,  ~ . + scale(battle_prod)), data = projects.trunc.bat, family = Gamma(link = "log"))
-compare(mean.mod.base, mod, "scale(battle_prod)")
+mod = glmer(update(base.formula,  ~ . + battle_prod), data = projects.bat, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "battle_prod")
 
-mod = glmer(update(base.formula,  ~ . + scale(first_instantiation)), data = projects.trunc.bat, family = Gamma(link = "log"))
-compare(mean.mod.base, mod, "scale(first_instantiation)")
+mod = glmer(update(base.formula,  ~ . + battle_instantiation), data = projects.bat, family = Gamma(link = "log"))
+compare(mean.mod.base, mod, "battle_instantiation")
 ```

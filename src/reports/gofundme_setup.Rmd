@@ -23,11 +23,6 @@ We have several dependent variables which we would like to model as accurately a
 
 # Related Work
 
-Hendricks, R. K., Demjén, Z., Semino, E., & Boroditsky, L. (2018). Emotional Implications of Metaphor: Consequences of Metaphor Framing for Mindset about Cancer. Metaphor and Symbol, 33(4), 267–279. https://doi.org/10.1080/10926488.2018.1549835
-
-Semino, E., Demjén, Z., Demmen, J., Koller, V., Payne, S., Hardie, A., & Rayson, P. (2017). The online use of Violence and Journey metaphors by patients with cancer, as compared with health professionals: a mixed methods study. BMJ Supportive & Palliative Care, 7(1), 60–66. https://doi.org/10.1136/bmjspcare-2014-000785
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -50,12 +45,6 @@ colnames(dat)
 ```
 
 # Data Exploration
-
-```{r}
-mean(dat$journey_metaphor)
-mean(dat$journey_salience)
-```
-
 
 ### Projects per year
 
@@ -203,6 +192,15 @@ ggplot(dat) + theme_minimal() + geom_bar(aes(any_metaphor, fill = dom_journey, a
 ggplot(dat) + theme_minimal() + geom_bar(aes(any_metaphor, fill = both_metaphor)) + scale_alpha_manual(values=c(0.6, 0.95))
 ```
 
+```{r}
+sum(!dat$any_metaphor)
+sum(dat$both_metaphor)
+sum(dat$only_battle)
+sum(dat$only_journey)
+sum(dat$dom_battle)
+sum(dat$dom_journey)
+```
+
 How frequent are the metaphor keywords per 1,000 words? (compared to Semino et al 2017)
 
 ```{r}
@@ -219,18 +217,42 @@ Blue       = Dominant Battle
 
 ```{r}
 ggplot() + 
-  geom_density(data = dat[dat$only_journey == T, ], aes(first_instantiation), fill=rgb(1,0.5,0.5), alpha=0.3) +
-  geom_density(data = dat[dat$only_battle == T, ], aes(first_instantiation), fill=rgb(0.5,0.5,1), alpha=0.3) +
-  geom_density(data = dat[dat$dom_battle == T, ], aes(first_instantiation), fill=rgb(0,0,1), alpha=0.3) +
-  geom_density(data = dat[dat$dom_journey == T, ], aes(first_instantiation), fill=rgb(1,0,0), alpha=0.3) +
+  geom_density(data = dat[dat$only_journey == T, ], aes(journey_instantiation), fill=rgb(1,0.5,0.5), alpha=0.3) +
+  geom_density(data = dat[dat$only_battle == T, ], aes(battle_instantiation), fill=rgb(0.5,0.5,1), alpha=0.3) +
+  geom_density(data = dat[dat$dom_battle == T, ], aes(battle_instantiation), fill=rgb(0,0,1), alpha=0.3) +
+  geom_density(data = dat[dat$dom_journey == T, ], aes(journey_instantiation), fill=rgb(1,0,0), alpha=0.3) +
   labs(x="Instantiation Position")
 ```
+
+```{r}
+dat[dat$journey_salience != -1, ]$journey_salience = stnd(dat[dat$journey_salience != -1, ]$journey_salience)
+dat[dat$battle_salience != -1, ]$battle_salience = stnd(dat[dat$battle_salience != -1, ]$battle_salience)
+
+dat[dat$journey_prod != -1, ]$journey_prod = stnd(dat[dat$journey_prod != -1, ]$journey_prod)
+dat[dat$battle_prod != -1, ]$battle_prod = stnd(dat[dat$battle_prod != -1, ]$battle_prod)
+
+dat[dat$journey_instantiation != -1, ]$journey_instantiation = stnd(dat[dat$journey_instantiation != -1, ]$journey_instantiation)
+dat[dat$battle_instantiation != -1, ]$battle_instantiation = stnd(dat[dat$battle_instantiation != -1, ]$battle_instantiation)
+```
+
+Blanket remove outliers
+
+```{r}
+pre = nrow(dat)
+mean_upper_limit = quantile(dat$mean_donation, 0.995) # remove the top 0.5% of projects
+backers_upper_limit = quantile(dat$backers, 0.995)
+
+dat = dat[dat$backers < backers_upper_limit & dat$mean_donation < mean_upper_limit, ]
+print(paste("Losing", pre - nrow(dat), "campaigns"))
+```
+
 
 Good resources:
 https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html
 https://ase.tufts.edu/gsc/gradresources/guidetomixedmodelsinr/mixed%20model%20guide.html
 
 ```{r}
+nrow(dat)
 write_csv(dat, "../../data/processed/gofundme_projects_clean.csv")
 ```
 

@@ -21,9 +21,12 @@ library(tictoc) # for cell/function profiling
 ## GoFundMe Analysis of Backers
 
 ```{r}
-projects = read.csv("../../data/processed/gofundme_projects_clean.csv")
-projects$month = factor(projects$month)
-projects$day_of_week = factor(projects$day_of_week)
+projects = read_csv("../../data/processed/gofundme_projects_clean.csv")
+projects = within(projects, {
+  year = factor(year)
+  month = factor(month)
+  day_of_week = factor(day_of_week)
+})
 ```
 
 In total, we have N=`r nrow(projects)` IID samples to work with.
@@ -36,20 +39,14 @@ https://www.psychologie.uzh.ch/dam/jcr:ffffffff-b371-2797-0000-00000fda8f29/chis
 # Backers
 
 ```{r}
-upper_limit = quantile(projects$backers, 0.995)
-upper_limit
-nrow(projects[projects$backers > upper_limit, ])
-projects.trunc = projects[projects$backers < upper_limit, ]
-
-ggplot() + labs(x="Number of Backers", title="Number of Backers Density") +
-  geom_density(aes(projects$backers[projects$backers < upper_limit]))
+ggplot(projects) + labs(x="Number of Backers", title="Number of Backers Density") +
+  geom_density(aes(backers))
 ```
 
 Run a quick data dispersion test (see Rice 1995):
 
 ```{r}
-s = na.omit(projects.trunc)
-pchisq(2 * sum(projects.trunc$backers * log(projects.trunc$backers / mean(projects.trunc$backers))), length(projects.trunc$backers) - 1, lower.tail = F)
+pchisq(2 * sum(projects$backers * log(projects$backers / mean(projects$backers))), length(projects$backers) - 1, lower.tail = F)
 ```
 
 H0: The data are fit well by a Poisson Distribution
@@ -58,42 +55,42 @@ H1: Poisson fails to fit the data well
 The Poisson distribution obviously does not fit the data well since p approx 0. Let's use a NegBin instead, which can account for differences in the mean and variance.
 
 ```{r}
-projects.trunc %>%
+projects %>%
   ggplot(aes(goal, backers)) + labs(title="Goal Amount Distribution") +
   geom_point(alpha=0.1) +
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(duration_float, backers)) + labs(title="Duration Distribution") +
   geom_point(alpha=0.1) +
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(text_length_words, backers)) + labs(title="Text Length Distribution") +
   geom_point(alpha=0.1) +
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(photos, backers)) + labs(title="Photos Distribution") +
   geom_point(alpha=0.1) +
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(updates, backers)) + labs(title="Updates Distribution") +
   geom_point(alpha=0.1) + 
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(friends, backers)) + labs(title="FB Friends Distribution") +
   geom_point(alpha=0.1) + 
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(shares, backers)) + labs(title="FB Shares Distribution") +
   geom_point(alpha=0.1) + 
   theme_minimal()
 
-projects.trunc %>%
+projects %>%
   ggplot(aes(cancer_type, backers)) + labs(title="Cancer Types") +
   geom_boxplot() +
   theme_minimal() +
@@ -103,7 +100,7 @@ projects.trunc %>%
 Establish the base formula to build models off of:
 
 ```{r}
-base.formula = backers ~ shares + friends + updates + photos + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
+base.formula = backers ~  shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
 ```
 
 Create a helper function to easily compare two models and pretty print the output:
@@ -113,10 +110,11 @@ compare = function(model.old, model.new, key, multiplier=1.0) {
   a = anova(model.old, model.new)
   p = a$`Pr(>Chisq)`[2]
   print(glue("Variable: {key}"))
-  print(glue("DF diff: {a$`Chi Df`[2]}\t New AIC: {round(a$AIC[2], 1)}\t\t Chisq: {round(a$Chisq[2],1)}\t P(>chisq) = {round(p,4)} {if (p < 0.05) '(significant)' else ''})"))
-  effect = as.numeric(summary(mod)$coefficients$cond[key, ])
-  print(glue("beta: {round(effect[1],4)} (+/- {round(effect[2],3)})\t stat: {round(effect[3], 2)} => P(>|z|) = {round(effect[4], 4)}"))
-  print(glue("rate ratio: {round((exp(effect[1]*multiplier) - 1)*100, 1)}% ({round((exp((effect[1] - effect[2])*multiplier) - 1)*100, 1)}% to {round((exp((effect[1] + effect[2])*multiplier) - 1)*100, 1)}%)"))
+  print(glue("DF diff: {a$`Chi Df`[2]}\t\t Chisq: {round(a$Chisq[2],1)}\t P(>chisq) = {round(p,3)} {if (p < 0.05) '(significant)' else ''})"))
+  effect = as.numeric(summary(model.new)$coefficients$cond[key, ])
+  cis = confint(model.new, parm=paste("cond.", key, sep = ""), method="wald")
+  print(glue("beta: {round(effect[1],3)} (SE: {round(effect[2],3)}) (CI: {round(cis[1],3)}, {round(cis[2],3)})\t stat: {round(effect[3], 2)} => P(>|z|) = {round(effect[4], 3)}"))
+  print(glue("rate ratio: {round((exp(effect[1]*multiplier) - 1)*100, 1)}% (CI: {round((exp(cis[1]*multiplier) - 1)*100,1)}%, {round((exp(cis[2]*multiplier) - 1)*100,1)}%)"))
   print(glue(""))
 }
 ```
@@ -124,22 +122,6 @@ compare = function(model.old, model.new, key, multiplier=1.0) {
 https://stats.stackexchange.com/questions/96972/how-to-interpret-parameters-in-glm-with-family-gamma
 
 Key to interpretation is the log link used here
-
-To put the results from the continuous predictors on interpretable scales, we use a multiplier within the exponent (see `factor` in `compare()`). For example, if the multiplier is 1, this leads to: for a one unit increase in this predictor, we see an *x*-fold increase in the DV.
-
-```{r}
-p = function(var, scl=1, digits=6, mult=1.00, mask=T) {
-  mu = mean(projects[mask, var])
-  sd = sd(projects[mask, var])
-  print(glue("Var: {var}\t Mean: {round(mu,digits)*scl}\t SD: {round(sd,digits)*scl}\t Scale (x{round(mult, 2)}): {paste(round(mult*sd + mu, digits)*scl)}"))
-}
-p("journey_salience", scl = 1000, digits = 5, mult = 0.6)
-p("battle_salience", scl = 1000, digits = 5, mult = 0.16)
-p("journey_prod", digits = 4, mask = projects$journey_metaphor > 0)
-p("battle_prod", digits = 4, mask = projects$battle_metaphor > 0)
-p("first_instantiation", digits = 4, mask = projects$journey_metaphor > 0, mult = 1.6)
-p("first_instantiation", digits = 4, mask = projects$battle_metaphor > 0, mult = 1.6)
-```
 
 It might be the case that a quasi-Poisson model fits better, see:
 https://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1141&context=usdeptcommercepub
@@ -150,138 +132,141 @@ Inherently, the number of backers must be > 0, thus we model using a truncated N
 
 The coefficients of each model can be exponentiated to get the Incident Rate Ratio. 
 
-An example rationalization would look like: *Projects with any metaphor are expected to have 5.0% more donors than projects with no metaphors at all, with other predictor values remaining constant.*
-
 ## Any Metaphor
 
-Examine: does having any instance of metaphor influence backers?
-
-Null: having any metaphor is not significantly different from having no metaphor
+Null: The presence of metaphor does not significantly predict the total number of donors, compared to literal campaigns.
 
 ```{r}
-backers.mod.base = glmmTMB(base.formula, data = projects.trunc, family = "truncated_nbinom2")
+backers.mod.base = glmmTMB(base.formula, data = projects, family = "truncated_nbinom2")
 # drop1(backers.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - day_of_week)
-# drop1(glmmTMB(f, data = projects.trunc, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
-f = update(f,  ~ . - friends)
-# drop1(glmmTMB(f, data = projects.trunc, family = "truncated_nbinom2"), test="Chisq")
+f = update(f,  ~ . - friends_sc)
+# drop1(glmmTMB(f, data = projects, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - month)
-# drop1(glmmTMB(f, data = projects.trunc, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
-backers.mod = glmmTMB(f, data = projects.trunc, family = "truncated_nbinom2")
+backers.mod = glmmTMB(f, data = projects, family = "truncated_nbinom2")
 # summary(backers.mod)
 ```
 
 ### Results
 
 ```{r any metaphor}
-mod = glmmTMB(update(f,  ~ . + any_metaphor), data = projects.trunc, family = "truncated_nbinom2")
+mod = glmmTMB(update(f,  ~ . + any_metaphor), data = projects, family = "truncated_nbinom2")
 compare(backers.mod, mod, "any_metaphorTRUE")
 
-# mod = glmmTMB(update(base.formula,  ~ . + any_metaphor), data = projects.trunc, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "any_metaphorTRUE")
+mod = glmmTMB(update(base.formula,  ~ . + any_metaphor), data = projects, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "any_metaphorTRUE")
 ```
 
 ## Both Metaphors
 
-Examine: does having both metaphor families present influence backers?
-
-Null: having both metaphor families is not significantly different from having no metaphor
+Null: The presence of both metaphor families (battle and journey) does not significantly predict the total number of donors, compared to literal campaigns.
 
 ```{r}
-projects.trunc.both = projects.trunc[(1-projects.trunc$any_metaphor) | projects.trunc$both_metaphor, ] # only projects with both or none
+projects.both = projects[projects$no_metaphor | projects$both_metaphor, ] # only projects with both or none
 ```
 
-N = `r nrow(projects.trunc.both)`
+N = `r nrow(projects.both)`
 
 ```{r}
-projects.trunc.both %>%
+projects.both %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(both_metaphor, backers, fill=both_metaphor)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc.both[projects.trunc.both$both_metaphor == F, ]$backers), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc.both[projects.trunc.both$both_metaphor, ]$backers), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.both[projects.both$both_metaphor == F, ]$backers), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.both[projects.both$both_metaphor, ]$backers), lty=2, color="blue")
 
 ```
 
 Perform model selection to prevent overfitting:
 
 ```{r}
-backers.mod.base = glmmTMB(base.formula, data = projects.trunc.both, family = "truncated_nbinom2")
+backers.mod.base = glmmTMB(base.formula, data = projects.both, family = "truncated_nbinom2")
 # drop1(backers.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - day_of_week)
-# drop1(glmmTMB(f, data = projects.trunc.both, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.both, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
-backers.mod = glmmTMB(f, data = projects.trunc.both, family = "truncated_nbinom2")
+f = update(f,  ~ . - month)
+# drop1(glmmTMB(f, data = projects.both, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+backers.mod = glmmTMB(f, data = projects.both, family = "truncated_nbinom2")
 # summary(backers.mod)
 ```
 
 ### Results
 
 ```{r both metaphors}
-mod = glmmTMB(update(f,  ~ . + both_metaphor), data = projects.trunc.both, family = "truncated_nbinom2")
+mod = glmmTMB(update(f,  ~ . + both_metaphor), data = projects.both, family = "truncated_nbinom2")
 compare(backers.mod, mod, "both_metaphorTRUE")
 
-# mod = glmmTMB(update(base.formula,  ~ . + both_metaphor), data = projects.trunc.both, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "both_metaphorTRUE")
+mod = glmmTMB(update(base.formula,  ~ . + both_metaphor), data = projects.both, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "both_metaphorTRUE")
 ```
 
 ## Some Metaphor
 
-Examine: does having only journey/battle, or dominant journey/battle, influence backers?
+Null1: Journey metaphors dominating the campaign text does not significantly predict the total number of donors, compared to camapigns with only battle metaphors or fewer battle metaphors than journey metaphors.
 
-Null: having only journey/battle, or dominant journey/battle, is not significantly different from negative
+Null2: Battle metaphors dominating the campaign text does not significantly predict the total number of donors, compared to camapigns with only journey metaphors or fewer journey metaphors than battle metaphors.
+
+Null3: Only having the presence of journey metaphors in the campaign text does not significantly predict the total number of donorsdonation, compared to campaigns with only battle metaphors or a combination of both journey and battle metaphors.
+
+Null4: Only having the presence of battle metaphors in the campaign text does not significantly predict the total number of donors, compared to campaigns with only journey metaphors or a combination of both journey and battle metaphors.
 
 ```{r}
-projects.trunc.some = projects.trunc[projects.trunc$any_metaphor, ]
+projects.some = projects[projects$any_metaphor, ]
 ```
 
-N = `r nrow(projects.trunc.some)`
+N = `r nrow(projects.some)`
 
 ```{r}
-p1 = projects.trunc.some %>%
+p1 = projects.some %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(dom_journey, backers, fill=dom_journey)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_journey == F, ]$backers), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_journey, ]$backers), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.some[projects.some$dom_journey == F, ]$backers), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some[projects.some$dom_journey, ]$backers), lty=2, color="blue")
 
-p2 = projects.trunc.some %>%
+p2 = projects.some %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(dom_battle, backers, fill=dom_battle)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_battle == F, ]$backers), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$dom_battle, ]$backers), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.some[projects.some$dom_battle == F, ]$backers), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some[projects.some$dom_battle, ]$backers), lty=2, color="blue")
 
-p3 = projects.trunc.some %>%
+p3 = projects.some %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(only_journey, backers, fill=only_journey)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_journey == F, ]$backers), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_journey, ]$backers), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.some[projects.some$only_journey == F, ]$backers), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some[projects.some$only_journey, ]$backers), lty=2, color="blue")
 
-p4 = projects.trunc.some %>%
+p4 = projects.some %>%
   ggplot() + theme_minimal() +
   geom_violin(aes(only_battle, backers, fill=only_battle)) + 
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_battle == F, ]$backers), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.trunc.some[projects.trunc.some$only_battle, ]$backers), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.some[projects.some$only_battle == F, ]$backers), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some[projects.some$only_battle, ]$backers), lty=2, color="blue")
 
 grid.arrange(p1, p2, p3, p4, nrow=1)
 ```
@@ -289,169 +274,165 @@ grid.arrange(p1, p2, p3, p4, nrow=1)
 Perform model selection to prevent overfitting:
 
 ```{r}
-backers.mod.base = glmmTMB(base.formula, data = projects.trunc.some, family = "truncated_nbinom2")
+backers.mod.base = glmmTMB(base.formula, data = projects.some, family = "truncated_nbinom2")
 # drop1(backers.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - month)
-# drop1(glmmTMB(f, data = projects.trunc.some, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.some, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - friends_sc)
-# drop1(glmmTMB(f, data = projects.trunc.some, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.some, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - day_of_week)
-# drop1(glmmTMB(f, data = projects.trunc.some, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.some, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - duration_float_sc)
-# drop1(glmmTMB(f, data = projects.trunc.some, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.some, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
-backers.mod = glmmTMB(f, data = projects.trunc.some, family = "truncated_nbinom2")
+backers.mod = glmmTMB(f, data = projects.some, family = "truncated_nbinom2")
 # summary(backers.mod)
 ```
 
 ### Results
 
+```{r}
+2*(logLik(mod) - logLik(backers.mod))
+```
+
+```{r}
+anova(backers.mod, mod)
+```
+
+
+
 ```{r some metaphors reduced}
-mod = glmmTMB(update(f,  ~ . + dom_journey), data = projects.trunc.some, family = "truncated_nbinom2")
+mod = glmmTMB(update(f,  ~ . + dom_journey), data = projects.some, family = "truncated_nbinom2")
 compare(backers.mod, mod, "dom_journeyTRUE")
 
-mod = glmmTMB(update(f,  ~ . + dom_battle), data = projects.trunc.some, family = "truncated_nbinom2")
+mod = glmmTMB(update(f,  ~ . + dom_battle), data = projects.some, family = "truncated_nbinom2")
 compare(backers.mod, mod, "dom_battleTRUE")
 
-mod = glmmTMB(update(f,  ~ . + only_journey), data = projects.trunc.some, family = "truncated_nbinom2")
+mod = glmmTMB(update(f,  ~ . + only_journey), data = projects.some, family = "truncated_nbinom2")
 compare(backers.mod, mod, "only_journeyTRUE")
 
-mod = glmmTMB(update(f,  ~ . + only_battle), data = projects.trunc.some, family = "truncated_nbinom2")
+mod = glmmTMB(update(f,  ~ . + only_battle), data = projects.some, family = "truncated_nbinom2")
 compare(backers.mod, mod, "only_battleTRUE")
 ```
 
 ```{r some metaphors full}
-# mod = glmmTMB(update(base.formula,  ~ . + dom_journey), data = projects.trunc.some, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "dom_journeyTRUE")
-# 
-# mod = glmmTMB(update(base.formula,  ~ . + dom_battle), data = projects.trunc.some, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "dom_battleTRUE")
-# 
-# mod = glmmTMB(update(base.formula,  ~ . + only_journey), data = projects.trunc.some, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "only_journeyTRUE")
-# 
-# mod = glmmTMB(update(base.formula,  ~ . + only_battle), data = projects.trunc.some, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "only_battleTRUE")
+mod = glmmTMB(update(base.formula,  ~ . + dom_journey), data = projects.some, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "dom_journeyTRUE")
+
+mod = glmmTMB(update(base.formula,  ~ . + dom_battle), data = projects.some, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "dom_battleTRUE")
+
+mod = glmmTMB(update(base.formula,  ~ . + only_journey), data = projects.some, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "only_journeyTRUE")
+
+mod = glmmTMB(update(base.formula,  ~ . + only_battle), data = projects.some, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "only_battleTRUE")
 ```
 
-## Journey
+## Only Journey
+
+Null: Campaigns with only journey metaphors are not significantly more predictive of the total number of donors, compared to literal campaigns.
 
 ```{r}
-projects.trunc.jor = projects.trunc[projects.trunc$journey_metaphor > 0, ]
+projects.some.jor = projects[projects$only_journey | projects$no_metaphor, ]
 ```
 
-N = `r nrow(projects.trunc.jor)`
-
 ```{r}
-p1 = projects.trunc.jor %>%
-  ggplot(aes(scale(journey_salience), backers)) + theme_minimal() +
-  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
-
-p2 = projects.trunc.jor %>%
-  ggplot(aes(scale(journey_prod), backers)) + theme_minimal() +
-  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
-
-p3 = projects.trunc.jor %>%
-  ggplot(aes(scale(first_instantiation), backers)) + theme_minimal() +
-  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
-
-grid.arrange(p1, p2, p3, nrow=1)
+nrow(projects.some.jor)
+table(projects.some.jor$only_journey)
 ```
 
-Perform model selection to prevent overfitting:
+```{r}
+cbind(projects.some.jor %>% filter(!only_journey) %>% select(backers) %>% summary(),
+      projects.some.jor %>% filter(only_journey) %>% select(backers) %>% summary())
+
+projects.some.jor %>%
+  ggplot() + theme_minimal() +
+  geom_violin(aes(only_journey, backers, fill=only_journey)) + 
+  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
+  geom_hline(yintercept = mean(projects.some.jor[projects.some.jor$only_journey == F, ]$backers), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some.jor[projects.some.jor$only_journey, ]$backers), lty=2, color="blue")
+```
 
 ```{r}
-backers.mod.base = glmmTMB(base.formula, data = projects.trunc.jor, family = "truncated_nbinom2")
+backers.mod.base = glmmTMB(base.formula, data = projects.some.jor, family = "truncated_nbinom2")
 # drop1(backers.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - day_of_week)
-# drop1(glmmTMB(f, data = projects.trunc.jor, family = "truncated_nbinom2"), test="Chisq")
-```
-
-```{r}
-f = update(f,  ~ . - text_length_words_sc)
-# drop1(glmmTMB(f, data = projects.trunc.jor, family = "truncated_nbinom2"), test="Chisq")
-```
-
-```{r}
-f = update(f,  ~ . - friends_sc)
-# drop1(glmmTMB(f, data = projects.trunc.jor, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.some.jor, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - duration_float_sc)
-# drop1(glmmTMB(f, data = projects.trunc.jor, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.some.jor, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - friends_sc)
+# drop1(glmmTMB(f, data = projects.some.jor, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - month)
-# drop1(glmmTMB(f, data = projects.trunc.jor, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.some.jor, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
-backers.mod = glmmTMB(f, data = projects.trunc.jor, family = "truncated_nbinom2")
+backers.mod = glmmTMB(f, data = projects.some.jor, family = "truncated_nbinom2")
 # summary(backers.mod)
 ```
 
 ### Results
 
-```{r journey specific reduced}
-mod = glmmTMB(update(f,  ~ . + scale(journey_salience)), data = projects.trunc.jor, family = "truncated_nbinom2")
-compare(backers.mod, mod, "scale(journey_salience)", 0.6)
+```{r only journey}
+mod = glmmTMB(update(f,  ~ . + only_journey), data = projects.some.jor, family = "truncated_nbinom2")
+compare(backers.mod, mod, "only_journeyTRUE")
 
-mod = glmmTMB(update(f,  ~ . + scale(journey_prod)), data = projects.trunc.jor, family = "truncated_nbinom2")
-compare(backers.mod, mod, "scale(journey_prod)")
-
-mod = glmmTMB(update(f,  ~ . + scale(first_instantiation)), data = projects.trunc.jor, family = "truncated_nbinom2")
-compare(backers.mod, mod, "scale(first_instantiation)")
+mod = glmmTMB(update(base.formula,  ~ . + only_journey), data = projects.some.jor, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "only_journeyTRUE")
 ```
 
-```{r journey specific full}
-# mod = glmmTMB(update(base.formula,  ~ . + scale(journey_salience)), data = projects.trunc.jor, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "scale(journey_salience)", 0.6)
-# 
-# mod = glmmTMB(update(base.formula,  ~ . + scale(journey_prod)), data = projects.trunc.jor, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "scale(journey_prod)")
-# 
-# mod = glmmTMB(update(base.formula,  ~ . + scale(first_instantiation)), data = projects.trunc.jor, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "scale(first_instantiation)")
-```
-
-## Battle
+## Journey Modulation
 
 ```{r}
-projects.trunc.bat = projects.trunc[projects.trunc$battle_metaphor > 0, ]
+projects.jor = projects[projects$journey_metaphor > 0, ]
 ```
 
-N = `r nrow(projects.trunc.bat)`
+N = `r nrow(projects.jor)`
 
 ```{r}
-p1 = projects.trunc.bat %>%
-  ggplot(aes(scale(battle_salience), backers)) + theme_minimal() +
+cbind(summary(projects.jor$journey_salience),
+      summary(projects.jor$journey_prod),
+      summary(projects.jor$journey_instantiation))
+```
+
+```{r}
+p1 = projects.jor %>%
+  ggplot(aes(journey_salience, backers)) + theme_minimal() +
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
-p2 = projects.trunc.bat %>%
-  ggplot(aes(scale(battle_prod), backers)) + theme_minimal() +
+p2 = projects.jor %>%
+  ggplot(aes(journey_prod, backers)) + theme_minimal() +
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
-p3 = projects.trunc.bat %>%
-  ggplot(aes(scale(first_instantiation), backers)) + theme_minimal() +
+p3 = projects.jor %>%
+  ggplot(aes(journey_instantiation, backers)) + theme_minimal() +
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
 grid.arrange(p1, p2, p3, nrow=1)
@@ -460,55 +441,206 @@ grid.arrange(p1, p2, p3, nrow=1)
 Perform model selection to prevent overfitting:
 
 ```{r}
-backers.mod.base = glmmTMB(base.formula, data = projects.trunc.bat, family = "truncated_nbinom2")
+backers.mod.base = glmmTMB(base.formula, data = projects.jor, family = "truncated_nbinom2")
 # drop1(backers.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - month)
-# drop1(glmmTMB(f, data = projects.trunc.bat, family = "truncated_nbinom2"), test="Chisq")
-```
-
-```{r}
-f = update(f,  ~ . - friends_sc)
-# drop1(glmmTMB(f, data = projects.trunc.bat, family = "truncated_nbinom2"), test="Chisq")
-```
-
-```{r}
-f = update(f,  ~ . - day_of_week)
-# drop1(glmmTMB(f, data = projects.trunc.bat, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.jor, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - duration_float_sc)
-# drop1(glmmTMB(f, data = projects.trunc.bat, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.jor, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
-backers.mod = glmmTMB(f, data = projects.trunc.bat, family = "truncated_nbinom2")
+f = update(f,  ~ . - text_length_words_sc)
+# drop1(glmmTMB(f, data = projects.jor, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - friends_sc)
+# drop1(glmmTMB(f, data = projects.jor, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(glmmTMB(f, data = projects.jor, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+backers.mod = glmmTMB(f, data = projects.jor, family = "truncated_nbinom2")
 # summary(backers.mod)
 ```
 
 ### Results
 
-```{r battle specific reduced}
-mod = glmmTMB(update(f,  ~ . + scale(battle_salience)), data = projects.trunc.bat, family = "truncated_nbinom2")
-compare(backers.mod, mod, "scale(battle_salience)", 0.16)
+```{r journey modulation reduced}
+mod = glmmTMB(update(f,  ~ . + journey_salience), data = projects.jor, family = "truncated_nbinom2")
+compare(backers.mod, mod, "journey_salience")
 
-mod = glmmTMB(update(f,  ~ . + scale(battle_prod)), data = projects.trunc.bat, family = "truncated_nbinom2")
-compare(backers.mod, mod, "scale(battle_prod)")
+mod = glmmTMB(update(f,  ~ . + journey_prod), data = projects.jor, family = "truncated_nbinom2")
+compare(backers.mod, mod, "journey_prod")
 
-mod = glmmTMB(update(f,  ~ . + scale(first_instantiation)), data = projects.trunc.bat, family = "truncated_nbinom2")
-compare(backers.mod, mod, "scale(first_instantiation)")
+mod = glmmTMB(update(f,  ~ . + journey_instantiation), data = projects.jor, family = "truncated_nbinom2")
+compare(backers.mod, mod, "journey_instantiation")
 ```
 
-```{r battle specific full}
-# mod = glmmTMB(update(base.formula,  ~ . + scale(battle_salience)), data = projects.trunc.bat, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "scale(battle_salience)", 0.16)
-# 
-# mod = glmmTMB(update(base.formula,  ~ . + scale(battle_prod)), data = projects.trunc.bat, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "scale(battle_prod)")
-# 
-# mod = glmmTMB(update(base.formula,  ~ . + scale(first_instantiation)), data = projects.trunc.bat, family = "truncated_nbinom2")
-# compare(backers.mod.base, mod, "scale(first_instantiation)")
+```{r journey modulation full}
+mod = glmmTMB(update(base.formula,  ~ . + journey_salience), data = projects.jor, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "journey_salience")
+
+mod = glmmTMB(update(base.formula,  ~ . + journey_prod), data = projects.jor, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "journey_prod")
+
+mod = glmmTMB(update(base.formula,  ~ . + journey_instantiation), data = projects.jor, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "journey_instantiation")
+```
+
+## Only Battle
+
+Null: Campaigns with only battle metaphors are not significantly more predictive of the total number of donors, compared to literal campaigns.
+
+```{r}
+projects.some.bat = projects[projects$only_battle | projects$no_metaphor, ]
+```
+
+```{r}
+nrow(projects.some.bat)
+table(projects.some.bat$only_battle)
+```
+
+```{r}
+cbind(projects.some.bat %>% filter(!only_battle) %>% select(backers) %>% summary(),
+      projects.some.bat %>% filter(only_battle) %>% select(backers) %>% summary())
+
+projects.some.bat %>%
+  ggplot() + theme_minimal() +
+  geom_violin(aes(only_battle, backers, fill=only_battle)) + 
+  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
+  geom_hline(yintercept = mean(projects.some.bat[projects.some.bat$only_battle == F, ]$backers), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.some.bat[projects.some.bat$only_battle, ]$backers), lty=2, color="blue")
+```
+
+```{r}
+backers.mod.base = glmmTMB(base.formula, data = projects.some.bat, family = "truncated_nbinom2")
+# drop1(backers.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - friends_sc)
+# drop1(glmmTMB(f, data = projects.some.bat, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(glmmTMB(f, data = projects.some.bat, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
+# drop1(glmmTMB(f, data = projects.some.bat, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+backers.mod = glmmTMB(f, data = projects.some.bat, family = "truncated_nbinom2")
+# summary(backers.mod)
+```
+
+### Results
+
+```{r only battle}
+mod = glmmTMB(update(f,  ~ . + only_battle), data = projects.some.bat, family = "truncated_nbinom2")
+compare(backers.mod, mod, "only_battleTRUE")
+
+mod = glmmTMB(update(base.formula,  ~ . + only_battle), data = projects.some.bat, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "only_battleTRUE")
+```
+
+## Battle Modulation
+
+```{r}
+projects.bat = projects[projects$battle_metaphor > 0, ]
+```
+
+N = `r nrow(projects.bat)`
+
+```{r}
+cbind(summary(projects.bat$battle_salience),
+      summary(projects.bat$battle_prod),
+      summary(projects.bat$battle_instantiation))
+```
+
+```{r}
+p1 = projects.bat %>%
+  ggplot(aes(battle_salience, backers)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+
+p2 = projects.bat %>%
+  ggplot(aes(battle_prod, backers)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+
+p3 = projects.bat %>%
+  ggplot(aes(battle_instantiation, backers)) + theme_minimal() +
+  geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
+
+grid.arrange(p1, p2, p3, nrow=1)
+```
+
+Perform model selection to prevent overfitting:
+
+```{r}
+backers.mod.base = glmmTMB(base.formula, data = projects.bat, family = "truncated_nbinom2")
+# drop1(backers.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - month)
+# drop1(glmmTMB(f, data = projects.bat, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - friends_sc)
+# drop1(glmmTMB(f, data = projects.bat, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(glmmTMB(f, data = projects.bat, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(glmmTMB(f, data = projects.bat, family = "truncated_nbinom2"), test="Chisq")
+```
+
+```{r}
+backers.mod = glmmTMB(f, data = projects.bat, family = "truncated_nbinom2")
+# summary(backers.mod)
+```
+
+### Results
+
+```{r battle modulation reduced}
+mod = glmmTMB(update(f,  ~ . + battle_salience), data = projects.bat, family = "truncated_nbinom2")
+compare(backers.mod, mod, "battle_salience")
+
+mod = glmmTMB(update(f,  ~ . + battle_prod), data = projects.bat, family = "truncated_nbinom2")
+compare(backers.mod, mod, "battle_prod")
+
+mod = glmmTMB(update(f,  ~ . + battle_instantiation), data = projects.bat, family = "truncated_nbinom2")
+compare(backers.mod, mod, "battle_instantiation")
+```
+
+```{r battle modulation full}
+mod = glmmTMB(update(base.formula,  ~ . + battle_salience), data = projects.bat, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "battle_salience")
+
+mod = glmmTMB(update(base.formula,  ~ . + battle_prod), data = projects.bat, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "battle_prod")
+
+mod = glmmTMB(update(base.formula,  ~ . + battle_instantiation), data = projects.bat, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "battle_instantiation")
 ```
