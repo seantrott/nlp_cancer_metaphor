@@ -15,7 +15,7 @@ tokenizer = RegexpTokenizer(r'\w+')
 #
 # *_salience: A ratio of (battle/journey)-related keywords to total words in the project body text.
 #
-# *_productivity: see code or Jupyter Notebook
+# *_rare: see code or Jupyter Notebook
 
 
 STATE_ABRV = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS',
@@ -146,14 +146,14 @@ def process_kickstarter():
     data['journey_salience'] = data['journey_metaphor'] / data['text_length_words']
     pbar.update()
 
-    def first_instantiation(id):
+    def first_earliness(id):
         locs = labeled.loc[(labeled['project_id'] == id) & (labeled['metaphorical'] == True), 'char_location'].values
         if locs.any() and data.loc[data['id'] == id, 'text'].any():
             return locs.min() / (len(data.loc[data['id'] == id, 'text'].values[0]) + 1)
 
         return -1
 
-    # data['first_instantiation'] = data['id'].apply(first_instantiation)
+    # data['first_early'] = data['id'].apply(first_earliness)
     # pbar.update()
 
     battle_vc = labeled.dropna().loc[(labeled['type'] == 'battle') & (labeled['metaphorical'] == True), 'keyword'].value_counts()
@@ -167,7 +167,7 @@ def process_kickstarter():
     journey_freq_map = (sum(journey_vc) / journey_vc) ** r
     journey_freq_map = dict(journey_freq_map / min(journey_freq_map))
 
-    productivities = []
+    rarities = []
 
     # group by id
     for i, g in labeled.groupby('project_id'):
@@ -188,13 +188,13 @@ def process_kickstarter():
         else:
             battle_div, journey_div = 0.0, 0.0
 
-        productivities.append([i, battle_div, journey_div])
+        rarities.append([i, battle_div, journey_div])
 
-    productivities = pd.DataFrame(productivities, columns=['id', 'battle_prod', 'journey_prod'])
-    data = data.merge(productivities, how='left', on='id', validate='one_to_one')
+    rarities = pd.DataFrame(rarities, columns=['id', 'battle_rare', 'journey_rare'])
+    data = data.merge(rarities, how='left', on='id', validate='one_to_one')
 
-    data['battle_prod'] = data['battle_prod'].fillna(0)
-    data['journey_prod'] = data['journey_prod'].fillna(0)
+    data['battle_rare'] = data['battle_rare'].fillna(0)
+    data['journey_rare'] = data['journey_rare'].fillna(0)
 
     pbar.update()
 
@@ -291,10 +291,10 @@ def process_gofundme():
     pbar.update()
     data['launched'] = pd.to_datetime(data['launched'], infer_datetime_format=True)
     pbar.update()
-    # data['duration'] = data['duration'].apply(durtnum)
-    data['duration_float'] = (pd.Timestamp.today() - pd.to_datetime(data['launched'])).dt.total_seconds() / (60 * 60 * 24)
-    # data['duration_float'] = data['duration'].apply(durtnum)
-    # data.drop('duration', axis=1, inplace=True)
+    # last day of scraping Timestamp('2019-02-21 00:00:00')
+
+    data['duration_float'] = (pd.Timestamp('2019-02-22 00:00:00') - pd.to_datetime(data['launched'])).dt.total_seconds() / (60 * 60 * 24)
+
     pbar.update()
     data['day_of_week'] = pd.to_datetime(data['launched'], infer_datetime_format=True).dt.dayofweek
     pbar.update()
@@ -303,10 +303,6 @@ def process_gofundme():
     pbar.update()
     data['cancer_type'] = data['text'].apply(get_cancer_type)
     pbar.update()
-    # data['from_Town'] = np.nan
-    # data['category'] = np.nan
-    # data['category'] = data['category'].apply(merge_negligible_categories)
-    # data['blurb_length_words'] = np.nan
 
     data['shares'] = data['shares'].apply(clean_shares)
     pbar.update()
@@ -339,14 +335,25 @@ def process_gofundme():
     data['journey_salience'] = data['journey_metaphor'] / data['text_length_words']
     pbar.update()
 
-    def first_instantiation(id):
-        locs = labeled.loc[(labeled['project_id'] == id) & (labeled['metaphorical'] == True), 'char_location'].values
+    def battle_earliness(id):
+        return first_earliness(id, "battle")
+
+    def journey_earliness(id):
+        return first_earliness(id, "journey")
+
+    def first_earliness(id, family):
+        locs = labeled.loc[(labeled['project_id'] == id) & (labeled['metaphorical'] == True) & (labeled['type'] == family), 'char_location'].values
+
+        # if there's at least one metaphor of the specified family, and there's a campaign to match the id
         if locs.any() and data.loc[data['id'] == id, 'text'].any():
+
+            # return the relative character location of the first metaphor
             return locs.min() / (len(data.loc[data['id'] == id, 'text'].values[0]) + 1)
 
         return -1
 
-    data['first_instantiation'] = data['id'].apply(first_instantiation)
+    data['battle_early'] = data['id'].apply(battle_earliness)
+    data['journey_early'] = data['id'].apply(journey_earliness)
     pbar.update()
 
     # count the number of instances for each metaphor keyword
@@ -363,7 +370,7 @@ def process_gofundme():
     journey_freq_map = (sum(journey_vc) / journey_vc) ** r
     journey_freq_map = dict(journey_freq_map / min(journey_freq_map))
 
-    productivities = []
+    rarities = []
 
     # group by id
     for i, g in labeled.loc[labeled['metaphorical'] == True].groupby('project_id'):
@@ -378,13 +385,13 @@ def process_gofundme():
         s = [journey_freq_map[k] * kw[k] for k in dict(kw) if k in journey_freq_map]
         journey_div = sum(s)
 
-        productivities.append([i, battle_div, journey_div])
+        rarities.append([i, battle_div, journey_div])
 
-    productivities = pd.DataFrame(productivities, columns=['id', 'battle_prod', 'journey_prod'])
-    data = data.merge(productivities, how='left', on='id', validate='one_to_one')
+    rarities = pd.DataFrame(rarities, columns=['id', 'battle_rare', 'journey_rare'])
+    data = data.merge(rarities, how='left', on='id', validate='one_to_one')
 
-    data['battle_prod'] = data['battle_prod'].fillna(0)
-    data['journey_prod'] = data['journey_prod'].fillna(0)
+    data['battle_rare'] = data['battle_rare'].fillna(0)
+    data['journey_rare'] = data['journey_rare'].fillna(0)
 
     pbar.update()
 
