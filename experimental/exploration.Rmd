@@ -73,10 +73,10 @@ head(data)
 ### Experiment Duration
 
 ```{r}
-summary(data$rt_trial) / (1000*60)
-summary(data$total_time)
+summary(data$rt_trial) / (1000)
+summary(data$total_time) / (1000*60)
 ggplot(data) + theme +
-  geom_density(aes(rt_trial)) +
+  geom_density(aes(total_time/(1000*60))) +
   labs(x = "Total Duration (mins)", y = "Density", title = "Total Duration Distribution")
 ```
 

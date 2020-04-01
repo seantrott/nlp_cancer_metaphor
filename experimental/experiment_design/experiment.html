@@ -83,18 +83,20 @@ var consent = {
     check_fn: checkConsent
 }
 
-/// Check3
+/// Bot Checks
 
 var check1 = {
   type: 'image-button-response',
   stimulus: 'check-1.png',
-  choices: ['1', '2', '3', '4']
+  choices: ['1', '2', '3', '4'],
+  data: {qtype: 'check1'}
 }
 
 var check2 = {
   type: 'image-button-response',
   stimulus: 'check-2.png',
-  choices: ['Pool', 'Ocean', 'Chair', 'River']
+  choices: ['Pool', 'Ocean', 'Chair', 'River'],
+  data: {qtype: 'check2'}
 }
 
 /// MAIN EXPERIMENT
@@ -153,36 +155,25 @@ var main_trial = {
 
 var description = {
     type: 'survey-text',
-    questions: [{required: true,
-                 prompt:'How would you describe ' + character["name"] + '\'s situation to a friend?',
+    questions: [{prompt:'How would you describe ' + character["name"] + '\'s situation to a friend?',
+                 required: true,
                  columns: 100,
                  rows: 18}],
     data: {qtype: "description"}
 }
 
-// Secondary page asking about: 1) whether person is at peace; 2) whether person should feel guilty; and 3) what the urgency is.
+var past_donations = {
+    type: 'survey-text',
+    questions: [{required: true,
+                 prompt:'How many times have you donated to charity in the last 12 months?'}],
+    data: {qtype: "past-donations"}
+}
+
+// Secondary page asking about: perceived urgency and sympathy
 
 scale_1 = [1, 2, 3, 4, 5, 6, 7]
 
 var followup_q1 = {
-  type: "survey-likert",
-  preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
-  questions: [
-    {prompt: character["pn"] + " will feel guilty that " + character["pn"].toLowerCase() + " hasn’t done enough if " + character["pn"].toLowerCase() + " does not recover.", labels: scale_1, required: true}
-  ],
-  data: {qtype: 'guilty'}
-}
-
-var followup_q2 = {
-  type: "survey-likert",
-  preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
-  questions: [
-    {prompt: character["pn"] + " can make peace with " + character["pos"].toLowerCase() + " experience.", labels: scale_1, required: true}
-  ],
-  data: {qtype: 'peace'}
-}
-
-var followup_q3 = {
   type: "survey-likert",
   preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
   questions: [
@@ -191,7 +182,7 @@ var followup_q3 = {
   data: {qtype: 'urgent'}
 }
 
-var followup_q4 = {
+var followup_q2 = {
   type: "survey-likert",
   preamble: 'Please indicate your agreement with the following questions about ' + character["name"] + ' by choosing any response from 1 (Strongly Disagree) to 7 (Strongly Agree).',
   questions: [
@@ -201,7 +192,7 @@ var followup_q4 = {
 }
 
 var followup_questions = {
-  timeline: jsPsych.randomization.shuffle([followup_q1, followup_q2, followup_q3, followup_q4])
+  timeline: jsPsych.randomization.shuffle([followup_q1, followup_q2])
 }
 
 ////// participant information
@@ -236,7 +227,7 @@ var demographics = {
                 options:['Male', 'Female', 'Non-binary', 'Prefer not to say']},
               {required: true,
                 prompt: 'What is the highest degree or level of school you have completed? \
-                (If you’re currently enrolled in school, please indicate the highest degree you have received.)',
+                (If you’re currently<br />enrolled in school, please indicate the highest degree you have received.)',
                 options:['Less than a high school diploma',
                           'High school degree or equivalent (e.g. GED)',
                           'Associate degree (e.g. AA, AS)',
@@ -291,23 +282,23 @@ var debrief = {
 }
 
 // without server
-// var timeline = [check1, check2, instructions, main_trial, followup_questions, cancer_info, demographics, age, feedback]
+// var timeline = [check1, check2, instructions, main_trial, description, past_donations, followup_questions, cancer_info, demographics, age, purpose, feedback]
 
 // with server
-var timeline = [consent, check1, check2, instructions, main_trial, description, followup_questions, cancer_info, demographics, age, purpose, feedback, debrief]
+var timeline = [consent, check1, check2, instructions, main_trial, description, past_donations, followup_questions, cancer_info, demographics, age, purpose, feedback, debrief]
 
 jsPsych.init({
     timeline: timeline,
     show_progress_bar: true,
     on_finish: function(data) {
-      var filename = "metaphor_pilot_" + ppt_id + ".csv";
+      var filename = "metaphor_exp_" + ppt_id + ".csv";
 
       saveData(filename, jsPsych.data.get().csv());
 
       $(".jspsych-display-element").html("<p>The results have been recorded! \
       Data was recorded under the participant ID: <b>" + ppt_id + "</b></p>\
       <br>\
-      <h3>Your Mechanical Turk code is: <u>LCL19</u></h3>");
+      <h3>Your Mechanical Turk code is: <u>LCL20</u></h3>");
     }
   }
   );
