@@ -1,0 +1,602 @@
+---
+title: "GoFundMe — Mean Donation (Using Log-Transform Model)"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(lme4)
+library(gridExtra)
+library(boot)
+library(pwr)
+library(glue) # for pretty printing
+library(tictoc) # for cell/function profiling
+```
+
+## GoFundMe Analysis of Mean Donation
+
+```{r}
+projects = read_csv("../../data/processed/gofundme_projects_clean.csv")
+projects = within(projects, {
+  year = factor(year)
+  month = factor(month)
+  day_of_week = factor(day_of_week)
+  any_metaphor = factor(any_metaphor)
+  both_metaphor = factor(both_metaphor)
+  dom_journey = factor(dom_journey)
+  dom_battle = factor(dom_battle)
+  only_journey = factor(only_journey)
+  only_battle = factor(only_battle)
+  journey_rare = journey_prod
+  journey_early = journey_instantiation
+  battle_rare = battle_prod
+  battle_early = battle_instantiation
+})
+```
+
+In total, we have N=`r nrow(projects)` IID samples to work with.
+
+# Mean Donation
+
+```{r}
+projects %>%
+  ggplot() + labs(title="Mean Donation Density") +
+  geom_density(aes(mean_donation))
+```
+
+Establish the base formula to build models off of:
+
+```{r}
+base.formula = log(mean_donation) ~ shares_sc + friends_sc + updates_sc + photos_sc + goal_sc + text_length_words_sc + duration_float_sc + cancer_type + month + day_of_week + (1|year)
+```
+
+Create a helper function to easily compare two models and pretty print the output:
+
+```{r}
+r.sq = function(mod.base, mod.full) {
+  return((sum(resid(mod.base)^2) - sum(resid(mod.full)^2)) / sum(resid(mod.base)^2))
+}
+f.sq = function(mod.null, mod.base, mod.full) {
+  R2.base = r.sq(mod.null, mod.base)
+  R2.full = r.sq(mod.null, mod.full)
+  
+  return((R2.full - R2.base) / (1 - R2.full))
+}
+f.sq.est = function(data, inds) {
+  m0 = lmer(log(mean_donation) ~ 1 + (1|year), data = data[inds, ])
+  m1 = lmer(f, data = data[inds, ])
+  m2 = lmer(f.full, data = data[inds, ])
+  
+  return(f.sq(m0, m1, m2))
+}
+```
+
+```{r}
+compare = function(model.null, model.old, model.new, key) {
+  a = anova(model.old, model.new)
+  p = a$`Pr(>Chisq)`[2]
+  
+  print(glue("Variable: {key}"))
+  print(glue("DF diff: {a$`Chi Df`[2]}\t\t Chisq: {round(a$Chisq[2],1)}\t P(>chisq) = {round(p,3)} {if (p < 0.05) '(significant)' else ''})"))
+  effect = as.numeric(summary(model.new)$coefficients[key, ])
+  effect
+  cis = confint(model.new, parm=key, method="Wald")
+  print(glue("beta: {round(effect[1],3)} (SE: {round(effect[2],3)}) (CI: {round(cis[1],3)}, {round(cis[2],3)})\t stat: {round(effect[3], 2)} => P(>|z|) = {round(pnorm(abs(effect[3]), lower.tail = F), 3)}"))
+  print(glue("rate ratio: {round((exp(effect[1]) - 1)*100, 1)}% (CI: {round((exp(cis[1]) - 1)*100,1)}%, {round((exp(cis[2]) - 1)*100,1)}%)"))
+  es = f.sq(model.null, model.old, model.new)
+  
+  print(glue("Effect Size: Cohen's f-squared = ", round(es, 5)))
+  
+  print(glue(""))
+}
+```
+
+## Any Metaphor
+
+Null: The presence of metaphor does not significantly predict the mean donation amount, compared to literal campaigns.
+
+```{r}
+mean.mod.base = lmer(base.formula, data = projects)
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - month)
+# drop1(lmer(f, data = projects), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - photos_sc)
+# drop1(lmer(f, data = projects), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(lmer(f, data = projects), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(lmer(f, data = projects), test="Chisq")
+```
+
+```{r}
+mean.mod = lmer(f, data = projects)
+# summary(mean.mod)
+```
+
+### Results
+
+```{r any metaphor}
+f.full = update(f,  ~ . + any_metaphor)
+null = lmer(log(mean_donation) ~ 1 + (1|year), data = projects)
+mod = lmer(f.full, data = projects)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "any_metaphorTRUE")
+
+mod = lmer(update(base.formula,  ~ . + any_metaphor), data = projects)
+compare(null, mean.mod.base, mod, "any_metaphorTRUE")
+```
+
+### Effect Size
+
+```{r}
+tic()
+bs.r.sq = boot(projects, f.sq.est, R = 5000, parallel="multicore", ncpus = 3) # 1643.423 sec elapsed
+toc()
+```
+
+```{r}
+plot(bs.r.sq)
+bs.r.sq
+bc.r.sq = boot.ci(bs.r.sq, type=c("perc", "bca"), conf = 0.95)
+bc.r.sq
+```
+
+Bootstrap Statistics :
+
+      original       bias    std. error
+      
+t1* 0.01105219 0.0002244119 0.002961144
+
+Based on 10000 bootstrap replicates
+
+CALL : 
+
+boot.ci(boot.out = bs.r.sq, conf = 0.95, type = c("perc", "bca"))
+
+Intervals : 
+
+Level     Percentile            BCa        
+
+95%   ( 0.0060,  0.0176 )   ( 0.0059,  0.0175 )
+
+```{r}
+pwr.f2.test(u = 25, v = NULL, f2 = 0.01105219, power = 0.9)
+```
+
+## Both Metaphors
+
+Null: The presence of both metaphor families (battle and journey) does not significantly predict the mean donation, compared to literal campaigns.
+
+```{r}
+projects.both = projects[projects$no_metaphor == "TRUE" | projects$both_metaphor == "TRUE", ] # only projects with both or none
+```
+
+N = `r nrow(projects.both)`
+
+Perform model selection to prevent overfitting:
+
+```{r}
+mean.mod.base = lmer(base.formula, data = projects.both)
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - month)
+# drop1(lmer(f, data = projects.both), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - photos_sc)
+# drop1(lmer(f, data = projects.both), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(lmer(f, data = projects.both), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(lmer(f, data = projects.both), test="Chisq")
+```
+
+```{r}
+mean.mod = lmer(f, data = projects.both)
+# summary(mean.mod)
+```
+
+### Results
+
+```{r both metaphors}
+f.full = update(f,  ~ . + both_metaphor)
+null = lm(log(mean_donation) ~ 1, data = projects.both)
+mod = lmer(f.full, data = projects.both)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "both_metaphorTRUE")
+
+mod = lmer(update(base.formula,  ~ . + both_metaphor), data = projects.both)
+compare(null, mean.mod.base, mod, "both_metaphorTRUE")
+```
+
+## Compared Metaphor
+
+Null1: Only using battle metaphors within the campaign text does not significantly predict the mean donation, compared to campaigns which only use journey metaphors
+
+```{r}
+projects.comp = projects[projects$any_metaphor == "TRUE" & projects$both_metaphor == "FALSE", ]
+```
+
+N = `r nrow(projects.comp)`
+
+Perform model selection to prevent overfitting:
+
+```{r}
+mean.mod.base = lmer(base.formula, data = projects.comp)
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - photos_sc)
+# drop1(lmer(f, data = projects.comp), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(lmer(f, data = projects.comp), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - cancer_type)
+# drop1(lmer(f, data = projects.comp), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
+# drop1(lmer(f, data = projects.comp), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(lmer(f, data = projects.comp), test="Chisq")
+```
+
+```{r}
+mean.mod = lmer(f, data = projects.comp)
+# summary(mean.mod)
+```
+
+### Results
+
+```{r some metaphors reduced}
+f.full = update(f,  ~ . + only_battle)
+null = lm(log(mean_donation) ~ 1, data = projects.comp)
+mod = lmer(f.full, data = projects.comp)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "only_battleTRUE")
+
+mod = lmer(update(base.formula,  ~ . + only_battle), data = projects.comp)
+compare(null, mean.mod.base, mod, "only_battleTRUE")
+```
+
+```{r}
+tic()
+bs.r.sq = boot(projects.comp, f.sq.est, R = 200, parallel="multicore", ncpus = 3) # 1643.423 sec elapsed
+toc()
+```
+
+```{r}
+plot(bs.r.sq)
+bs.r.sq
+bc.r.sq = boot.ci(bs.r.sq, type=c("perc"), conf = 0.95)
+bc.r.sq
+```
+
+```{r}
+pwr.f2.test(u = 6, v = NULL, f2 = 3.67654e-05, power = 0.9)
+```
+
+## Only Journey
+
+Null: Campaigns with only journey metaphors are not significantly more predictive of the mean donation, compared to literal campaigns.
+
+```{r}
+projects.some.jor = projects[projects$only_journey == "TRUE" | projects$no_metaphor == "TRUE", ]
+```
+
+```{r}
+mean.mod.base = lmer(base.formula, data = projects.some.jor)
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - day_of_week)
+# drop1(lmer(f, data = projects.some.jor), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
+# drop1(lmer(f, data = projects.some.jor), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - photos_sc)
+# drop1(lmer(f, data = projects.some.jor), test="Chisq")
+```
+
+```{r}
+mean.mod = lmer(f, data = projects.some.jor)
+# summary(mean.mod)
+```
+
+### Results
+
+```{r only journey}
+f.full = update(f,  ~ . + only_journey)
+null = lm(log(mean_donation) ~ 1, data = projects.some.jor)
+mod = lmer(f.full, data = projects.some.jor)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "only_journeyTRUE")
+
+mod = lmer(update(base.formula,  ~ . + only_journey), data = projects.some.jor)
+compare(null, mean.mod.base, mod, "only_journeyTRUE")
+```
+
+```{r}
+tic()
+bs.r.sq = boot(projects.some.jor, f.sq.est, R = 200, parallel="multicore", ncpus = 3) # 1643.423 sec elapsed
+toc()
+```
+
+```{r}
+plot(bs.r.sq)
+bs.r.sq
+bc.r.sq = boot.ci(bs.r.sq, type=c("perc"), conf = 0.95)
+bc.r.sq
+```
+
+```{r}
+pwr.f2.test(u = 26, v = NULL, f2 = 0.004789827, power = 0.9)
+```
+
+## Journey Modulation
+
+```{r}
+projects.jor = projects[projects$journey_metaphor > 0, ]
+```
+
+N = `r nrow(projects.jor)`
+
+Perform model selection to prevent overfitting:
+
+```{r}
+mean.mod.base = lmer(base.formula, data = projects.jor)
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - photos_sc)
+# drop1(lmer(f, data = projects.jor), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
+# drop1(lmer(f, data = projects.jor), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(lmer(f, data = projects.jor), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - updates_sc)
+# drop1(lmer(f, data = projects.jor), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(lmer(f, data = projects.jor), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - cancer_type)
+# drop1(lmer(f, data = projects.jor), test="Chisq")
+```
+
+```{r}
+mean.mod = lmer(f, data = projects.jor)
+# summary(mean.mod)
+```
+
+### Results
+
+```{r journey modulation reduced}
+null = lm(log(mean_donation) ~ 1, data = projects.jor)
+
+f.full = update(f,  ~ . + journey_salience)
+mod = lmer(f.full, data = projects.jor)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "journey_salience")
+
+f.full = update(f,  ~ . + journey_rare)
+mod = lmer(f.full, data = projects.jor)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "journey_rare")
+
+f.full = update(f,  ~ . + journey_early)
+mod = lmer(f.full, data = projects.jor)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "journey_early")
+```
+
+```{r journey modulation full}
+f.full = update(base.formula,  ~ . + journey_salience)
+mod = lmer(f.full, data = projects.jor)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod.base, mod, "journey_salience")
+
+f.full = update(base.formula,  ~ . + journey_rare)
+mod = lmer(f.full, data = projects.jor)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod.base, mod, "journey_rare")
+
+f.full = update(base.formula,  ~ . + journey_early)
+mod = lmer(f.full, data = projects.jor)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod.base, mod, "journey_early")
+```
+
+## Only Battle
+
+Null: Campaigns with only battle metaphors are not significantly more predictive of the mean donation, compared to literal campaigns.
+
+```{r}
+projects.some.bat = projects[projects$only_battle == "TRUE" | projects$no_metaphor == "TRUE", ]
+```
+
+```{r}
+mean.mod.base = lmer(base.formula, data = projects.some.bat)
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - month)
+# drop1(lmer(f, data = projects.some.bat), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - photos_sc)
+# drop1(lmer(f, data = projects.some.bat), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - duration_float_sc)
+# drop1(lmer(f, data = projects.some.bat), test="Chisq")
+```
+
+```{r}
+mean.mod = lmer(f, data = projects.some.bat)
+# summary(mean.mod)
+```
+
+### Results
+
+```{r only battle}
+f.full = update(f,  ~ . + only_battle)
+null = lm(log(mean_donation) ~ 1, data = projects.some.bat)
+mod = lmer(f.full, data = projects.some.bat)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "only_battleTRUE")
+
+mod = lmer(update(base.formula,  ~ . + only_battle), data = projects.some.bat)
+compare(null, mean.mod.base, mod, "only_battleTRUE")
+```
+
+```{r}
+tic()
+bs.r.sq = boot(projects.some.bat, f.sq.est, R = 200, parallel="multicore", ncpus = 3) # 38.115 sec elapsed
+toc()
+```
+
+```{r}
+plot(bs.r.sq)
+bs.r.sq
+bc.r.sq = boot.ci(bs.r.sq, type=c("perc"), conf = 0.95)
+bc.r.sq
+```
+
+```{r}
+pwr.f2.test(u = 31, v = 5468 - 31 - 1, f2 = 0.01040641, power = NULL)
+```
+
+## Battle Modulation
+
+```{r}
+projects.bat = projects[projects$battle_metaphor > 0, ]
+```
+
+N = `r nrow(projects.bat)`
+
+Perform model selection to prevent overfitting:
+
+```{r}
+mean.mod.base = lmer(base.formula, data = projects.bat)
+# drop1(mean.mod.base, test="Chisq")
+```
+
+```{r}
+f = update(base.formula,  ~ . - duration_float_sc)
+# drop1(lmer(f, data = projects.bat), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - month)
+# drop1(lmer(f, data = projects.bat), test="Chisq")
+```
+
+```{r}
+f = update(f,  ~ . - day_of_week)
+# drop1(lmer(f, data = projects.bat), test="Chisq")
+```
+
+```{r}
+mean.mod = lmer(f, data = projects.bat)
+# summary(mean.mod)
+```
+
+### Results
+
+```{r battle modulation reduced}
+null = lm(log(mean_donation) ~ 1, data = projects.bat)
+
+f.full = update(f,  ~ . + battle_salience)
+mod = lmer(f.full, data = projects.bat)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "battle_salience")
+
+f.full = update(f,  ~ . + battle_rare)
+mod = lmer(f.full, data = projects.bat)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "battle_rare")
+
+f.full = update(f,  ~ . + battle_early)
+mod = lmer(f.full, data = projects.bat)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod, mod, "battle_early")
+```
+
+```{r battle modulation full}
+f.full = update(base.formula,  ~ . + battle_salience)
+mod = lmer(f.full, data = projects.bat)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod.base, mod, "battle_salience")
+
+f.full = update(base.formula,  ~ . + battle_rare)
+mod = lmer(f.full, data = projects.bat)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod.base, mod, "battle_rare")
+
+f.full = update(base.formula,  ~ . + battle_early)
+mod = lmer(f.full, data = projects.bat)
+glue("Coefficients (minus Intercept): ", length(fixef(mod))-1)
+compare(null, mean.mod.base, mod, "battle_early")
+```

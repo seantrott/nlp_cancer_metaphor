@@ -158,7 +158,7 @@ f = update(f,  ~ . - month)
 
 ```{r}
 backers.mod = glmmTMB(f, data = projects, family = "truncated_nbinom2")
-# summary(backers.mod)
+summary(backers.mod)
 ```
 
 ### Results
@@ -223,123 +223,67 @@ mod = glmmTMB(update(base.formula,  ~ . + both_metaphor), data = projects.both, 
 compare(backers.mod.base, mod, "both_metaphorTRUE")
 ```
 
-## Some Metaphor
+## Compared Metaphor
 
-Null1: Journey metaphors dominating the campaign text does not significantly predict the total number of donors, compared to camapigns with only battle metaphors or fewer battle metaphors than journey metaphors.
-
-Null2: Battle metaphors dominating the campaign text does not significantly predict the total number of donors, compared to camapigns with only journey metaphors or fewer journey metaphors than battle metaphors.
-
-Null3: Only having the presence of journey metaphors in the campaign text does not significantly predict the total number of donorsdonation, compared to campaigns with only battle metaphors or a combination of both journey and battle metaphors.
-
-Null4: Only having the presence of battle metaphors in the campaign text does not significantly predict the total number of donors, compared to campaigns with only journey metaphors or a combination of both journey and battle metaphors.
+Null1: Only using battle metaphors within the campaign text does not significantly predict the number of backers, compared to campaigns which only use journey metaphors
 
 ```{r}
-projects.some = projects[projects$any_metaphor, ]
+projects.comp = projects[projects$any_metaphor & !projects$both_metaphor, ]
+```
+  
+N = `r nrow(projects.comp)`
+
+```{r}
+cbind(projects.comp %>% filter(only_battle) %>% select(backers) %>% summary(),
+      projects.comp %>% filter(only_journey) %>% select(backers) %>% summary())
 ```
 
-N = `r nrow(projects.some)`
 
 ```{r}
-p1 = projects.some %>%
+projects.comp %>%
   ggplot() + theme_minimal() +
-  geom_violin(aes(dom_journey, backers, fill=dom_journey)) + 
+  geom_violin(aes(only_battle, backers, fill=only_battle)) +
   scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.some[projects.some$dom_journey == F, ]$backers), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.some[projects.some$dom_journey, ]$backers), lty=2, color="blue")
-
-p2 = projects.some %>%
-  ggplot() + theme_minimal() +
-  geom_violin(aes(dom_battle, backers, fill=dom_battle)) + 
-  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.some[projects.some$dom_battle == F, ]$backers), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.some[projects.some$dom_battle, ]$backers), lty=2, color="blue")
-
-p3 = projects.some %>%
-  ggplot() + theme_minimal() +
-  geom_violin(aes(only_journey, backers, fill=only_journey)) + 
-  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.some[projects.some$only_journey == F, ]$backers), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.some[projects.some$only_journey, ]$backers), lty=2, color="blue")
-
-p4 = projects.some %>%
-  ggplot() + theme_minimal() +
-  geom_violin(aes(only_battle, backers, fill=only_battle)) + 
-  scale_fill_manual(values = c("FALSE" = alpha("red", 0.5), "TRUE" = alpha("blue", 0.5)), guide=F) + 
-  geom_hline(yintercept = mean(projects.some[projects.some$only_battle == F, ]$backers), lty=2, color="red") + 
-  geom_hline(yintercept = mean(projects.some[projects.some$only_battle, ]$backers), lty=2, color="blue")
-
-grid.arrange(p1, p2, p3, p4, nrow=1)
+  geom_hline(yintercept = mean(projects.comp[projects.comp$only_battle, ]$backers), lty=2, color="red") + 
+  geom_hline(yintercept = mean(projects.comp[projects.comp$only_battle, ]$backers), lty=2, color="blue")
 ```
 
 Perform model selection to prevent overfitting:
 
 ```{r}
-backers.mod.base = glmmTMB(base.formula, data = projects.some, family = "truncated_nbinom2")
+backers.mod.base = glmmTMB(base.formula, data = projects.comp, family = "truncated_nbinom2")
 # drop1(backers.mod.base, test="Chisq")
 ```
 
 ```{r}
-f = update(base.formula,  ~ . - month)
-# drop1(glmmTMB(f, data = projects.some, family = "truncated_nbinom2"), test="Chisq")
-```
-
-```{r}
-f = update(f,  ~ . - friends_sc)
-# drop1(glmmTMB(f, data = projects.some, family = "truncated_nbinom2"), test="Chisq")
+f = update(base.formula,  ~ . - friends_sc)
+# drop1(glmmTMB(f, data = projects.comp, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - day_of_week)
-# drop1(glmmTMB(f, data = projects.some, family = "truncated_nbinom2"), test="Chisq")
+# drop1(glmmTMB(f, data = projects.comp, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
-f = update(f,  ~ . - duration_float_sc)
-# drop1(glmmTMB(f, data = projects.some, family = "truncated_nbinom2"), test="Chisq")
+f = update(f,  ~ . - month)
+# drop1(glmmTMB(f, data = projects.comp, family = "truncated_nbinom2"), test="Chisq")
 ```
 
 ```{r}
-backers.mod = glmmTMB(f, data = projects.some, family = "truncated_nbinom2")
+backers.mod = glmmTMB(f, data = projects.comp, family = "truncated_nbinom2")
 # summary(backers.mod)
 ```
 
 ### Results
 
-```{r}
-2*(logLik(mod) - logLik(backers.mod))
-```
-
-```{r}
-anova(backers.mod, mod)
-```
-
-
-
 ```{r some metaphors reduced}
-mod = glmmTMB(update(f,  ~ . + dom_journey), data = projects.some, family = "truncated_nbinom2")
-compare(backers.mod, mod, "dom_journeyTRUE")
-
-mod = glmmTMB(update(f,  ~ . + dom_battle), data = projects.some, family = "truncated_nbinom2")
-compare(backers.mod, mod, "dom_battleTRUE")
-
-mod = glmmTMB(update(f,  ~ . + only_journey), data = projects.some, family = "truncated_nbinom2")
-compare(backers.mod, mod, "only_journeyTRUE")
-
-mod = glmmTMB(update(f,  ~ . + only_battle), data = projects.some, family = "truncated_nbinom2")
+mod = glmmTMB(update(f,  ~ . + only_battle), data = projects.comp, family = "truncated_nbinom2")
 compare(backers.mod, mod, "only_battleTRUE")
 ```
 
 ```{r some metaphors full}
-mod = glmmTMB(update(base.formula,  ~ . + dom_journey), data = projects.some, family = "truncated_nbinom2")
-compare(backers.mod.base, mod, "dom_journeyTRUE")
-
-mod = glmmTMB(update(base.formula,  ~ . + dom_battle), data = projects.some, family = "truncated_nbinom2")
-compare(backers.mod.base, mod, "dom_battleTRUE")
-
-mod = glmmTMB(update(base.formula,  ~ . + only_journey), data = projects.some, family = "truncated_nbinom2")
-compare(backers.mod.base, mod, "only_journeyTRUE")
-
-mod = glmmTMB(update(base.formula,  ~ . + only_battle), data = projects.some, family = "truncated_nbinom2")
+mod = glmmTMB(update(base.formula,  ~ . + only_battle), data = projects.comp, family = "truncated_nbinom2")
 compare(backers.mod.base, mod, "only_battleTRUE")
 ```
 
@@ -418,8 +362,8 @@ N = `r nrow(projects.jor)`
 
 ```{r}
 cbind(summary(projects.jor$journey_salience),
-      summary(projects.jor$journey_prod),
-      summary(projects.jor$journey_instantiation))
+      summary(projects.jor$journey_rare),
+      summary(projects.jor$journey_early))
 ```
 
 ```{r}
@@ -428,11 +372,11 @@ p1 = projects.jor %>%
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
 p2 = projects.jor %>%
-  ggplot(aes(journey_prod, backers)) + theme_minimal() +
+  ggplot(aes(journey_rare, backers)) + theme_minimal() +
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
 p3 = projects.jor %>%
-  ggplot(aes(journey_instantiation, backers)) + theme_minimal() +
+  ggplot(aes(journey_early, backers)) + theme_minimal() +
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
 grid.arrange(p1, p2, p3, nrow=1)
@@ -481,22 +425,22 @@ backers.mod = glmmTMB(f, data = projects.jor, family = "truncated_nbinom2")
 mod = glmmTMB(update(f,  ~ . + journey_salience), data = projects.jor, family = "truncated_nbinom2")
 compare(backers.mod, mod, "journey_salience")
 
-mod = glmmTMB(update(f,  ~ . + journey_prod), data = projects.jor, family = "truncated_nbinom2")
-compare(backers.mod, mod, "journey_prod")
+mod = glmmTMB(update(f,  ~ . + journey_rare), data = projects.jor, family = "truncated_nbinom2")
+compare(backers.mod, mod, "journey_rare")
 
-mod = glmmTMB(update(f,  ~ . + journey_instantiation), data = projects.jor, family = "truncated_nbinom2")
-compare(backers.mod, mod, "journey_instantiation")
+mod = glmmTMB(update(f,  ~ . + journey_early), data = projects.jor, family = "truncated_nbinom2")
+compare(backers.mod, mod, "journey_early")
 ```
 
 ```{r journey modulation full}
 mod = glmmTMB(update(base.formula,  ~ . + journey_salience), data = projects.jor, family = "truncated_nbinom2")
 compare(backers.mod.base, mod, "journey_salience")
 
-mod = glmmTMB(update(base.formula,  ~ . + journey_prod), data = projects.jor, family = "truncated_nbinom2")
-compare(backers.mod.base, mod, "journey_prod")
+mod = glmmTMB(update(base.formula,  ~ . + journey_rare), data = projects.jor, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "journey_rare")
 
-mod = glmmTMB(update(base.formula,  ~ . + journey_instantiation), data = projects.jor, family = "truncated_nbinom2")
-compare(backers.mod.base, mod, "journey_instantiation")
+mod = glmmTMB(update(base.formula,  ~ . + journey_early), data = projects.jor, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "journey_early")
 ```
 
 ## Only Battle
@@ -569,8 +513,8 @@ N = `r nrow(projects.bat)`
 
 ```{r}
 cbind(summary(projects.bat$battle_salience),
-      summary(projects.bat$battle_prod),
-      summary(projects.bat$battle_instantiation))
+      summary(projects.bat$battle_rare),
+      summary(projects.bat$battle_early))
 ```
 
 ```{r}
@@ -579,11 +523,11 @@ p1 = projects.bat %>%
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
 p2 = projects.bat %>%
-  ggplot(aes(battle_prod, backers)) + theme_minimal() +
+  ggplot(aes(battle_rare, backers)) + theme_minimal() +
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
 p3 = projects.bat %>%
-  ggplot(aes(battle_instantiation, backers)) + theme_minimal() +
+  ggplot(aes(battle_early, backers)) + theme_minimal() +
   geom_point() + geom_smooth(method = "lm", se = F, color="red") + geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = F, color="blue")
 
 grid.arrange(p1, p2, p3, nrow=1)
@@ -627,20 +571,20 @@ backers.mod = glmmTMB(f, data = projects.bat, family = "truncated_nbinom2")
 mod = glmmTMB(update(f,  ~ . + battle_salience), data = projects.bat, family = "truncated_nbinom2")
 compare(backers.mod, mod, "battle_salience")
 
-mod = glmmTMB(update(f,  ~ . + battle_prod), data = projects.bat, family = "truncated_nbinom2")
-compare(backers.mod, mod, "battle_prod")
+mod = glmmTMB(update(f,  ~ . + battle_rare), data = projects.bat, family = "truncated_nbinom2")
+compare(backers.mod, mod, "battle_rare")
 
-mod = glmmTMB(update(f,  ~ . + battle_instantiation), data = projects.bat, family = "truncated_nbinom2")
-compare(backers.mod, mod, "battle_instantiation")
+mod = glmmTMB(update(f,  ~ . + battle_early), data = projects.bat, family = "truncated_nbinom2")
+compare(backers.mod, mod, "battle_early")
 ```
 
 ```{r battle modulation full}
 mod = glmmTMB(update(base.formula,  ~ . + battle_salience), data = projects.bat, family = "truncated_nbinom2")
 compare(backers.mod.base, mod, "battle_salience")
 
-mod = glmmTMB(update(base.formula,  ~ . + battle_prod), data = projects.bat, family = "truncated_nbinom2")
-compare(backers.mod.base, mod, "battle_prod")
+mod = glmmTMB(update(base.formula,  ~ . + battle_rare), data = projects.bat, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "battle_rare")
 
-mod = glmmTMB(update(base.formula,  ~ . + battle_instantiation), data = projects.bat, family = "truncated_nbinom2")
-compare(backers.mod.base, mod, "battle_instantiation")
+mod = glmmTMB(update(base.formula,  ~ . + battle_early), data = projects.bat, family = "truncated_nbinom2")
+compare(backers.mod.base, mod, "battle_early")
 ```

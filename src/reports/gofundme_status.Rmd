@@ -216,105 +216,69 @@ mod = glmer(update(base.formula,  ~ . + both_metaphor), data = projects.both, fa
 compare(status.mod.base, mod, "both_metaphorTRUE")
 ```
 
-## Some Metaphor
+## Compared Metaphor
 
-Null1: Journey metaphors dominating the campaign text does not significantly predict the success, compared to camapigns with only battle metaphors or fewer battle metaphors than journey metaphors.
-
-Null2: Battle metaphors dominating the campaign text does not significantly predict the success, compared to camapigns with only journey metaphors or fewer journey metaphors than battle metaphors.
-
-Null3: Only having the presence of journey metaphors in the campaign text does not significantly predict the success, compared to campaigns with only battle metaphors or a combination of both journey and battle metaphors.
-
-Null4: Only having the presence of battle metaphors in the campaign text does not significantly predict the success, compared to campaigns with only journey metaphors or a combination of both journey and battle metaphors.
+Null1: Only using battle metaphors within the campaign text does not significantly predict the success, compared to campaigns which only use journey metaphors
 
 ```{r}
-projects.some = projects[projects$any_metaphor, ]
+projects.comp = projects[projects$any_metaphor & !projects$both_metaphor, ]
+```
+  
+N = `r nrow(projects.comp)`
+
+```{r}
+table(projects.comp$only_battle, projects.comp$status)
 ```
 
-N = `r nrow(projects.some)`
-
-```{r fig.width=8}
-p1 = projects.some %>%
+```{r}
+projects.comp  %>%
   ggplot() + th +
-  geom_bar(aes(status, fill=dom_journey), position = "dodge") + 
-  lims(y=c(0,2500)) + labs(title="Dominant Journey")
-
-p2 = projects.some %>%
-  ggplot() + th +
-  geom_bar(aes(status, fill=dom_battle), position = "dodge") +
-  lims(y=c(0,2500)) + labs(title="Dominant Battle")
-
-p3 = projects.some %>%
-  ggplot() + th +
-  geom_bar(aes(status, fill=only_journey), position = "dodge") +
-  lims(y=c(0,2500)) + labs(title="Only Journey")
-
-p4 = projects.some %>%
-  ggplot() + th +
-  geom_bar(aes(status, fill=only_battle), position = "dodge") +
-  lims(y=c(0,2500)) + labs(title="Only Battle")
-
-grid.arrange(p1, p2, p3, p4, nrow=1)
+  geom_bar(aes(status, fill=only_battle), position = "dodge") + 
+  lims(y=c(0,2000)) +
+  labs(title="Battle Campaigns and Success", fill = "Battle Campaigns")
 ```
 
 Perform model selection to prevent overfitting:
 
 ```{r}
-status.mod.base = glmer(base.formula, data = projects.some, family = "binomial")
-# drop1(status.mod.base, test="Chisq")
+status.mod.base = glmer(base.formula, data = projects.comp, family = "binomial")
+drop1(status.mod.base, test="Chisq")
 ```
 
 ```{r}
 f = update(base.formula,  ~ . - text_length_words_sc)
-# drop1(glmer(f, data = projects.some, family = "binomial"), test="Chisq")
+# drop1(glmer(f, data = projects.comp, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - friends_sc)
-# drop1(glmer(f, data = projects.some, family = "binomial"), test="Chisq")
+# drop1(glmer(f, data = projects.comp, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - month)
-# drop1(glmer(f, data = projects.some, family = "binomial"), test="Chisq")
+# drop1(glmer(f, data = projects.comp, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - day_of_week)
-# drop1(glmer(f, data = projects.some, family = "binomial"), test="Chisq")
+# drop1(glmer(f, data = projects.comp, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
-status.mod = glmer(f, data = projects.some, family = "binomial")
+status.mod = glmer(f, data = projects.comp, family = "binomial")
 # summary(status.mod)
 ```
 
 ### Results
 
 ```{r some metaphors reduced}
-mod = glmer(update(f,  ~ . + dom_journey), data = projects.some, family = "binomial")
-compare(status.mod, mod, "dom_journeyTRUE")
-
-mod = glmer(update(f,  ~ . + dom_battle), data = projects.some, family = "binomial")
-compare(status.mod, mod, "dom_battleTRUE")
-
-mod = glmer(update(f,  ~ . + only_journey), data = projects.some, family = "binomial")
-compare(status.mod, mod, "only_journeyTRUE")
-
-mod = glmer(update(f,  ~ . + only_battle), data = projects.some, family = "binomial")
+mod = glmer(update(f,  ~ . + only_battle), data = projects.comp, family = "binomial")
 compare(status.mod, mod, "only_battleTRUE")
 ```
 
 ```{r some metaphors full}
-mod = glmer(update(base.formula,  ~ . + dom_journey), data = projects.some, family = "binomial")
-compare(status.mod.base, mod, "dom_journeyTRUE")
-
-mod = glmer(update(base.formula,  ~ . + dom_battle), data = projects.some, family = "binomial")
-compare(status.mod.base, mod, "dom_battleTRUE")
-
-mod = glmer(update(base.formula,  ~ . + only_journey), data = projects.some, family = "binomial")
-compare(status.mod.base, mod, "only_journeyTRUE")
-
-mod = glmer(update(base.formula,  ~ . + only_battle), data = projects.some, family = "binomial")
+mod = glmer(update(base.formula,  ~ . + only_battle), data = projects.comp, family = "binomial")
 compare(status.mod.base, mod, "only_battleTRUE")
 ```
 
@@ -396,8 +360,8 @@ N = `r nrow(projects.jor)`
 
 ```{r}
 cbind(summary(projects.jor$journey_salience),
-      summary(projects.jor$journey_prod),
-      summary(projects.jor$journey_instantiation))
+      summary(projects.jor$journey_rare),
+      summary(projects.jor$journey_early))
 ```
 
 ```{r}
@@ -410,17 +374,17 @@ p1 = projects.jor %>%
 
 p2 = projects.jor %>%
   ggplot() + th +
-  geom_violin(aes(status, journey_prod, fill=status)) +
+  geom_violin(aes(status, journey_rare, fill=status)) +
   scale_fill_manual(values = c("0" = alpha("red", 0.5), "1" = alpha("blue", 0.5)), guide=F) +
-  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 0, ]$journey_prod), lty=2, color="red") +
-  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 1, ]$journey_prod), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 0, ]$journey_rare), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 1, ]$journey_rare), lty=2, color="blue")
 
 p3 = projects.jor %>%
   ggplot() + th +
-  geom_violin(aes(status, journey_instantiation, fill=status)) +
+  geom_violin(aes(status, journey_early, fill=status)) +
   scale_fill_manual(values = c("0" = alpha("red", 0.5), "1" = alpha("blue", 0.5)), guide=F) +
-  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 0, ]$journey_instantiation), lty=2, color="red") +
-  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 1, ]$journey_instantiation), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 0, ]$journey_early), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.jor[projects.jor$status == 1, ]$journey_early), lty=2, color="blue")
 
 grid.arrange(p1, p2, p3, nrow=1)
 ```
@@ -478,22 +442,22 @@ status.mod = glmer(f, data = projects.jor, family = "binomial")
 mod = glmer(update(f,  ~ . + journey_salience), data = projects.jor, family = "binomial")
 compare(status.mod, mod, "journey_salience")
 
-mod = glmer(update(f,  ~ . + journey_prod), data = projects.jor, family = "binomial")
-compare(status.mod, mod, "journey_prod")
+mod = glmer(update(f,  ~ . + journey_rare), data = projects.jor, family = "binomial")
+compare(status.mod, mod, "journey_rare")
 
-mod = glmer(update(f,  ~ . + journey_instantiation), data = projects.jor, family = "binomial")
-compare(status.mod, mod, "journey_instantiation")
+mod = glmer(update(f,  ~ . + journey_early), data = projects.jor, family = "binomial")
+compare(status.mod, mod, "journey_early")
 ```
 
 ```{r journey modulation full}
 mod = glmer(update(base.formula,  ~ . + journey_salience), data = projects.jor, family = "binomial")
 compare(status.mod.base, mod, "journey_salience")
 
-mod = glmer(update(base.formula,  ~ . + journey_prod), data = projects.jor, family = "binomial")
-compare(status.mod.base, mod, "journey_prod")
+mod = glmer(update(base.formula,  ~ . + journey_rare), data = projects.jor, family = "binomial")
+compare(status.mod.base, mod, "journey_rare")
 
-mod = glmer(update(base.formula,  ~ . + journey_instantiation), data = projects.jor, family = "binomial")
-compare(status.mod.base, mod, "journey_instantiation")
+mod = glmer(update(base.formula,  ~ . + journey_early), data = projects.jor, family = "binomial")
+compare(status.mod.base, mod, "journey_early")
 ```
 
 ## Only Battle
@@ -538,17 +502,17 @@ f = update(f,  ~ . - month)
 
 ```{r}
 f = update(f,  ~ . - text_length_words_sc)
-drop1(glmer(f, data = projects.some.bat, family = "binomial"), test="Chisq")
+# drop1(glmer(f, data = projects.some.bat, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
 f = update(f,  ~ . - friends_sc)
-drop1(glmer(f, data = projects.some.bat, family = "binomial"), test="Chisq")
+# drop1(glmer(f, data = projects.some.bat, family = "binomial"), test="Chisq")
 ```
 
 ```{r}
 status.mod = glmer(f, data = projects.some.bat, family = "binomial")
-summary(status.mod)
+# summary(status.mod)
 ```
 
 ### Results
@@ -571,8 +535,8 @@ N = `r nrow(projects.bat)`
 
 ```{r}
 cbind(summary(projects.bat$battle_salience),
-      summary(projects.bat$battle_prod),
-      summary(projects.bat$battle_instantiation))
+      summary(projects.bat$battle_rare),
+      summary(projects.bat$battle_early))
 ```
 
 ```{r}
@@ -585,17 +549,17 @@ p1 = projects.bat %>%
 
 p2 = projects.bat %>%
   ggplot() + th +
-  geom_violin(aes(status, battle_prod, fill=status)) +
+  geom_violin(aes(status, battle_rare, fill=status)) +
   scale_fill_manual(values = c("0" = alpha("red", 0.5), "1" = alpha("blue", 0.5)), guide=F) +
-  geom_hline(yintercept = mean(projects.bat[projects.bat$status == 0, ]$battle_prod), lty=2, color="red") +
-  geom_hline(yintercept = mean(projects.bat[projects.bat$status == 1, ]$battle_prod), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.bat[projects.bat$status == 0, ]$battle_rare), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.bat[projects.bat$status == 1, ]$battle_rare), lty=2, color="blue")
 
 p3 = projects.bat %>%
   ggplot() + th +
-  geom_violin(aes(status, battle_instantiation, fill=status)) +
+  geom_violin(aes(status, battle_early, fill=status)) +
   scale_fill_manual(values = c("0" = alpha("red", 0.5), "1" = alpha("blue", 0.5)), guide=F) +
-  geom_hline(yintercept = mean(projects.bat[projects.bat$status == 0, ]$battle_instantiation), lty=2, color="red") +
-  geom_hline(yintercept = mean(projects.bat[projects.bat$status == 1, ]$battle_instantiation), lty=2, color="blue")
+  geom_hline(yintercept = mean(projects.bat[projects.bat$status == 0, ]$battle_early), lty=2, color="red") +
+  geom_hline(yintercept = mean(projects.bat[projects.bat$status == 1, ]$battle_early), lty=2, color="blue")
 
 grid.arrange(p1, p2, p3, nrow=1)
 ```
@@ -648,22 +612,22 @@ status.mod = glmer(f, data = projects.bat, family = "binomial")
 mod = glmer(update(f,  ~ . + battle_salience), data = projects.bat, family = "binomial")
 compare(status.mod, mod, "battle_salience")
 
-mod = glmer(update(f,  ~ . + battle_prod), data = projects.bat, family = "binomial")
-compare(status.mod, mod, "battle_prod")
+mod = glmer(update(f,  ~ . + battle_rare), data = projects.bat, family = "binomial")
+compare(status.mod, mod, "battle_rare")
 
-mod = glmer(update(f,  ~ . + battle_instantiation), data = projects.bat, family = "binomial")
-compare(status.mod, mod, "battle_instantiation")
+mod = glmer(update(f,  ~ . + battle_early), data = projects.bat, family = "binomial")
+compare(status.mod, mod, "battle_early")
 ```
 
 ```{r battle modulation full}
 mod = glmer(update(base.formula,  ~ . + battle_salience), data = projects.bat, family = "binomial")
 compare(status.mod.base, mod, "battle_salience")
 
-mod = glmer(update(base.formula,  ~ . + battle_prod), data = projects.bat, family = "binomial")
-compare(status.mod.base, mod, "battle_prod")
+mod = glmer(update(base.formula,  ~ . + battle_rare), data = projects.bat, family = "binomial")
+compare(status.mod.base, mod, "battle_rare")
 
-mod = glmer(update(base.formula,  ~ . + battle_instantiation), data = projects.bat, family = "binomial")
-compare(status.mod.base, mod, "battle_instantiation")
+mod = glmer(update(base.formula,  ~ . + battle_early), data = projects.bat, family = "binomial")
+compare(status.mod.base, mod, "battle_early")
 ```
 
 ## Simple model
