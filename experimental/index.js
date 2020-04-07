@@ -3,7 +3,7 @@ const app = express();
 
 const fs = require('fs');
 
-app.use("/", express.static(__dirname + '/experiment_design'))
+app.use("/", express.static(__dirname + '/web'))
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
