@@ -31,7 +31,7 @@ Within this document is the code to test for a main effect of metaphor presence 
 We will not be transforming the outcome donation amount. We do code a new variable, Any Metaphor, which is true if the condition was either Battle or Journey, false if the condition was Literal. The only transformed covariates are those for past donation quantity and participant age, which are centered and divided by two standard deviations (see Gelman, 2008).
 
 ```{r}
-trials = read_csv("data/clean_data.csv", col_types = cols()) %>%
+trials = read_csv("data_pilot_N200/data_clean.csv", col_types = cols()) %>%
   select(ppt:age) %>%
   mutate(
     cond_sex = factor(cond_sex, levels = c("male", "female")),
@@ -77,14 +77,17 @@ We will use the standard p < 0.05 criteria for determining if the model comparis
 
 ```{r}
 full.formula = formula(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + past_donations.z + age.z + cond_anymet)
+base.formula = formula(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + past_donations.z + age.z)
 ```
 
 ```{r}
 model.base = lm(update(full.formula, . ~ . - cond_anymet), data = trials)
 model.full = lm(full.formula, data = trials)
 
+trials$resid_anymet = resid(model.base)
+
 summ(model.full, confint = T, digits = 3)
-anova(model.base, model.full)
+anova(model.base, model.full, test = "Chisq")
 ```
 
 ### Effect Size
@@ -121,20 +124,81 @@ round(f.sq(
 ), 6)
 ```
 
+## Donations by Conditions
+
+Journey vs Literal
+
+```{r}
+head(trials)
+```
+
+
+```{r}
+journey_mask = trials$cond_metaphor != "battle"
+model.base = lm(base.formula, data = trials[journey_mask, ])
+model.full = lm(update(base.formula, . ~ . + cond_metaphor), data = trials[journey_mask, ])
+
+trials[journey_mask, "resid_journey"] = resid(model.base)
+
+summ(model.full, confint = T, digits = 3)
+anova(model.base, model.full, test = "Chisq")
+```
+
+```{r}
+round(f.sq(
+  lm(donation ~ 1, data = trials),
+  model.base,
+  model.full
+), 6)
+```
+
+Battle vs Literal
+
+```{r}
+battle_mask = trials$cond_metaphor != "journey"
+model.base = lm(base.formula, data = trials[battle_mask, ])
+model.full = lm(update(base.formula, . ~ . + cond_metaphor), data = trials[battle_mask, ])
+
+trials[battle_mask, "resid_battle"] = resid(model.base)
+
+summ(model.full, confint = T, digits = 3)
+anova(model.base, model.full, test = "Chisq")
+```
+
+```{r}
+round(f.sq(
+  lm(donation ~ 1, data = trials),
+  model.base,
+  model.full
+), 6)
+```
+
 ## Visualizations
 
 ### Residual Plots
 
 ```{r}
-trials$resid = resid(model.base)
-```
-
-```{r}
-ggplot(trials, aes(cond_anymet, resid)) + tm +
+ggplot(trials, aes(cond_anymet, resid_anymet)) + tm +
   labs(y = "Residuals", x = element_blank()) +
   geom_jitter(width = 0.03) +
   geom_boxplot(alpha = 0.2, fill = "gray") +
   scale_x_discrete(labels = c("FALSE"="Literal", "TRUE"="Any Metaphor"))
+```
+
+```{r}
+ggplot(trials[journey_mask, ], aes(cond_metaphor, resid_journey)) + tm +
+  labs(y = "Residuals", x = element_blank()) +
+  geom_jitter(width = 0.03) +
+  geom_boxplot(alpha = 0.2, fill = "gray") +
+  scale_x_discrete(labels = c("literal"="Literal", "journey"="Journey"))
+```
+
+```{r}
+ggplot(trials[battle_mask, ], aes(cond_metaphor, resid_battle)) + tm +
+  labs(y = "Residuals", x = element_blank()) +
+  geom_jitter(width = 0.03) +
+  geom_boxplot(alpha = 0.2, fill = "gray") +
+  scale_x_discrete(labels = c("literal"="Literal", "battle"="Battle"))
 ```
 
 ### Mean Plot
@@ -149,4 +213,23 @@ ggplot(trials, aes(cond_anymet, donation)) + tm +
   scale_x_discrete(labels = c("FALSE"="Literal", "TRUE"="Any Metaphor")) +
   coord_cartesian(ylim = c(0, 25))
 ```
+
+```{r}
+ggplot(trials[journey_mask, ], aes(cond_metaphor, donation)) + tm +
+  labs(y = "Donation", x = element_blank()) +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.03) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+  scale_x_discrete(labels = c("literal"="Literal", "journey"="Journey")) +
+  coord_cartesian(ylim = c(0, 25))
+```
+
+```{r}
+ggplot(trials[battle_mask, ], aes(cond_metaphor, donation)) + tm +
+  labs(y = "Donation", x = element_blank()) +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.03) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+  scale_x_discrete(labels = c("literal"="Literal", "battle"="Battle")) +
+  coord_cartesian(ylim = c(0, 25))
+```
+
 
