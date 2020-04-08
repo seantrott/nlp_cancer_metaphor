@@ -4,7 +4,6 @@ output:
   html_document:
     toc: true
     toc_float: true
-  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -13,52 +12,51 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
-library(boot)
-theme = theme_minimal()
+library(jtools)
+tm = theme_minimal()
 ```
 
-# Experimental Analysis
+# Experiment Exploratory Analysis
 
-## Load and Clean Data
+## Load Data
 
 Created via `clean_data.R`.
 
 ```{r}
-sc = function(x) {
-  return((x - mean(x, na.rm = T)) / (2 * sd(x, na.rm = T)))
-}
-
-
-data = read_csv("data/clean_data.csv", col_types = cols()) %>%
-              mutate(
-              cond_sex = factor(cond_sex, levels = c("male", "female")),
-              cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
-
-              # rt_trial = rt_trial / (1000 * 60), # convert to floating point minutes
-              # total_time = total_time / (1000 * 60), # convert to floating point minutes
-              
-              age.z = sc(age),
-              exp_cancer = (self_cancer == "Y" | ff_cancer == "Y"),
-              
-              urgent = as.integer(urgent),
-              sympathy = as.integer(sympathy),
-              peace = as.integer(peace),
-              guilty = as.integer(guilty),
-              
-              gender = factor(gender, levels = c("M", "F", "NB")),
-              self_cancer = factor(self_cancer, levels = c("Y", "N")),
-              ff_cancer = factor(ff_cancer, levels = c("Y", "N")),
-              english = factor(english, levels = c("Y", "N")),
-              socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k")),
-              education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D")))
+trials = read_csv("data_pilot_N200/data_clean.csv", col_types = cols()) %>%
+  select(ppt:age) %>%
+  mutate(
+    cond_sex = factor(cond_sex, levels = c("male", "female")),
+    cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
+    cond_anymet = cond_metaphor %in% c("battle", "journey"),
+    
+    self_cancer = factor(self_cancer, levels = c("N", "Y", "NA")),
+    ff_cancer = factor(ff_cancer, levels = c("N", "Y", "NA")),
+    
+    urgent = as.integer(urgent),
+    sympathy = as.integer(sympathy),
+    
+    gender = factor(gender, levels = c("M", "F", "NB"), labels = c("Male", "Female", "Nonbinary")),
+    education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D", "NA")),
+    socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "NA")),
+    english = factor(english, levels = c("Y", "N", "NA")),
+    
+    age.z = (age - mean(age, na.rm = T)) / (2 * sd(age, na.rm = T)),
+    past_donations.z = (past_donations - mean(past_donations, na.rm = T)) / (2 * sd(past_donations, na.rm = T))
+  ) %>%
+  drop_na()
 ```
 
-## Exploration
+```{r}
+base.formula = formula(donation ~ self_cancer + ff_cancer + gender + education + socioeconomic + past_donations.z + age.z)
+```
+
+# Exploration
 
 Participants per cell
 
 ```{r}
-t = table(data[, c("cond_metaphor", "cond_sex")])
+t = table(trials[, c("cond_metaphor", "cond_sex")])
 t = cbind(t, rowSums(t))
 colnames(t)[3] = "Total"
 t = rbind(t, colSums(t))
@@ -66,16 +64,12 @@ rownames(t)[4] = "Total"
 t
 ```
 
-```{r}
-head(data)
-```
-
-### Experiment Duration
+## Experiment Duration
 
 ```{r}
-summary(data$rt_trial) / (1000)
-summary(data$total_time) / (1000*60)
-ggplot(data) + theme +
+summary(trials$rt_trial) / (1000)
+summary(trials$total_time) / (1000*60)
+ggplot(trials) + tm +
   geom_density(aes(total_time/(1000*60))) +
   labs(x = "Total Duration (mins)", y = "Density", title = "Total Duration Distribution")
 ```
@@ -83,95 +77,78 @@ ggplot(data) + theme +
 First, 5th, 50th, and 95th quantiles for the actual trial response time. Then the mean trial response time. Then 5th, 50th, and 95th quantiles for experiment total duration. Lastly, mean total experiment duration.
 
 ```{r}
-quantile(data$rt_trial, c(0.05, 0.5, 0.95))
-mean(data$rt_trial)
-quantile(data$total_time, c(0.05, 0.5, 0.95))
-mean(data$total_time)
+quantile(trials$rt_trial, c(0.05, 0.5, 0.95)) / (1000)
+mean(trials$rt_trial) / (1000)
+quantile(trials$total_time, c(0.05, 0.5, 0.95)) / (1000 * 60)
+mean(trials$total_time) / (1000 * 60)
 ```
 
 Take a look at the fastest and slowest participants to see if they are completely unreasonable outliers
 
 ```{r}
-data %>%
-  arrange(rt_trial)
+trials %>% arrange(rt_trial) %>% head()
 ```
 
 ```{r}
-ggplot(data) +
-  geom_point(aes(rank(rt_trial), rt_trial / (1000*60)), size = 0.5, color = "blue")
-  labs(y = "Trial RT (sec)")
+trials %>% arrange(desc(rt_trial)) %>% head()
 ```
 
-```{r}
-data %>%
-  arrange(desc(rt_trial)) %>%
-  head()
-```
+## Prominent Donation Behaviors
 
-### Prominent Donation Behaviors
-
-First, portion of each gender and conditions that gave \$0. Then, summary stats of the donations. Then, proportion of participants who donate $0, $25, and $50. These are natural breaks (minimum, default/middle, maximum) that might signal certain behavior (e.g. people often giving nothing, staying with the default value).
+First, portion of each gender and conditions that gave \$0. Then, summary stats of the donations. Then, proportion of participants who donate \$0, \$25, and \$50. These are natural breaks (minimum, default/middle, maximum) that might signal certain behavior (e.g. people often giving nothing, staying with the default value).
 
 ```{r}
-data %>%
+trials %>%
   group_by(gender) %>%
   summarise(propZero = mean(donation == 0), sumZero = sum(donation == 0))
 
-data %>%
+trials %>%
   group_by(cond_sex) %>%
   summarise(propZero = mean(donation == 0), sumZero = sum(donation == 0))
 
-data %>%
+trials %>%
   group_by(cond_metaphor) %>%
   summarise(propZero = mean(donation == 0), sumZero = sum(donation == 0))
 ```
 
 ```{r}
-summary(data$donation)
-mean(data$donation == 0)
-mean(data$donation == 25)
-mean(data$donation == 50)
+summary(trials$donation)
+mean(trials$donation == 0)
+mean(trials$donation == 25)
+mean(trials$donation == 50)
 ```
-
-If the participant is rushing through the experiment and donates the default amount, we might expect to see that a donation of $25 predicts the trial response time (beyond what is predicted by the conditions).
-
-```{r}
-time.model = lm(rt_trial ~ cond_sex*cond_metaphor, data = data)
-time.model.full = lm(rt_trial ~ I(donation == 25) + cond_sex*cond_metaphor, data = data)
-anova(time.model, time.model.full, test = "Chisq")
-```
-
-### Donations
 
 How do participants in each of the conditions behave?
 
 First, simple histograms of donation amounts, both overall and broken up by condition.
 
 ```{r}
-ggplot(data) + theme +
+ggplot(trials) + tm +
   geom_histogram(aes(donation), binwidth = 2.5) +
   labs(x = "Donation Amount", y = "Count", title = "Donation Distribution") +
   lims(x=c(0, 50))
 
-ggplot(data) + theme +
+ggplot(trials) + tm +
   geom_histogram(aes(donation), binwidth = 2.5, position = "identity") +
   labs(x = "Donation Amount", y = "Count", title = "Donation Distributions by Condition") +
   facet_grid(vars(cond_sex), vars(cond_metaphor)) +
   lims(x=c(0, 50))
 ```
 
-## Predictors
+## Donations by Predictors
+
+### Sympathy and Urgency
 
 ```{r}
-summary(data$sympathy, digits = 2)
-summary(data$urgent, digits = 2)
+summary(trials$sympathy, digits = 2)
+summary(trials$urgent, digits = 2)
 ```
 
 Quick peek at the differences in donation amounts given how much participants agreed with the followup questions.
 
 ```{r}
 data %>%
-  gather(question, value, urgent:guilty) %>%
+  gather(question, value, urgent:sympathy) %>%
   ggplot(aes(as.factor(value), donation)) +
   geom_boxplot() +
   facet_grid(rows = vars(question))
@@ -180,12 +157,12 @@ data %>%
 Distribution of the followup questions
 
 ```{r}
-ggplot(data) + theme +
+ggplot(trials) + tm +
   geom_bar(aes(urgent, group=1, y=..prop..)) +
   scale_x_discrete(limits = seq(0,6)) +
   labs(x = "Urgent", y = "Proportion", title = "Urgent Distribution", subtitle = "\"Her situation is urgent.\"")
 
-ggplot(data) + theme +
+ggplot(trials) + tm +
   geom_bar(aes(sympathy, group=1, y=..prop..)) +
   scale_x_discrete(limits = seq(0,6)) +
   labs(x = "Sympathy", y = "Proportion", title = "Sympathy Distribution", subtitle = "\"Her situation is one I sympathize with.\"")
@@ -195,142 +172,141 @@ ggplot(data) + theme +
 lbs = c("male" = "Condition: Male",
         "female" = "Condition: Female")
 
-ggplot(data) + theme +
+ggplot(trials) + tm +
   geom_bar(aes(urgent, fill = cond_metaphor), width = 0.9, position = position_dodge(preserve = "single")) +
   lims(x = c(0, 6)) +
-  labs(x = "Urgent", y = "Count", title = "Urgent Distribution", subtitle = "\"Her situation is urgent.\"") +
-  facet_grid(~cond_sex, labeller = as_labeller(lbs)) # remove this line to graph only the metaphor condition
+  labs(x = "Urgent", y = "Count", title = "Urgent Distribution", subtitle = "\"Her situation is urgent.\"")
+  # facet_grid(~cond_sex, labeller = as_labeller(lbs)) # remove this line to graph only the metaphor condition
 
-ggplot(data) + theme +
+ggplot(trials) + tm +
   geom_bar(aes(sympathy, fill = cond_metaphor), width = 0.9, position = position_dodge(preserve = "single")) +
   lims(x = c(0, 6)) +
-  labs(x = "Sympathy", y = "Count", title = "Sympathy Distribution", subtitle = "\"Her situation is sympathy\"") +
-  facet_grid(~cond_sex, labeller = as_labeller(lbs))  # remove this line to graph only the metaphor condition
+  labs(x = "Sympathy", y = "Count", title = "Sympathy Distribution", subtitle = "\"Her situation is sympathy\"")
+  # facet_grid(~cond_sex, labeller = as_labeller(lbs))  # remove this line to graph only the metaphor condition
 ```
-
-Correlation analysis between intrinsic factors and donation, and between both instrinsic factors
-
-```{r}
-cor.test(data$urgent, data$donation, method = "spearman", alternative = "two.sided")
-cor.test(data$sympathy, data$donation, method = "spearman", alternative = "two.sided")
-```
-
-```{r}
-cor.test(data$sympathy, data$urgent, method = "spearman", alternative = "two.sided")
-```
-
-### Sympathy
 
 Does the metaphorical condition have a relationship to participant's rating of perceived sympathy?
 
 ```{r}
-sympathy.model = lm(sympathy ~ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
-sympathy.model.full = lm(sympathy ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
+sympathy.model = lm(sympathy ~ gender + education + socioeconomic + past_donations.z + age.z + self_cancer + ff_cancer, data = trials)
+sympathy.model.full = lm(sympathy ~ cond_metaphor*cond_sex + gender + education + socioeconomic + past_donations.z + age.z + self_cancer + ff_cancer, data = trials)
 
 summary(sympathy.model.full)
 anova(sympathy.model, sympathy.model.full, test = "Chisq")
 ```
 
-### Urgency
-
 Does the metaphorical condition have a relationship to participant's rating of perceived urgency?
 
 ```{r}
-urgent.model = lm(urgent ~ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
-urgent.model.full = lm(urgent ~ cond_metaphor*cond_sex + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data)
+urgent.model = lm(urgent ~ gender + education + socioeconomic + past_donations.z + age.z + self_cancer + ff_cancer, data = trials)
+urgent.model.full = lm(urgent ~ cond_metaphor*cond_sex + gender + education + socioeconomic + past_donations.z + age.z + self_cancer + ff_cancer, data = trials)
 
 summary(urgent.model.full)
 anova(urgent.model, urgent.model.full, test = "Chisq")
 ```
 
-## Peace and Guilt
-
-```{r}
-lbs = c("male" = "Condition: Male",
-        "female" = "Condition: Female")
-
-ggplot(data) + theme +
-  geom_bar(aes(peace, fill = cond_metaphor), width = 0.9, position = position_dodge(preserve = "single")) +
-  lims(x = c(0, 6)) +
-  labs(x = "Peace", y = "Count", title = "Peace Distribution", subtitle = "\"She can make peace with her experience.\"") +
-  facet_grid(~cond_sex, labeller = as_labeller(lbs)) # remove this line to graph only the metaphor condition
-
-ggplot(data) + theme +
-  geom_bar(aes(guilty, fill = cond_metaphor), width = 0.9, position = position_dodge(preserve = "single")) +
-  lims(x = c(0, 6)) +
-  labs(x = "Guilty", y = "Count", title = "Guilty Distribution", subtitle = "\"She will feel guilty that she hasn’t done enough if she does not recover.\"") +
-  facet_grid(~cond_sex, labeller = as_labeller(lbs)) # remove this line to graph only the metaphor condition
-```
-
-Correlation analysis between peace/guilty and donation, and between both peace and guilty
-
-```{r}
-cor.test(data$peace, data$donation, method = "spearman", alternative = "two.sided")
-cor.test(data$guilty, data$donation, method = "spearman", alternative = "two.sided")
-cor.test(data$peace, data$guilty, method = "spearman", alternative = "two.sided")
-```
-
-```{r}
-data$pg_diff = data$peace - data$guilty
-```
-
-```{r}
-summary(aov(pg_diff ~ cond_metaphor, data = data))
-```
-
-
-## Demographics
+### Demographics
 
 Explore the distributions of demographic variables.
 
 ```{r}
-ggplot(data) +
+ggplot(trials) + tm +
   geom_density(aes(donation, color=self_cancer)) +
   lims(x = c(0, 50)) +
   labs(x = "Donation Amount", y = "Density", color = "Self Cancer", title = "Donation Distributions by Education Level")
 
-ggplot(data) +
+ggplot(trials) + tm +
   geom_density(aes(donation, color=ff_cancer)) +
   lims(x = c(0, 50)) +
   labs(x = "Donation Amount", y = "Density", color = "Friends and Family\nCancer", title = "Donation Distributions by Friends and Family Cancer")
 
-ggplot(data) +
+ggplot(trials) + tm +
   geom_density(aes(donation, color=gender)) +
   lims(x = c(0, 50)) +
   labs(x = "Donation Amount", y = "Density", color = "Gender", title = "Donation Distributions by Gender")
 
-ggplot(data) +
+ggplot(trials) + tm +
   geom_density(aes(donation, color=education)) +
   lims(x = c(0, 50)) +
   labs(x = "Donation Amount", y = "Density", color = "Education Level", title = "Donation Distributions by Education Level")
 
-ggplot(data) +
+ggplot(trials) + tm +
   geom_density(aes(donation, color=socioeconomic)) +
   lims(x = c(0, 50)) +
   labs(x = "Donation Amount", y = "Density", color = "Socioeconomic Level", title = "Donation Distributions by Socioeconomic Level")
 
-ggplot(data) +
-  geom_density(aes(donation, color=english)) +
-  lims(x = c(0, 50)) +
-  labs(x = "Donation Amount", y = "Density", color = "Native English", title = "Donation Distributions by Native English")
+ggplot(trials, aes(age, donation)) + tm +
+  geom_point() +
+  geom_smooth(method = "lm")+
+  lims(y = c(0, 50)) +
+  labs(x = "Age", y = "Donation Amount", title = "Donation distribution by Age")
 
-ggplot(data, aes(exp_cancer, donation)) +
+ggplot(trials, aes(past_donations, donation)) + tm +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  lims(y = c(0, 50)) +
+  labs(x = "Past Donations", y = "Donation Amount", title = "Donation distribution by Past Donations")
+
+ggplot(trials, aes(self_cancer, donation)) + tm +
   geom_boxplot(alpha = 0.5) +
   geom_jitter(width = 0.1) +
   lims(y = c(0, 50)) +
   labs(title = "Donation distributions by Overall Cancer Experience")
 ```
 
-### Gender-matching effect
+#### Gender effects
 
 Is there a relationship between participant gender, stimulus sex, and donation?
 
 ```{r}
-gender.match.model = lm(donation ~ cond_sex + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data[!is.na(data$gender), ])
-gender.match.model.full = lm(donation ~ gender*cond_sex + education + socioeconomic + age.z + self_cancer + ff_cancer, data = data[!is.na(data$gender), ])
+model.base = lm(update(base.formula, . ~ . + cond_sex), data = trials)
+model.full = lm(update(base.formula, . ~ . + cond_sex*gender), data = trials)
 
-summary(gender.match.model.full)
-anova(gender.match.model, gender.match.model.full, test = "Chisq")
+summ(model.full, confint = T, digits = 3)
+anova(model.base, model.full, test = "Chisq")
+```
+
+3-way interaction going on between `ppt gender`, `metaphor`, and `patient gender`. 
+
+```{r}
+ggplot(trials, aes(cond_metaphor, donation, color = gender)) + tm +
+  stat_summary(
+    fun.data = mean_se, 
+    geom = "errorbar", 
+    position = position_dodge(width = 0.35), 
+    width = 0.2) +
+  labs(x = "Metaphor condition",
+       y = "Donation",
+       title = "Donation by metaphor, patient gender, and ppt gender") +
+  facet_grid(~cond_sex)
+
+summ(
+  lm(data = trials, update(base.formula, . ~ . + cond_metaphor*cond_sex*gender)),
+  confint = F,
+  digits = 3
+  )
+```
+
+Effect of gender **congruence**?
+
+```{r}
+trials = mutate(trials, gender_congruent = (gender == "Male" & cond_sex == "male") | (gender == "Female" & cond_sex == "female"))
+
+ggplot(trials, aes(cond_metaphor, donation, color = gender_congruent)) + tm +
+  stat_summary(
+    fun.data = mean_se, 
+    geom = "errorbar", 
+    position = position_dodge(width = 0.35), 
+    width = 0.2) +
+  labs(x = "Metaphor condition",
+       y = "Donation",
+       title = "Donation by metaphor and gender congruence")
+
+summ(
+  lm(data = trials, update(base.formula, . ~ . + cond_metaphor*gender_congruent)),
+  confint = F,
+  digits = 3
+  )
 ```
 
 ### Experience effect
@@ -338,105 +314,76 @@ anova(gender.match.model, gender.match.model.full, test = "Chisq")
 Is there a relationship between participant's experience with cancer and donation?
 
 ```{r}
-exp.cancer.model = lm(donation ~ gender + education + socioeconomic + age.z, data = data[!is.na(data$exp_cancer), ])
-exp.cancer.model.full = lm(donation ~ exp_cancer + gender + education + socioeconomic + age.z, data = data[!is.na(data$exp_cancer), ])
+model.base = lm(update(base.formula, . ~ .  - self_cancer), data = trials)
+model.full = lm(base.formula, data = trials)
 
-summary(exp.cancer.model.full)
-anova(exp.cancer.model, exp.cancer.model.full, test = "Chisq")
+summ(model.full, confint = T, digits = 3)
+anova(model.base, model.full, test = "Chisq")
+
+model.base = lm(update(base.formula, . ~ .  - ff_cancer), data = trials)
+model.full = lm(base.formula, data = trials)
+
+summ(model.full, confint = T, digits = 3)
+anova(model.base, model.full, test = "Chisq")
 ```
 
+## Coding Patient Description Responses
 
-# Sean's explorations
+TODO: Responses will be coded for the presence of metaphor, either mentioning Only Journey, Only Battle, Mixed Metaphors, or No Metaphors.
 
-## Predicting guilt/peace scores
+## Metaphor in Passage on Metaphor in Description
+
+We analyzed the free-response answers the participants completed in response to being asked to explain the patient's situation to a friend. We were interested in whether the metaphor in the passage predicts the presence of metaphors in the description. We will model this with a logistic regression, accounting for the covariates included in the primary hypothesis model.
 
 ```{r}
+model.base = glm(I(description_metaphor != "none") ~ self_cancer + ff_cancer + gender + education + socioeconomic + age.z, data = trials, family = "binomial")
+model.full = glm(I(description_metaphor != "none") ~ self_cancer + ff_cancer + gender + education + socioeconomic + age.z + cond_metaphor, data = trials, family = "binomial")
 
-data$ppt_gender = fct_recode(data$gender,
-                             "male" = "M",
-                             "female" = "F")
-data$ppt_gender = factor(data$ppt_gender, levels=c("male", "female"))
-
-data$congruent_gender = data$ppt_gender == data$cond_sex
-
-
-data$diff = data$peace - data$guilty
-df_just_metaphor = data %>%
-  filter(cond_metaphor != "literal")
+summ(model.full, confint = T, digits = 3)
+anova(model.base, model.full, test = "Chisq")
 ```
-
-
-### Possible 3-way interaction?
-
-Probably spurious, but there's a strange 3-way interaction going on between `ppt gender`, `metaphor`, and `patient gender`. 
 
 ```{r}
+model.base = glm(I(description_metaphor == "journey") ~ self_cancer + ff_cancer + gender + education + socioeconomic + age.z, data = trials, family = "binomial")
+model.full = glm(I(description_metaphor == "journey") ~ self_cancer + ff_cancer + gender + education + socioeconomic + age.z + cond_metaphor, data = trials, family = "binomial")
 
-
-df_just_metaphor %>%
-  ggplot(aes(x = cond_metaphor,
-             y = diff,
-             color = gender)) +
-  stat_summary (fun.y = function(x){mean(x)},
-                fun.ymin = function(x){mean(x) - 1*sd(x)/sqrt(length(x))},
-                fun.ymax = function(x){mean(x) + 1*sd(x)/sqrt(length(x))},
-                geom= 'pointrange',
-                position=position_dodge(width=0.95)) +
-  labs(x = "Metaphor condition",
-       y = "Peace - guilt score",
-       title = "Peace/guilt score by metaphor and gender") +
-  theme_minimal() +
-  facet_grid(~cond_sex)
-
-summary(lm(data = df_just_metaphor,
-           diff ~ cond_metaphor * cond_sex * gender))
-
-
+summ(model.full, confint = T, digits = 3)
+anova(model.base, model.full, test = "Chisq")
 ```
-
-
-Effect of gender **congruence**?
 
 ```{r}
-df_just_metaphor %>%
-  ggplot(aes(x = cond_metaphor,
-             y = diff,
-             color = congruent_gender)) +
-  stat_summary (fun.y = function(x){mean(x)},
-                fun.ymin = function(x){mean(x) - 1*sd(x)/sqrt(length(x))},
-                fun.ymax = function(x){mean(x) + 1*sd(x)/sqrt(length(x))},
-                geom= 'pointrange', 
-                position=position_dodge(width=0.95)) +
-  labs(x = "Metaphor condition",
-       y = "Peace - guilt score",
-       title = "Peace/guilt score by metaphor and gender congruence") +
-  theme_minimal()
+model.base = glm(I(description_metaphor == "battle") ~ self_cancer + ff_cancer + gender + education + socioeconomic + age.z, data = trials, family = "binomial")
+model.full = glm(I(description_metaphor == "battle") ~ self_cancer + ff_cancer + gender + education + socioeconomic + age.z + cond_metaphor, data = trials, family = "binomial")
 
-summary(lm(data = df_just_metaphor,
-           diff ~ cond_metaphor * congruent_gender))
+summ(model.full, confint = T, digits = 3)
+anova(model.base, model.full, test = "Chisq")
 ```
+
+## Preserved Metaphor on Donation
+
+Additionally, we are interested in knowing whether preserved metaphor usage in responses predicts a main effect of donation amount. We will model this with an ordinary linear regression model, accounting for the same covariates as the other models.
+
+```{r}
+model.base = lm(donation ~ self_cancer + ff_cancer + gender + education + socioeconomic + age.z, data = trials)
+model.full = lm(donation ~ self_cancer + ff_cancer + gender + education + socioeconomic + age.z + I(description_metaphor != "none"), data = trials)
+
+summ(model.full, confint = T, digits = 3)
+anova(model.base, model.full, test = "Chisq")
+```
+
+## Mediation of Urgency and Sympathy
+
+Additionally, we will use the responses to the questions about perceived urgency and sympathy toward the patient as variables in a mediation analysis to explore their role in mediating metaphor's effect on donation amounts.
 
 # Sample Random ppt
 
 ```{r}
-pilot = read_csv("pilot_data/clean_pilot.csv")
+length(unique(trials$ppt))
 ```
 
 ```{r}
-length(unique(pilot$ppt))
-length(unique(data$ppt))
-ids = c(pilot$ppt, data$ppt)
-length(ids)
-```
+id = sample(trials$ppt, 1)
 
-```{r}
-id = sample(ids, 1)
-if (id %in% pilot$ppt) {
-  print("Pilot")
-  print(pilot[pilot$ppt == id, c("ppt", "donation")])
-} else {
-  print("Main")
-  print(data[data$ppt == id, c("ppt", "donation")])
-}
+trials[trials$ppt == id, ]
 ```
 
