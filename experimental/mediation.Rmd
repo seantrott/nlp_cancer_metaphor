@@ -13,8 +13,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(MASS)
-library(tidyverse)a
+library(tidyverse)
 library(mediation)
+library(jtools)
 theme = theme_minimal()
 ```
 
@@ -25,135 +26,155 @@ theme = theme_minimal()
 Created via `clean_data.R`.
 
 ```{r}
-sc = function(x) {
-  return((x - mean(x, na.rm = T)) / (2 * sd(x, na.rm = T)))
-}
-
-
-df_cleaned = read_csv("data/clean_data.csv", col_types = cols()) %>%
-              mutate(
-              cond_sex = factor(cond_sex, levels = c("male", "female")),
-              cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
-              cond = paste(cond_sex, "_", cond_metaphor, sep=""),
-              
-              rt_trial = rt_trial / (1000 * 60), # convert to floating point minutes
-              total_time = total_time / (1000 * 60), # convert to floating point minutes
-              
-              age.z = sc(age),
-              exp_cancer = (self_cancer == "Y" | ff_cancer == "Y"),
-              
-              urgent = as.integer(urgent),
-              sympathy = as.integer(sympathy),
-              peace = as.integer(peace),
-              guilty = as.integer(guilty),
-              
-              gender = factor(gender, levels = c("M", "F", "NB")),
-              self_cancer = factor(self_cancer, levels = c("Y", "N")),
-              ff_cancer = factor(ff_cancer, levels = c("Y", "N")),
-              english = factor(english, levels = c("Y", "N")),
-              socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k")),
-              education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D")))
+trials = read_csv("data_pilot_N200/data_clean.csv", col_types = cols()) %>%
+  select(ppt:age) %>%
+  mutate(
+    cond_sex = factor(cond_sex, levels = c("male", "female")),
+    cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
+    cond_anymet = cond_metaphor %in% c("battle", "journey"),
+    
+    self_cancer = factor(self_cancer, levels = c("N", "Y", "NA")),
+    ff_cancer = factor(ff_cancer, levels = c("N", "Y", "NA")),
+    
+    urgent = as.integer(urgent),
+    sympathy = as.integer(sympathy),
+    
+    gender = factor(gender, levels = c("M", "F", "NB"), labels = c("Male", "Female", "Nonbinary")),
+    education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D", "NA")),
+    socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "NA")),
+    english = factor(english, levels = c("Y", "N", "NA")),
+    
+    age.z = (age - mean(age, na.rm = T)) / (2 * sd(age, na.rm = T)),
+    # past_donations.z = (past_donations - mean(past_donations, na.rm = T)) / (2 * sd(past_donations, na.rm = T))
+  )
 ```
 
 ```{r}
-df_cleaned$cond_anymet = df_cleaned$cond_metaphor %in% c("battle", "journey")
+base.formula = formula(~ self_cancer + ff_cancer + gender + education + socioeconomic + age.z)
 ```
 
 # Any Metaphor
 
-```{r}
-med = lm(sympathy ~ cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
-out = lm(donation ~ sympathy + cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+## Sympathy
 
-summary(lm(donation ~ cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))
-summary(med)
-summary(out)
+Is there an indirect effect of the presence of metaphor on the donation amount via one's sympathy for the patient?
+
+              Sympathy
+            ^         v
+Any Metaphor --------> Donation Amount
+
+```{r}
+model.m.x = lm(update(base.formula, sympathy ~ . + cond_anymet), data = trials)
+model.y.m.x = lm(update(base.formula, donation ~ . + sympathy + cond_anymet), data = trials)
+model.y.x = lm(update(base.formula, donation ~ . + cond_anymet), data = trials)
+
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
 ```
 
-X does not predict Y, although we have reason to believe it might. X does not predict M. Given Y ~ M + X, X does not predict Y. Therefore, mediation analysis does not apply here.
+<!-- X does not predict Y, although we have reason to believe it might. X does not predict M. Given Y ~ M + X, X does not predict Y. Therefore, mediation analysis does not apply here. -->
+
+## Urgency
+
+Is there an indirect effect of the presence of metaphor on the donation amount via one's perception of urgency for the patient?
 
 ```{r}
-med = lm(urgent ~ cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
-out = lm(donation ~ urgent + cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+model.m.x = lm(update(base.formula, urgent ~ . + cond_anymet), data = trials)
+model.y.m.x = lm(update(base.formula, donation ~ . + urgent + cond_anymet), data = trials)
+model.y.x = lm(update(base.formula, donation ~ . + cond_anymet), data = trials)
 
-summary(lm(donation ~ cond_anymet + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))
-summary(med)
-summary(out)
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
 ```
 
-X does not predict Y, although we have reason to believe it might. However, X does predict M. Given Y ~ M + X, X does not predict Y, although the effect is slightly less. We attempt mediation analysis.
+<!-- X does not predict Y, although we have reason to believe it might. X does, however, predict M. Given Y ~ M + X, X does not predict Y, although the effect is slightly less. We attempt mediation analysis. -->
 
 ```{r}
-med.anlys = mediate(med, out, treat = "cond_anymet", mediator = "urgent")
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_anymet", mediator = "urgent")
 
 summary(med.anlys)
 ```
 
-Urgency is a partial mediator of donation given the *any metaphor* condition.
+<!-- Urgency is a partial mediator of donation given the *any metaphor* condition. -->
 
 # Battle and Journey Metaphors
 
-```{r}
-med = lm(sympathy ~ cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
-out = lm(donation ~ sympathy + cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+## Sympathy
 
-summary(lm(donation ~ cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))
-summary(med)
-summary(out)
+Is there an indirect effect of the presence of battle metaphors over literal metaphors on the donation amount via one's sympathy for the patient?
+
+```{r}
+mask = trials$cond_metaphor != "journey"
+model.m.x = lm(update(base.formula, sympathy ~ . + cond_metaphor), data = trials[mask, ])
+model.y.m.x = lm(update(base.formula, donation ~ . + sympathy + cond_metaphor), data = trials[mask, ])
+model.y.x = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[mask, ])
+
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
 ```
 
-X does not predict Y, although we have reason to believe it might. X does not predict M. Given Y ~ M + X, X does not predict Y. Therefore, mediation analysis does not apply here.
+Is there an indirect effect of the presence of journey metaphors over literal metaphors on the donation amount via one's sympathy for the patient?
 
 ```{r}
-med = lm(urgent ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
-out = lm(donation ~ urgent + cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
+mask = trials$cond_metaphor != "battle"
+model.m.x = lm(update(base.formula, sympathy ~ . + cond_metaphor), data = trials[mask, ])
+model.y.m.x = lm(update(base.formula, donation ~ . + sympathy + cond_metaphor), data = trials[mask, ])
+model.y.x = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[mask, ])
 
-summary(lm(donation ~ cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))
-summary(med)
-summary(out)
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
 ```
 
-X does not mediate Y, however we have reason to believe it might. X (battle) does predict M, however X (journey) doesn't. The effect of X on Y is less with M included. We test the mediation M of X (battle).
+## Urgency
+
+Is there an indirect effect of the presence of battle metaphors over literal metaphors on the donation amount via one's perception of urgency for the patient?
 
 ```{r}
-med.anlys = mediate(med, out, treat = "cond_metaphor", mediator = "urgent", control.value = "literal", treat.value = "battle")
+mask = trials$cond_metaphor != "journey"
+model.m.x = lm(update(base.formula, urgent ~ . + cond_metaphor), data = trials[mask, ])
+model.y.m.x = lm(update(base.formula, donation ~ . + urgent + cond_metaphor), data = trials[mask, ])
+model.y.x = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[mask, ])
+
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
+```
+
+```{r}
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_metaphor", mediator = "urgent")
 
 summary(med.anlys)
 ```
 
-Donation amounts are mediated by the urgent variable given the battle metaphor condition.
-
-# Peace and Guilt
+Is there an indirect effect of the presence of battle metaphors over literal metaphors on the donation amount via one's perception of urgency for the patient?
 
 ```{r}
-df_cleaned$diff = df_cleaned$peace - df_cleaned$guilty
-df_just_metaphor = df_cleaned %>%
-  filter(cond_metaphor != "literal")
+mask = trials$cond_metaphor != "battle"
+model.m.x = lm(update(base.formula, urgent ~ . + cond_metaphor), data = trials[mask, ])
+model.y.m.x = lm(update(base.formula, donation ~ . + urgent + cond_metaphor), data = trials[mask, ])
+model.y.x = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[mask, ])
+
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
 ```
 
-```{r}
-med = lm(sympathy ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
-out = lm(diff ~ sympathy + cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
-
-summary(lm(diff ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))$coefficients
-summary(med)$coefficients
-summary(out)$coefficients
-```
-
+<!-- X does not mediate Y, however we have reason to believe it might. X (battle) does predict M, however X (journey) doesn't. The effect of X on Y is less with M included. We test the mediation M of X (battle). -->
 
 ```{r}
-med = lm(urgent ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
-out = lm(diff ~ urgent + cond_metaphor+ gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned)
-
-summary(lm(diff ~ cond_metaphor + gender + education + socioeconomic + age.z + self_cancer + ff_cancer, data = df_cleaned))$coefficients
-summary(med)$coefficients
-summary(out)$coefficients
-```
-
-```{r}
-med.anlys = mediate(med, out, treat = "cond_metaphor", mediator = "urgent", control.value = "literal", treat.value = "battle")
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_metaphor", mediator = "urgent")
 
 summary(med.anlys)
 ```
 
-Urgent is not a mediator of peace - guilt difference given the metaphor condition, specifically battle.
+<!-- Donation amounts are mediated by the urgent variable given the battle metaphor condition. -->
