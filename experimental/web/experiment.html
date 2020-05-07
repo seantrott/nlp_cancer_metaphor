@@ -162,13 +162,6 @@ var description = {
     data: {qtype: "description"}
 }
 
-var past_donations = {
-    type: 'survey-text',
-    questions: [{required: true,
-                 prompt:'How many times have you donated to charity in the last 12 months?'}],
-    data: {qtype: "past-donations"}
-}
-
 // Secondary page asking about: perceived urgency and sympathy
 
 scale_1 = [1, 2, 3, 4, 5, 6, 7]
@@ -196,6 +189,13 @@ var followup_questions = {
 }
 
 ////// participant information
+
+var past_donations = {
+    type: 'survey-text',
+    questions: [{required: true,
+                 prompt:'How many times have you donated to charity in the last 12 months?'}],
+    data: {qtype: "past-donations"}
+}
 
 // have they been treated for cancer? Etc.
 
@@ -255,7 +255,7 @@ var demographics = {
 
 var age = {
     type: 'survey-text',
-    questions: [{'prompt':'How old are you? Please answer in years, using only numbers. (optional)'}],
+    questions: [{'prompt':'How old are you? Please answer in years, using only numbers.'}],
     data: {qtype: "age"}
 }
 
@@ -282,10 +282,10 @@ var debrief = {
 }
 
 // without server
-// var timeline = [check1, check2, instructions, main_trial, description, past_donations, followup_questions, cancer_info, demographics, age, purpose, feedback]
+// var timeline = [check1, check2, instructions, main_trial, description, followup_questions, past_donations, cancer_info, demographics, age, purpose, feedback]
 
 // with server
-var timeline = [consent, check1, check2, instructions, main_trial, description, past_donations, followup_questions, cancer_info, demographics, age, purpose, feedback, debrief]
+var timeline = [consent, check1, check2, instructions, main_trial, description, followup_questions, past_donations, cancer_info, demographics, age, purpose, feedback, debrief]
 
 jsPsych.init({
     timeline: timeline,
@@ -295,10 +295,13 @@ jsPsych.init({
 
       saveData(filename, jsPsych.data.get().csv());
 
-      $(".jspsych-display-element").html("<p>The results have been recorded! \
-      Data was recorded under the participant ID: <b>" + ppt_id + "</b></p>\
+      $(".jspsych-display-element").html("<div style='margin:2em;'> \
+      <p>The results have been recorded! \
+      Data was recorded under the participant ID: <b>" + ppt_id + "</b> \
+      </p>\
       <br>\
-      <h3>Your Mechanical Turk code is: <u>LCL20</u></h3>");
+      <h3>Your Mechanical Turk code is your participant ID, please copy/paste to receive your compensation: <u>" + ppt_id + "</u></h3> \
+      <div>");
     }
   }
   );
