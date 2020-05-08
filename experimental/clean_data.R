@@ -1,9 +1,11 @@
 library(tidyverse)
 library(jsonlite)
+library(glue)
+library(crayon)
 
 # set the working directory to the project base directory
 
-setwd("experimental/")
+# setwd("experimental/")
 
 read = function (x) {
   #, Read the raw data from the experiment (from .csv form)
@@ -51,13 +53,13 @@ dataf = dataf %>%
     sympathy = fromJSON(responses[qtype %in% "sympathy"])$Q0,
     self_cancer = factor(fromJSON(responses[qtype %in% "self-cancer"])$Q0, 
                          levels = c('Yes', 'No', 'Prefer not to say'), 
-                         labels = c("Y", "N", "NA")),
+                         labels = c("Y", "N", "OO")),
     ff_cancer = factor(fromJSON(responses[qtype %in% "ff-cancer"])$Q0, 
                        levels = c('Yes', 'No', 'Prefer not to say'), 
-                       labels = c("Y", "N", "NA")),
+                       labels = c("Y", "N", "OO")),
     gender = factor(fromJSON(responses[qtype %in% "demographics"])$Q0, 
                     levels = c("Male", "Female", "Non-binary", "Prefer not to say"), 
-                    labels = c("M", "F", "NB", "NA")),
+                    labels = c("M", "F", "NB", "OO")),
     education = factor(fromJSON(responses[qtype %in% "demographics"])$Q1, 
                     levels = c('Less than a high school diploma',
                                'High school degree or equivalent (e.g. GED)',
@@ -67,8 +69,8 @@ dataf = dataf %>%
                                'Professional degree (e.g. MD, DDS, DVM)',
                                'Doctorate (e.g. PhD, EdD)',
                                'Prefer not to say'), 
-                    labels = c("<HS", "HS", "A", "B", "M", "P", "D", "NA")),
-    socioeconomic = factor(fromJSON(responses[qtype %in% "demographics"])$Q2, 
+                    labels = c("<HS", "HS", "A", "B", "M", "P", "D", "OO")),
+    socioeconomic = factor(fromJSON(responses[qtype %in% "demographics"])$Q2,
                     levels = c('Less than $10,000',
                                '$10,000 through $24,999',
                                '$25,000 through $49,999',
@@ -77,23 +79,31 @@ dataf = dataf %>%
                                '$100,000 through $149,999',
                                'More than $150,000',
                                'Prefer not to say'),
-                    labels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "NA")),
-    english = factor(fromJSON(responses[qtype %in% "demographics"])$Q3, 
-                    levels = c('Yes', 'No', 'Prefer not to say'), 
-                    labels = c("Y", "N", "NA")),
+                    labels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "OO")),
+    english = factor(fromJSON(responses[qtype %in% "demographics"])$Q3,
+                    levels = c('Yes', 'No', 'Prefer not to say'),
+                    labels = c("Y", "N", "OO")),
     age = fromJSON(responses[qtype %in% "age"])$Q0,
     purpose = fromJSON(responses[qtype %in% "purpose"])$Q0,
     feedback = fromJSON(responses[qtype %in% "feedback"])$Q0
   )
 
-# convert past donations to intergers, coercing non-integers to NAs
+# convert past donations to integers, coercing non-integers to NAs
 dataf$past_donations = as.integer(dataf$past_donations)
+# fill NAs with mean value
+nans = is.na(dataf$past_donations)
+glue_col("{red A total of {sum(nans)} ({round(sum(nans) / nrow(dataf) * 100,2)}%) past donation amounts were imputed}")
+dataf[nans, ] = mean(dataf$past_donations, na.rm = T)
 
 # convert age inputs to integers
 dataf$age = as.integer(dataf$age)
 # if anyone entered there age as > 1900, assume they typed their birth year and convert by subtracting that from the current year
 m = dataf$age > 1900 & !is.na(dataf$age)
 dataf[m, ]$age = 2020 - dataf[m, ]$age
+# fill NAs with mean value
+nans = is.na(dataf$age)
+glue_col("{red A total of {sum(nans)} ({round(sum(nans) / nrow(dataf) * 100,2)}%) ages were imputed}")
+dataf[nans, ] = mean(dataf$age, na.rm = T)
 
 # save the data frame to a cleaned .csv
 write_csv(dataf, "data/data_clean.csv")
