@@ -21,6 +21,8 @@ theme = theme_minimal()
 
 # Mediation Analysis
 
+We will use the responses to the questions about perceived urgency and sympathy toward the patient as variables in a mediation analysis to explore their role in mediating metaphor's effect on donation amounts.
+
 ## Load clean data
 
 Created via `clean_data.R`.
@@ -31,7 +33,7 @@ trials = read_csv("data_pilot_N200/data_clean.csv", col_types = cols()) %>%
   mutate(
     cond_sex = factor(cond_sex, levels = c("male", "female")),
     cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
-    cond_anymet = cond_metaphor %in% c("battle", "journey"),
+    cond_anymet = as.integer(cond_metaphor %in% c("battle", "journey")),
     
     self_cancer = factor(self_cancer, levels = c("N", "Y", "NA")),
     ff_cancer = factor(ff_cancer, levels = c("N", "Y", "NA")),
@@ -44,13 +46,13 @@ trials = read_csv("data_pilot_N200/data_clean.csv", col_types = cols()) %>%
     socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "NA")),
     english = factor(english, levels = c("Y", "N", "NA")),
     
-    age.z = (age - mean(age, na.rm = T)) / (2 * sd(age, na.rm = T)),
-    # past_donations.z = (past_donations - mean(past_donations, na.rm = T)) / (2 * sd(past_donations, na.rm = T))
+    age.z = (age - mean(age)) / (2 * sd(age)),
+    past_donations.z = (past_donations - mean(past_donations)) / (2 * sd(past_donations))
   )
 ```
 
 ```{r}
-base.formula = formula(~ self_cancer + ff_cancer + gender + education + socioeconomic + age.z)
+base.formula = formula(~ self_cancer + ff_cancer + gender + education + socioeconomic + past_donations.z + age.z)
 ```
 
 # Any Metaphor
@@ -94,7 +96,12 @@ summ(model.y.x)
 <!-- X does not predict Y, although we have reason to believe it might. X does, however, predict M. Given Y ~ M + X, X does not predict Y, although the effect is slightly less. We attempt mediation analysis. -->
 
 ```{r}
-med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_anymet", mediator = "urgent")
+str(trials)
+```
+
+
+```{r}
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_anymet", mediator = "urgent", boot = T, boot.ci.type = "bca")
 
 summary(med.anlys)
 ```
@@ -150,7 +157,7 @@ summ(model.y.x)
 ```
 
 ```{r}
-med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_metaphor", mediator = "urgent")
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_metaphor", mediator = "urgent", boot = T, boot.ci.type = "bca")
 
 summary(med.anlys)
 ```
@@ -172,7 +179,7 @@ summ(model.y.x)
 <!-- X does not mediate Y, however we have reason to believe it might. X (battle) does predict M, however X (journey) doesn't. The effect of X on Y is less with M included. We test the mediation M of X (battle). -->
 
 ```{r}
-med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_metaphor", mediator = "urgent")
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_metaphor", mediator = "urgent", boot = T, boot.ci.type = "bca")
 
 summary(med.anlys)
 ```
