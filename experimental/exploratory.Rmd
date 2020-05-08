@@ -23,7 +23,7 @@ tm = theme_minimal()
 Created via `clean_data.R`.
 
 ```{r}
-trials = read_csv("data_pilot_N200/data_clean.csv", col_types = cols()) %>%
+trials = read_csv("data/data_clean.csv", col_types = cols()) %>%
   select(ppt:age) %>%
   mutate(
     cond_sex = factor(cond_sex, levels = c("male", "female")),
@@ -41,10 +41,9 @@ trials = read_csv("data_pilot_N200/data_clean.csv", col_types = cols()) %>%
     socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "NA")),
     english = factor(english, levels = c("Y", "N", "NA")),
     
-    age.z = (age - mean(age, na.rm = T)) / (2 * sd(age, na.rm = T)),
-    past_donations.z = (past_donations - mean(past_donations, na.rm = T)) / (2 * sd(past_donations, na.rm = T))
-  ) %>%
-  drop_na()
+    age.z = (age - mean(age)) / (2 * sd(age)),
+    past_donations.z = (past_donations - mean(past_donations)) / (2 * sd(past_donations))
+  )
 ```
 
 ```{r}
@@ -74,7 +73,7 @@ ggplot(trials) + tm +
   labs(x = "Total Duration (mins)", y = "Density", title = "Total Duration Distribution")
 ```
 
-First, 5th, 50th, and 95th quantiles for the actual trial response time. Then the mean trial response time. Then 5th, 50th, and 95th quantiles for experiment total duration. Lastly, mean total experiment duration.
+First, 5th, 50th, and 95th quantiles for the actual trial response time in seconds. Then the mean trial response time. Then 5th, 50th, and 95th quantiles for experiment total duration in minutes. Lastly, mean total experiment duration.
 
 ```{r}
 quantile(trials$rt_trial, c(0.05, 0.5, 0.95)) / (1000)
@@ -148,7 +147,7 @@ Quick peek at the differences in donation amounts given how much participants ag
 
 ```{r}
 data %>%
-  gather(question, value, urgent:sympathy) %>%
+  tidyr::gather(question, value, urgent:sympathy) %>%
   ggplot(aes(as.factor(value), donation)) +
   geom_boxplot() +
   facet_grid(rows = vars(question))
@@ -246,12 +245,6 @@ ggplot(trials, aes(past_donations, donation)) + tm +
   geom_smooth(method = "lm") +
   lims(y = c(0, 50)) +
   labs(x = "Past Donations", y = "Donation Amount", title = "Donation distribution by Past Donations")
-
-ggplot(trials, aes(self_cancer, donation)) + tm +
-  geom_boxplot(alpha = 0.5) +
-  geom_jitter(width = 0.1) +
-  lims(y = c(0, 50)) +
-  labs(title = "Donation distributions by Overall Cancer Experience")
 ```
 
 #### Gender effects
@@ -259,7 +252,7 @@ ggplot(trials, aes(self_cancer, donation)) + tm +
 Is there a relationship between participant gender, stimulus sex, and donation?
 
 ```{r}
-model.base = lm(update(base.formula, . ~ . + cond_sex), data = trials)
+model.base = lm(update(base.formula, . ~ . + cond_sex), data = trials) # gender is already included in model
 model.full = lm(update(base.formula, . ~ . + cond_sex*gender), data = trials)
 
 summ(model.full, confint = T, digits = 3)
@@ -290,7 +283,8 @@ summ(
 Effect of gender **congruence**?
 
 ```{r}
-trials = mutate(trials, gender_congruent = (gender == "Male" & cond_sex == "male") | (gender == "Female" & cond_sex == "female"))
+trials = mutate(trials, 
+                gender_congruent = (gender == "Male" & cond_sex == "male") | (gender == "Female" & cond_sex == "female"))
 
 ggplot(trials, aes(cond_metaphor, donation, color = gender_congruent)) + tm +
   stat_summary(
@@ -329,7 +323,7 @@ anova(model.base, model.full, test = "Chisq")
 
 ## Coding Patient Description Responses
 
-TODO: Responses will be coded for the presence of metaphor, either mentioning Only Journey, Only Battle, Mixed Metaphors, or No Metaphors.
+TODO: Responses will be coded for the presence of metaphor, either mentioning Only Journey, Only Battle, Mixed Metaphors, or No Metaphors. Perhaps to be done via Python, similar to methods of annotating GoFundMe corpus.
 
 ## Metaphor in Passage on Metaphor in Description
 
@@ -371,11 +365,9 @@ summ(model.full, confint = T, digits = 3)
 anova(model.base, model.full, test = "Chisq")
 ```
 
-## Mediation of Urgency and Sympathy
-
-Additionally, we will use the responses to the questions about perceived urgency and sympathy toward the patient as variables in a mediation analysis to explore their role in mediating metaphor's effect on donation amounts.
-
 # Sample Random ppt
+
+TODO: cross-reference with MTurk IDs
 
 ```{r}
 length(unique(trials$ppt))
