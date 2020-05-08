@@ -22,7 +22,6 @@ pprint = function(title, mask) {
 }
 ```
 
-
 ## Load Data
 
 Load the data straight from `clean_data.R`. Execution of the steps below *must* occur before the main analysis and exploratory analysis.
@@ -62,7 +61,7 @@ pprint("Failed the first bot check question", trials$check1 != CHECK1_ANS)
 trials = trials %>% filter(check1 == CHECK1_ANS)
 glue(nStart - nrow(trials), " participants removed")
 
-pprint("Failed the second bot check question", trials$check1 != CHECK1_ANS)
+pprint("Failed the second bot check question", trials$check2 != CHECK2_ANS)
 
 trials = trials %>% filter(check2 == CHECK2_ANS)
 glue(nStart - nrow(trials), " participants removed")
@@ -73,7 +72,7 @@ glue(nStart - nrow(trials), " participants removed")
 Exclude ppts who fail to demonstrate comprehension of the stimulus
 
 ```{r}
-minimumTrialRT = 10000 # in Milliseconds
+minimumTrialRT = 5000 # in Milliseconds
 
 pprint("Minimum Trial RT", trials$rt_trial < minimumTrialRT)
 
@@ -102,11 +101,13 @@ table(trials$rt_trial_group)
 Flag all responses to the purpose identification question that include at least one of a handful of critical keywords.
 
 ```{r}
-keywords = c("metaphor", "metaphors", "framing", "manipulate", "manipulates", "manipulated", "manipulating", "worded", "wording", "phrased", "phrasing")
+keywords = c("metaphor", "metaphors", "framing", "manipulate", "manipulates", "manipulated", "manipulating", "worded", "wording", "phrased", "phrasing", "measure", "measuring", "measured")
 
 purpose_flag = function(text) {
+  # lowercase
+  t = tolower(text)
   # remove all punctuation and extra spacing from the text
-  t = gsub('[[:punct:] ]+', ' ', text)
+  t = gsub('[[:punct:] ]+', ' ', t)
   # return a string of the keywords mentioned in the reponse
   return(paste(intersect(keywords, strsplit(t, " ")[[1]]), collapse = ","))
 }
@@ -115,10 +116,13 @@ trials$purpose_flag = sapply(trials$purpose, purpose_flag)
 ```
 
 ```{r}
-trials[trials$purpose_flag != "", c("ppt", "purpose")]
+trials[trials$purpose_flag != "", c("ppt", "purpose", "purpose_flag")]
 ```
 
-TODO: Remove ppts here from manual inspection
+```{r}
+exclude_ppts = c() # fill in with any ppts who should be excluded based upon inspection above
+trials = trials[!(trials$ppt %in% exclude_ppts), ]
+```
 
 ```{r}
 glue(nStart - nrow(trials), " participants removed in total")
