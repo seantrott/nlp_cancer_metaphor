@@ -31,25 +31,24 @@ Within this document is the code to test for a main effect of metaphor presence 
 We will not be transforming the outcome donation amount. We do code a new variable, Any Metaphor, which is true if the condition was either Battle or Journey, false if the condition was Literal. The only transformed covariates are those for past donation quantity and participant age, which are centered and divided by two standard deviations (see Gelman, 2008).
 
 ```{r}
-trials = read_csv("data_pilot_N200/data_clean.csv", col_types = cols()) %>%
+trials = read_csv("data/data_clean.csv", col_types = cols()) %>%
   select(ppt:age) %>%
   mutate(
     cond_sex = factor(cond_sex, levels = c("male", "female")),
     cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
     cond_anymet = cond_metaphor %in% c("battle", "journey"),
     
-    self_cancer = factor(self_cancer, levels = c("N", "Y", "NA")),
-    ff_cancer = factor(ff_cancer, levels = c("N", "Y", "NA")),
+    self_cancer = factor(self_cancer, levels = c("N", "Y", "OO")),
+    ff_cancer = factor(ff_cancer, levels = c("N", "Y", "OO")),
     
-    gender = factor(gender, levels = c("M", "F", "NB"), labels = c("Male", "Female", "Nonbinary")),
-    education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D", "NA")),
-    socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "NA")),
-    english = factor(english, levels = c("Y", "N", "NA")),
+    gender = factor(gender, levels = c("M", "F", "NB", "OO"), labels = c("Male", "Female", "Nonbinary", "OptOut")),
+    education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D", "OO")),
+    socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "OO")),
+    english = factor(english, levels = c("Y", "N", "OO")),
     
-    age.z = (age - mean(age, na.rm = T)) / (2 * sd(age, na.rm = T)),
-    past_donations.z = (past_donations - mean(past_donations, na.rm = T)) / (2 * sd(past_donations, na.rm = T))
-  ) %>%
-  drop_na()
+    age.z = (age - mean(age)) / (2 * sd(age)),
+    past_donations.z = (past_donations - mean(past_donations)) / (2 * sd(past_donations))
+  )
 ```
 
 ### Preview Data
