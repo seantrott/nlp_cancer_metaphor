@@ -119,7 +119,8 @@ page2 = "<p>In addition to your fixed compensation for participating, you and \
         $15, then you will receive a $35 bonus.</p>"
 page3 = "<p>There is no cost to enter this drawing. The chances of winning are \
         about 1 in 5,000. Should you be the randomly selected winner, we will \
-        contact you via email.</p>"
+        contact you via email. Your unique survey code will be presented at the \
+        end, which must be copied to be eligible for the bonus.</p>"
 
 var instructions = {
   type: 'instructions',
@@ -155,10 +156,10 @@ var main_trial = {
 
 var description = {
     type: 'survey-text',
-    questions: [{prompt:'How would you describe ' + character["name"] + '\'s situation to a friend?',
+    questions: [{prompt:'How would you describe ' + character["name"] + '\'s situation to a friend? (About 2 sentences is sufficient)',
                  required: true,
                  columns: 100,
-                 rows: 18}],
+                 rows: 16}],
     data: {qtype: "description"}
 }
 
@@ -300,7 +301,10 @@ jsPsych.init({
       Data was recorded under the participant ID: <b>" + ppt_id + "</b> \
       </p>\
       <br>\
-      <h3>Your Mechanical Turk code is your participant ID, please copy/paste to receive your compensation: <u>" + ppt_id + "</u></h3> \
+      <h3>Your survey code is the following, <u>please copy/paste exactly</u> to receive your compensation: <u>" + ppt_id + "</u></h3>\
+      <p>\
+        If you have any questions or comments, please mention both your Amazon Mechanical Turk ID <u>and</u> the survey code/participant ID above.\
+      </p>\
       <div>");
     }
   }
