@@ -63,6 +63,41 @@ rownames(t)[4] = "Total"
 t
 ```
 
+Gender of participants
+
+```{r}
+t = table(trials$gender)
+t["total"] = nrow(trials)
+t
+```
+
+Cancer experiences of participants
+
+```{r}
+t = table(trials[, c("self_cancer", "ff_cancer")])
+t = cbind(t, rowSums(t))
+colnames(t)[4] = "Total"
+t = rbind(t, colSums(t))
+rownames(t)[4] = "Total"
+t
+```
+
+Education of participants
+
+```{r}
+t = table(trials$education)
+t["total"] = nrow(trials)
+t
+```
+
+Socioeconomics of participants
+
+```{r}
+t = table(trials$socioeconomic)
+t["total"] = nrow(trials)
+t
+```
+
 ## Experiment Duration
 
 ```{r}
@@ -246,6 +281,13 @@ ggplot(trials, aes(past_donations, donation)) + tm +
   lims(y = c(0, 50)) +
   labs(x = "Past Donations", y = "Donation Amount", title = "Donation distribution by Past Donations")
 ```
+
+
+```{r}
+ggplot(trials) +
+  geom_density(aes(age))
+```
+
 
 #### Gender effects
 

@@ -5,7 +5,7 @@ library(crayon)
 
 # set the working directory to the project base directory
 
-# setwd("experimental/")
+# setwd("")
 
 read = function (x) {
   #, Read the raw data from the experiment (from .csv form)
@@ -92,8 +92,8 @@ dataf = dataf %>%
 dataf$past_donations = as.integer(dataf$past_donations)
 # fill NAs with mean value
 nans = is.na(dataf$past_donations)
-glue_col("{red A total of {sum(nans)} ({round(sum(nans) / nrow(dataf) * 100,2)}%) past donation amounts were imputed}")
-dataf[nans, ] = mean(dataf$past_donations, na.rm = T)
+glue_col("{red A total of {sum(nans)} ({round(sum(nans) / nrow(dataf) * 100,4)}%) past donation amounts were imputed}")
+dataf[nans, ]$past_donations = round(mean(dataf$past_donations, na.rm = T),3)
 
 # convert age inputs to integers
 dataf$age = as.integer(dataf$age)
@@ -102,8 +102,8 @@ m = dataf$age > 1900 & !is.na(dataf$age)
 dataf[m, ]$age = 2020 - dataf[m, ]$age
 # fill NAs with mean value
 nans = is.na(dataf$age)
-glue_col("{red A total of {sum(nans)} ({round(sum(nans) / nrow(dataf) * 100,2)}%) ages were imputed}")
-dataf[nans, ] = mean(dataf$age, na.rm = T)
+glue_col("{red A total of {sum(nans)} ({round(sum(nans) / nrow(dataf) * 100,4)}%) ages were imputed}")
+dataf[nans, ]$age = round(mean(dataf$age, na.rm = T),3)
 
 # save the data frame to a cleaned .csv
 write_csv(dataf, "data/data_clean.csv")

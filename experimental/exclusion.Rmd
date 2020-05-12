@@ -27,10 +27,7 @@ pprint = function(title, mask) {
 Load the data straight from `clean_data.R`. Execution of the steps below *must* occur before the main analysis and exploratory analysis.
 
 ```{r}
-trials = read_csv("data/data_clean.csv", col_types = cols()) %>%
-  mutate(
-    english = factor(english, levels = c("Y", "N", "NA"))
-  )
+trials = read_csv("data/data_clean.csv", col_types = cols())
 
 nStart = nrow(trials)
 glue(nStart, " participants to begin with")
@@ -56,6 +53,7 @@ Exclude ppts who failed to correctly answer the bot check questions
 ```{r}
 CHECK1_ANS = 1
 CHECK2_ANS = 2
+pprint("Failed one or more of the bot check questions", trials$check1 != CHECK1_ANS | trials$check2 != CHECK2_ANS)
 pprint("Failed the first bot check question", trials$check1 != CHECK1_ANS)
 
 trials = trials %>% filter(check1 == CHECK1_ANS)
@@ -76,11 +74,11 @@ minimumTrialRT = 5000 # in Milliseconds
 
 pprint("Minimum Trial RT", trials$rt_trial < minimumTrialRT)
 
-# trials = trials %>% filter(rt_trial >= minimumTrialRT)
+trials = trials %>% filter(rt_trial >= minimumTrialRT)
 glue(nStart - nrow(trials), " participants removed")
 
 trials$description = trimws(trials$description)
-# trials[is.na(trials$description), ]$description = ""
+trials[is.na(trials$description), ]$description = ""
 
 pprint("Empty Description Responses", trials$description == "")
 
@@ -125,7 +123,8 @@ trials = trials[!(trials$ppt %in% exclude_ppts), ]
 ```
 
 ```{r}
-glue(nStart - nrow(trials), " participants removed in total")
+glue("{nStart - nrow(trials)} participants removed in total")
+glue("{round((nStart - nrow(trials)) / nStart,4)*100}% of original participants")
 ```
 
 ## Save Data
