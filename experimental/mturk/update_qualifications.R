@@ -4,7 +4,7 @@ library(crayon)
 
 # setwd("mturk/")
 
-qualification.col.name = "UPDATE-Dummy HIT"
+qualification.col.name = "UPDATE-Completed Cancer-Related Crowdfunding"
 batch.file = "batch1.csv"
 workers.file = "workers1.csv"
 workers.output.file = "workers1_upload.csv"
@@ -31,6 +31,8 @@ all.workers = read_csv(workers.file, col_types = cols())
 
 nrow(batch)
 nrow(all.workers)
+
+if (!(qualification.col.name %in% colnames(all.workers))) stop(glue_col("{red Column {qualification.col.name} doesn't exist}"))
 
 # update the qualification score for participants who were in this batch
 all.workers[all.workers$`Worker ID` %in% batch$WorkerId, qualification.col.name] = 1
