@@ -133,7 +133,7 @@ var instructions = {
 
 // Text / html GoFundMe page + slider for donation
 
-condition_image = "condition_" + condition_sex + "_" + condition_metaphor + ".png"
+condition_image = "condition_" + condition_sex.substring(0,1) + condition_metaphor.substring(0,1) + ".png"
 
 var main_trial = {
     type: 'html-slider-response',
