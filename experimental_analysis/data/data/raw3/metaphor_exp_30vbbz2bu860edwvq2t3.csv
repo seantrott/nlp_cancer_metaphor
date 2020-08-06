@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,8081,consent.html,external-html,0,8214,0.0-0.0,30vbbz2bu860edwvq2t3,male,literal,,,,,,
+1,3042,,image-button-response,1,11261,0.0-1.0,30vbbz2bu860edwvq2t3,male,literal,check-1.png,1.0,check1,,,
+2,4608,,image-button-response,2,15873,0.0-2.0,30vbbz2bu860edwvq2t3,male,literal,check-2.png,2.0,check2,,,
+3,47908,,instructions,3,63783,0.0-3.0,30vbbz2bu860edwvq2t3,male,literal,,,,"[{""page_index"":0,""viewing_time"":8776},{""page_index"":1,""viewing_time"":30194},{""page_index"":2,""viewing_time"":6856},{""page_index"":3,""viewing_time"":2082}]",,
+4,37596,,html-slider-response,4,101386,0.0-4.0,30vbbz2bu860edwvq2t3,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,5.0,
+5,63164,,survey-text,5,164552,0.0-5.0,30vbbz2bu860edwvq2t3,male,literal,,,description,,,"{""Q0"":""Jason is suffering with cancer. He needs money to help his recovery.""}"
+6,7746,,survey-likert,6,172301,0.0-6.0-0.0,30vbbz2bu860edwvq2t3,male,literal,,,urgent,,,"{""Q0"":5}"
+7,5097,,survey-likert,7,177402,0.0-6.0-1.0,30vbbz2bu860edwvq2t3,male,literal,,,sympathy,,,"{""Q0"":5}"
+8,5912,,survey-text,8,183315,0.0-7.0,30vbbz2bu860edwvq2t3,male,literal,,,past-donations,,,"{""Q0"":""1""}"
+9,6351,,survey-multi-choice,9,189672,0.0-8.0-0.0,30vbbz2bu860edwvq2t3,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,3783,,survey-multi-choice,10,193459,0.0-8.0-1.0,30vbbz2bu860edwvq2t3,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,18113,,survey-multi-choice,11,211582,0.0-9.0,30vbbz2bu860edwvq2t3,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,6875,,survey-text,12,218460,0.0-10.0,30vbbz2bu860edwvq2t3,male,literal,,,age,,,"{""Q0"":""57""}"
+13,3259,,survey-text,13,221721,0.0-11.0,30vbbz2bu860edwvq2t3,male,literal,,,purpose,,,"{""Q0"":""""}"
+14,1850,,survey-text,14,223573,0.0-12.0,30vbbz2bu860edwvq2t3,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,13580,debrief.html,external-html,15,237428,0.0-13.0,30vbbz2bu860edwvq2t3,male,literal,,,,,,

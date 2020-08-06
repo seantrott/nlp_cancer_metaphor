@@ -1,0 +1,738 @@
+# Metaphors {#metaphors}
+
+```{r}
+library(pwr)
+
+r.sq = function(mod.base, mod.full) {
+  #' Calculate the R-squared value given two nested models
+  #' 
+  #' The variance explained by a full model beyond that which is explained by the reduced model.
+  #' Technically, a difference in sum of squared residuals divided by the base model's sum of squared residuals
+  #' Adapted from Larsen & Marx (2018) pg. 566
+  
+  return((sum(resid(mod.base)^2) - sum(resid(mod.full)^2)) / sum(resid(mod.base)^2))
+}
+f.sq = function(mod.null, mod.base, mod.full) {
+  #' Calculate the f-squared effect size from two R-squared values
+  #'
+  #' Adapted from Cohen (1988) pg. 409
+  
+  R2.base = r.sq(mod.null, mod.base)
+  R2.full = r.sq(mod.null, mod.full)
+  
+  return((R2.full - R2.base) / (1 - R2.full))
+}
+```
+
+## Immediate Alternative Questions
+
+Does donation behavior differ between participants in the literal condition and the journey condition?
+
+```{r}
+journey_mask = trials$cond_metaphor != "battle"
+model_journey_literal_base = lm(update(base.formula, donation ~ .), data = trials[journey_mask, ])
+model_journey_literal_full = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[journey_mask, ])
+
+compare_lm(model_journey_literal_base, model_journey_literal_full)
+```
+
+```{r}
+f.sq(
+  lm(update(base.formula, donation ~ 1), data = trials[journey_mask, ]),
+  model_journey_literal_base,
+  model_journey_literal_full
+)
+```
+
+There is no significant difference in donation amounts between journey and literal conditions.
+
+Does donation behavior differ between participants in the literal condition and the battle condition?
+
+```{r}
+battle_mask = trials$cond_metaphor != "journey"
+model_battle_literal_base = lm(update(base.formula, donation ~ .), data = trials[battle_mask, ])
+model_battle_literal_full = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[battle_mask, ])
+
+compare_lm(model_battle_literal_base, model_battle_literal_full)
+```
+
+```{r}
+f.sq(
+  lm(update(base.formula, donation ~ 1), data = trials[battle_mask, ]),
+  model_battle_literal_base,
+  model_battle_literal_full
+)
+```
+
+There is no significant difference in donation amounts between battle and literal conditions.
+
+H: Donors contribute different amounts to a campaign which employs battle metaphors compared to a campaign which employs journey metaphors.
+
+```{r}
+literal_mask = trials$cond_metaphor != "literal"
+model_battle_journey_base = lm(update(base.formula, donation ~ .), data = trials[literal_mask, ])
+model_battle_journey_full = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[literal_mask, ])
+
+compare_lm(model_battle_journey_base, model_battle_journey_full)
+```
+
+a = 0.05, u = 1, N = `r sum(literal_mask)` 2971, f2 = `r f` 0.0013, w = 24, v = N - u - w - 1 = 2945
+
+lam = 0.0013 * (1 + 2945 + 1) = 3.83
+
+
+```{r}
+f <- f.sq(
+  lm(donation ~ 1, data = trials[literal_mask, ]),
+  model_battle_journey_base,
+  model_battle_journey_full
+)
+f
+length(coef(model_battle_journey_base))-1
+```
+
+There is a significant difference in donation amounts between participants exposed to battle metaphors and participants exposed to journey metaphors (Chisq = 4.0, p < 0.05).
+
+```{r}
+power = pwr.f2.test(u = 1, v = NULL, f2 = f, power = 0.9)
+power
+```
+
+
+```{r}
+# g = trials %>%
+#   ggplot(aes(cond_anymet, donation)) + ptheme +
+#   stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2) +
+#   stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+#   scale_x_discrete(labels = c("FALSE" = "Literal\n", "TRUE" = "Any\nMetaphor")) +
+#   scale_y_continuous(labels = scales::dollar) +
+#   coord_cartesian(ylim = c(22, 27)) +
+#   labs(x = element_blank(), y = "Donation") +
+#   geom_signif(comparisons = list(c("FALSE", "TRUE")),
+#               y_position = 26,
+#               tip_length = 0.01,
+#               textsize = 2.75,
+#               annotations = "list({\U03C7^2}(1) == 0.8, ~~ ns)",
+#               parse = T)
+# 
+# g
+
+# ggsave("any_metaphor_donation.png", g, width = pwidth/3, height = pheight, bg = "transparent")
+```
+
+```{r}
+x <- rnorm(100, 5, 2)
+Hmisc::smean.sd(x)
+mean_sdl(x, mult=1.96)
+```
+
+```{r}
+ggplot(trials, aes(cond_metaphor, donation)) +
+  theme_minimal() +
+  geom_jitter(width = 0.05, alpha = 0.05, height = 1) +
+  stat_summary(fun.data = mean_sdl, geom = "errorbar", width = 0.1)
+```
+
+```{r}
+nrow(trials)
+```
+
+
+
+```{r}
+g = trials %>%
+  ggplot(aes(cond_metaphor, donation)) + ptheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  scale_x_discrete(labels = c("literal" = "Literal\n", "journey" = "Journey\n", "battle" = "Battle\n")) +
+  scale_y_continuous(labels = scales::dollar) +
+  coord_cartesian(ylim = c(22, 27)) +
+  labs(x = element_blank(), y = element_blank())
+  # geom_signif(comparisons = list(c("literal", "journey"), c("literal", "battle"), c("battle", "journey")),
+  #             y_position = c(26.6, 26, 25.4),
+  #             tip_length = 0.005,
+  #             textsize = 2.75,
+  #             annotations = c("list({\U03C7^2}(1) == 0.6, ~~ ns)",
+  #                             "list({\U03C7^2}(1) == 1.7, ~~ ns)",
+  #                             "list({\U03C7^2}(1) == 4.0, ~~ p < 0.05)"),
+  #             parse = T)
+
+g
+# ggsave("metaphor_donation0.png", g, width = pwidth/1.8, height = pheight, bg = "transparent")
+```
+
+## Coarse Donation Groups
+
+### Metaphor Condition and Presence on Likelihood of Wide Donation Group
+
+Visualizations of donation amounts seems to convey that donations are generally trimodal, on \$0, \$25, and \$50. What if participants donated according to a coarser scale than anticpated? They may have chosen an amount mentally represented as "small" or "medium" or "large". In other words, we may see an effect if the donations are binned into three groups: lower, middle, and high; corresponding to \$0-16.67, \$16.67-33.33, and \$33.33-50. Note the difference between these wide bins compared to the narrow bins previously explored (which are resurfaced soon).
+
+```{r}
+trials$donation_wide_group = cut(trials$donation, 
+                                 breaks = c(0, 50*1/3, 50*2/3, 50), 
+                                 labels = c("small", "medium", "large"), 
+                                 include.lowest = T)
+```
+
+Contingency table: Wide Donation Groups x Any Metaphor
+
+```{r, echo=F}
+print_crosstabs(ftable(trials$donation_wide_group, trials$cond_anymet))
+```
+
+```{r}
+g = trials %>%
+  mutate(int = interaction(cond_metaphor, donation_wide_group)) %>%
+  group_by(int) %>%
+  mutate(y = n()) %>%
+  ggplot(aes(cond_metaphor, y, fill = int)) + ptheme +
+  geom_col(position = position_dodge(width = 0.8), width = 0.75) +
+  # dodgerblue1 chartreuse3
+  scale_fill_manual(values = c("grey90", "grey90", "grey90",
+                               "grey80", "grey80", "grey80",
+                               "grey70", "grey70", "grey70"),
+                    breaks = c("battle.small",
+                               "battle.medium",
+                               "battle.large"),
+                    labels = c("Small", "Medium", "Large"),
+                    name = "Donation\nGroup") +
+  # scale_fill_manual(values = c("firebrick2", "grey94", "grey94",
+  #                              "firebrick4", "grey94", "grey94",
+  #                              "grey94", "grey94", "grey94"),
+  #                   breaks = c("literal.small",
+  #                              "literal.medium"),
+  #                   labels = c("Small", "Medium"),
+  #                   name = "Donation\nGroup") +
+  # scale_fill_manual(values = c("grey94", "dodgerblue1", "dodgerblue1",
+  #                              "grey94", "dodgerblue4", "dodgerblue4",
+  #                              "grey94", "grey94", "grey94"),
+  #                   breaks = c("battle.small",
+  #                              "battle.medium"),
+  #                   labels = c("Small", "Medium"),
+  #                   name = "Donation\nGroup") +
+  # scale_fill_manual(values = c("firebrick2", "dodgerblue1", "dodgerblue1",
+  #                              "firebrick4", "dodgerblue4", "dodgerblue4",
+  #                              "grey94", "grey94", "grey94"),
+  #                   breaks = c("battle.small",
+  #                              "literal.small",
+  #                              "battle.medium",
+  #                              "literal.medium"),
+  #                   labels = c("Small", "Small",
+  #                              "Medium", "Medium"),
+  #                   name = "Donation\nGroup") +
+
+  scale_x_discrete(labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
+  labs(title = "Count of Participants in Donation Groups by Metaphor Condition", x = "Donation Group", y = "Count of Participants") +
+  coord_cartesian(ylim = c(0, 680))
+#   # geom_signif(xmin = 1 - 0.13,
+#   #             xmax = 2.5,
+#   #             y_position = 650,
+#   #             tip_length = 0.1,
+#   #             textsize = 2.75,
+#   #             annotations = "list({\U03C7^2}(1) == 4.2, ~~ p < 0.05)",
+#   #             parse = T)
+#   
+# 
+g
+# ggsave("coarse_donations0.png", g, width = pwidth, height = pheight, bg = "transparent")
+```
+
+H: Donors are more likely to contribute to the large third when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign
+
+```{r}
+model_sm_l_base = glm(update(base.formula, I(donation_wide_group == "large") ~ .), 
+                         data = trials, 
+                         family = "binomial")
+model_sm_l_full = glm(update(base.formula, I(donation_wide_group == "large") ~ . + cond_anymet), 
+                         data = trials, 
+                         family = "binomial")
+
+compare_lm(model_sm_l_base, model_sm_l_full)
+```
+
+There is no evidence that participants who were exposed to metaphor were any more likely to be "large" donors.
+
+H: Donors are more likely to contribute to the large third or the medium third when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign
+
+```{r}
+model_s_ml_base = glm(update(base.formula, I(donation_wide_group != "small") ~ .), 
+                         data = trials, 
+                         family = "binomial")
+model_s_ml_full = glm(update(base.formula, I(donation_wide_group != "small") ~ . + cond_anymet), 
+                         data = trials, 
+                         family = "binomial")
+
+compare_lm(model_s_ml_base, model_s_ml_full)
+```
+
+There is marginal evidence that participants who were exposed to metaphor were slightly more likely to be "large" or "medium" donors. We can break this down further to see differences in likelihood that metaphor exposed participants are more or less likely to be either "medium" or "large" donors.
+
+```{r}
+mask = trials$donation_wide_group %in% c("small", "medium")
+model_s_m_base = glm(update(base.formula, I(donation_wide_group == "medium") ~ .), 
+                         data = trials[mask, ], 
+                         family = "binomial")
+model_s_m_full = glm(update(base.formula, I(donation_wide_group == "medium") ~ . + cond_anymet), 
+                         data = trials[mask, ], 
+                         family = "binomial")
+
+compare_lm(model_s_m_base, model_s_m_full)
+```
+
+```{r}
+f <- f.sq(
+  lm(donation ~ 1, data = trials[mask, ]),
+  model_s_m_base,
+  model_s_m_full
+)
+f
+length(coef(model_s_m_base))-1
+```
+
+```{r}
+power = pwr.f2.test(u = 1, v = NULL, f2 = f, power = 0.8)
+power
+```
+
+From G*Power, total sample size should equal 7969 to reach 80% power.
+
+```{r}
+mask = trials$donation_wide_group %in% c("medium", "large") & trials$cond_metaphor %in% c("literal", "battle")
+
+model_met_s_l_base = glm(update(base.formula, I(donation_wide_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_s_l_full = glm(update(base.formula, I(donation_wide_group == "large") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_met_s_l_base, model_met_s_l_full)
+```
+
+```{r}
+mask = trials$donation_wide_group %in% c("small", "large")
+model_s_l_base = glm(update(base.formula, I(donation_wide_group == "large") ~ .), 
+                         data = trials[mask, ], 
+                         family = "binomial")
+model_s_l_full = glm(update(base.formula, I(donation_wide_group == "large") ~ . + cond_anymet), 
+                         data = trials[mask, ], 
+                         family = "binomial")
+
+compare_lm(model_s_l_base, model_s_l_full)
+```
+
+There is evidence that participants exposed to metaphor are more likely to donate "medium" amounts than "small" amounts (Chisq = 4.2, p < 0.05). However, there is no evidence that participants who are exposed to metaphor are any more likely to donate "large" amounts than "small" amounts.
+
+NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "large" amount compared to a "small" amount.
+
+```{r}
+mask = trials$donation_wide_group %in% c("small", "large") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_s_l_base = glm(update(base.formula, I(donation_wide_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_s_l_full = glm(update(base.formula, I(donation_wide_group == "large") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_met_s_l_base, model_met_s_l_full)
+```
+
+```{r}
+f <- f.sq(
+  lm(donation ~ 1, data = trials[mask, ]),
+  model_met_s_l_base,
+  model_met_s_l_full
+)
+f
+length(coef(model_met_s_l_base))-1
+```
+
+```{r}
+power = pwr.f2.test(u = 1, v = NULL, f2 = f, power = 0.8)
+power
+```
+
+From G*Power, a total sample size of 4,589 is required for 80% power.
+
+Given the observed data for participants who saw either battle or journey metaphors, those who were exposed to battle metaphors were significantly more likely to donate a "large" amount compared to a "small" amount.
+
+NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "large" amount compared to a "medium" amount.
+
+```{r}
+mask = trials$donation_wide_group %in% c("medium", "large") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_m_l_base = glm(update(base.formula, I(donation_wide_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_m_l_full = glm(update(base.formula, I(donation_wide_group == "large") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_met_m_l_base, model_met_m_l_full)
+```
+
+NS
+
+H: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "medium" amount compared to a "small" amount.
+
+```{r}
+mask = trials$donation_wide_group %in% c("small", "medium") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_s_m_base = glm(update(base.formula, I(donation_wide_group == "medium") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_s_m_full = glm(update(base.formula, I(donation_wide_group == "medium") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_met_s_m_base, model_met_s_m_full)
+```
+
+NS
+
+### Metaphor Condition and Presence on Likelihood of Narrow Donation Group
+
+Because the campaign is fictional and participants are given an upper bound on their donations, there may not be the same motivations to donate specific amounts compared to a real world fundraiser. Participants may choose to donate under one of the three most salient responses: \$0, \$25, or $50, or something very close (\$5 to \$0 or \$45 to \$50).
+
+Thus, we measure the effect of metaphor presence of participants' decision to choose one of these three groups of donation amounts (small, medium, and large).
+
+```{r, echo=F}
+# trials$donation_narrow_group = with(trials, 
+#                                     case_when(
+#                                       donation %in% c(0, 5) ~     "small",
+#                                       donation %in% c(20,25,30) ~ "medium",
+#                                       donation %in% c(45,50) ~    "large",
+#                                       T ~ ""
+#                                     ))
+
+print_crosstabs(ftable(trials$donation_narrow_group, trials$cond_anymet))
+```
+
+H: Donors are more likely to contribute a "large" donation (\$45 or \$50) when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign
+
+```{r}
+mask = trials$donation_narrow_group != ""
+
+model_sm_l_base = glm(update(base.formula, I(donation_narrow_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_sm_l_full = glm(update(base.formula, I(donation_narrow_group == "large") ~ . + cond_anymet), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_sm_l_base, model_sm_l_full)
+```
+
+There is no evidence that there is an effect of metaphor presence on participants' decision to make a small or medium donation compared to a large donation.
+
+H: Donors are more likely to contribute a "large" or "medium" donation (\$20, \$25, \$30) when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign
+
+```{r}
+mask = trials$donation_narrow_group != ""
+
+model_s_ml_base = glm(update(base.formula, I(donation_narrow_group != "small") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_s_ml_full = glm(update(base.formula, I(donation_narrow_group != "small") ~ . + cond_anymet), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_s_ml_base, model_s_ml_full)
+```
+
+There is no evidence that there is an effect of metaphor presence on participants' decision to make a small donation compared to a medium or large donation.
+
+We can attempt to break down this last result into a small-medium contrast and small-large contrast:
+
+```{r}
+mask = trials$donation_narrow_group %in% c("small", "medium")
+
+model_s_m_base = glm(update(base.formula, I(donation_narrow_group == "medium") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_s_m_full = glm(update(base.formula, I(donation_narrow_group == "medium") ~ . + cond_anymet), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_s_m_base, model_s_m_full)
+```
+
+There is no evidence that there is an effect of metaphor presence on participants' decision to make a small donation compared to a medium donation.
+
+```{r}
+mask = trials$donation_narrow_group %in% c("small", "large")
+model_s_l_base = glm(update(base.formula, I(donation_narrow_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_s_l_full = glm(update(base.formula, I(donation_narrow_group == "large") ~ . + cond_anymet), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_s_l_base, model_s_l_full)
+```
+
+There is no evidence that there is an effect of metaphor presence on participants' decision to make a small donation compared to a large donation.
+
+NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "large" amount compared to a "small" amount.
+
+```{r}
+mask = trials$donation_narrow_group %in% c("small", "large") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_s_l_base = glm(update(base.formula, I(donation_narrow_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_s_l_full = glm(update(base.formula, I(donation_narrow_group == "large") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_met_s_l_base, model_met_s_l_full)
+```
+
+Given the observed data for participants who saw either battle or journey metaphors, those who were exposed to battle metaphors were significantly more likely to donate a "large" amount compared to a "small" amount.
+
+NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "large" amount compared to a "medium" amount.
+
+```{r}
+mask = trials$donation_narrow_group %in% c("medium", "large") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_m_l_base = glm(update(base.formula, I(donation_narrow_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_m_l_full = glm(update(base.formula, I(donation_narrow_group == "large") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_met_m_l_base, model_met_m_l_full)
+```
+
+H: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "medium" amount compared to a "small" amount.
+
+```{r}
+mask = trials$donation_narrow_group %in% c("small", "medium") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_s_m_base = glm(update(base.formula, I(donation_narrow_group == "medium") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_s_m_full = glm(update(base.formula, I(donation_narrow_group == "medium") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_met_s_m_base, model_met_s_m_full)
+```
+
+## Broader Alternative Questions
+
+### Random Forest Regression
+
+Use Random Forest regression models to quantify the importance of metaphor on donation behavior.
+
+```{r}
+library(randomForest)
+```
+
+#### Any Metaphor compared to Literal
+
+```{r}
+estimate <- function(data, ix) {
+  rf_null = randomForest(update(base.formula, donation ~ . ),
+                    data = data[ix, ],
+                    mtry = 2,
+                    nPerm = 3,
+                    ntree = 100)
+  
+  rf_anymet = randomForest(update(base.formula, donation ~ . + cond_anymet),
+                    data = data[ix, ],
+                    mtry = 2,
+                    nPerm = 3,
+                    ntree = 100)
+  
+  return(mean(rf_null$mse) - mean(rf_anymet$mse))
+}
+  
+tic()
+bs <- boot(trials, estimate, R = 16)
+toc()
+
+tic()
+ci <- boot.ci(bs, type = "perc")
+toc()
+```
+
+```{r}
+ci
+```
+
+```{r}
+cor(model.matrix(~ 0 + past_donations + urgent + sympathy + self_cancer + ff_cancer + age, data = trials))
+```
+
+
+Here are the relative variable importance measures for each variable over 1,000 trees, including `cond_anymet`.
+
+```{r}
+imp <- cbind(importance(rf_anymet), se = rf_anymet$importanceSD) %>%
+  as.data.frame()
+imp <- cbind(imp, var = rownames(imp))
+rownames(imp) <- NULL
+colnames(imp)[1] <- "PercentMSEInc"
+imp %>%
+  arrange(PercentMSEInc)
+```
+
+Here are the same numbers but plotted with two standard errors (derived via permutation). 
+
+```{r, fig.align='center'}
+imp %>%
+  arrange(PercentMSEInc) %>%
+  mutate(var = factor(var, var)) %>%
+  ggplot(aes(var, PercentMSEInc)) + itheme +
+  labs(x = "Predictor", y = "Percent MSE Increase") +
+  geom_errorbar(aes(ymin = PercentMSEInc - 2*se, ymax = PercentMSEInc + 2*se), width = 0.15) +
+  geom_point(shape = 16) +
+  geom_text(aes(label = round(PercentMSEInc, 2)), nudge_x = 0.3, size = 3) +
+  coord_flip()
+```
+
+#### Battle compared to Journey
+
+```{r}
+rf_battle_journey = randomForest(update(base.formula, donation ~ . + cond_metaphor),
+                  data = trials %>% filter(cond_metaphor %in% c("battle", "journey")),
+                  mtry = 2,
+                  nPerm = 3,
+                  importance = T,
+                  ntree = 1000,
+                  do.trace = 250)
+rf_battle_journey
+```
+
+Here are the relative variable importance measures for each variable, including `cond_anymet`.
+
+```{r}
+imp <- cbind(importance(rf_battle_journey), se = rf_battle_journey$importanceSD) %>%
+  as.data.frame()
+imp <- cbind(imp, var = rownames(imp))
+rownames(imp) <- NULL
+colnames(imp)[1] <- "PercentMSEInc"
+imp %>%
+  arrange(PercentMSEInc)
+```
+
+Here are the same numbers but plotted with two standard errors (derived via permutation). 
+
+```{r, fig.align='center'}
+imp %>%
+  arrange(PercentMSEInc) %>%
+  mutate(var = factor(var, var)) %>%
+  ggplot(aes(var, PercentMSEInc)) + itheme +
+  labs(x = "Predictor", y = "Percent MSE Increase") +
+  geom_errorbar(aes(ymin = PercentMSEInc - 2*se, ymax = PercentMSEInc + 2*se), width = 0.15) +
+  geom_point(shape = 16) +
+  geom_text(aes(label = round(PercentMSEInc, 2)), nudge_x = 0.3, size = 3) +
+  coord_flip()
+```
+
+### Gradient Boosted Trees
+
+Use Extreme Gradient Boosted Trees to measure the importance of metaphor on donation behavior.
+
+```{r}
+# library(xgboost)
+```
+
+```{r}
+# train <- model.matrix(update(base.formula, ~ 0 + . + cond_anymet), trials)
+# data <- xgb.DMatrix(data = train, label = trials$donation)
+# 
+# xgboost_anymet <- xgboost(data = data,
+#                          nrounds = 10,
+#                          max_depth = 3,
+#                          subsample = 0.5)
+```
+
+```{r}
+# imp <- xgb.importance(model = xgboost_anymet)
+# imp
+```
+
+### Generalized Additive Models
+
+There might be some extra information encoded in people's past donation behavior and age which isn't properly captured by linear coefficients. Here we'll model the immediate alternative questions as above but using additive smoothing splines on these two covariates.
+
+First, load up a common GAM library.
+
+```{r}
+library(mgcv)
+```
+
+#### Any Metaphor compared to Literal
+
+```{r}
+gam_anymet_base <- gam(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + 
+                   s(past_donations.z) + s(age.z),
+                 data = trials)
+gam_anymet_full <- gam(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + 
+                   s(past_donations.z) + s(age.z) + cond_anymet,
+                 data = trials)
+
+compare_lm(gam_anymet_base, gam_anymet_full)
+```
+
+#### Battle compared to Literal
+
+```{r}
+mask = trials$cond_metaphor %in% c("battle", "literal")
+
+gam_battle_literal_base <- gam(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + 
+                                 s(past_donations.z) + s(age.z),
+                               data = trials[mask, ])
+gam_battle_literal_full <- gam(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + 
+                                 s(past_donations.z) + s(age.z) + cond_metaphor,
+                               data = trials[mask, ])
+
+compare_lm(gam_battle_literal_base, gam_battle_literal_full)
+```
+
+#### Journey compared to Literal
+
+```{r}
+mask = trials$cond_metaphor %in% c("journey", "literal")
+
+gam_journey_literal_base <- gam(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + 
+                                 s(past_donations.z) + s(age.z),
+                               data = trials[mask, ])
+gam_journey_literal_full <- gam(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + 
+                                 s(past_donations.z) + s(age.z) + cond_metaphor,
+                               data = trials[mask, ])
+
+compare_lm(gam_journey_literal_base, gam_journey_literal_full)
+```
+
+#### Battle compared to Journey
+
+```{r}
+mask = trials$cond_metaphor %in% c("battle", "journey")
+
+gam_battle_journey_base <- gam(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + 
+                                 s(past_donations.z) + s(age.z),
+                               data = trials[mask, ])
+gam_battle_journey_full <- gam(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + 
+                                 s(past_donations.z) + s(age.z) + cond_metaphor,
+                               data = trials[mask, ])
+
+compare_lm(gam_battle_journey_base, gam_battle_journey_full)
+```
+
+## Summary
+
+Between the battle and journey condition, there is significant difference in the amount individuals decide to donate, with those in the battle condition donating about \$1.15 more than those in the journey condition.
+
+The donation distribution appears trimodal, which might indicate that participants had a coarser mental model for how much to donate than anticipated. For example, donations may be broken in small, medium, or large amounts. According to this assumption, we find that participants in either metaphor condition are 1.17 times more likely than those in the literal condition to donate a medium amount over a small amount. We also find that participants in the battle condition are 1.22 times more likely than those in the journey condition to donate a large amount over a small amount.
+
+Perhaps participants are sticking to donations by \$5 increments, which means we should expect the coarse donations to fall as \$0 or \$5; \$20, \$25, or \$30, or \$45 or \$50 (small, medium, and large groups). We see no significant difference in how likely individuals are to donate to one of these groups depending on which condition they're in.
+
+We next attempted other methods for modeling the importance of metaphor on donation behavior. First, Random Forest regression models. Second, gradient boosted regression models.
+
+Perhaps we can tease out a little more variance in donation behavior as complex functions of past donation behavior and age. We attempt this using Generalized Additive Models. We find that splines on number of past donations and age are significant predictors of donation amount. The metaphor condition no longer has the same significant effect on model fit (p < 0.1).
+

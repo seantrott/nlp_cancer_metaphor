@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,18442,consent.html,external-html,0,18558,0.0-0.0,50818zul8cq5xh7480oe,male,journey,,,,,,
+1,1943,,image-button-response,1,20517,0.0-1.0,50818zul8cq5xh7480oe,male,journey,check-1.png,1.0,check1,,,
+2,2570,,image-button-response,2,23092,0.0-2.0,50818zul8cq5xh7480oe,male,journey,check-2.png,2.0,check2,,,
+3,21187,,instructions,3,44281,0.0-3.0,50818zul8cq5xh7480oe,male,journey,,,,"[{""page_index"":0,""viewing_time"":3720},{""page_index"":1,""viewing_time"":8548},{""page_index"":2,""viewing_time"":7713},{""page_index"":3,""viewing_time"":1203}]",,
+4,48958,,html-slider-response,4,93248,0.0-4.0,50818zul8cq5xh7480oe,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,50.0,
+5,27889,,survey-text,5,121143,0.0-5.0,50818zul8cq5xh7480oe,male,journey,,,description,,,"{""Q0"":""He has cancer. He needs money for treatment.""}"
+6,4652,,survey-likert,6,125802,0.0-6.0-0.0,50818zul8cq5xh7480oe,male,journey,,,urgent,,,"{""Q0"":6}"
+7,2309,,survey-likert,7,128116,0.0-6.0-1.0,50818zul8cq5xh7480oe,male,journey,,,sympathy,,,"{""Q0"":6}"
+8,4209,,survey-text,8,132330,0.0-7.0,50818zul8cq5xh7480oe,male,journey,,,past-donations,,,"{""Q0"":""0""}"
+9,2105,,survey-multi-choice,9,134444,0.0-8.0-0.0,50818zul8cq5xh7480oe,male,journey,,,ff-cancer,,,"{""Q0"":""No""}"
+10,2522,,survey-multi-choice,10,136972,0.0-8.0-1.0,50818zul8cq5xh7480oe,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,13427,,survey-multi-choice,11,150425,0.0-9.0,50818zul8cq5xh7480oe,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,3215,,survey-text,12,153645,0.0-10.0,50818zul8cq5xh7480oe,male,journey,,,age,,,"{""Q0"":""33""}"
+13,22192,,survey-text,13,175842,0.0-11.0,50818zul8cq5xh7480oe,male,journey,,,purpose,,,"{""Q0"":""Compassion versus economic gain""}"
+14,2895,,survey-text,14,178745,0.0-12.0,50818zul8cq5xh7480oe,male,journey,,,feedback,,,"{""Q0"":""No""}"
+15,1872,debrief.html,external-html,15,181006,0.0-13.0,50818zul8cq5xh7480oe,male,journey,,,,,,

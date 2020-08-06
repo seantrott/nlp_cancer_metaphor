@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,10702,consent.html,external-html,0,10776,0.0-0.0,8crskb6vmxzvxv3zzjrw,male,battle,,,,,,
+1,1696,,image-button-response,1,12473,0.0-1.0,8crskb6vmxzvxv3zzjrw,male,battle,check-1.png,1.0,check1,,,
+2,2573,,image-button-response,2,15047,0.0-2.0,8crskb6vmxzvxv3zzjrw,male,battle,check-2.png,2.0,check2,,,
+3,23309,,instructions,3,38357,0.0-3.0,8crskb6vmxzvxv3zzjrw,male,battle,,,,"[{""page_index"":0,""viewing_time"":5414},{""page_index"":1,""viewing_time"":11594},{""page_index"":2,""viewing_time"":5259},{""page_index"":3,""viewing_time"":1041}]",,
+4,23475,,html-slider-response,4,61834,0.0-4.0,8crskb6vmxzvxv3zzjrw,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_battle.png"" class=""main-trial""/>",,trial,,50.0,
+5,26083,,survey-text,5,87917,0.0-5.0,8crskb6vmxzvxv3zzjrw,male,battle,,,description,,,"{""Q0"":""Jason is suffering from lymphoma. Jason needs money to maintain his medical treatments and chemotherapy. ""}"
+6,4927,,survey-likert,6,92845,0.0-6.0-0.0,8crskb6vmxzvxv3zzjrw,male,battle,,,sympathy,,,"{""Q0"":6}"
+7,4763,,survey-likert,7,97610,0.0-6.0-1.0,8crskb6vmxzvxv3zzjrw,male,battle,,,urgent,,,"{""Q0"":6}"
+8,5119,,survey-text,8,102731,0.0-7.0,8crskb6vmxzvxv3zzjrw,male,battle,,,past-donations,,,"{""Q0"":""4""}"
+9,4475,,survey-multi-choice,9,107207,0.0-8.0-0.0,8crskb6vmxzvxv3zzjrw,male,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2511,,survey-multi-choice,10,109721,0.0-8.0-1.0,8crskb6vmxzvxv3zzjrw,male,battle,,,self-cancer,,,"{""Q0"":""Yes""}"
+11,10334,,survey-multi-choice,11,120060,0.0-9.0,8crskb6vmxzvxv3zzjrw,male,battle,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,2022,,survey-text,12,122083,0.0-10.0,8crskb6vmxzvxv3zzjrw,male,battle,,,age,,,"{""Q0"":""23""}"
+13,5366,,survey-text,13,127450,0.0-11.0,8crskb6vmxzvxv3zzjrw,male,battle,,,purpose,,,"{""Q0"":""""}"
+14,945,,survey-text,14,128397,0.0-12.0,8crskb6vmxzvxv3zzjrw,male,battle,,,feedback,,,"{""Q0"":""""}"
+15,18029,debrief.html,external-html,15,146702,0.0-13.0,8crskb6vmxzvxv3zzjrw,male,battle,,,,,,

@@ -1,0 +1,186 @@
+---
+title: "inference"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Analysis Setup
+
+```{r}
+library(tidyverse)
+library(jtools)
+library(data.table)
+library(broom)
+
+itheme = theme_minimal()
+```
+
+Patients with cancer often describe their experience metaphorically as a battle (“my fight against cancer”) or as a journey (“my path through cancer treatment”). Experimental work has demonstrated that these metaphors can influence people's reasoning and emotional inferences about experiences with cancer (Hendricks, Demjen, Semino, & Boroditsky, 2018; Hauser & Schwarz, 2019). However, it is currently unknown how the use of these metaphorical frames translate into behavioral changes, such as the likelihood and magnitude of charitable giving. 
+
+Using hand-labeled data from more than 5,000 GoFundMe cancer-related campaigns in a regression framework, we asked whether or not a campaign’s usage of metaphor predicts several measures of donation behavior beyond what other control variables predict (e.g. shares on Facebook). We found that both metaphor families (battle or journey) have a positive effect on campaign success and donation behavior. 
+
+To establish whether these relationships are causally meaningful, we designed an online experiment simulating the experience of donating to a crowdfunding campaign. We manipulate the metaphorical framing and recipient gender in the campaign. We will be measuring real donations to the campaigns from participants to determine if an effect of metaphor exists on charitable donations.
+
+Within this document is the code to test for a main effect of metaphor presence on donation behavior. The data should be cleaned with `clean_data.R` and the data exclusion criteria (see Preregistration) should be met before execution (done via `exclusion.Rmd`).
+
+## Load Data
+
+We will not be transforming the outcome donation amount. We do code a new variable, Any Metaphor, which is true if the condition was either Battle or Journey, false if the condition was Literal. The only transformed covariates are those for past donation quantity and participant age, which are centered and divided by two standard deviations (see Gelman, 2008).
+
+```{r}
+trials <- read_csv("data/data_clean_excluded.csv", col_types = cols())
+
+trials = trials %>%
+  # fill in missing values for past_donation and age with their means
+  replace_na(list(past_donations = mean(trials$past_donations, na.rm = T))) %>%
+  replace_na(list(age = mean(trials$age, na.rm = T))) %>%
+  
+  # set the levels of the factors variables and rescale age and past_donations
+  mutate(
+    cond_sex = factor(cond_sex, levels = c("male", "female")),
+    cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
+    cond_anymet = cond_metaphor %in% c("battle", "journey"),
+
+    self_cancer = factor(self_cancer, levels = c("N", "Y", "OO")),
+    ff_cancer = factor(ff_cancer, levels = c("N", "Y", "OO")),
+
+    gender = factor(gender, levels = c("M", "F", "NB", "OO")),
+    education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D", "OO")),
+    socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "OO")),
+
+    age.z = (age - mean(age)) / (2 * sd(age)),
+    past_donations.z = (past_donations - mean(past_donations)) / (2 * sd(past_donations))
+  )
+```
+
+### Preview Data
+
+```{r}
+head(trials)
+```
+
+The following cells should be roughly balanced.
+
+```{r}
+nrow(trials)
+cat("\n")
+ftable(trials$cond_anymet)
+cat("\n")
+ftable(trials$cond_metaphor, trials$cond_sex)
+```
+
+# Hypothesis
+
+**Donors contribute more to cancer-related campaigns which employ either battle or journey metaphors compared to campaigns that do not include one of these metaphors.**
+
+We will use nested model comparisons to assess our hypothesis regarding whether the presence of metaphor framing affects donation amounts. We will begin by constructing full models including predictors for Patient Gender, characteristics of the participant (past donation behavior, gender, education, socioeconomics, scaled age, whether they have or a family member or friend has been treated for cancer), and a fixed effect for Any Metaphor. Any Metaphor denotes whether the participant was exposed to either the journey or battle stimuli, as opposed to the literal stimulus. This full model will then be compared to a model omitting only the Any Metaphor term and the difference will be measured by a log-likelihood ratio test. We will report the coefficient for the Any Metaphor term, with 95% confidence intervals, as well as the results of the Chi-squared test between models.
+
+We will use the standard p < 0.05 criteria for determining if the model comparison suggests the Any Metaphor variable significantly explains variance in the data not accounted for by the null model. Moreover, we will use the model coefficient to determine the direction of the effect. Finally, an effect size will be reported in f-squared, similar to the power analysis.
+
+## Analysis
+
+```{r}
+full.formula = formula(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + age.z + past_donations.z + cond_anymet)
+base.formula = formula(donation ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + age.z + past_donations.z)
+```
+
+```{r}
+model_any_metaphor_base = lm(base.formula, data = trials)
+model_any_metaphor_full = lm(full.formula, data = trials)
+
+anova(model_any_metaphor_base, model_any_metaphor_full, test = "Chisq")
+cat("Chisq Stat: ", round(2*(logLik(model_any_metaphor_full) - logLik(model_any_metaphor_base)), 3), "\n")
+summ(model_any_metaphor_full, confint = T, digits = 3)
+```
+
+### Effect Size
+
+```{r}
+r.sq = function(mod.base, mod.full) {
+  #' Calculate the R-squared value given two nested models
+  #' 
+  #' The variance explained by a full model beyond that which is explained by the reduced model.
+  #' Technically, a difference in sum of squared residuals divided by the base model's sum of squared residuals
+  #' Adapted from Larsen & Marx (2018) pg. 566
+  
+  return((sum(resid(mod.base)^2) - sum(resid(mod.full)^2)) / sum(resid(mod.base)^2))
+}
+f.sq = function(mod.null, mod.base, mod.full) {
+  #' Calculate the f-squared effect size from two R-squared values
+  #'
+  #' Adapted from Cohen (1988) pg. 409
+  
+  R2.base = r.sq(mod.null, mod.base)
+  R2.full = r.sq(mod.null, mod.full)
+  
+  return((R2.full - R2.base) / (1 - R2.full))
+}
+```
+
+f-squared Effect Size
+
+```{r}
+round(f.sq(
+  lm(donation ~ 1, data = trials),
+  model.any_metaphor.base,
+  model.any_metaphor.full
+), 6)
+```
+
+## Visualizations
+
+```{r}
+trials %>%
+  ggplot(aes(donation, fill = cond_anymet)) + itheme +
+  labs(y = "Density", x = "Donation Amount", title = "Donation Amount by Metaphor Presence") +
+  scale_fill_discrete(name = "Metaphor\nCondition", labels = c("FALSE" = "Literal", "TRUE" = "Any Metaphor")) +
+  geom_density(color = NA, alpha = 0.6)
+  # geom_line(stat = "density")
+```
+
+```{r}
+trials %>%
+  ggplot(aes(donation, color = cond_metaphor)) + itheme +
+  labs(y = "Density", x = "Donation Amount", title = "Donation Amount by Metaphor Condition") +
+  scale_color_discrete(name = "Metaphor\nCondition", labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
+  geom_line(stat = "density")
+```
+
+### Residual Plot
+
+```{r}
+trials.any_metaphor = augment(model.any_metaphor.base, trials)
+
+p.any_metaphor = trials.any_metaphor %>%
+  ggplot(aes(cond_anymet, .resid)) + itheme +
+  geom_violin() +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 20, size=0.75) +
+  stat_summary(fun.data = mean_se, geom = "errorbar", size = 0.25, width = 1) +
+  theme(axis.title.y = element_text(angle = 90)) +
+  labs(y = "Residuals", x = element_blank(), title = "Residuals of reduced model grouped by Any Metaphor") +
+  scale_x_discrete(labels = c("FALSE" = "Literal", "TRUE" = "Any Metaphor")) +
+  coord_cartesian(ylim = c(-10, 10))
+
+p.any_metaphor
+# ggsave("confirmatory1_resids.png", p.any_metaphor, width = 6, height = 3.375)
+```
+
+### Mean Plot
+
+Diamond at mean, with bars extending +/- SE.
+
+```{r}
+ggplot(trials, aes(cond_anymet, donation)) + itheme +
+  labs(y = "Donation", x = element_blank()) +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.03) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+  scale_x_discrete(labels = c("FALSE"="Literal", "TRUE"="Any Metaphor")) +
+  coord_cartesian(ylim = c(10, 35))
+```
+

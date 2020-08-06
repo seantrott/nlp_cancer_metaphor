@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,6472487,consent.html,external-html,0,6472604,0.0-0.0,c5k6yteva9vt84acbbxx,female,literal,,,,,,
+1,3843,,image-button-response,1,6476456,0.0-1.0,c5k6yteva9vt84acbbxx,female,literal,check-1.png,1.0,check1,,,
+2,4014,,image-button-response,2,6480472,0.0-2.0,c5k6yteva9vt84acbbxx,female,literal,check-2.png,2.0,check2,,,
+3,12903,,instructions,3,6493376,0.0-3.0,c5k6yteva9vt84acbbxx,female,literal,,,,"[{""page_index"":0,""viewing_time"":2350},{""page_index"":1,""viewing_time"":6885},{""page_index"":2,""viewing_time"":2778},{""page_index"":3,""viewing_time"":889}]",,
+4,19956,,html-slider-response,4,6513334,0.0-4.0,c5k6yteva9vt84acbbxx,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,0.0,
+5,75096,,survey-text,5,6588431,0.0-5.0,c5k6yteva9vt84acbbxx,female,literal,,,description,,,"{""Q0"":""Jennifer had a thyroid surgery and then was diagnosed with cancer. She is going to need money to pay for various expenses due to this situation.""}"
+6,3667,,survey-likert,6,6592099,0.0-6.0-0.0,c5k6yteva9vt84acbbxx,female,literal,,,sympathy,,,"{""Q0"":4}"
+7,5072,,survey-likert,7,6597173,0.0-6.0-1.0,c5k6yteva9vt84acbbxx,female,literal,,,urgent,,,"{""Q0"":5}"
+8,3047,,survey-text,8,6600222,0.0-7.0,c5k6yteva9vt84acbbxx,female,literal,,,past-donations,,,"{""Q0"":""0""}"
+9,6231,,survey-multi-choice,9,6606456,0.0-8.0-0.0,c5k6yteva9vt84acbbxx,female,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2246,,survey-multi-choice,10,6608704,0.0-8.0-1.0,c5k6yteva9vt84acbbxx,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,11873,,survey-multi-choice,11,6620585,0.0-9.0,c5k6yteva9vt84acbbxx,female,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$100,000 through $149,999"",""Q3"":""Yes""}"
+12,5873,,survey-text,12,6626459,0.0-10.0,c5k6yteva9vt84acbbxx,female,literal,,,age,,,"{""Q0"":""27""}"
+13,2482,,survey-text,13,6628943,0.0-11.0,c5k6yteva9vt84acbbxx,female,literal,,,purpose,,,"{""Q0"":""""}"
+14,1012,,survey-text,14,6629955,0.0-12.0,c5k6yteva9vt84acbbxx,female,literal,,,feedback,,,"{""Q0"":""""}"
+15,2905,debrief.html,external-html,15,6633255,0.0-13.0,c5k6yteva9vt84acbbxx,female,literal,,,,,,

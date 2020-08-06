@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,7895,consent.html,external-html,0,7908,0.0-0.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,,,,
+1,3245,,image-button-response,1,11158,0.0-1.0,mxwp8d1b1hcmrvp62s2u,male,literal,check-1.png,1.0,check1,,,
+2,5046,,image-button-response,2,16207,0.0-2.0,mxwp8d1b1hcmrvp62s2u,male,literal,check-2.png,2.0,check2,,,
+3,56278,,instructions,3,72487,0.0-3.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,,"[{""page_index"":0,""viewing_time"":11821},{""page_index"":1,""viewing_time"":28472},{""page_index"":2,""viewing_time"":14128},{""page_index"":3,""viewing_time"":1856}]",,
+4,69692,,html-slider-response,4,142182,0.0-4.0,mxwp8d1b1hcmrvp62s2u,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_ml.png"" class=""main-trial""/>",,trial,,10.0,
+5,53413,,survey-text,5,195598,0.0-5.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,description,,,"{""Q0"":""Jason has cancer from his thyroid surgery. He is going to be going through chemotherapy and we are trying to raise money to help him.""}"
+6,13861,,survey-likert,6,209463,0.0-6.0-0.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,urgent,,,"{""Q0"":5}"
+7,4992,,survey-likert,7,214510,0.0-6.0-1.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,sympathy,,,"{""Q0"":6}"
+8,4873,,survey-text,8,219437,0.0-7.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,past-donations,,,"{""Q0"":""0""}"
+9,6908,,survey-multi-choice,9,226350,0.0-8.0-0.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,4237,,survey-multi-choice,10,230638,0.0-8.0-1.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,21468,,survey-multi-choice,11,252162,0.0-9.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""Less than $10,000"",""Q3"":""Yes""}"
+12,5425,,survey-text,12,257637,0.0-10.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,age,,,"{""Q0"":""18""}"
+13,36664,,survey-text,13,294304,0.0-11.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,purpose,,,"{""Q0"":""People's generosity and willingness to donate money. How selfish and greedy people are.""}"
+14,7173,,survey-text,14,301478,0.0-12.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,feedback,,,"{""Q0"":""nope.""}"
+15,27568,debrief.html,external-html,15,329505,0.0-13.0,mxwp8d1b1hcmrvp62s2u,male,literal,,,,,,

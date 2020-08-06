@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Metaphors on Charitable Donations</title>
+  <meta name="description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Metaphors on Charitable Donations" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Metaphors on Charitable Donations" />
+  
+  <meta name="twitter:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  
+
+<meta name="author" content="Alex Liebscher" />
+
+
+<meta name="date" content="2020-06-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="overview.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Metaphors on Charitable Donations</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#load-libraries"><i class="fa fa-check"></i><b>1.1</b> Load Libraries</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#load-data"><i class="fa fa-check"></i><b>1.2</b> Load Data</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#build-custom-functions"><i class="fa fa-check"></i><b>1.3</b> Build Custom Functions</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#set-custom-plot-themes"><i class="fa fa-check"></i><b>1.4</b> Set Custom Plot Themes</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>2</b> Data Overview</a><ul>
+<li class="chapter" data-level="2.1" data-path="overview.html"><a href="overview.html#tabular-summaries"><i class="fa fa-check"></i><b>2.1</b> Tabular Summaries</a></li>
+<li class="chapter" data-level="2.2" data-path="overview.html"><a href="overview.html#visualization-summaries"><i class="fa fa-check"></i><b>2.2</b> Visualization Summaries</a></li>
+<li class="chapter" data-level="2.3" data-path="overview.html"><a href="overview.html#duration-statistics"><i class="fa fa-check"></i><b>2.3</b> Duration Statistics</a></li>
+<li class="chapter" data-level="2.4" data-path="overview.html"><a href="overview.html#coarse-donation-behavior"><i class="fa fa-check"></i><b>2.4</b> Coarse Donation Behavior</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="metaphors.html"><a href="metaphors.html"><i class="fa fa-check"></i><b>3</b> Metaphors</a><ul>
+<li class="chapter" data-level="3.1" data-path="metaphors.html"><a href="metaphors.html#immediate-alternative-questions"><i class="fa fa-check"></i><b>3.1</b> Immediate Alternative Questions</a></li>
+<li class="chapter" data-level="3.2" data-path="metaphors.html"><a href="metaphors.html#coarse-donation-groups"><i class="fa fa-check"></i><b>3.2</b> Coarse Donation Groups</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-wide-donation-group"><i class="fa fa-check"></i><b>3.2.1</b> Metaphor Condition and Presence on Likelihood of Wide Donation Group</a></li>
+<li class="chapter" data-level="3.2.2" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-narrow-donation-group"><i class="fa fa-check"></i><b>3.2.2</b> Metaphor Condition and Presence on Likelihood of Narrow Donation Group</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="metaphors.html"><a href="metaphors.html#broader-alternative-questions"><i class="fa fa-check"></i><b>3.3</b> Broader Alternative Questions</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="metaphors.html"><a href="metaphors.html#gaussian-mixture-model"><i class="fa fa-check"></i><b>3.3.1</b> Gaussian Mixture Model</a></li>
+<li class="chapter" data-level="3.3.2" data-path="metaphors.html"><a href="metaphors.html#decision-tree"><i class="fa fa-check"></i><b>3.3.2</b> Decision Tree</a></li>
+<li class="chapter" data-level="3.3.3" data-path="metaphors.html"><a href="metaphors.html#random-forest-regression"><i class="fa fa-check"></i><b>3.3.3</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="3.3.4" data-path="metaphors.html"><a href="metaphors.html#xgboost"><i class="fa fa-check"></i><b>3.3.4</b> xgboost</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="metaphors.html"><a href="metaphors.html#gams"><i class="fa fa-check"></i><b>3.4</b> GAMs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html"><i class="fa fa-check"></i><b>4</b> Sympathy and Urgency</a><ul>
+<li class="chapter" data-level="4.1" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#sympathy"><i class="fa fa-check"></i><b>4.1</b> Sympathy</a></li>
+<li class="chapter" data-level="4.2" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#urgency"><i class="fa fa-check"></i><b>4.2</b> Urgency</a></li>
+<li class="chapter" data-level="4.3" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-sympathy"><i class="fa fa-check"></i><b>4.3</b> Metaphor on Sympathy</a></li>
+<li class="chapter" data-level="4.4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-urgency"><i class="fa fa-check"></i><b>4.4</b> Metaphor on Urgency</a></li>
+<li class="chapter" data-level="4.5" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-sympathy"><i class="fa fa-check"></i><b>4.5</b> Cancer Experience on Sympathy</a></li>
+<li class="chapter" data-level="4.6" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-urgency"><i class="fa fa-check"></i><b>4.6</b> Cancer Experience on Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="demographics.html"><a href="demographics.html"><i class="fa fa-check"></i><b>5</b> Demographics</a><ul>
+<li class="chapter" data-level="5.1" data-path="demographics.html"><a href="demographics.html#patient-gender"><i class="fa fa-check"></i><b>5.1</b> Patient Gender</a></li>
+<li class="chapter" data-level="5.2" data-path="demographics.html"><a href="demographics.html#gender"><i class="fa fa-check"></i><b>5.2</b> Gender</a></li>
+<li class="chapter" data-level="5.3" data-path="demographics.html"><a href="demographics.html#gender-congruency-effects"><i class="fa fa-check"></i><b>5.3</b> Gender Congruency Effects</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="demographics.html"><a href="demographics.html#gender-congruence-on-sympathy"><i class="fa fa-check"></i><b>5.3.1</b> Gender Congruence on Sympathy</a></li>
+<li class="chapter" data-level="5.3.2" data-path="demographics.html"><a href="demographics.html#gender-congruence-on-urgency"><i class="fa fa-check"></i><b>5.3.2</b> Gender Congruence on Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="demographics.html"><a href="demographics.html#self-cancer"><i class="fa fa-check"></i><b>5.4</b> Self Cancer</a></li>
+<li class="chapter" data-level="5.5" data-path="demographics.html"><a href="demographics.html#friends-and-family-cancer"><i class="fa fa-check"></i><b>5.5</b> Friends and Family Cancer</a></li>
+<li class="chapter" data-level="5.6" data-path="demographics.html"><a href="demographics.html#education"><i class="fa fa-check"></i><b>5.6</b> Education</a></li>
+<li class="chapter" data-level="5.7" data-path="demographics.html"><a href="demographics.html#socioeconomics"><i class="fa fa-check"></i><b>5.7</b> Socioeconomics</a></li>
+<li class="chapter" data-level="5.8" data-path="demographics.html"><a href="demographics.html#past-donations"><i class="fa fa-check"></i><b>5.8</b> Past Donations</a></li>
+<li class="chapter" data-level="5.9" data-path="demographics.html"><a href="demographics.html#age"><i class="fa fa-check"></i><b>5.9</b> Age</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="descriptions.html"><a href="descriptions.html"><i class="fa fa-check"></i><b>6</b> Descriptions</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="descriptions.html"><a href="descriptions.html#quality"><i class="fa fa-check"></i><b>6.0.1</b> Quality</a></li>
+<li class="chapter" data-level="6.0.2" data-path="descriptions.html"><a href="descriptions.html#metaphor"><i class="fa fa-check"></i><b>6.0.2</b> Metaphor</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="response-times.html"><a href="response-times.html"><i class="fa fa-check"></i><b>7</b> Response Times</a><ul>
+<li class="chapter" data-level="7.1" data-path="response-times.html"><a href="response-times.html#main-stimulus-timing"><i class="fa fa-check"></i><b>7.1</b> Main Stimulus Timing</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="response-times.html"><a href="response-times.html#relationship-with-metaphor-condition"><i class="fa fa-check"></i><b>7.1.1</b> Relationship with Metaphor Condition</a></li>
+<li class="chapter" data-level="7.1.2" data-path="response-times.html"><a href="response-times.html#continuous-rt"><i class="fa fa-check"></i><b>7.1.2</b> Continuous RT</a></li>
+<li class="chapter" data-level="7.1.3" data-path="response-times.html"><a href="response-times.html#discretized-rt"><i class="fa fa-check"></i><b>7.1.3</b> Discretized RT</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="response-times.html"><a href="response-times.html#experiment-content-timing"><i class="fa fa-check"></i><b>7.2</b> Experiment Content Timing</a></li>
+<li class="chapter" data-level="7.3" data-path="response-times.html"><a href="response-times.html#experiment-timing"><i class="fa fa-check"></i><b>7.3</b> Experiment Timing</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="mediation.html"><a href="mediation.html"><i class="fa fa-check"></i><b>8</b> Mediation</a><ul>
+<li class="chapter" data-level="8.1" data-path="mediation.html"><a href="mediation.html#any-metaphor-to-literal-condition"><i class="fa fa-check"></i><b>8.1</b> Any Metaphor to Literal condition</a></li>
+<li class="chapter" data-level="8.2" data-path="mediation.html"><a href="mediation.html#battle-to-literal-condition"><i class="fa fa-check"></i><b>8.2</b> Battle to Literal condition</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="mediation.html"><a href="mediation.html#sympathy-1"><i class="fa fa-check"></i><b>8.2.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.2.2" data-path="mediation.html"><a href="mediation.html#urgency-1"><i class="fa fa-check"></i><b>8.2.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="mediation.html"><a href="mediation.html#journey-to-literal-condition"><i class="fa fa-check"></i><b>8.3</b> Journey to Literal condition</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="mediation.html"><a href="mediation.html#sympathy-2"><i class="fa fa-check"></i><b>8.3.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.3.2" data-path="mediation.html"><a href="mediation.html#urgency-2"><i class="fa fa-check"></i><b>8.3.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="mediation.html"><a href="mediation.html#battle-to-journey-condition"><i class="fa fa-check"></i><b>8.4</b> Battle to Journey condition</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="mediation.html"><a href="mediation.html#sympathy-3"><i class="fa fa-check"></i><b>8.4.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.4.2" data-path="mediation.html"><a href="mediation.html#urgency-3"><i class="fa fa-check"></i><b>8.4.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="mediation.html"><a href="mediation.html#summary"><i class="fa fa-check"></i><b>8.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>9</b> Introduction</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Metaphors on Charitable Donations</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Metaphors on Charitable Donations</h1>
+<p class="author"><em>Alex Liebscher</em></p>
+<p class="date"><em>2020-06-22</em></p>
+</div>
+<div id="prerequisites" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Prerequisites</h1>
+<div id="load-libraries" class="section level2">
+<h2><span class="header-section-number">1.1</span> Load Libraries</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse) <span class="co"># mostly for ggplot2 and dplyr</span></code></pre></div>
+<pre><code>## ── Attaching packages ─── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
+## ✓ tibble  2.1.3     ✓ dplyr   0.8.4
+## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.4.0</code></pre>
+<pre><code>## ── Conflicts ────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(jtools) <span class="co"># for pretty printing model summaries</span>
+<span class="kw">library</span>(gridExtra) <span class="co"># for combining plots</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;gridExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     combine</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library(sysfonts)</span>
+<span class="co"># library(showtext) # for custom fonts in presentation graphs</span>
+<span class="kw">library</span>(ggsignif)
+<span class="kw">library</span>(glue)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;glue&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     collapse</code></pre>
+</div>
+<div id="load-data" class="section level2">
+<h2><span class="header-section-number">1.2</span> Load Data</h2>
+<p>Created via <code>exclusion.Rmd</code>, originally from <code>clean_data.R</code>. Here, we trim off some outliers in the <code>age</code> and <code>past_donations</code> columns (then fill in missing values with the new mean).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;../experimental/data/data_clean_excluded.csv&quot;</span>, <span class="dt">col_types =</span> <span class="kw">cols</span>()) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co"># remove outliers in past_donations and age which lie greater than 3 SDs away</span>
+<span class="st">  </span><span class="kw">filter</span>(past_donations <span class="op">&lt;</span><span class="st"> </span>(<span class="kw">mean</span>(past_donations, <span class="dt">na.rm =</span> T) <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span><span class="kw">sd</span>(past_donations, <span class="dt">na.rm =</span> T))) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(age <span class="op">&lt;</span><span class="st"> </span>(<span class="kw">mean</span>(age, <span class="dt">na.rm =</span> T) <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span><span class="kw">sd</span>(age, <span class="dt">na.rm =</span> T))) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(age <span class="op">&gt;=</span><span class="st"> </span><span class="dv">18</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>
+<span class="st">  </span><span class="co"># set the levels of the factors variables and rescale age and past_donations</span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">cond_sex =</span> <span class="kw">factor</span>(cond_sex, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;female&quot;</span>)),
+    <span class="dt">cond_metaphor =</span> <span class="kw">factor</span>(cond_metaphor, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;literal&quot;</span>, <span class="st">&quot;battle&quot;</span>, <span class="st">&quot;journey&quot;</span>)),
+    <span class="dt">cond_anymet =</span> cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;battle&quot;</span>, <span class="st">&quot;journey&quot;</span>),
+
+    <span class="dt">urgent =</span> <span class="kw">as.integer</span>(urgent),
+    <span class="dt">sympathy =</span> <span class="kw">as.integer</span>(sympathy),
+
+    <span class="dt">self_cancer =</span> <span class="kw">factor</span>(self_cancer, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;OO&quot;</span>)),
+    <span class="dt">ff_cancer =</span> <span class="kw">factor</span>(ff_cancer, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;N&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;OO&quot;</span>)),
+
+    <span class="dt">gender =</span> <span class="kw">factor</span>(gender, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;NB&quot;</span>, <span class="st">&quot;OO&quot;</span>)),
+    <span class="dt">education =</span> <span class="kw">factor</span>(education, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;&lt;HS&quot;</span>, <span class="st">&quot;HS&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;P&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;OO&quot;</span>)),
+    <span class="dt">socioeconomic =</span> <span class="kw">factor</span>(socioeconomic, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;&lt;10k&quot;</span>, <span class="st">&quot;10-25k&quot;</span>, <span class="st">&quot;25-50k&quot;</span>, <span class="st">&quot;50-75k&quot;</span>, <span class="st">&quot;75-100k&quot;</span>, <span class="st">&quot;100-150k&quot;</span>, <span class="st">&quot;&gt;150k&quot;</span>, <span class="st">&quot;OO&quot;</span>)),
+    
+    <span class="dt">rt_trial_group =</span> <span class="kw">factor</span>(rt_trial_group, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;[1.9,23]&quot;</span>, <span class="st">&quot;(23,42.7]&quot;</span>, <span class="st">&quot;(42.7,69.3]&quot;</span>, <span class="st">&quot;(69.3,4.25e+03]&quot;</span>)),
+    
+    <span class="dt">congruency =</span> <span class="kw">ifelse</span>((gender <span class="op">==</span><span class="st"> &quot;M&quot;</span> <span class="op">&amp;</span><span class="st"> </span>cond_sex <span class="op">==</span><span class="st"> &quot;male&quot;</span>) <span class="op">|</span><span class="st"> </span>(gender <span class="op">==</span><span class="st"> &quot;F&quot;</span> <span class="op">&amp;</span><span class="st"> </span>cond_sex <span class="op">==</span><span class="st"> &quot;female&quot;</span>),
+                        <span class="st">&quot;congruent&quot;</span>,
+                        <span class="st">&quot;incongruent&quot;</span>)
+  )</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fill in missing values for past_donation and age with their means</span>
+trials &lt;-<span class="st"> </span>trials <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">replace_na</span>(<span class="kw">list</span>(<span class="dt">past_donations =</span> <span class="kw">mean</span>(trials<span class="op">$</span>past_donations, <span class="dt">na.rm =</span> T))) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">replace_na</span>(<span class="kw">list</span>(<span class="dt">age =</span> <span class="kw">mean</span>(trials<span class="op">$</span>age, <span class="dt">na.rm =</span> T)))
+
+trials &lt;-<span class="st"> </span>trials <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">age.z =</span> (age <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(age)) <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(age)),
+    <span class="dt">past_donations.z =</span> (past_donations <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(past_donations)) <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">sd</span>(past_donations))
+  )</code></pre></div>
+<p>There are a total of 4502 observations.</p>
+<p>Define a common formula used throughout which includes all of the primary covariates, including the patient sex condition.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">base.formula &lt;-<span class="st"> </span><span class="kw">formula</span>( <span class="op">~</span><span class="st"> </span>cond_sex <span class="op">+</span><span class="st"> </span>self_cancer <span class="op">+</span><span class="st"> </span>ff_cancer <span class="op">+</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>socioeconomic <span class="op">+</span><span class="st"> </span>past_donations.z <span class="op">+</span><span class="st"> </span>age.z)</code></pre></div>
+</div>
+<div id="build-custom-functions" class="section level2">
+<h2><span class="header-section-number">1.3</span> Build Custom Functions</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># pretty printing summary contingency tables</span>
+print_crosstabs &lt;-<span class="st"> </span><span class="cf">function</span>(tab) {
+  <span class="kw">print</span>(tab)
+  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
+  <span class="kw">print</span>(<span class="kw">round</span>(<span class="kw">prop.table</span>(tab), <span class="dv">3</span>))
+}
+
+pvalue_show_summary &lt;-<span class="st"> </span><span class="fl">0.1</span>
+
+compare_lm &lt;-<span class="st"> </span><span class="cf">function</span> (base, full, <span class="dt">force_summary =</span> F) {
+  a &lt;-<span class="st"> </span><span class="kw">anova</span>(base, full, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)
+  <span class="kw">print</span>(a)
+  <span class="kw">print</span>(<span class="kw">cat</span>(<span class="st">&quot;Chisq Stat: &quot;</span>, <span class="kw">as.numeric</span>(<span class="kw">round</span>(<span class="dv">2</span><span class="op">*</span>(<span class="kw">logLik</span>(full) <span class="op">-</span><span class="st"> </span><span class="kw">logLik</span>(base)), <span class="dv">3</span>)), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  
+  <span class="cf">if</span> (a[<span class="st">&quot;Pr(&gt;Chi)&quot;</span>][[<span class="dv">1</span>]][<span class="dv">2</span>] <span class="op">&lt;</span><span class="st"> </span>pvalue_show_summary <span class="op">|</span><span class="st"> </span>force_summary) {
+    <span class="kw">print</span>(<span class="kw">summ</span>(full, <span class="dt">confint =</span> T, <span class="dt">digits =</span> <span class="dv">3</span>))
+  }
+}</code></pre></div>
+</div>
+<div id="set-custom-plot-themes" class="section level2">
+<h2><span class="header-section-number">1.4</span> Set Custom Plot Themes</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># font_add(&quot;Avenir&quot;, &quot;/System/Library/Fonts/Avenir.ttc&quot;)</span>
+<span class="co"># showtext_auto()</span>
+
+<span class="co"># Rmd interactive theme</span>
+itheme &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">theme_minimal</span>(), <span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Dark2&quot;</span>))
+
+<span class="co"># Presentation theme</span>
+ptheme &lt;-<span class="st"> </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(
+  <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;transparent&quot;</span>, <span class="dt">color =</span> <span class="ot">NA</span>),
+  <span class="dt">plot.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;transparent&quot;</span>, <span class="dt">color =</span> <span class="ot">NA</span>),
+  <span class="dt">legend.key =</span> <span class="kw">element_blank</span>(),
+  <span class="dt">legend.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;transparent&quot;</span>, <span class="dt">color =</span> <span class="ot">NA</span>),
+  <span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">family =</span> <span class="st">&quot;Avenir&quot;</span>)
+)
+
+pwidth =<span class="st"> </span><span class="fl">6.5</span>
+pheight =<span class="st"> </span><span class="dv">3</span></code></pre></div>
+<p>Custom ggPlot elements which are used often</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">geom_errorbars &lt;-<span class="st"> </span><span class="kw">list</span>(
+  <span class="kw">stat_summary</span>(<span class="dt">fun.data =</span> mean_se, <span class="dt">geom =</span> <span class="st">&quot;errorbar&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.35</span>), <span class="dt">width =</span> <span class="fl">0.2</span>), 
+  <span class="kw">stat_summary</span>(<span class="dt">fun.data =</span> mean_se, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">shape =</span> <span class="dv">5</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.35</span>)))</code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="overview.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["book.pdf", "book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

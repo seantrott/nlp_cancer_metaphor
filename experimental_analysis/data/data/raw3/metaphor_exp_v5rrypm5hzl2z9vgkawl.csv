@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,4910,consent.html,external-html,0,5105,0.0-0.0,v5rrypm5hzl2z9vgkawl,female,journey,,,,,,
+1,7172,,image-button-response,1,12287,0.0-1.0,v5rrypm5hzl2z9vgkawl,female,journey,check-1.png,1.0,check1,,,
+2,4070,,image-button-response,2,16364,0.0-2.0,v5rrypm5hzl2z9vgkawl,female,journey,check-2.png,2.0,check2,,,
+3,25214,,instructions,3,41581,0.0-3.0,v5rrypm5hzl2z9vgkawl,female,journey,,,,"[{""page_index"":0,""viewing_time"":9230},{""page_index"":1,""viewing_time"":11414},{""page_index"":2,""viewing_time"":3430},{""page_index"":3,""viewing_time"":1138}]",,
+4,69120,,html-slider-response,4,110708,0.0-4.0,v5rrypm5hzl2z9vgkawl,female,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_journey.png"" class=""main-trial""/>",,trial,,5.0,
+5,47092,,survey-text,5,157806,0.0-5.0,v5rrypm5hzl2z9vgkawl,female,journey,,,description,,,"{""Q0"":""She had thyroid surgery a d now has lymphoma and may require aggressive treatment. Said treatment can be costly and brutal.""}"
+6,6076,,survey-likert,6,163889,0.0-6.0-0.0,v5rrypm5hzl2z9vgkawl,female,journey,,,sympathy,,,"{""Q0"":5}"
+7,3351,,survey-likert,7,167247,0.0-6.0-1.0,v5rrypm5hzl2z9vgkawl,female,journey,,,urgent,,,"{""Q0"":6}"
+8,6243,,survey-text,8,173496,0.0-7.0,v5rrypm5hzl2z9vgkawl,female,journey,,,past-donations,,,"{""Q0"":""1""}"
+9,4095,,survey-multi-choice,9,177600,0.0-8.0-0.0,v5rrypm5hzl2z9vgkawl,female,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2964,,survey-multi-choice,10,180571,0.0-8.0-1.0,v5rrypm5hzl2z9vgkawl,female,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,10706,,survey-multi-choice,11,191303,0.0-9.0,v5rrypm5hzl2z9vgkawl,female,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,4990,,survey-text,12,196297,0.0-10.0,v5rrypm5hzl2z9vgkawl,female,journey,,,age,,,"{""Q0"":""33""}"
+13,6823,,survey-text,13,203123,0.0-11.0,v5rrypm5hzl2z9vgkawl,female,journey,,,purpose,,,"{""Q0"":""Don't know""}"
+14,4162,,survey-text,14,207289,0.0-12.0,v5rrypm5hzl2z9vgkawl,female,journey,,,feedback,,,"{""Q0"":""No""}"
+15,3046,debrief.html,external-html,15,210909,0.0-13.0,v5rrypm5hzl2z9vgkawl,female,journey,,,,,,

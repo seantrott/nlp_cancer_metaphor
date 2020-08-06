@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Data Overview | Metaphors on Charitable Donations</title>
+  <meta name="description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Data Overview | Metaphors on Charitable Donations" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Data Overview | Metaphors on Charitable Donations" />
+  
+  <meta name="twitter:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  
+
+<meta name="author" content="Alex Liebscher" />
+
+
+<meta name="date" content="2020-06-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="metaphors.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Metaphors on Charitable Donations</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#load-libraries"><i class="fa fa-check"></i><b>1.1</b> Load Libraries</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#load-data"><i class="fa fa-check"></i><b>1.2</b> Load Data</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#build-custom-functions"><i class="fa fa-check"></i><b>1.3</b> Build Custom Functions</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#set-custom-plot-themes"><i class="fa fa-check"></i><b>1.4</b> Set Custom Plot Themes</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>2</b> Data Overview</a><ul>
+<li class="chapter" data-level="2.1" data-path="overview.html"><a href="overview.html#tabular-summaries"><i class="fa fa-check"></i><b>2.1</b> Tabular Summaries</a></li>
+<li class="chapter" data-level="2.2" data-path="overview.html"><a href="overview.html#visualization-summaries"><i class="fa fa-check"></i><b>2.2</b> Visualization Summaries</a></li>
+<li class="chapter" data-level="2.3" data-path="overview.html"><a href="overview.html#duration-statistics"><i class="fa fa-check"></i><b>2.3</b> Duration Statistics</a></li>
+<li class="chapter" data-level="2.4" data-path="overview.html"><a href="overview.html#coarse-donation-behavior"><i class="fa fa-check"></i><b>2.4</b> Coarse Donation Behavior</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="metaphors.html"><a href="metaphors.html"><i class="fa fa-check"></i><b>3</b> Metaphors</a><ul>
+<li class="chapter" data-level="3.1" data-path="metaphors.html"><a href="metaphors.html#immediate-alternative-questions"><i class="fa fa-check"></i><b>3.1</b> Immediate Alternative Questions</a></li>
+<li class="chapter" data-level="3.2" data-path="metaphors.html"><a href="metaphors.html#coarse-donation-groups"><i class="fa fa-check"></i><b>3.2</b> Coarse Donation Groups</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-wide-donation-group"><i class="fa fa-check"></i><b>3.2.1</b> Metaphor Condition and Presence on Likelihood of Wide Donation Group</a></li>
+<li class="chapter" data-level="3.2.2" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-narrow-donation-group"><i class="fa fa-check"></i><b>3.2.2</b> Metaphor Condition and Presence on Likelihood of Narrow Donation Group</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="metaphors.html"><a href="metaphors.html#broader-alternative-questions"><i class="fa fa-check"></i><b>3.3</b> Broader Alternative Questions</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="metaphors.html"><a href="metaphors.html#gaussian-mixture-model"><i class="fa fa-check"></i><b>3.3.1</b> Gaussian Mixture Model</a></li>
+<li class="chapter" data-level="3.3.2" data-path="metaphors.html"><a href="metaphors.html#decision-tree"><i class="fa fa-check"></i><b>3.3.2</b> Decision Tree</a></li>
+<li class="chapter" data-level="3.3.3" data-path="metaphors.html"><a href="metaphors.html#random-forest-regression"><i class="fa fa-check"></i><b>3.3.3</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="3.3.4" data-path="metaphors.html"><a href="metaphors.html#xgboost"><i class="fa fa-check"></i><b>3.3.4</b> xgboost</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="metaphors.html"><a href="metaphors.html#gams"><i class="fa fa-check"></i><b>3.4</b> GAMs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html"><i class="fa fa-check"></i><b>4</b> Sympathy and Urgency</a><ul>
+<li class="chapter" data-level="4.1" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#sympathy"><i class="fa fa-check"></i><b>4.1</b> Sympathy</a></li>
+<li class="chapter" data-level="4.2" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#urgency"><i class="fa fa-check"></i><b>4.2</b> Urgency</a></li>
+<li class="chapter" data-level="4.3" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-sympathy"><i class="fa fa-check"></i><b>4.3</b> Metaphor on Sympathy</a></li>
+<li class="chapter" data-level="4.4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-urgency"><i class="fa fa-check"></i><b>4.4</b> Metaphor on Urgency</a></li>
+<li class="chapter" data-level="4.5" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-sympathy"><i class="fa fa-check"></i><b>4.5</b> Cancer Experience on Sympathy</a></li>
+<li class="chapter" data-level="4.6" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-urgency"><i class="fa fa-check"></i><b>4.6</b> Cancer Experience on Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="demographics.html"><a href="demographics.html"><i class="fa fa-check"></i><b>5</b> Demographics</a><ul>
+<li class="chapter" data-level="5.1" data-path="demographics.html"><a href="demographics.html#patient-gender"><i class="fa fa-check"></i><b>5.1</b> Patient Gender</a></li>
+<li class="chapter" data-level="5.2" data-path="demographics.html"><a href="demographics.html#gender"><i class="fa fa-check"></i><b>5.2</b> Gender</a></li>
+<li class="chapter" data-level="5.3" data-path="demographics.html"><a href="demographics.html#gender-congruency-effects"><i class="fa fa-check"></i><b>5.3</b> Gender Congruency Effects</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="demographics.html"><a href="demographics.html#gender-congruence-on-sympathy"><i class="fa fa-check"></i><b>5.3.1</b> Gender Congruence on Sympathy</a></li>
+<li class="chapter" data-level="5.3.2" data-path="demographics.html"><a href="demographics.html#gender-congruence-on-urgency"><i class="fa fa-check"></i><b>5.3.2</b> Gender Congruence on Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="demographics.html"><a href="demographics.html#self-cancer"><i class="fa fa-check"></i><b>5.4</b> Self Cancer</a></li>
+<li class="chapter" data-level="5.5" data-path="demographics.html"><a href="demographics.html#friends-and-family-cancer"><i class="fa fa-check"></i><b>5.5</b> Friends and Family Cancer</a></li>
+<li class="chapter" data-level="5.6" data-path="demographics.html"><a href="demographics.html#education"><i class="fa fa-check"></i><b>5.6</b> Education</a></li>
+<li class="chapter" data-level="5.7" data-path="demographics.html"><a href="demographics.html#socioeconomics"><i class="fa fa-check"></i><b>5.7</b> Socioeconomics</a></li>
+<li class="chapter" data-level="5.8" data-path="demographics.html"><a href="demographics.html#past-donations"><i class="fa fa-check"></i><b>5.8</b> Past Donations</a></li>
+<li class="chapter" data-level="5.9" data-path="demographics.html"><a href="demographics.html#age"><i class="fa fa-check"></i><b>5.9</b> Age</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="descriptions.html"><a href="descriptions.html"><i class="fa fa-check"></i><b>6</b> Descriptions</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="descriptions.html"><a href="descriptions.html#quality"><i class="fa fa-check"></i><b>6.0.1</b> Quality</a></li>
+<li class="chapter" data-level="6.0.2" data-path="descriptions.html"><a href="descriptions.html#metaphor"><i class="fa fa-check"></i><b>6.0.2</b> Metaphor</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="response-times.html"><a href="response-times.html"><i class="fa fa-check"></i><b>7</b> Response Times</a><ul>
+<li class="chapter" data-level="7.1" data-path="response-times.html"><a href="response-times.html#main-stimulus-timing"><i class="fa fa-check"></i><b>7.1</b> Main Stimulus Timing</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="response-times.html"><a href="response-times.html#relationship-with-metaphor-condition"><i class="fa fa-check"></i><b>7.1.1</b> Relationship with Metaphor Condition</a></li>
+<li class="chapter" data-level="7.1.2" data-path="response-times.html"><a href="response-times.html#continuous-rt"><i class="fa fa-check"></i><b>7.1.2</b> Continuous RT</a></li>
+<li class="chapter" data-level="7.1.3" data-path="response-times.html"><a href="response-times.html#discretized-rt"><i class="fa fa-check"></i><b>7.1.3</b> Discretized RT</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="response-times.html"><a href="response-times.html#experiment-content-timing"><i class="fa fa-check"></i><b>7.2</b> Experiment Content Timing</a></li>
+<li class="chapter" data-level="7.3" data-path="response-times.html"><a href="response-times.html#experiment-timing"><i class="fa fa-check"></i><b>7.3</b> Experiment Timing</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="mediation.html"><a href="mediation.html"><i class="fa fa-check"></i><b>8</b> Mediation</a><ul>
+<li class="chapter" data-level="8.1" data-path="mediation.html"><a href="mediation.html#any-metaphor-to-literal-condition"><i class="fa fa-check"></i><b>8.1</b> Any Metaphor to Literal condition</a></li>
+<li class="chapter" data-level="8.2" data-path="mediation.html"><a href="mediation.html#battle-to-literal-condition"><i class="fa fa-check"></i><b>8.2</b> Battle to Literal condition</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="mediation.html"><a href="mediation.html#sympathy-1"><i class="fa fa-check"></i><b>8.2.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.2.2" data-path="mediation.html"><a href="mediation.html#urgency-1"><i class="fa fa-check"></i><b>8.2.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="mediation.html"><a href="mediation.html#journey-to-literal-condition"><i class="fa fa-check"></i><b>8.3</b> Journey to Literal condition</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="mediation.html"><a href="mediation.html#sympathy-2"><i class="fa fa-check"></i><b>8.3.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.3.2" data-path="mediation.html"><a href="mediation.html#urgency-2"><i class="fa fa-check"></i><b>8.3.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="mediation.html"><a href="mediation.html#battle-to-journey-condition"><i class="fa fa-check"></i><b>8.4</b> Battle to Journey condition</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="mediation.html"><a href="mediation.html#sympathy-3"><i class="fa fa-check"></i><b>8.4.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.4.2" data-path="mediation.html"><a href="mediation.html#urgency-3"><i class="fa fa-check"></i><b>8.4.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="mediation.html"><a href="mediation.html#summary"><i class="fa fa-check"></i><b>8.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>9</b> Introduction</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Metaphors on Charitable Donations</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="overview" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Data Overview</h1>
+<div id="tabular-summaries" class="section level2">
+<h2><span class="header-section-number">2.1</span> Tabular Summaries</h2>
+<p>Contingency table: Metaphor Condition x Sex Condition</p>
+<pre><code>##               cond_sex male female
+## cond_metaphor                     
+## literal                 744    787
+## battle                  742    741
+## journey                 706    782
+## 
+##               cond_sex  male female
+## cond_metaphor                      
+## literal                0.165  0.175
+## battle                 0.165  0.165
+## journey                0.157  0.174</code></pre>
+<p>Contingency table: Participant Gender x Sex Condition</p>
+<pre><code>##        cond_sex male female
+## gender                     
+## M               1174   1186
+## F               1003   1102
+## NB                13     12
+## OO                 2     10
+## 
+##        cond_sex  male female
+## gender                      
+## M               0.261  0.263
+## F               0.223  0.245
+## NB              0.003  0.003
+## OO              0.000  0.002</code></pre>
+<p>Proportion under each gender</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">prop.table</span>(<span class="kw">table</span>(trials<span class="op">$</span>gender))<span class="op">*</span><span class="dv">100</span></code></pre></div>
+<pre><code>## 
+##          M          F         NB         OO 
+## 52.4211462 46.7569969  0.5553088  0.2665482</code></pre>
+<p>Contingency table: Self-Cancer Treatment x Friends/Family-Cancer Treatment</p>
+<pre><code>##             ff_cancer    N    Y   OO
+## self_cancer                         
+## N                     1521 2670   68
+## Y                       21  178    1
+## OO                       9   18   16
+## 
+##             ff_cancer     N     Y    OO
+## self_cancer                            
+## N                     0.338 0.593 0.015
+## Y                     0.005 0.040 0.000
+## OO                    0.002 0.004 0.004</code></pre>
+<p>Contingency table: Education achievement</p>
+<pre><code>##   &lt;HS   HS    A    B    M    P    D   OO
+##                                         
+##    25  983  518 2098  651  121   87   19
+## 
+##    &lt;HS    HS     A     B     M     P     D    OO
+##                                                 
+##  0.006 0.218 0.115 0.466 0.145 0.027 0.019 0.004</code></pre>
+<p>Contingency table: Socioeconomic status</p>
+<pre><code>##  &lt;10k 10-25k 25-50k 50-75k 75-100k 100-150k &gt;150k   OO
+##                                                       
+##   609    673   1188    943     520      324   126  119
+## 
+##   &lt;10k 10-25k 25-50k 50-75k 75-100k 100-150k &gt;150k    OO
+##                                                         
+##  0.135  0.149  0.264  0.209   0.116    0.072 0.028 0.026</code></pre>
+<p>Summary statistics of participant age and self-reported past donations (trailing 12-months)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(trials<span class="op">$</span>age)</code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   18.00   27.25   34.00   37.19   45.00   84.00</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(trials<span class="op">$</span>past_donations)</code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    1.00    2.00    4.94    5.00  120.00</code></pre>
+<p>Average participant was 34 years old and had given 2 donations in the past 12-months.</p>
+<p>A quick summary statistic of donations for the presence of metaphor and each metaphor condition.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(trials, <span class="kw">tapply</span>(donation, cond_anymet, summary))</code></pre></div>
+<pre><code>## $`FALSE`
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   10.00   25.00   23.41   38.00   50.00 
+## 
+## $`TRUE`
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   10.00   25.00   23.59   35.00   50.00</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(trials, <span class="kw">tapply</span>(donation, cond_metaphor, summary))</code></pre></div>
+<pre><code>## $literal
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   10.00   25.00   23.41   38.00   50.00 
+## 
+## $battle
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   10.00   25.00   24.11   38.00   50.00 
+## 
+## $journey
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   10.00   25.00   23.08   35.00   50.00</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cm &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>past_donations <span class="op">+</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>self_cancer <span class="op">+</span><span class="st"> </span>ff_cancer <span class="op">+</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>socioeconomic <span class="op">+</span><span class="st"> </span>sympathy <span class="op">+</span><span class="st"> </span>urgent, <span class="dt">data=</span>trials) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">cor</span>(<span class="dt">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>)
+
+<span class="kw">rownames</span>(cm) &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">paste</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(cm), <span class="st">&quot;.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>), <span class="kw">rownames</span>(cm))
+<span class="kw">colnames</span>(cm) &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(cm)
+
+<span class="kw">heatmap</span>(cm, <span class="dt">symm =</span> T, <span class="dt">margins =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">Rowv =</span> <span class="ot">NA</span>,  <span class="dt">col =</span> <span class="kw">colorRampPalette</span>(<span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;red&quot;</span>))(<span class="dv">20</span>))</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>There don’t appear to be any strong inter-variable correlations (naturally, we do see some strong intra-variable correlations, e.g. male gender and female gender).</p>
+</div>
+<div id="visualization-summaries" class="section level2">
+<h2><span class="header-section-number">2.2</span> Visualization Summaries</h2>
+<p>Visualize the distributions of the conditions and demographic variables against donation amounts</p>
+<pre><code>## Scale for &#39;colour&#39; is already present. Adding another scale for &#39;colour&#39;,
+## which will replace the existing scale.</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>## Scale for &#39;colour&#39; is already present. Adding another scale for &#39;colour&#39;,
+## which will replace the existing scale.</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>## Scale for &#39;colour&#39; is already present. Adding another scale for &#39;colour&#39;,
+## which will replace the existing scale.</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># g = ggplot(trials) + ptheme +</span>
+<span class="co">#   theme(axis.ticks = element_line(color = &quot;white&quot;)) + </span>
+<span class="co">#   geom_line(aes(donation, linetype=cond_metaphor), stat = &quot;density&quot;) +</span>
+<span class="co">#   scale_linetype_manual(values = c(1,2,9), labels = c(&quot;literal&quot; = &quot;Literal&quot;, &quot;battle&quot; = &quot;Battle&quot;, &quot;journey&quot; = &quot;Journey&quot;)) +</span>
+<span class="co">#   scale_x_continuous(labels = scales::dollar) +</span>
+<span class="co">#   coord_cartesian(ylim = c(0.01, 0.028)) +</span>
+<span class="co">#   labs(x = &quot;Donation Amount&quot;, y = &quot;Density&quot;, linetype = element_blank(), title = element_blank())</span>
+<span class="co"># </span>
+<span class="co"># g</span>
+<span class="co"># ggsave(&quot;metaphor_donation_density.png&quot;, g, width = pwidth, height = 2.7, bg = &quot;transparent&quot;)</span></code></pre></div>
+<pre><code>## Scale for &#39;colour&#39; is already present. Adding another scale for &#39;colour&#39;,
+## which will replace the existing scale.</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>## Scale for &#39;colour&#39; is already present. Adding another scale for &#39;colour&#39;,
+## which will replace the existing scale.</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>## Scale for &#39;colour&#39; is already present. Adding another scale for &#39;colour&#39;,
+## which will replace the existing scale.</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>## Scale for &#39;colour&#39; is already present. Adding another scale for &#39;colour&#39;,
+## which will replace the existing scale.</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>## Scale for &#39;colour&#39; is already present. Adding another scale for &#39;colour&#39;,
+## which will replace the existing scale.</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book_files/figure-html/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="book_files/figure-html/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="duration-statistics" class="section level2">
+<h2><span class="header-section-number">2.3</span> Duration Statistics</h2>
+<p>How long did participants spend on the main stimulus and overall?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(trials<span class="op">$</span>rt_trial) <span class="op">/</span><span class="st"> </span>(<span class="dv">1000</span>) <span class="co"># in seconds</span></code></pre></div>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+##    5.061   26.910   45.617   59.734   71.748 3598.752</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(trials<span class="op">$</span>total_time) <span class="op">/</span><span class="st"> </span>(<span class="dv">1000</span><span class="op">*</span><span class="dv">60</span>) <span class="co"># in minutes</span></code></pre></div>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+##   0.8248   3.1474   4.4327   5.5344   6.4385 110.5542</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(trials) <span class="op">+</span><span class="st"> </span>itheme <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(total_time<span class="op">/</span>(<span class="dv">1000</span><span class="op">*</span><span class="dv">60</span>))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Total Duration (mins)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Density&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Total Duration Distribution&quot;</span>)</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>Participants spent a median time of 45.6 seconds on the main stimulus and a median time of 4.43 minutes overall.</p>
+<p>Take a look at the fastest and slowest participants to see if they are completely unreasonable outliers</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># only useful when run interactively as an Rmd</span>
+<span class="co"># trials %&gt;% arrange(rt_trial) %&gt;% head()</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># only useful when run interactively as an Rmd</span>
+<span class="co"># trials %&gt;% arrange(desc(rt_trial)) %&gt;% head()</span></code></pre></div>
+<p>Some of the responses do look a little fishy, but excluding them would be nontrivial. Perhaps set aside for future work.</p>
+</div>
+<div id="coarse-donation-behavior" class="section level2">
+<h2><span class="header-section-number">2.4</span> Coarse Donation Behavior</h2>
+<p>First, the count and proportion of participants, grouped by gender, then sex condition, then metaphor condition, with donations at three natural breaks: $0, $25, and $50. These natural breaks (minimum, default/middle, maximum) might signal certain behavior (e.g. people often giving nothing, staying with the default value).</p>
+<p>Summary statistics of donation amounts:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(trials<span class="op">$</span>donation)</code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   10.00   25.00   23.53   35.00   50.00</code></pre>
+<p>The mean donation was $23.53 and the median was $25. However, the donation distribution plot above appears to be somewhat trimodal, so this statistics may be unreliable.</p>
+<p>Participants, by demand of the experiment, may have had mental representations of possible donations, perhaps small, medium, and large amounts. These may correspond to standard values, falling onto certain donation values. Based on inspection, participants tended to go toward donations at $5 increments. Therefore, the smallest standard values they may donate were $0 and $5. The medium standard values were $20, $25, and $30, surround the defaut value of $25. The large standard values were $45 and $50.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials<span class="op">$</span>donation_narrow_group =<span class="st"> &quot;&quot;</span>
+
+trials[trials<span class="op">$</span>donation <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="st">&quot;donation_narrow_group&quot;</span>] =<span class="st"> &quot;small&quot;</span>
+<span class="kw">cat</span>(<span class="st">&quot;Proportion of small donations: &quot;</span>, <span class="kw">round</span>(<span class="kw">mean</span>(trials<span class="op">$</span>donation_narrow_group <span class="op">==</span><span class="st"> &quot;small&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</code></pre></div>
+<pre><code>## Proportion of small donations:  0.18</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials[trials<span class="op">$</span>donation <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">30</span>), <span class="st">&quot;donation_narrow_group&quot;</span>] =<span class="st"> &quot;medium&quot;</span>
+<span class="kw">cat</span>(<span class="st">&quot;Proportion of medium donations: &quot;</span>, <span class="kw">round</span>(<span class="kw">mean</span>(trials<span class="op">$</span>donation_narrow_group <span class="op">==</span><span class="st"> &quot;medium&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</code></pre></div>
+<pre><code>## Proportion of medium donations:  0.288</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials[trials<span class="op">$</span>donation <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">45</span>, <span class="dv">50</span>), <span class="st">&quot;donation_narrow_group&quot;</span>] =<span class="st"> &quot;large&quot;</span>
+<span class="kw">cat</span>(<span class="st">&quot;Proportion of large donations: &quot;</span>, <span class="kw">round</span>(<span class="kw">mean</span>(trials<span class="op">$</span>donation_narrow_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</code></pre></div>
+<pre><code>## Proportion of large donations:  0.151</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># the proportion of participants who donated one of the above amounts</span>
+<span class="kw">with</span>(trials, <span class="kw">mean</span>(trials<span class="op">$</span>donation_narrow_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;large&quot;</span>)))</code></pre></div>
+<pre><code>## [1] 0.6192803</code></pre>
+<p>18% of participants donated one of the coarse small donation amounts ($0 and $5). 29% of participants donated one of the coarse medium donation amounts ($20, $25, $30). 15% of participants donated one of the coarse large donation amounts ($45 and $50).</p>
+<p>In total, 62% of participants donated one of these coarse donations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(donation_narrow_group, <span class="dt">fill =</span> cond_metaphor)) <span class="op">+</span><span class="st"> </span>itheme <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>()) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Number of Standard Donations given Metaphor Condition&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;e.g. </span><span class="ch">\&quot;</span><span class="st">small</span><span class="ch">\&quot;</span><span class="st"> donations are $0 or $5&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Donation Group&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;# of Participants&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Pastel1&quot;</span>)</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p>Metaphor may dictate small differences here between groups of standard donations, we’ll model these in a bit.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="metaphors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["book.pdf", "book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

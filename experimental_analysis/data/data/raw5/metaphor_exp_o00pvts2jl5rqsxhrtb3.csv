@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,14951,consent.html,external-html,0,15234,0.0-0.0,o00pvts2jl5rqsxhrtb3,male,journey,,,,,,
+1,2888,,image-button-response,1,18132,0.0-1.0,o00pvts2jl5rqsxhrtb3,male,journey,check-1.png,1.0,check1,,,
+2,4819,,image-button-response,2,22955,0.0-2.0,o00pvts2jl5rqsxhrtb3,male,journey,check-2.png,2.0,check2,,,
+3,54807,,instructions,3,77764,0.0-3.0,o00pvts2jl5rqsxhrtb3,male,journey,,,,"[{""page_index"":0,""viewing_time"":6116},{""page_index"":1,""viewing_time"":38879},{""page_index"":2,""viewing_time"":7689},{""page_index"":3,""viewing_time"":2121}]",,
+4,28963,,html-slider-response,4,106734,0.0-4.0,o00pvts2jl5rqsxhrtb3,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,31.0,
+5,46469,,survey-text,5,153207,0.0-5.0,o00pvts2jl5rqsxhrtb3,male,journey,,,description,,,"{""Q0"":""HE WAS IN PROBLEM AND WE MUST HELP THEM AND GIVE A DONATION TO THEM ""}"
+6,4282,,survey-likert,6,157497,0.0-6.0-0.0,o00pvts2jl5rqsxhrtb3,male,journey,,,urgent,,,"{""Q0"":4}"
+7,3611,,survey-likert,7,161116,0.0-6.0-1.0,o00pvts2jl5rqsxhrtb3,male,journey,,,sympathy,,,"{""Q0"":3}"
+8,7421,,survey-text,8,168541,0.0-7.0,o00pvts2jl5rqsxhrtb3,male,journey,,,past-donations,,,"{""Q0"":""2""}"
+9,5261,,survey-multi-choice,9,173812,0.0-8.0-0.0,o00pvts2jl5rqsxhrtb3,male,journey,,,ff-cancer,,,"{""Q0"":""No""}"
+10,4126,,survey-multi-choice,10,177947,0.0-8.0-1.0,o00pvts2jl5rqsxhrtb3,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,21017,,survey-multi-choice,11,199045,0.0-9.0,o00pvts2jl5rqsxhrtb3,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,7003,,survey-text,12,206052,0.0-10.0,o00pvts2jl5rqsxhrtb3,male,journey,,,age,,,"{""Q0"":""28""}"
+13,5645,,survey-text,13,211701,0.0-11.0,o00pvts2jl5rqsxhrtb3,male,journey,,,purpose,,,"{""Q0"":""""}"
+14,2641,,survey-text,14,214345,0.0-12.0,o00pvts2jl5rqsxhrtb3,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,20971,debrief.html,external-html,15,235629,0.0-13.0,o00pvts2jl5rqsxhrtb3,male,journey,,,,,,

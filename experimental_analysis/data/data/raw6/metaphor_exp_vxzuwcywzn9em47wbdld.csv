@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,62949,consent.html,external-html,0,63076,0.0-0.0,vxzuwcywzn9em47wbdld,male,battle,,,,,,
+1,5419,,image-button-response,1,68503,0.0-1.0,vxzuwcywzn9em47wbdld,male,battle,check-1.png,1.0,check1,,,
+2,6697,,image-button-response,2,75203,0.0-2.0,vxzuwcywzn9em47wbdld,male,battle,check-2.png,2.0,check2,,,
+3,83343,,instructions,3,158548,0.0-3.0,vxzuwcywzn9em47wbdld,male,battle,,,,"[{""page_index"":0,""viewing_time"":18149},{""page_index"":1,""viewing_time"":44739},{""page_index"":2,""viewing_time"":17576},{""page_index"":3,""viewing_time"":2878}]",,
+4,104994,,html-slider-response,4,263546,0.0-4.0,vxzuwcywzn9em47wbdld,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_mb.png"" class=""main-trial""/>",,trial,,20.0,
+5,143997,,survey-text,5,407548,0.0-5.0,vxzuwcywzn9em47wbdld,male,battle,,,description,,,"{""Q0"":""Jason is struggling with cancer and is having diffcuitly in meeting money obligations. Therefore he is in need of life-saving chemo to help him through in combating this disease.""}"
+6,41361,,survey-likert,6,448913,0.0-6.0-0.0,vxzuwcywzn9em47wbdld,male,battle,,,urgent,,,"{""Q0"":4}"
+7,18888,,survey-likert,7,467804,0.0-6.0-1.0,vxzuwcywzn9em47wbdld,male,battle,,,sympathy,,,"{""Q0"":4}"
+8,9648,,survey-text,8,477455,0.0-7.0,vxzuwcywzn9em47wbdld,male,battle,,,past-donations,,,"{""Q0"":""1""}"
+9,7060,,survey-multi-choice,9,484521,0.0-8.0-0.0,vxzuwcywzn9em47wbdld,male,battle,,,ff-cancer,,,"{""Q0"":""No""}"
+10,4830,,survey-multi-choice,10,489355,0.0-8.0-1.0,vxzuwcywzn9em47wbdld,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+11,21739,,survey-multi-choice,11,511109,0.0-9.0,vxzuwcywzn9em47wbdld,male,battle,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,8876,,survey-text,12,519987,0.0-10.0,vxzuwcywzn9em47wbdld,male,battle,,,age,,,"{""Q0"":""36""}"
+13,96829,,survey-text,13,616818,0.0-11.0,vxzuwcywzn9em47wbdld,male,battle,,,purpose,,,"{""Q0"":""Imo compassion for another human being but also greed of the terms of donating but getting some money back in the process of donating. In terms of what do I get for giving""}"
+14,39386,,survey-text,14,656206,0.0-12.0,vxzuwcywzn9em47wbdld,male,battle,,,feedback,,,"{""Q0"":""Interesting survey because the way it is presented one could believe they will actually get a bonus from the 50.00""}"
+15,39519,debrief.html,external-html,15,696119,0.0-13.0,vxzuwcywzn9em47wbdld,male,battle,,,,,,

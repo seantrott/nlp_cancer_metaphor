@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,30868,consent.html,external-html,0,31308,0.0-0.0,gvwqz8z30u74t4jzef1h,female,literal,,,,,,
+1,8907,,image-button-response,1,40222,0.0-1.0,gvwqz8z30u74t4jzef1h,female,literal,check-1.png,1.0,check1,,,
+2,256629,,image-button-response,2,296853,0.0-2.0,gvwqz8z30u74t4jzef1h,female,literal,check-2.png,2.0,check2,,,
+3,86358,,instructions,3,383213,0.0-3.0,gvwqz8z30u74t4jzef1h,female,literal,,,,"[{""page_index"":0,""viewing_time"":17310},{""page_index"":1,""viewing_time"":29535},{""page_index"":2,""viewing_time"":36872},{""page_index"":3,""viewing_time"":2640}]",,
+4,446476,,html-slider-response,4,829693,0.0-4.0,gvwqz8z30u74t4jzef1h,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,35.0,
+5,148281,,survey-text,5,977977,0.0-5.0,gvwqz8z30u74t4jzef1h,female,literal,,,description,,,"{""Q0"":""My friend Jennifer who is so dear to me and anyone who has met her in the past knows that she has a heart of gold, is sick.  ""}"
+6,30226,,survey-likert,6,1008206,0.0-6.0-0.0,gvwqz8z30u74t4jzef1h,female,literal,,,sympathy,,,"{""Q0"":6}"
+7,10220,,survey-likert,7,1018430,0.0-6.0-1.0,gvwqz8z30u74t4jzef1h,female,literal,,,urgent,,,"{""Q0"":6}"
+8,10004,,survey-text,8,1028437,0.0-7.0,gvwqz8z30u74t4jzef1h,female,literal,,,past-donations,,,"{""Q0"":""3""}"
+9,15141,,survey-multi-choice,9,1043582,0.0-8.0-0.0,gvwqz8z30u74t4jzef1h,female,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+10,3875,,survey-multi-choice,10,1047461,0.0-8.0-1.0,gvwqz8z30u74t4jzef1h,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,12631,,survey-multi-choice,11,1060101,0.0-9.0,gvwqz8z30u74t4jzef1h,female,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$100,000 through $149,999"",""Q3"":""Yes""}"
+12,7250,,survey-text,12,1067355,0.0-10.0,gvwqz8z30u74t4jzef1h,female,literal,,,age,,,"{""Q0"":""39""}"
+13,101965,,survey-text,13,1169321,0.0-11.0,gvwqz8z30u74t4jzef1h,female,literal,,,purpose,,,"{""Q0"":""PERCEPTIONS ON DONATIONS ""}"
+14,5606,,survey-text,14,1174929,0.0-12.0,gvwqz8z30u74t4jzef1h,female,literal,,,feedback,,,"{""Q0"":""NONE""}"
+15,85977,debrief.html,external-html,15,1276311,0.0-13.0,gvwqz8z30u74t4jzef1h,female,literal,,,,,,

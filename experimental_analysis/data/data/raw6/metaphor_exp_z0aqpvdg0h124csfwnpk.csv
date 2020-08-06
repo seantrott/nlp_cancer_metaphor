@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,9712,consent.html,external-html,0,9877,0.0-0.0,z0aqpvdg0h124csfwnpk,female,literal,,,,,,
+1,2247,,image-button-response,1,12130,0.0-1.0,z0aqpvdg0h124csfwnpk,female,literal,check-1.png,1.0,check1,,,
+2,2866,,image-button-response,2,14998,0.0-2.0,z0aqpvdg0h124csfwnpk,female,literal,check-2.png,2.0,check2,,,
+3,34569,,instructions,3,49572,0.0-3.0,z0aqpvdg0h124csfwnpk,female,literal,,,,"[{""page_index"":0,""viewing_time"":5778},{""page_index"":1,""viewing_time"":15155},{""page_index"":2,""viewing_time"":12193},{""page_index"":3,""viewing_time"":1442}]",,
+4,16974,,html-slider-response,4,66551,0.0-4.0,z0aqpvdg0h124csfwnpk,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,2.0,
+5,16953,,survey-text,5,83507,0.0-5.0,z0aqpvdg0h124csfwnpk,female,literal,,,description,,,"{""Q0"":""Jennifer is suffering from lymphoma.""}"
+6,5316,,survey-likert,6,88826,0.0-6.0-0.0,z0aqpvdg0h124csfwnpk,female,literal,,,sympathy,,,"{""Q0"":3}"
+7,2647,,survey-likert,7,91477,0.0-6.0-1.0,z0aqpvdg0h124csfwnpk,female,literal,,,urgent,,,"{""Q0"":3}"
+8,4470,,survey-text,8,95948,0.0-7.0,z0aqpvdg0h124csfwnpk,female,literal,,,past-donations,,,"{""Q0"":""3""}"
+9,5108,,survey-multi-choice,9,101060,0.0-8.0-0.0,z0aqpvdg0h124csfwnpk,female,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2487,,survey-multi-choice,10,103551,0.0-8.0-1.0,z0aqpvdg0h124csfwnpk,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,14394,,survey-multi-choice,11,117955,0.0-9.0,z0aqpvdg0h124csfwnpk,female,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,3619,,survey-text,12,121576,0.0-10.0,z0aqpvdg0h124csfwnpk,female,literal,,,age,,,"{""Q0"":""40""}"
+13,9987,,survey-text,13,131564,0.0-11.0,z0aqpvdg0h124csfwnpk,female,literal,,,purpose,,,"{""Q0"":""willingness to donate""}"
+14,2907,,survey-text,14,134472,0.0-12.0,z0aqpvdg0h124csfwnpk,female,literal,,,feedback,,,"{""Q0"":""""}"
+15,6485,debrief.html,external-html,15,141258,0.0-13.0,z0aqpvdg0h124csfwnpk,female,literal,,,,,,

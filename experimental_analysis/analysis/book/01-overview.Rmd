@@ -1,0 +1,244 @@
+# Data Overview {#overview}
+
+## Tabular Summaries
+
+Contingency table: Metaphor Condition x Sex Condition
+
+```{r, echo=F}
+t = ftable(trials[, c("cond_metaphor", "cond_sex")])
+print_crosstabs(t)
+```
+
+Contingency table: Participant Gender x Sex Condition
+
+```{r, echo=F}
+t = ftable(trials[, c("gender", "cond_sex")])
+print_crosstabs(t)
+```
+
+Proportion under each gender
+
+```{r}
+prop.table(table(trials$gender))*100
+```
+
+Contingency table: Self-Cancer Treatment x Friends/Family-Cancer Treatment
+
+```{r, echo=F}
+t = ftable(trials[, c("self_cancer", "ff_cancer")])
+print_crosstabs(t)
+```
+
+Contingency table: Education achievement
+
+```{r, echo=F}
+t = ftable(trials$education)
+print_crosstabs(t)
+```
+
+Contingency table: Socioeconomic status
+
+```{r, echo=F}
+t = ftable(trials$socioeconomic)
+print_crosstabs(t)
+```
+
+Summary statistics of participant age and self-reported past donations (trailing 12-months)
+
+```{r}
+summary(trials$age)
+summary(trials$past_donations)
+```
+
+Average participant was 34 years old and had given 2 donations in the past 12-months.
+
+A quick summary statistic of donations for the presence of metaphor and each metaphor condition.
+
+```{r}
+with(trials, tapply(donation, cond_anymet, summary))
+with(trials, tapply(donation, cond_metaphor, summary))
+```
+
+```{r}
+cm <- model.matrix(~ 0 + age + past_donations + gender + self_cancer + ff_cancer + education + socioeconomic + sympathy + urgent, data=trials) %>%
+  cor(use="pairwise.complete.obs")
+
+rownames(cm) <- paste(paste(1:nrow(cm), ".", sep = ""), rownames(cm))
+colnames(cm) <- 1:nrow(cm)
+
+heatmap(cm, symm = T, margins = c(1,1), Rowv = NA,  col = colorRampPalette(c("blue", "white", "red"))(20))
+```
+
+There don't appear to be any strong inter-variable correlations (naturally, we do see some strong intra-variable correlations, e.g. male gender and female gender).
+
+## Visualization Summaries
+
+Visualize the distributions of the conditions and demographic variables against donation amounts
+
+```{r, echo=F, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=cond_anymet)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Metaphor Presence", title = "Donation Distributions by Metaphor Presence") +
+  scale_color_brewer(palette = "Pastel1")
+```
+
+```{r, echo=F, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=cond_metaphor)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Metaphor Condition", title = "Donation Distributions by Metaphor Condition") +
+  scale_color_brewer(palette = "Pastel1")
+```
+
+```{r, echo=F, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=cond_sex)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Sex Condition", title = "Donation Distributions by Sex Condition") +
+  scale_color_brewer(palette = "Pastel1")
+```
+
+```{r, }
+# g = ggplot(trials) + ptheme +
+#   theme(axis.ticks = element_line(color = "white")) + 
+#   geom_line(aes(donation, linetype=cond_metaphor), stat = "density") +
+#   scale_linetype_manual(values = c(1,2,9), labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
+#   scale_x_continuous(labels = scales::dollar) +
+#   coord_cartesian(ylim = c(0.01, 0.028)) +
+#   labs(x = "Donation Amount", y = "Density", linetype = element_blank(), title = element_blank())
+# 
+# g
+# ggsave("metaphor_donation_density.png", g, width = pwidth, height = 2.7, bg = "transparent")
+```
+
+```{r, echo=F, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=self_cancer)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Self Cancer", title = "Donation Distributions by Self Cancer") +
+  scale_color_brewer(palette = "Pastel1")
+```
+
+```{r, echo=F, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=ff_cancer)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Friends and Family\nCancer", title = "Donation Distributions by Friends and Family Cancer") +
+  scale_color_brewer(palette = "Pastel1")
+```
+
+```{r, echo=F, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=gender)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Gender", title = "Donation Distributions by Gender") +
+  scale_color_brewer(palette = "Pastel1")
+```
+
+```{r, echo=F, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=education)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Education Level", title = "Donation Distributions by Education Level") +
+  scale_color_brewer(palette = "Pastel1")
+```
+
+```{r, echo=F, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=socioeconomic)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Socioeconomic Level", title = "Donation Distributions by Socioeconomic Level") +
+  scale_color_brewer(palette = "Pastel1")
+```
+
+```{r, echo=F, fig.align='center'}
+ggplot(trials, aes(age, donation)) + itheme +
+  geom_point(size = 1, alpha = 0.2) +
+  geom_smooth(method = "lm")+
+  lims(y = c(0, 50)) +
+  labs(x = "Age", y = "Donation Amount", title = "Donation Distribution by Age")
+```
+
+```{r, echo=F, fig.align='center'}
+ggplot(trials, aes(past_donations, donation)) + itheme +
+  geom_point(size = 1, alpha = 0.2) +
+  geom_smooth(method = "lm") +
+  lims(y = c(0, 50)) +
+  labs(x = "Past Donations", y = "Donation Amount", title = "Donation Distribution by Past Donations")
+```
+
+## Duration Statistics
+
+How long did participants spend on the main stimulus and overall?
+
+```{r}
+summary(trials$rt_trial) / (1000) # in seconds
+summary(trials$total_time) / (1000*60) # in minutes
+
+ggplot(trials) + itheme +
+  geom_density(aes(total_time/(1000*60))) +
+  labs(x = "Total Duration (mins)", y = "Density", title = "Total Duration Distribution")
+```
+
+Participants spent a median time of 45.6 seconds on the main stimulus and a median time of 4.43 minutes overall.
+
+Take a look at the fastest and slowest participants to see if they are completely unreasonable outliers
+
+```{r}
+# only useful when run interactively as an Rmd
+# trials %>% arrange(rt_trial) %>% head()
+```
+
+```{r}
+# only useful when run interactively as an Rmd
+# trials %>% arrange(desc(rt_trial)) %>% head()
+```
+
+Some of the responses do look a little fishy, but excluding them would be nontrivial. Perhaps set aside for future work.
+
+## Coarse Donation Behavior
+
+First, the count and proportion of participants, grouped by gender, then sex condition, then metaphor condition, with donations at three natural breaks: \$0, \$25, and \$50. These natural breaks (minimum, default/middle, maximum) might signal certain behavior (e.g. people often giving nothing, staying with the default value).
+
+Summary statistics of donation amounts:
+
+```{r}
+summary(trials$donation)
+```
+
+The mean donation was \$23.53 and the median was \$25. However, the donation distribution plot above appears to be somewhat trimodal, so this statistics may be unreliable.
+
+Participants, by demand of the experiment, may have had mental representations of possible donations, perhaps small, medium, and large amounts. These may correspond to standard values, falling onto certain donation values. Based on inspection, participants tended to go toward donations at \$5 increments. Therefore, the smallest standard values they may donate were \$0 and \$5. The medium standard values were \$20, \$25, and \$30, surround the defaut value of \$25. The large standard values were \$45 and \$50.
+
+```{r}
+trials$donation_narrow_group = ""
+
+trials[trials$donation %in% c(0, 5), "donation_narrow_group"] = "small"
+cat("Proportion of small donations: ", round(mean(trials$donation_narrow_group == "small"), 3), "\n")
+
+trials[trials$donation %in% c(20, 25, 30), "donation_narrow_group"] = "medium"
+cat("Proportion of medium donations: ", round(mean(trials$donation_narrow_group == "medium"), 3), "\n")
+
+trials[trials$donation %in% c(45, 50), "donation_narrow_group"] = "large"
+cat("Proportion of large donations: ", round(mean(trials$donation_narrow_group == "large"), 3), "\n")
+
+# the proportion of participants who donated one of the above amounts
+with(trials, mean(trials$donation_narrow_group %in% c("small", "medium", "large")))
+```
+
+18% of participants donated one of the coarse small donation amounts (\$0 and \$5). 29% of participants donated one of the coarse medium donation amounts (\$20, \$25, \$30). 15% of participants donated one of the coarse large donation amounts (\$45 and \$50).
+
+In total, 62% of participants donated one of these coarse donations. 
+
+```{r}
+trials %>%
+  ggplot(aes(donation_narrow_group, fill = cond_metaphor)) + itheme +
+  geom_bar(position = position_dodge()) +
+  labs(title = "Number of Standard Donations given Metaphor Condition", subtitle = "e.g. \"small\" donations are $0 or $5", x = "Donation Group", y = "# of Participants") +
+  scale_fill_brewer(palette = "Pastel1")
+```
+
+Metaphor may dictate small differences here between groups of standard donations, we'll model these in a bit.
+
+## Summary

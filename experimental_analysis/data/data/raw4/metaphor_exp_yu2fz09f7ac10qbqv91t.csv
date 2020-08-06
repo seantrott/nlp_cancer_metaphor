@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,18280,consent.html,external-html,0,18735,0.0-0.0,yu2fz09f7ac10qbqv91t,female,literal,,,,,,
+1,2367,,image-button-response,1,21106,0.0-1.0,yu2fz09f7ac10qbqv91t,female,literal,check-1.png,1.0,check1,,,
+2,6206,,image-button-response,2,27313,0.0-2.0,yu2fz09f7ac10qbqv91t,female,literal,check-2.png,2.0,check2,,,
+3,70368,,instructions,3,97683,0.0-3.0,yu2fz09f7ac10qbqv91t,female,literal,,,,"[{""page_index"":0,""viewing_time"":6351},{""page_index"":1,""viewing_time"":52953},{""page_index"":2,""viewing_time"":9304},{""page_index"":3,""viewing_time"":1760}]",,
+4,103216,,html-slider-response,4,200900,0.0-4.0,yu2fz09f7ac10qbqv91t,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,20.0,
+5,46533,,survey-text,5,247436,0.0-5.0,yu2fz09f7ac10qbqv91t,female,literal,,,description,,,"{""Q0"":""She is a lively and a good person and is in dire need of help.It is important we support her.""}"
+6,9686,,survey-likert,6,257124,0.0-6.0-0.0,yu2fz09f7ac10qbqv91t,female,literal,,,urgent,,,"{""Q0"":5}"
+7,6429,,survey-likert,7,263556,0.0-6.0-1.0,yu2fz09f7ac10qbqv91t,female,literal,,,sympathy,,,"{""Q0"":6}"
+8,5126,,survey-text,8,268684,0.0-7.0,yu2fz09f7ac10qbqv91t,female,literal,,,past-donations,,,"{""Q0"":""0""}"
+9,3022,,survey-multi-choice,9,271708,0.0-8.0-0.0,yu2fz09f7ac10qbqv91t,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,3037,,survey-multi-choice,10,274748,0.0-8.0-1.0,yu2fz09f7ac10qbqv91t,female,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+11,10023,,survey-multi-choice,11,284781,0.0-9.0,yu2fz09f7ac10qbqv91t,female,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Professional degree (e.g. MD, DDS, DVM)"",""Q2"":""More than $150,000"",""Q3"":""Yes""}"
+12,7693,,survey-text,12,292475,0.0-10.0,yu2fz09f7ac10qbqv91t,female,literal,,,age,,,"{""Q0"":""39""}"
+13,5054,,survey-text,13,297531,0.0-11.0,yu2fz09f7ac10qbqv91t,female,literal,,,purpose,,,"{""Q0"":""""}"
+14,1976,,survey-text,14,299507,0.0-12.0,yu2fz09f7ac10qbqv91t,female,literal,,,feedback,,,"{""Q0"":""""}"
+15,5501,debrief.html,external-html,15,306925,0.0-13.0,yu2fz09f7ac10qbqv91t,female,literal,,,,,,

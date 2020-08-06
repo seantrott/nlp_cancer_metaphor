@@ -1,0 +1,149 @@
+--- 
+title: "Metaphors on Charitable Donations"
+author: "Alex Liebscher"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+rmd_files: ["index.Rmd", "01-overview.Rmd"]
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients"
+---
+
+# Prerequisites
+
+Collected here are all exploratory analyses. They are organized by question topic on the left-hand side navigation bar. Summaries of each analysis are contained at the end of each major section/chapter.
+
+## Load Libraries
+
+```{r}
+library(tidyverse) # mostly for ggplot2 and dplyr
+library(jtools) # for pretty printing model summaries
+library(gridExtra) # for combining plots
+# library(sysfonts)
+# library(showtext) # for custom fonts in presentation graphs
+library(ggsignif)
+library(glue)
+```
+
+## Load Data
+
+Created via `exclusion.Rmd`, originally from `clean_data.R`. Here, we trim off some outliers in the `age` and `past_donations` columns (then fill in missing values with the new mean).
+
+```{r}
+trials <- read_csv("../experimental/data/data_clean_excluded.csv", col_types = cols()) %>%
+
+  # remove outliers in past_donations and age which lie greater than 3 SDs away
+  # filter(past_donations < (mean(past_donations, na.rm = T) + 3*sd(past_donations, na.rm = T))) %>%
+  # filter(age < (mean(age, na.rm = T) + 3*sd(age, na.rm = T))) %>%
+  # filter(age >= 18) %>%
+  
+  # set the levels of the factors variables and rescale age and past_donations
+  mutate(
+    cond_sex = factor(cond_sex, levels = c("male", "female")),
+    cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
+    cond_anymet = cond_metaphor %in% c("battle", "journey"),
+
+    urgent = as.integer(urgent),
+    sympathy = as.integer(sympathy),
+
+    self_cancer = factor(self_cancer, levels = c("N", "Y", "OO")),
+    ff_cancer = factor(ff_cancer, levels = c("N", "Y", "OO")),
+
+    gender = factor(gender, levels = c("M", "F", "NB", "OO")),
+    education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D", "OO")),
+    socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "OO")),
+    
+    rt_trial_group = factor(rt_trial_group, levels = c("[1.9,23]", "(23,42.7]", "(42.7,69.3]", "(69.3,4.25e+03]")),
+    
+    congruency = ifelse((gender == "M" & cond_sex == "male") | (gender == "F" & cond_sex == "female"),
+                        "congruent",
+                        "incongruent")
+  )
+```
+
+```{r}
+# fill in missing values for past_donation and age with their means
+trials <- trials %>% 
+  replace_na(list(past_donations = mean(trials$past_donations, na.rm = T))) %>%
+  replace_na(list(age = mean(trials$age, na.rm = T)))
+
+trials <- trials %>%
+  mutate(
+    age.z = (age - mean(age)) / (2 * sd(age)),
+    past_donations.z = (past_donations - mean(past_donations)) / (2 * sd(past_donations))
+  )
+```
+
+```{r}
+nrow(trials)
+```
+
+
+There are a total of `r nrow(trials)` observations.
+
+Define a common formula used throughout which includes all of the primary covariates, including the patient sex condition.
+
+```{r}
+base.formula <- formula( ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + past_donations.z + age.z)
+```
+
+## Build Custom Functions
+
+```{r}
+# pretty printing summary contingency tables
+print_crosstabs <- function(tab) {
+  print(tab)
+  cat("\n")
+  print(round(prop.table(tab), 3))
+}
+
+pvalue_show_summary <- 0.1
+
+compare_lm <- function (base, full, force_summary = F) {
+  a <- anova(base, full, test = "Chisq")
+  print(a)
+  print.noquote(paste("Chisq Stat: ", as.numeric(round(2*(logLik(full) - logLik(base)), 3))))
+  
+  if (a["Pr(>Chi)"][[1]][2] < pvalue_show_summary | force_summary) {
+    cls <- attributes(full)$class
+    if (cls == c("lm") | cls == c("glm", "lm")) {
+      print(summ(full, confint = T, digits = 3))  
+    } else {
+      print(summary(full))
+    }
+  }
+}
+```
+
+## Set Custom Plot Themes
+
+```{r}
+# font_add("Avenir", "/System/Library/Fonts/Avenir.ttc")
+# showtext_auto()
+
+# Rmd interactive theme
+itheme <- list(theme_minimal(), scale_color_brewer(palette = "Dark2"))
+
+# Presentation theme
+ptheme <- theme_minimal() + theme(
+  panel.background = element_rect(fill = "transparent", color = NA),
+  plot.background = element_rect(fill = "transparent", color = NA),
+  legend.key = element_blank(),
+  legend.background = element_rect(fill = "transparent", color = NA),
+  text = element_text(family = "Avenir")
+)
+
+pwidth = 6.5
+pheight = 3
+```
+
+Custom ggPlot elements which are used often
+
+```{r}
+geom_errorbars <- list(
+  stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2), 
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)))
+```
+

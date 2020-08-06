@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,52201,consent.html,external-html,0,52659,0.0-0.0,czxofkdkq3tfqzwubxp0,female,battle,,,,,,
+1,2735,,image-button-response,1,55400,0.0-1.0,czxofkdkq3tfqzwubxp0,female,battle,check-1.png,1.0,check1,,,
+2,3627,,image-button-response,2,59031,0.0-2.0,czxofkdkq3tfqzwubxp0,female,battle,check-2.png,2.0,check2,,,
+3,103004,,instructions,3,162037,0.0-3.0,czxofkdkq3tfqzwubxp0,female,battle,,,,"[{""page_index"":0,""viewing_time"":8584},{""page_index"":1,""viewing_time"":2621},{""page_index"":0,""viewing_time"":2144},{""page_index"":1,""viewing_time"":66341},{""page_index"":2,""viewing_time"":15546},{""page_index"":3,""viewing_time"":7766}]",,
+4,102729,,html-slider-response,4,264770,0.0-4.0,czxofkdkq3tfqzwubxp0,female,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_battle.png"" class=""main-trial""/>",,trial,,15.0,
+5,132434,,survey-text,5,397208,0.0-5.0,czxofkdkq3tfqzwubxp0,female,battle,,,description,,,"{""Q0"":""Jennifer, who is highly revered and loved by her friends and family, is currently fighting against Stage II Lymphoma after thyroid surgery. The money people donate to her crowdfunding campaign will assist her in getting the proper medical care for her condition. ""}"
+6,8444,,survey-likert,6,405655,0.0-6.0-0.0,czxofkdkq3tfqzwubxp0,female,battle,,,urgent,,,"{""Q0"":5}"
+7,5545,,survey-likert,7,411239,0.0-6.0-1.0,czxofkdkq3tfqzwubxp0,female,battle,,,sympathy,,,"{""Q0"":6}"
+8,6535,,survey-text,8,417815,0.0-7.0,czxofkdkq3tfqzwubxp0,female,battle,,,past-donations,,,"{""Q0"":""2""}"
+9,3691,,survey-multi-choice,9,421512,0.0-8.0-0.0,czxofkdkq3tfqzwubxp0,female,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,4954,,survey-multi-choice,10,426512,0.0-8.0-1.0,czxofkdkq3tfqzwubxp0,female,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,23740,,survey-multi-choice,11,450309,0.0-9.0,czxofkdkq3tfqzwubxp0,female,battle,,,demographics,,,"{""Q0"":""Female"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""Less than $10,000"",""Q3"":""Yes""}"
+12,4213,,survey-text,12,454567,0.0-10.0,czxofkdkq3tfqzwubxp0,female,battle,,,age,,,"{""Q0"":""23""}"
+13,42520,,survey-text,13,497091,0.0-11.0,czxofkdkq3tfqzwubxp0,female,battle,,,purpose,,,"{""Q0"":""I believe the experiment was testing how people react to and sympathize with someone's struggle and how much they are willing to donate for a cause. ""}"
+14,3574,,survey-text,14,500667,0.0-12.0,czxofkdkq3tfqzwubxp0,female,battle,,,feedback,,,"{""Q0"":""N/A""}"
+15,83917,debrief.html,external-html,15,586356,0.0-13.0,czxofkdkq3tfqzwubxp0,female,battle,,,,,,

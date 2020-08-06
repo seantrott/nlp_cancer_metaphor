@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,18343,consent.html,external-html,0,18404,0.0-0.0,1pj55etrucwgukfukq3m,male,journey,,,,,,
+1,2125,,image-button-response,1,20531,0.0-1.0,1pj55etrucwgukfukq3m,male,journey,check-1.png,1.0,check1,,,
+2,3279,,image-button-response,2,23811,0.0-2.0,1pj55etrucwgukfukq3m,male,journey,check-2.png,2.0,check2,,,
+3,38994,,instructions,3,62806,0.0-3.0,1pj55etrucwgukfukq3m,male,journey,,,,"[{""page_index"":0,""viewing_time"":8954},{""page_index"":1,""viewing_time"":19206},{""page_index"":2,""viewing_time"":9263},{""page_index"":3,""viewing_time"":1571}]",,
+4,38736,,html-slider-response,4,101544,0.0-4.0,1pj55etrucwgukfukq3m,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_mj.png"" class=""main-trial""/>",,trial,,0.0,
+5,75081,,survey-text,5,176626,0.0-5.0,1pj55etrucwgukfukq3m,male,journey,,,description,,,"{""Q0"":""Jason has been diagnosed with Lymphoma after undergoing a Thyroid surgery. He will be in rough shape for the foreseable future as he will need multiple rounds of chemo for about 4 months.""}"
+6,11451,,survey-likert,6,188079,0.0-6.0-0.0,1pj55etrucwgukfukq3m,male,journey,,,urgent,,,"{""Q0"":4}"
+7,4850,,survey-likert,7,192930,0.0-6.0-1.0,1pj55etrucwgukfukq3m,male,journey,,,sympathy,,,"{""Q0"":3}"
+8,4076,,survey-text,8,197008,0.0-7.0,1pj55etrucwgukfukq3m,male,journey,,,past-donations,,,"{""Q0"":""0""}"
+9,4775,,survey-multi-choice,9,201785,0.0-8.0-0.0,1pj55etrucwgukfukq3m,male,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2318,,survey-multi-choice,10,204105,0.0-8.0-1.0,1pj55etrucwgukfukq3m,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,16980,,survey-multi-choice,11,221093,0.0-9.0,1pj55etrucwgukfukq3m,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""Less than $10,000"",""Q3"":""Yes""}"
+12,3198,,survey-text,12,224293,0.0-10.0,1pj55etrucwgukfukq3m,male,journey,,,age,,,"{""Q0"":""23""}"
+13,22584,,survey-text,13,246877,0.0-11.0,1pj55etrucwgukfukq3m,male,journey,,,purpose,,,"{""Q0"":""Whether campaigns are effective and we are charitable people.""}"
+14,1758,,survey-text,14,248636,0.0-12.0,1pj55etrucwgukfukq3m,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,24086,debrief.html,external-html,15,272929,0.0-13.0,1pj55etrucwgukfukq3m,male,journey,,,,,,

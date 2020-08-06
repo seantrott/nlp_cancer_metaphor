@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,7330,consent.html,external-html,0,7443,0.0-0.0,c1mj2etlexxwux4cdqmb,female,literal,,,,,,
+1,3607,,image-button-response,1,11055,0.0-1.0,c1mj2etlexxwux4cdqmb,female,literal,check-1.png,1.0,check1,,,
+2,5019,,image-button-response,2,16078,0.0-2.0,c1mj2etlexxwux4cdqmb,female,literal,check-2.png,2.0,check2,,,
+3,39136,,instructions,3,55216,0.0-3.0,c1mj2etlexxwux4cdqmb,female,literal,,,,"[{""page_index"":0,""viewing_time"":8966},{""page_index"":1,""viewing_time"":24719},{""page_index"":2,""viewing_time"":3920},{""page_index"":3,""viewing_time"":1528}]",,
+4,81306,,html-slider-response,4,136527,0.0-4.0,c1mj2etlexxwux4cdqmb,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,0.0,
+5,57719,,survey-text,5,194248,0.0-5.0,c1mj2etlexxwux4cdqmb,female,literal,,,description,,,"{""Q0"":""Jennifer has developed Stage II Lymphoma and is undergoing chemo and many medical treatments.  Her friend is raising money to help pay for the expenses she's going to incur fighting this disease.  Jennifer really wants to live and seems to have dealt pretty well with the first round of chemo.""}"
+6,11388,,survey-likert,6,205641,0.0-6.0-0.0,c1mj2etlexxwux4cdqmb,female,literal,,,sympathy,,,"{""Q0"":1}"
+7,3179,,survey-likert,7,208824,0.0-6.0-1.0,c1mj2etlexxwux4cdqmb,female,literal,,,urgent,,,"{""Q0"":0}"
+8,5643,,survey-text,8,214470,0.0-7.0,c1mj2etlexxwux4cdqmb,female,literal,,,past-donations,,,"{""Q0"":""0""}"
+9,3954,,survey-multi-choice,9,218431,0.0-8.0-0.0,c1mj2etlexxwux4cdqmb,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,4108,,survey-multi-choice,10,222543,0.0-8.0-1.0,c1mj2etlexxwux4cdqmb,female,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,10531,,survey-multi-choice,11,233095,0.0-9.0,c1mj2etlexxwux4cdqmb,female,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,4525,,survey-text,12,237623,0.0-10.0,c1mj2etlexxwux4cdqmb,female,literal,,,age,,,"{""Q0"":""42""}"
+13,2878,,survey-text,13,240502,0.0-11.0,c1mj2etlexxwux4cdqmb,female,literal,,,purpose,,,"{""Q0"":""""}"
+14,1206,,survey-text,14,241710,0.0-12.0,c1mj2etlexxwux4cdqmb,female,literal,,,feedback,,,"{""Q0"":""""}"
+15,9197,debrief.html,external-html,15,251167,0.0-13.0,c1mj2etlexxwux4cdqmb,female,literal,,,,,,

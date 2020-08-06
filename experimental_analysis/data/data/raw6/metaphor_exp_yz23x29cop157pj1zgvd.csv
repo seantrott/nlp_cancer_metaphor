@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,5519,consent.html,external-html,0,5922,0.0-0.0,yz23x29cop157pj1zgvd,male,journey,,,,,,
+1,1269,,image-button-response,1,7199,0.0-1.0,yz23x29cop157pj1zgvd,male,journey,check-1.png,2.0,check1,,,
+2,1530,,image-button-response,2,8732,0.0-2.0,yz23x29cop157pj1zgvd,male,journey,check-2.png,3.0,check2,,,
+3,7090,,instructions,3,15825,0.0-3.0,yz23x29cop157pj1zgvd,male,journey,,,,"[{""page_index"":0,""viewing_time"":941},{""page_index"":1,""viewing_time"":4166},{""page_index"":2,""viewing_time"":1035},{""page_index"":3,""viewing_time"":946}]",,
+4,7123,,html-slider-response,4,22952,0.0-4.0,yz23x29cop157pj1zgvd,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,43.0,
+5,8633,,survey-text,5,31589,0.0-5.0,yz23x29cop157pj1zgvd,male,journey,,,description,,,"{""Q0"":""its really amazing ""}"
+6,1927,,survey-likert,6,33521,0.0-6.0-0.0,yz23x29cop157pj1zgvd,male,journey,,,sympathy,,,"{""Q0"":4}"
+7,2475,,survey-likert,7,36000,0.0-6.0-1.0,yz23x29cop157pj1zgvd,male,journey,,,urgent,,,"{""Q0"":5}"
+8,6262,,survey-text,8,42265,0.0-7.0,yz23x29cop157pj1zgvd,male,journey,,,past-donations,,,"{""Q0"":""10""}"
+9,2142,,survey-multi-choice,9,44414,0.0-8.0-0.0,yz23x29cop157pj1zgvd,male,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,4206,,survey-multi-choice,10,48625,0.0-8.0-1.0,yz23x29cop157pj1zgvd,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,8013,,survey-multi-choice,11,56659,0.0-9.0,yz23x29cop157pj1zgvd,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,4150,,survey-text,12,60813,0.0-10.0,yz23x29cop157pj1zgvd,male,journey,,,age,,,"{""Q0"":""55""}"
+13,2772,,survey-text,13,63587,0.0-11.0,yz23x29cop157pj1zgvd,male,journey,,,purpose,,,"{""Q0"":""""}"
+14,1424,,survey-text,14,65013,0.0-12.0,yz23x29cop157pj1zgvd,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,2945,debrief.html,external-html,15,69552,0.0-13.0,yz23x29cop157pj1zgvd,male,journey,,,,,,

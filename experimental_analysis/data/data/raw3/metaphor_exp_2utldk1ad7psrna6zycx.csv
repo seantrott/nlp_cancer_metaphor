@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,9537,consent.html,external-html,0,9545,0.0-0.0,2utldk1ad7psrna6zycx,male,journey,,,,,,
+1,5401,,image-button-response,1,14949,0.0-1.0,2utldk1ad7psrna6zycx,male,journey,check-1.png,1.0,check1,,,
+2,3474,,image-button-response,2,18425,0.0-2.0,2utldk1ad7psrna6zycx,male,journey,check-2.png,2.0,check2,,,
+3,19974,,instructions,3,38399,0.0-3.0,2utldk1ad7psrna6zycx,male,journey,,,,"[{""page_index"":0,""viewing_time"":4959},{""page_index"":1,""viewing_time"":9975},{""page_index"":2,""viewing_time"":4015},{""page_index"":3,""viewing_time"":1024}]",,
+4,26108,,html-slider-response,4,64509,0.0-4.0,2utldk1ad7psrna6zycx,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,40.0,
+5,30384,,survey-text,5,94894,0.0-5.0,2utldk1ad7psrna6zycx,male,journey,,,description,,,"{""Q0"":""I would describe this as heart breaking and so unfortunate. He is going to have a long road ahead of him battling lymphoma. He needs all the help he can get.""}"
+6,3917,,survey-likert,6,98813,0.0-6.0-0.0,2utldk1ad7psrna6zycx,male,journey,,,sympathy,,,"{""Q0"":4}"
+7,5165,,survey-likert,7,103981,0.0-6.0-1.0,2utldk1ad7psrna6zycx,male,journey,,,urgent,,,"{""Q0"":4}"
+8,3158,,survey-text,8,107140,0.0-7.0,2utldk1ad7psrna6zycx,male,journey,,,past-donations,,,"{""Q0"":""3""}"
+9,1900,,survey-multi-choice,9,109044,0.0-8.0-0.0,2utldk1ad7psrna6zycx,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+10,2122,,survey-multi-choice,10,111168,0.0-8.0-1.0,2utldk1ad7psrna6zycx,male,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,7741,,survey-multi-choice,11,118918,0.0-9.0,2utldk1ad7psrna6zycx,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,3049,,survey-text,12,121969,0.0-10.0,2utldk1ad7psrna6zycx,male,journey,,,age,,,"{""Q0"":""21""}"
+13,29230,,survey-text,13,151201,0.0-11.0,2utldk1ad7psrna6zycx,male,journey,,,purpose,,,"{""Q0"":""I think you were testing for different age and genders willingness to donate. I think you were seeing if we would save more money potentially for ourselves or give more away.""}"
+14,2054,,survey-text,14,153256,0.0-12.0,2utldk1ad7psrna6zycx,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,12744,debrief.html,external-html,15,166433,0.0-13.0,2utldk1ad7psrna6zycx,male,journey,,,,,,

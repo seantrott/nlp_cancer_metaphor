@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,20586,consent.html,external-html,0,20734,0.0-0.0,43dh1tg2rd8kbmz83xgg,male,literal,,,,,,
+1,3741,,image-button-response,1,24489,0.0-1.0,43dh1tg2rd8kbmz83xgg,male,literal,check-1.png,1.0,check1,,,
+2,3128,,image-button-response,2,27623,0.0-2.0,43dh1tg2rd8kbmz83xgg,male,literal,check-2.png,2.0,check2,,,
+3,29478,,instructions,3,57104,0.0-3.0,43dh1tg2rd8kbmz83xgg,male,literal,,,,"[{""page_index"":0,""viewing_time"":8997},{""page_index"":1,""viewing_time"":13943},{""page_index"":2,""viewing_time"":4864},{""page_index"":3,""viewing_time"":1671}]",,
+4,70405,,html-slider-response,4,127521,0.0-4.0,43dh1tg2rd8kbmz83xgg,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,5.0,
+5,52269,,survey-text,5,179796,0.0-5.0,43dh1tg2rd8kbmz83xgg,male,literal,,,description,,,"{""Q0"":""I would say that Jason has been very ill but he has the opportunity to recover and all the help he can get financially will ease his stress as he does.""}"
+6,5874,,survey-likert,6,185680,0.0-6.0-0.0,43dh1tg2rd8kbmz83xgg,male,literal,,,urgent,,,"{""Q0"":3}"
+7,5216,,survey-likert,7,190901,0.0-6.0-1.0,43dh1tg2rd8kbmz83xgg,male,literal,,,sympathy,,,"{""Q0"":4}"
+8,3930,,survey-text,8,194837,0.0-7.0,43dh1tg2rd8kbmz83xgg,male,literal,,,past-donations,,,"{""Q0"":""1""}"
+9,2857,,survey-multi-choice,9,197702,0.0-8.0-0.0,43dh1tg2rd8kbmz83xgg,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,2816,,survey-multi-choice,10,200525,0.0-8.0-1.0,43dh1tg2rd8kbmz83xgg,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,14600,,survey-multi-choice,11,215153,0.0-9.0,43dh1tg2rd8kbmz83xgg,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,3861,,survey-text,12,219021,0.0-10.0,43dh1tg2rd8kbmz83xgg,male,literal,,,age,,,"{""Q0"":""64""}"
+13,12748,,survey-text,13,231774,0.0-11.0,43dh1tg2rd8kbmz83xgg,male,literal,,,purpose,,,"{""Q0"":""generosity and empathy""}"
+14,3963,,survey-text,14,235740,0.0-12.0,43dh1tg2rd8kbmz83xgg,male,literal,,,feedback,,,"{""Q0"":""no""}"
+15,12457,debrief.html,external-html,15,248489,0.0-13.0,43dh1tg2rd8kbmz83xgg,male,literal,,,,,,

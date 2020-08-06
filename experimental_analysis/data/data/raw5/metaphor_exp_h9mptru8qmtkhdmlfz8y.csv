@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,3671,consent.html,external-html,0,3713,0.0-0.0,h9mptru8qmtkhdmlfz8y,male,literal,,,,,,
+1,2498,,image-button-response,1,6214,0.0-1.0,h9mptru8qmtkhdmlfz8y,male,literal,check-1.png,1.0,check1,,,
+2,4006,,image-button-response,2,10221,0.0-2.0,h9mptru8qmtkhdmlfz8y,male,literal,check-2.png,2.0,check2,,,
+3,27423,,instructions,3,37645,0.0-3.0,h9mptru8qmtkhdmlfz8y,male,literal,,,,"[{""page_index"":0,""viewing_time"":6751},{""page_index"":1,""viewing_time"":15696},{""page_index"":2,""viewing_time"":3536},{""page_index"":3,""viewing_time"":1439}]",,
+4,31909,,html-slider-response,4,69557,0.0-4.0,h9mptru8qmtkhdmlfz8y,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,20.0,
+5,64143,,survey-text,5,133701,0.0-5.0,h9mptru8qmtkhdmlfz8y,male,literal,,,description,,,"{""Q0"":""Jason struggles to get through Lymphoma, but he sounds like a fighter.  Even though he experiences a noteworthy physical impact of the radiation therapy, he still works and goes on with what he needs with life.  He deserves us to help him out as best as possible.""}"
+6,9510,,survey-likert,6,143213,0.0-6.0-0.0,h9mptru8qmtkhdmlfz8y,male,literal,,,urgent,,,"{""Q0"":3}"
+7,2718,,survey-likert,7,145933,0.0-6.0-1.0,h9mptru8qmtkhdmlfz8y,male,literal,,,sympathy,,,"{""Q0"":5}"
+8,3830,,survey-text,8,149764,0.0-7.0,h9mptru8qmtkhdmlfz8y,male,literal,,,past-donations,,,"{""Q0"":""3""}"
+9,4190,,survey-multi-choice,9,153957,0.0-8.0-0.0,h9mptru8qmtkhdmlfz8y,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,3421,,survey-multi-choice,10,157381,0.0-8.0-1.0,h9mptru8qmtkhdmlfz8y,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,11296,,survey-multi-choice,11,168685,0.0-9.0,h9mptru8qmtkhdmlfz8y,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,3470,,survey-text,12,172156,0.0-10.0,h9mptru8qmtkhdmlfz8y,male,literal,,,age,,,"{""Q0"":""62""}"
+13,3591,,survey-text,13,175748,0.0-11.0,h9mptru8qmtkhdmlfz8y,male,literal,,,purpose,,,"{""Q0"":""""}"
+14,1879,,survey-text,14,177628,0.0-12.0,h9mptru8qmtkhdmlfz8y,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,11700,debrief.html,external-html,15,189429,0.0-13.0,h9mptru8qmtkhdmlfz8y,male,literal,,,,,,

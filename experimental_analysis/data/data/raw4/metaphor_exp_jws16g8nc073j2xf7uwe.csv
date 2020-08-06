@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,36325,consent.html,external-html,0,36659,0.0-0.0,jws16g8nc073j2xf7uwe,male,battle,,,,,,
+1,2295,,image-button-response,1,38955,0.0-1.0,jws16g8nc073j2xf7uwe,male,battle,check-1.png,1.0,check1,,,
+2,2738,,image-button-response,2,41695,0.0-2.0,jws16g8nc073j2xf7uwe,male,battle,check-2.png,2.0,check2,,,
+3,51286,,instructions,3,92981,0.0-3.0,jws16g8nc073j2xf7uwe,male,battle,,,,"[{""page_index"":0,""viewing_time"":7701},{""page_index"":1,""viewing_time"":38702},{""page_index"":2,""viewing_time"":3882},{""page_index"":3,""viewing_time"":1000}]",,
+4,85422,,html-slider-response,4,178405,0.0-4.0,jws16g8nc073j2xf7uwe,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_battle.png"" class=""main-trial""/>",,trial,,20.0,
+5,64764,,survey-text,5,243170,0.0-5.0,jws16g8nc073j2xf7uwe,male,battle,,,description,,,"{""Q0"":""A person is trying to raise funds to support his friend who is diagnosed with lymphoma""}"
+6,9283,,survey-likert,6,252455,0.0-6.0-0.0,jws16g8nc073j2xf7uwe,male,battle,,,sympathy,,,"{""Q0"":2}"
+7,4738,,survey-likert,7,257196,0.0-6.0-1.0,jws16g8nc073j2xf7uwe,male,battle,,,urgent,,,"{""Q0"":4}"
+8,7566,,survey-text,8,264766,0.0-7.0,jws16g8nc073j2xf7uwe,male,battle,,,past-donations,,,"{""Q0"":""1""}"
+9,4062,,survey-multi-choice,9,268830,0.0-8.0-0.0,jws16g8nc073j2xf7uwe,male,battle,,,ff-cancer,,,"{""Q0"":""No""}"
+10,2350,,survey-multi-choice,10,271184,0.0-8.0-1.0,jws16g8nc073j2xf7uwe,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+11,10452,,survey-multi-choice,11,281645,0.0-9.0,jws16g8nc073j2xf7uwe,male,battle,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,9148,,survey-text,12,290796,0.0-10.0,jws16g8nc073j2xf7uwe,male,battle,,,age,,,"{""Q0"":""23""}"
+13,1710,,survey-text,13,292506,0.0-11.0,jws16g8nc073j2xf7uwe,male,battle,,,purpose,,,"{""Q0"":""""}"
+14,1243,,survey-text,14,293750,0.0-12.0,jws16g8nc073j2xf7uwe,male,battle,,,feedback,,,"{""Q0"":""""}"
+15,9758,debrief.html,external-html,15,303930,0.0-13.0,jws16g8nc073j2xf7uwe,male,battle,,,,,,

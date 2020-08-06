@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,7819,consent.html,external-html,0,7889,0.0-0.0,s3qz731k84bbtnzcubct,male,battle,,,,,,
+1,2778,,image-button-response,1,10688,0.0-1.0,s3qz731k84bbtnzcubct,male,battle,check-1.png,1.0,check1,,,
+2,2999,,image-button-response,2,13698,0.0-2.0,s3qz731k84bbtnzcubct,male,battle,check-2.png,2.0,check2,,,
+3,14030,,instructions,3,27734,0.0-3.0,s3qz731k84bbtnzcubct,male,battle,,,,"[{""page_index"":0,""viewing_time"":3309},{""page_index"":1,""viewing_time"":4262},{""page_index"":2,""viewing_time"":3906},{""page_index"":3,""viewing_time"":2547}]",,
+4,72471,,html-slider-response,4,100226,0.0-4.0,s3qz731k84bbtnzcubct,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_battle.png"" class=""main-trial""/>",,trial,,20.0,
+5,119827,,survey-text,5,220065,0.0-5.0,s3qz731k84bbtnzcubct,male,battle,,,description,,,"{""Q0"":""Jason underwent a major thyroid surgery and found out he had lymphoma. His treatment will include undergoing chemotherapy for the next 21 days and possibly local radiation""}"
+6,4251,,survey-likert,6,224334,0.0-6.0-0.0,s3qz731k84bbtnzcubct,male,battle,,,urgent,,,"{""Q0"":6}"
+7,2053,,survey-likert,7,226397,0.0-6.0-1.0,s3qz731k84bbtnzcubct,male,battle,,,sympathy,,,"{""Q0"":6}"
+8,5778,,survey-text,8,232184,0.0-7.0,s3qz731k84bbtnzcubct,male,battle,,,past-donations,,,"{""Q0"":""4""}"
+9,2980,,survey-multi-choice,9,235183,0.0-8.0-0.0,s3qz731k84bbtnzcubct,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,2777,,survey-multi-choice,10,237977,0.0-8.0-1.0,s3qz731k84bbtnzcubct,male,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,9087,,survey-multi-choice,11,247121,0.0-9.0,s3qz731k84bbtnzcubct,male,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,6996,,survey-text,12,254127,0.0-10.0,s3qz731k84bbtnzcubct,male,battle,,,age,,,"{""Q0"":""26""}"
+13,29122,,survey-text,13,283261,0.0-11.0,s3qz731k84bbtnzcubct,male,battle,,,purpose,,,"{""Q0"":""Decision making""}"
+14,2850,,survey-text,14,286119,0.0-12.0,s3qz731k84bbtnzcubct,male,battle,,,feedback,,,"{""Q0"":""""}"
+15,6605,debrief.html,external-html,15,293129,0.0-13.0,s3qz731k84bbtnzcubct,male,battle,,,,,,

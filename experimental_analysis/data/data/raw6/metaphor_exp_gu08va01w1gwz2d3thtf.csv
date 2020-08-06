@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,15687,consent.html,external-html,0,15723,0.0-0.0,gu08va01w1gwz2d3thtf,female,journey,,,,,,
+1,6053,,image-button-response,1,21784,0.0-1.0,gu08va01w1gwz2d3thtf,female,journey,check-1.png,1.0,check1,,,
+2,7375,,image-button-response,2,29163,0.0-2.0,gu08va01w1gwz2d3thtf,female,journey,check-2.png,2.0,check2,,,
+3,65070,,instructions,3,94235,0.0-3.0,gu08va01w1gwz2d3thtf,female,journey,,,,"[{""page_index"":0,""viewing_time"":7685},{""page_index"":1,""viewing_time"":44965},{""page_index"":2,""viewing_time"":10224},{""page_index"":3,""viewing_time"":2192}]",,
+4,73289,,html-slider-response,4,167532,0.0-4.0,gu08va01w1gwz2d3thtf,female,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_fj.png"" class=""main-trial""/>",,trial,,35.0,
+5,48157,,survey-text,5,215697,0.0-5.0,gu08va01w1gwz2d3thtf,female,journey,,,description,,,"{""Q0"":""her friend is kind of heart and a priceless companion standing beside her at harder times.""}"
+6,13334,,survey-likert,6,229038,0.0-6.0-0.0,gu08va01w1gwz2d3thtf,female,journey,,,sympathy,,,"{""Q0"":6}"
+7,9498,,survey-likert,7,238548,0.0-6.0-1.0,gu08va01w1gwz2d3thtf,female,journey,,,urgent,,,"{""Q0"":6}"
+8,6102,,survey-text,8,244660,0.0-7.0,gu08va01w1gwz2d3thtf,female,journey,,,past-donations,,,"{""Q0"":""2""}"
+9,4623,,survey-multi-choice,9,249300,0.0-8.0-0.0,gu08va01w1gwz2d3thtf,female,journey,,,self-cancer,,,"{""Q0"":""No""}"
+10,3821,,survey-multi-choice,10,253131,0.0-8.0-1.0,gu08va01w1gwz2d3thtf,female,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,14579,,survey-multi-choice,11,267743,0.0-9.0,gu08va01w1gwz2d3thtf,female,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,5416,,survey-text,12,273167,0.0-10.0,gu08va01w1gwz2d3thtf,female,journey,,,age,,,"{""Q0"":""46""}"
+13,32431,,survey-text,13,305603,0.0-11.0,gu08va01w1gwz2d3thtf,female,journey,,,purpose,,,"{""Q0"":""Maybe human sympathy and emotions. ""}"
+14,13046,,survey-text,14,318655,0.0-12.0,gu08va01w1gwz2d3thtf,female,journey,,,feedback,,,"{""Q0"":""good survey""}"
+15,26926,debrief.html,external-html,15,346353,0.0-13.0,gu08va01w1gwz2d3thtf,female,journey,,,,,,

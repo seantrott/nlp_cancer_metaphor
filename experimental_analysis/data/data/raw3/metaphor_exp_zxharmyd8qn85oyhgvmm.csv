@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,44172,consent.html,external-html,0,44225,0.0-0.0,zxharmyd8qn85oyhgvmm,female,literal,,,,,,
+1,3652,,image-button-response,1,47879,0.0-1.0,zxharmyd8qn85oyhgvmm,female,literal,check-1.png,1.0,check1,,,
+2,5185,,image-button-response,2,53065,0.0-2.0,zxharmyd8qn85oyhgvmm,female,literal,check-2.png,2.0,check2,,,
+3,93938,,instructions,3,147003,0.0-3.0,zxharmyd8qn85oyhgvmm,female,literal,,,,"[{""page_index"":0,""viewing_time"":7593},{""page_index"":1,""viewing_time"":73215},{""page_index"":2,""viewing_time"":11126},{""page_index"":3,""viewing_time"":2003}]",,
+4,55855,,html-slider-response,4,202859,0.0-4.0,zxharmyd8qn85oyhgvmm,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,20.0,
+5,100428,,survey-text,5,303288,0.0-5.0,zxharmyd8qn85oyhgvmm,female,literal,,,description,,,"{""Q0"":""She is in a rough situation just being diagnosed with Stage II Lymphoma.  She has to endure several months of medical treatments.""}"
+6,9348,,survey-likert,6,312637,0.0-6.0-0.0,zxharmyd8qn85oyhgvmm,female,literal,,,sympathy,,,"{""Q0"":4}"
+7,5286,,survey-likert,7,317925,0.0-6.0-1.0,zxharmyd8qn85oyhgvmm,female,literal,,,urgent,,,"{""Q0"":5}"
+8,4297,,survey-text,8,322222,0.0-7.0,zxharmyd8qn85oyhgvmm,female,literal,,,past-donations,,,"{""Q0"":""1""}"
+9,4566,,survey-multi-choice,9,326790,0.0-8.0-0.0,zxharmyd8qn85oyhgvmm,female,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+10,2991,,survey-multi-choice,10,329782,0.0-8.0-1.0,zxharmyd8qn85oyhgvmm,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,11571,,survey-multi-choice,11,341359,0.0-9.0,zxharmyd8qn85oyhgvmm,female,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,5274,,survey-text,12,346634,0.0-10.0,zxharmyd8qn85oyhgvmm,female,literal,,,age,,,"{""Q0"":""47""}"
+13,10057,,survey-text,13,356692,0.0-11.0,zxharmyd8qn85oyhgvmm,female,literal,,,purpose,,,"{""Q0"":""Compassion to donate""}"
+14,2744,,survey-text,14,359437,0.0-12.0,zxharmyd8qn85oyhgvmm,female,literal,,,feedback,,,"{""Q0"":""""}"
+15,8196,debrief.html,external-html,15,367898,0.0-13.0,zxharmyd8qn85oyhgvmm,female,literal,,,,,,

@@ -1,0 +1,408 @@
+# Descriptions {#descriptions}
+
+
+### Quality
+
+H: Higher quality descriptions lead to more pronounced effects of metaphor
+
+```{r}
+on = c("tf3xonytl4jagsno9cql",
+"smh4v9rqeytrb2yegyqw",
+"b0cfxvjb6q2vya1cesbo",
+"3b9w0bh94du4phw3wsos",
+"reqfg8cx246zoszmrnff",
+"3dkdcw9ekafjqz1v2w87",
+"hct0sxcek1473jxxe8fl",
+"xznwx3jeunh9jk5lh787",
+"f2rmnlfbsanlttcfne6y",
+"fpyospteggoemb59nuxw",
+"m77sun1swt96wjlejhj6",
+"87swbk6cknu3hdbmapv5",
+"8wvbwfbnuwpumphgu940",
+"xz0dwsq3erfumzdk6g3u",
+"6yv9fs9rw94r7q9eph9c",
+"lzpwuq5kjk1clpq2lt16",
+"2jzymuz60avswfz729e6",
+"vqbjja5qhfyvdcvakwur",
+"7srebzx2pfdv2yx03v05",
+"tdv6duh9sarj5s60pwm3",
+"z5brs0mevdumpjuevm8v",
+"kt20270j5t571c8z3xn9",
+"cccex8n929kjh1y8mzre",
+"tn0jgbbqmhghfw196c61",
+"xp86x9vm339usdvxlfza",
+"t3lu8b4ftr1by3lpap4e",
+"xyofqyp1nh9q97v9wfyr",
+"lkbdt5nzgzmkhurkkwye",
+"zphy1s3uahrw79lo6mgb",
+"0w96jzbx6rdxxs1ennv1",
+"4rd5bhz5mbns2md570oc",
+"ahc5yd008ex82nru2km3",
+"yzd7ffgsxonycgctlwga",
+"yo8hsz0wgqzm509mght8",
+"1dj947x3sc3yy2wuvvya",
+"mxz5ekm89vlybuhn45mf",
+"pbja5q8hatb1x8pznvb4",
+"tc64drmbb8x3uyr99lab",
+"ja3fc6jnmpma4hm93w63",
+"g6jnvll7m4fxlu5nb2my",
+"pwge07onacepsxu8ba4j",
+"kghh5kbbucbp2mndl166",
+"cd7f7jhhw8ktzobf5fg2",
+"buhomawfdyuurlb0nnre",
+"24g8fky5nr8myjgjv1au",
+"5ca7r126ycutz4435shn",
+"dy96zubatwjfjnoafvq7",
+"o963w232hcuton7o0wwe",
+"yrymka12ud48yor18fgs",
+"165hlrnwg8zjg0kkd326",
+"xzutvogrmy61h1uhmsms",
+"vzrg2pv9yx73wdy1vrjf",
+"wg0gstttpx8chpre3u4y",
+"su4l0tfwd1bmt97epd8v",
+"g45swcjf8fdr5g3o486h",
+"50s8fq827n3j3xb2pge1",
+"v8aauzyac07yh0dw57j5",
+"99bujlc9qce15w9kkq3w",
+"x3elx8ryobdby1qskvle",
+"9qyfkvaqwdenrguloyck",
+"fyrxw8fvway3odnpx7k7",
+"1ta7ybxtkrz9ooc76cvc",
+"0ajaoxsy3347gmp5cazv",
+"34tqgyvfj9n2cb0y0jok",
+"sum9001yhghvel368vlp",
+"c4hw391phy51jro89k0j",
+"6rfmwmzr79ozthsvraug",
+"484fpe4p96clmbe7n0t8",
+"qkfy72l6ejvbop9ancku",
+"jzlusqash832fk2ex4k1",
+"zb21gmjo80u9ek8rd8nw",
+"x2qk2ah2h3e2r7qylde5",
+"jqcf9p69pkyu7gskhtyr",
+"bvrgr53v0g5nlqz0xb6g",
+"sp9byj7fyme5tt5om2ug",
+"kg9hm5p8q9e27x6o15y4",
+"71h2qmqd9rygbn0t61lz",
+"fdf356gfqc40gbbuavtc")
+
+off = c(
+  "hhw1u9my0wb4mmloq5y1",
+  "qfuprcslsqhvsj8m0204",
+  "om5tgdnye66bl2op1gn9",
+  "laol6h7mwr9vo7ck33pa",
+  "x7shu9mtsmpkepgvw8x0",
+  "wffsbmhstf2k0ttl0g62",
+  "yy5wq00249pxqchykw10",
+  "6h4czt8gx5la9zm1fkdk",
+  "0my60drm8ju1mw1c6aza",
+  "3o12tk6lf73ykhpwop0o",
+  "7hmwgza7hkmrn7zhq2n6",
+  "aqv3l25op1er93152tl1",
+  "wl17338rdug8ga22xeo6",
+  "naqlakmus7gzy4y962ge",
+  "fzbdpsr2n7o8q1pgk8h2",
+  "hzp8n2szsjvw3j3pz6dd",
+  "va5md1g5j1cmw5pb8v78",
+  "6dt1dlktrcgsb68yeyko"
+)
+
+trials[trials$ppt %in% on, "on_topic"] = 1
+trials[trials$ppt %in% off, "on_topic"] = 0
+```
+
+```{r}
+m1 = lm(update(base.formula, donation ~ .), data = filter(trials, on_topic == 1))
+m2 = lm(update(base.formula, donation ~ . + on_topic), data = filter(trials, on_topic == 1))
+
+summary(m2)
+```
+
+
+### Metaphor
+
+Define some keywords under two main families and one exploratory family of metaphor (only lemmas).
+
+```{r}
+BATTLE_PHRASES <- c('\\bfight', '\\bfought\\b', '\\bbattling\\b', '\\bbattle', '\\bwar\\b', '\\bbeat', '\\benemy\\b', '\\bdefeat\\b', 
+                    '\\bwin\\b', '\\bcombat\\b', '\\bconquer\\b', '\\bovercome\\b', '\\bkill\\b')
+
+JOURNEY_PHRASES <- c('\\bpath\\b', '\\bjourney\\b', '\\broad\\b', '\\brollercoaster\\b', '\\bon track\\b')
+
+# FORCE_PHRASES <- c('forced', 'force', 'lava', 'flood', 'volcano', 'wave', 'drown', 'storm', 'disaster', 'river')
+```
+
+Run a search over descriptions for the keywords and count their occurances. 
+
+```{r}
+search_description_for_battle <- function(row) {
+  return(sum(sapply(BATTLE_PHRASES, function (k) grepl(k, tolower(row)))))
+}
+
+search_description_for_journey <- function(row) {
+  return(sum(sapply(JOURNEY_PHRASES, function (k) grepl(k, tolower(row)))))
+}
+
+# search_description_for_force <- function(row) {
+#   return(sum(sapply(FORCE_PHRASES, function (k) grepl(k, tolower(row), fixed = T))))
+# }
+```
+
+```{r}
+labeled <- read_csv("../experimental/data/free_responses_pre15.csv")
+
+labeled$auto_battle = unname(sapply(labeled$description, search_description_for_battle))
+labeled$auto_journey = unname(sapply(labeled$description, search_description_for_journey))
+
+labeled <- labeled[, c("ppt", "journey", "battle", "auto_battle", "auto_journey")]
+colnames(labeled) <- c("ppt", "desc_journey_present", "desc_battle_present", "auto_battle", "auto_journey")
+labeled$desc_journey_present <- labeled$desc_journey_present > 0
+labeled$desc_battle_present <- labeled$desc_battle_present > 0
+
+trials_with_desc_count <- left_join(trials, labeled)
+```
+
+```{r}
+trials_with_desc_count_fil <- trials_with_desc_count[!is.na(trials_with_desc_count$desc_journey_present), ]
+
+table(trials_with_desc_count_fil$desc_journey_present, trials_with_desc_count_fil$auto_journey)
+table(trials_with_desc_count_fil$desc_battle_present, trials_with_desc_count_fil$auto_battle)
+```
+
+```{r}
+trials_with_desc_count_fil %>% 
+  filter(desc_battle_present != auto_battle) %>%
+  dplyr::select(description, desc_journey_present, auto_journey, desc_battle_present, auto_battle) %>%
+  as.matrix()
+```
+
+```{r}
+trials$battle_presv = unname(sapply(trials$description, search_description_for_battle))
+trials$journey_presv = unname(sapply(trials$description, search_description_for_journey))
+
+trials$description_metaphor =
+  case_when(trials$battle_presv > 0 & trials$journey_presv == 0 ~ "battle",
+            trials$journey_presv > 0  & trials$battle_presv == 0 ~ "journey",
+            trials$battle_presv > 0 & trials$journey_presv > 0 ~ "mixed",
+            trials$battle_presv == 0  & trials$journey_presv == 0 ~ "none")
+
+trials$description_metaphor = factor(trials$description_metaphor, levels = c("none", "mixed", "journey", "battle"))
+```
+
+```{r}
+trials$word_count = sapply(trials$description, function(t) str_count(t, " ")+1)
+
+sum(trials$battle_presv) / sum(trials$word_count) * 1000
+sum(trials$journey_presv) / sum(trials$word_count) * 1000
+```
+
+Approxiamtely 9.5 battle metaphors per 1,000 words and 2.9 journey metaphors per 1,000 words overall.
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(cond_metaphor, 1000 * battle_words / word_count)) + itheme +
+  geom_errorbars +
+  coord_cartesian(ylim = c(0, 20)) +
+  labs(title = "Battle Metaphor Frequency by Metaphor Condition")
+```
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(cond_metaphor, 1000 * journey_words / word_count)) + itheme +
+  geom_errorbars +
+  coord_cartesian(ylim = c(0, 10)) +
+  labs(title = "Journey Metaphor Frequency by Metaphor Condition")
+```
+
+```{r}
+round(100*mean(trials$description_metaphor == "battle"), 2)
+round(100*mean(trials$description_metaphor == "journey"), 2)
+round(100*mean(trials$description_metaphor == "mixed"), 2)
+round(100*mean(trials$description_metaphor == "none"), 2)
+```
+
+About 22% of participants preserved a metaphor: 16% preserved a battle metaphor, 5% preserved a journey metaphor, and 1.3% preserved both metaphors.
+
+#### Effect of Metaphor Condition on preserved Metaphor in Description
+
+```{r}
+g = trials %>%
+  filter(description_metaphor %in% c("battle", "journey", "mixed")) %>%
+  # group_by( cond_metaphor, description_metaphor) %>%
+  # summarize(prop = n() / nrow(trials)) %>%
+  ggplot(aes(cond_metaphor, group = description_metaphor, fill = description_metaphor)) + ptheme +
+  # geom_point() +
+  # geom_line() +
+  geom_bar(position = "dodge") +
+  # scale_y_continuous(labels = scales::percent) +
+  # scale_x_discrete(labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
+  labs(title = "Number of Participants with Preserved Metaphor by Condition",
+       x = "Metaphor Condition",
+       y = "# of Responses",
+       fill = "Metaphor Preserved")
+  # scale_color_brewer(palette = "Set1", name = "Metaphors\nPreserved", labels = c("mixed" = "Mixed", "journey" = "Journey", "battle" = "Battle")) +
+  # coord_cartesian(ylim = c(0.0, 0.1))
+
+g
+# ggsave("preserved_metaphor.png", g, width = pwidth, height = pheight, bg = "transparent")
+```
+
+Does the preservation of the same metaphor which the ppt was exposed to mediate donation amount?
+
+Does donation behavior change when the ppt preserves the metaphor
+
+Preservation is comprehension, engagement, care, focus, attention
+
+Ppts who preserve the metaphor might 
+
+Does preservation predict donation amount, or does donation amount predict the preservation?
+
+Why is it interesting if people are preserving metaphors?
+  Shows something about the impact that the appeal has on the ppt's framing of the situation?
+  Ppts who preserve the exposed metaphor seem to have their framing influenced?
+  If their framing is influenced, does that change how much they donated?
+  so what? to affect one's donation, it's important that their framing is changed
+  
+  literal condition is a baseline for how much we might expect the metaphor to be preserved
+  
+  donations for individuals that preserve a battle metaphor 
+  
+  
+```{r}
+trials$preservation = as.integer(trials$journey_presv > 0)
+
+journey_mask <- trials$cond_metaphor != "battle"
+
+
+m1 <- glm(update(base.formula, preservation ~ .), 
+          data = trials[journey_mask, ],
+          family = "binomial")
+m2 <- glm(update(base.formula, preservation ~ . + cond_metaphor), 
+          data = trials[journey_mask, ],
+          family = "binomial")
+
+
+m3 <- lm(update(base.formula, donation ~ . + preservation + cond_metaphor),
+         data = trials[journey_mask, ])
+
+# compare_lm(m1, m2)
+
+med <- mediate(m2, m3,
+               treat = "cond_metaphor", mediator = "preservation", 
+               boot = T, boot.ci.type = "perc", sims = 1000)
+
+summary(med)
+```
+
+
+
+
+We analyzed the free-response answers the participants completed in response to being asked to explain the patient's situation to a friend. We were interested in whether the metaphor in the passage predicts the presence of metaphors in the description. We will model this with a logistic regression, accounting for the covariates included in the primary hypothesis model.
+
+```{r}
+trials$preserved_metaphor = trials$description_metaphor != "none"
+
+model_metaphor_preserve_base = glm(update(base.formula, preserved_metaphor ~ .), 
+                                   data = trials, 
+                                   family = "binomial")
+model_metaphor_preserve_full = glm(update(base.formula, preserved_metaphor ~ . + cond_metaphor), 
+                                   data = trials, 
+                                   family = "binomial")
+
+compare_lm(model_metaphor_preserve_base, model_metaphor_preserve_full)
+```
+
+In both metaphor conditions, we see a significant increase in the likelihood that the participant will go on to use some sort of metaphor.
+
+```{r}
+model_metaphor_preserve_base = glm(update(base.formula, I(description_metaphor == "journey") ~ .), 
+                                   data = trials %>%
+                                     filter(cond_metaphor %in% c("journey", "battle"), 
+                                            description_metaphor %in% c("journey", "battle")), 
+                                   family = "binomial")
+model_metaphor_preserve_full = glm(update(base.formula, I(description_metaphor == "journey") ~ . + cond_metaphor), 
+                                   data = trials %>% 
+                                     filter(cond_metaphor %in% c("journey", "battle"),
+                                            description_metaphor %in% c("journey", "battle")), 
+                                   family = "binomial")
+
+compare_lm(model_metaphor_preserve_base, model_metaphor_preserve_full)
+```
+
+In both metaphor conditions, we see a significant increase in the likelihood that the participant will go on to use a journey metaphor.
+
+```{r, fig.align='center'}
+trials %>%
+  filter(cond_metaphor %in% c("journey", "battle"),
+         description_metaphor %in% c("journey", "battle")) %>%
+  ggplot() +
+  geom_bar(aes(cond_metaphor, fill = description_metaphor), position = "dodge")
+```
+
+
+```{r}
+model_metaphor_preserve_base = glm(update(base.formula, I(description_metaphor == "battle") ~ .), 
+                                   data = trials %>%
+                                     filter(cond_metaphor %in% c("journey", "battle"), 
+                                            description_metaphor %in% c("journey", "battle")), 
+                                   family = "binomial")
+model_metaphor_preserve_full = glm(update(base.formula, I(description_metaphor == "battle") ~ . + cond_metaphor), 
+                                   data = trials %>% 
+                                     filter(cond_metaphor %in% c("journey", "battle"),
+                                            description_metaphor %in% c("journey", "battle")), 
+                                   family = "binomial")
+
+compare_lm(model_metaphor_preserve_base, model_metaphor_preserve_full)
+```
+
+In the battle metaphor condition, we see a significant increase in the likelihood that the participant will go on to use a battle metaphor. This increase does not exist for participants who were exposed to journey metaphors.
+
+#### Effect of Preserved Metaphor on Donation Behavior
+
+Additionally, we are interested in knowing whether preserved metaphor usage in responses predicts a main effect of donation amount. We will model this with an ordinary linear regression model, accounting for the same covariates as the other models.
+
+```{r}
+model_preserved_base = lm(update(base.formula, donation ~ .), data = trials)
+model_preserved_full = lm(update(base.formula, donation ~ . + preserved_metaphor), data = trials)
+
+compare_lm(model_preserved_base, model_preserved_full)
+```
+
+#### Interaction of Preserved Metaphor on Donation Behavior
+
+```{r}
+print_crosstabs(ftable(trials$cond_metaphor, trials$description_metaphor))
+```
+
+```{r, fig.align='center'}
+trials %>%
+  filter(description_metaphor != "mixed") %>%
+  ggplot(aes(cond_metaphor, donation, color = description_metaphor)) + itheme +
+  geom_errorbars +
+  coord_cartesian(ylim = c(20, 32))
+```
+
+
+NH: Donation amounts do not differ between participants who preserve the metaphor they were exposed to and those who did not preserve any metaphor.
+
+```{r}
+model_preserved_base = lm(update(base.formula, donation ~ . + cond_metaphor), 
+                          data = trials) #filter(trials, description_metaphor != "none"))
+model_preserved_mid = lm(update(base.formula, donation ~ . + cond_metaphor + description_metaphor), 
+                         data =  trials) #filter(trials, description_metaphor != "none"))
+model_preserved_full = lm(update(base.formula, donation ~ . + cond_metaphor * description_metaphor), 
+                          data =  trials) #filter(trials, description_metaphor != "none"))
+
+compare_lm(model_preserved_base, model_preserved_mid)
+compare_lm(model_preserved_mid, model_preserved_full)
+```
+
+```{r}
+model_urgent_base = lm(update(base.formula, urgent ~ .), 
+                       data = filter(trials, description_metaphor != "none"))
+model_urgent_full = lm(update(base.formula, urgent ~ . + I(description_metaphor == "battle")), 
+                       data = filter(trials, description_metaphor != "none"))
+
+compare_lm(model_urgent_base, model_urgent_full)
+```
+
+## Summary

@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,44898,consent.html,external-html,0,44938,0.0-0.0,fkazzwr2405otq4jxtbp,male,battle,,,,,,
+1,3196,,image-button-response,1,48138,0.0-1.0,fkazzwr2405otq4jxtbp,male,battle,check-1.png,1.0,check1,,,
+2,7176,,image-button-response,2,55316,0.0-2.0,fkazzwr2405otq4jxtbp,male,battle,check-2.png,2.0,check2,,,
+3,47682,,instructions,3,102999,0.0-3.0,fkazzwr2405otq4jxtbp,male,battle,,,,"[{""page_index"":0,""viewing_time"":7639},{""page_index"":1,""viewing_time"":20138},{""page_index"":2,""viewing_time"":18200},{""page_index"":3,""viewing_time"":1704}]",,
+4,39475,,html-slider-response,4,142477,0.0-4.0,fkazzwr2405otq4jxtbp,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_mb.png"" class=""main-trial""/>",,trial,,20.0,
+5,82954,,survey-text,5,225434,0.0-5.0,fkazzwr2405otq4jxtbp,male,battle,,,description,,,"{""Q0"":""Someone who unfortunately got cancer and needs help and support in his battle to beat it.\nJason is a fighter and is up to the task and will give it his all to fight the cancer.""}"
+6,252051,,survey-likert,6,477487,0.0-6.0-0.0,fkazzwr2405otq4jxtbp,male,battle,,,sympathy,,,"{""Q0"":6}"
+7,20201,,survey-likert,7,497690,0.0-6.0-1.0,fkazzwr2405otq4jxtbp,male,battle,,,urgent,,,"{""Q0"":6}"
+8,10800,,survey-text,8,508491,0.0-7.0,fkazzwr2405otq4jxtbp,male,battle,,,past-donations,,,"{""Q0"":""2""}"
+9,2987,,survey-multi-choice,9,511481,0.0-8.0-0.0,fkazzwr2405otq4jxtbp,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,4857,,survey-multi-choice,10,516340,0.0-8.0-1.0,fkazzwr2405otq4jxtbp,male,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,17389,,survey-multi-choice,11,533736,0.0-9.0,fkazzwr2405otq4jxtbp,male,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,4307,,survey-text,12,538044,0.0-10.0,fkazzwr2405otq4jxtbp,male,battle,,,age,,,"{""Q0"":""60""}"
+13,30978,,survey-text,13,569024,0.0-11.0,fkazzwr2405otq4jxtbp,male,battle,,,purpose,,,"{""Q0"":""Peoples empathy and charitably.""}"
+14,4517,,survey-text,14,573542,0.0-12.0,fkazzwr2405otq4jxtbp,male,battle,,,feedback,,,"{""Q0"":""no""}"
+15,53670,debrief.html,external-html,15,627346,0.0-13.0,fkazzwr2405otq4jxtbp,male,battle,,,,,,

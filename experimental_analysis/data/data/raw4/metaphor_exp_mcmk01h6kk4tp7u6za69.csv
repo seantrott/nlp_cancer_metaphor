@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,8615,consent.html,external-html,0,9050,0.0-0.0,mcmk01h6kk4tp7u6za69,male,journey,,,,,,
+1,3415,,image-button-response,1,12470,0.0-1.0,mcmk01h6kk4tp7u6za69,male,journey,check-1.png,1.0,check1,,,
+2,3643,,image-button-response,2,16117,0.0-2.0,mcmk01h6kk4tp7u6za69,male,journey,check-2.png,2.0,check2,,,
+3,4772,,instructions,3,20891,0.0-3.0,mcmk01h6kk4tp7u6za69,male,journey,,,,"[{""page_index"":0,""viewing_time"":1370},{""page_index"":1,""viewing_time"":1197},{""page_index"":2,""viewing_time"":1189},{""page_index"":3,""viewing_time"":1014}]",,
+4,6889,,html-slider-response,4,27784,0.0-4.0,mcmk01h6kk4tp7u6za69,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,25.0,
+5,42809,,survey-text,5,70595,0.0-5.0,mcmk01h6kk4tp7u6za69,male,journey,,,description,,,"{""Q0"":""it is good ""}"
+6,4222,,survey-likert,6,74822,0.0-6.0-0.0,mcmk01h6kk4tp7u6za69,male,journey,,,sympathy,,,"{""Q0"":5}"
+7,5220,,survey-likert,7,80050,0.0-6.0-1.0,mcmk01h6kk4tp7u6za69,male,journey,,,urgent,,,"{""Q0"":5}"
+8,9875,,survey-text,8,89929,0.0-7.0,mcmk01h6kk4tp7u6za69,male,journey,,,past-donations,,,"{""Q0"":""1""}"
+9,2532,,survey-multi-choice,9,92467,0.0-8.0-0.0,mcmk01h6kk4tp7u6za69,male,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2804,,survey-multi-choice,10,95276,0.0-8.0-1.0,mcmk01h6kk4tp7u6za69,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,16583,,survey-multi-choice,11,111873,0.0-9.0,mcmk01h6kk4tp7u6za69,male,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,3494,,survey-text,12,115372,0.0-10.0,mcmk01h6kk4tp7u6za69,male,journey,,,age,,,"{""Q0"":""34""}"
+13,2799,,survey-text,13,118174,0.0-11.0,mcmk01h6kk4tp7u6za69,male,journey,,,purpose,,,"{""Q0"":""""}"
+14,2211,,survey-text,14,120387,0.0-12.0,mcmk01h6kk4tp7u6za69,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,6348,debrief.html,external-html,15,128510,0.0-13.0,mcmk01h6kk4tp7u6za69,male,journey,,,,,,

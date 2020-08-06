@@ -1,0 +1,103 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(mediation)
+```
+
+```{r}
+N <- 100
+  
+X <- factor(c(rep("Treat", N/2), rep("Control", N/2)))
+  
+med_sens <- 0.1 #runif(1, 0.01, 0.49)
+M <- c(rnorm(N/4, 4, med_sens), rnorm(N/4, 3, med_sens), rnorm(N/4, 2, med_sens), rnorm(N/4, 1, med_sens))
+  
+Y <- c(rnorm(N/4, 4, 0.5), rnorm(N/4, 3, 0.5), rnorm(N/4, 2, 0.5), rnorm(N/4, 1, 0.5))
+
+mod_y_x <- lm(Y ~ X)
+mod_m_x <- lm(M ~ X)
+mod_y_mx <- lm(Y ~ X + M)
+
+c <- coef(mod_y_x)["XTreat"]
+a <- coef(mod_m_x)["XTreat"]
+b <- coef(mod_y_mx)["M"]
+cp <- coef(mod_y_mx)["XTreat"]
+  
+ab <- a * b
+
+s <- mediate(model.m = mod_m_x,
+                model.y = mod_y_mx,
+                treat = "X",
+                mediator = "M",
+                boot = T,
+                boot.ci.type = "bca",
+                sims = 1000)
+
+summary(s)
+```
+
+```{r}
+ms <- medsens(s, rho.by = 0.05)
+summary(ms)
+```
+
+```{r}
+plot(ms, sens.par = "R2", r.type = "total")
+```
+
+
+```{r}
+generate_mediated <- function(mediator_sigma = -1, Y_error = -1) {
+  N <- 200
+  
+  ms <- ifelse(mediator_sigma != -1, mediator_sigma, runif(1, 0.01, 2.5))
+  Ye <- ifelse(Y_error != -1, Y_error, runif(1, 0.01, 2.5))
+  
+  X <- c(rep("Treat", N/2), rep("Control", N/2))
+  
+  M <- c(rnorm(N/4, 4, ms), rnorm(N/4, 3, ms), rnorm(N/4, 2, ms), rnorm(N/4, 1, ms))
+
+  Y <- c(rnorm(N/4, 4, Ye), rnorm(N/4, 3, Ye), rnorm(N/4, 2, Ye), rnorm(N/4, 1, Ye))
+
+  mod_y_x <- lm(Y ~ X)
+  mod_m_x <- lm(M ~ X)
+  mod_y_mx <- lm(Y ~ X + M)
+
+  c <- coef(mod_y_x)["XTreat"]
+  a <- coef(mod_m_x)["XTreat"]
+  b <- coef(mod_y_mx)["M"]
+  cp <- coef(mod_y_mx)["XTreat"]
+  
+  ab <- a * b
+  
+  return(c(ms = ms,
+           Ye = Ye,
+           c = c, # total effect
+           a = a,
+           b = b,
+           ab = ab, # indirect effect
+           cp = cp)) # direct effect
+}
+```
+
+```{r}
+d <- data.frame(t(replicate(500, generate_mediated(Y_error = 0.5))))
+head(d)
+```
+
+```{r}
+ggplot(aes(cp.XTreat, ab.XTreat, color = ms), data = d) + 
+  theme_minimal() +
+  geom_point() +
+  geom_smooth() +
+  labs(x = "c prime", y = "ab path, Indirect Effect", color = "Mediator\nSD (noise)")
+```
+

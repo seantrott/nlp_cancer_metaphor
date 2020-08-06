@@ -1,0 +1,158 @@
+# Sympathy and Urgency {#sympathy-urgency}
+
+Summary statistics of sympathy and urgency
+
+```{r}
+summary(trials$sympathy, digits = 2)
+summary(trials$urgent, digits = 2)
+```
+
+Distribution of the followup questions
+
+```{r, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_bar(aes(urgent, group=1, y=..prop..)) +
+  scale_x_discrete(limits = seq(0,6)) +
+  labs(x = "Urgent", y = "Proportion", title = "Urgent Distribution", subtitle = "\"Her situation is urgent.\"")
+```
+
+```{r, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_bar(aes(sympathy, group=1, y=..prop..)) +
+  scale_x_discrete(limits = seq(0,6)) +
+  labs(x = "Sympathy", y = "Proportion", title = "Sympathy Distribution", subtitle = "\"Her situation is one I sympathize with.\"")
+```
+
+```{r, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_bar(aes(as.factor(urgent), fill = cond_metaphor), width = 0.9, position = position_dodge2(preserve = "single")) +
+  labs(x = "Urgent", y = "Count", title = "Urgent Distribution", subtitle = "\"Her situation is urgent.\"") +
+  scale_fill_brewer(palette = "Pastel1")
+```
+
+```{r, fig.align='center'}
+ggplot(trials) + itheme +
+  geom_bar(aes(as.factor(sympathy), fill = cond_metaphor), width = 0.9, position = position_dodge2(preserve = "single")) +
+  labs(x = "Sympathy", y = "Count", title = "Sympathy Distribution", subtitle = "\"Her situation is sympathy\"") +
+  scale_fill_brewer(palette = "Pastel1")
+```
+
+## Sympathy
+
+Does the metaphorical condition have a relationship to participant's rating of perceived sympathy?
+
+H: Higher sympathy leads to higher donations
+
+```{r}
+model_sympathy_base = lm(update(base.formula, donation ~ .), data = trials)
+model_sympathy_full = lm(update(base.formula, donation ~ . + sympathy), data = trials)
+
+compare_lm(model_sympathy_base, model_sympathy_full)
+```
+
+## Urgency
+
+```{r}
+# b = trials %>%
+#   ggplot(aes(factor(urgent+1), donation)) + ptheme +
+#   # geom_boxplot()
+#   stat_summary(geom = "errorbar", fun.data = mean_se, width = 0.2) +
+#   stat_summary(geom = "point", fun.data = mean_se, shape = 5) +
+#   geom_jitter(alpha = 0.02, width = 0.25, shape = 16) +
+#   scale_x_discrete(labels = c("1" = "1\nNot urgent", "7" = "7")) +
+#   scale_y_continuous(labels = scales::dollar) +
+#   labs(y = "Donation", x = "Urgency", title = "Urgency on Donation") +
+#   coord_cartesian(ylim = c(5, 36))
+# 
+# b
+```
+
+Does the metaphorical condition have a relationship to participant's rating of perceived urgency?
+
+H: High urgency leads to higher donations
+
+```{r}
+model_urgent_base = lm(update(base.formula, donation ~ .), data = trials)
+model_urgent_full = lm(update(base.formula, donation ~ . + urgent), data = trials)
+
+compare_lm(model_urgent_base, model_urgent_full)
+```
+
+## Metaphor on Sympathy
+
+```{r}
+# a = trials %>%
+#   # mutate(cond_metaphor = factor(cond_metaphor, levels = c("literal", "journey", "battle"))) %>%
+#   ggplot(aes(cond_metaphor, urgent+1)) + ptheme +
+#   stat_summary(geom = "errorbar", fun.data = mean_se, width = 0.1, position = position_dodge(width = 0.3)) +
+#   stat_summary(geom = "point", fun.data = mean_se, shape = 5, position = position_dodge(width = 0.3)) +
+#   scale_x_discrete(labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
+#   labs(title = "Metaphor Condition on Urgency", x = "Metaphor", y = "Urgency (1 - 7)") +
+#   # scale_color_brewer(palette = "Set1", name = "Gender") +
+#   coord_cartesian(ylim = c(5.35, 6.2)) +
+#   geom_signif(comparisons = list(c("journey", "battle"), c("literal", "battle")),
+#               y_position = c(5.8, 5.95),
+#               tip_length = 0.005,
+#               textsize = 2.75,
+#               annotations = c("list({\U03C7^2}(1) == 10.4, ~~ p < 0.01)", 
+#                               "list({\U03C7^2}(1) == 7.8, ~~ p < 0.01)"),
+#               parse = T)
+# 
+# g = grid.arrange(a, b, nrow = 1)
+# ggsave("urgency.png", g, width = pwidth, height = pheight, bg = "transparent")
+```
+
+
+The metaphor condition predicts how much sympathy participants feel
+
+```{r}
+model_sympathy_base = lm(update(base.formula, sympathy ~ .), data = trials)
+model_sympathy_full = lm(update(base.formula, sympathy ~ . + cond_metaphor), data = trials)
+
+compare_lm(model_sympathy_base, model_sympathy_full)
+```
+
+## Metaphor on Urgency
+
+The metaphor condition predicts how much urgency participants feel
+
+```{r}
+model_urgent_base = lm(update(base.formula, urgent ~ .), data = filter(trials, cond_metaphor != "literal"))
+model_urgent_full = lm(update(base.formula, urgent ~ . + cond_metaphor), data = filter(trials, cond_metaphor != "literal"))
+
+compare_lm(model_urgent_base, model_urgent_full)
+```
+
+## Cancer Experience on Sympathy
+
+```{r}
+model_selfcancer_sympathy_base = lm(update(base.formula, sympathy ~ . - self_cancer), data = trials)
+model_selfcancer_sympathy_full = lm(update(base.formula, sympathy ~ .), data = trials)
+
+compare_lm(model_selfcancer_sympathy_base, model_selfcancer_sympathy_full)
+```
+
+```{r}
+model_ffcancer_sympathy_base = lm(update(base.formula, sympathy ~ . - ff_cancer), data = trials)
+model_ffcancer_sympathy_full = lm(update(base.formula, sympathy ~ .), data = trials)
+
+compare_lm(model_ffcancer_sympathy_base, model_ffcancer_sympathy_full)
+```
+
+## Cancer Experience on Urgency
+
+```{r}
+model_selfcancer_urgent_base = lm(update(base.formula, urgent ~ . - self_cancer), data = trials)
+model_selfcancer_urgent_full = lm(update(base.formula, urgent ~ .), data = trials)
+
+compare_lm(model_selfcancer_urgent_base, model_selfcancer_urgent_full)
+```
+
+```{r}
+model_ffcancer_urgent_base = lm(update(base.formula, urgent ~ . - ff_cancer), data = trials)
+model_ffcancer_urgent_full = lm(update(base.formula, urgent ~ .), data = trials)
+
+compare_lm(model_ffcancer_urgent_base, model_ffcancer_urgent_full)
+```
+
+## Summary

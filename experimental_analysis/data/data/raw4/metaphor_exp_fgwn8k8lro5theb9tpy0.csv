@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,2577,consent.html,external-html,0,2688,0.0-0.0,fgwn8k8lro5theb9tpy0,female,journey,,,,,,
+1,1713,,image-button-response,1,4406,0.0-1.0,fgwn8k8lro5theb9tpy0,female,journey,check-1.png,1.0,check1,,,
+2,2414,,image-button-response,2,6822,0.0-2.0,fgwn8k8lro5theb9tpy0,female,journey,check-2.png,2.0,check2,,,
+3,21966,,instructions,3,28790,0.0-3.0,fgwn8k8lro5theb9tpy0,female,journey,,,,"[{""page_index"":0,""viewing_time"":3703},{""page_index"":1,""viewing_time"":13240},{""page_index"":2,""viewing_time"":3391},{""page_index"":3,""viewing_time"":1632}]",,
+4,18255,,html-slider-response,4,47054,0.0-4.0,fgwn8k8lro5theb9tpy0,female,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_journey.png"" class=""main-trial""/>",,trial,,30.0,
+5,47243,,survey-text,5,94300,0.0-5.0,fgwn8k8lro5theb9tpy0,female,journey,,,description,,,"{""Q0"":""Jennifer has a long and tough road ahead of her after being diagnosed with stage II lymphoma. She's going to need to have chemo, which is hard physically and mentally. ""}"
+6,4365,,survey-likert,6,98669,0.0-6.0-0.0,fgwn8k8lro5theb9tpy0,female,journey,,,sympathy,,,"{""Q0"":6}"
+7,3517,,survey-likert,7,102189,0.0-6.0-1.0,fgwn8k8lro5theb9tpy0,female,journey,,,urgent,,,"{""Q0"":6}"
+8,3580,,survey-text,8,105771,0.0-7.0,fgwn8k8lro5theb9tpy0,female,journey,,,past-donations,,,"{""Q0"":""15""}"
+9,2492,,survey-multi-choice,9,108268,0.0-8.0-0.0,fgwn8k8lro5theb9tpy0,female,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2108,,survey-multi-choice,10,110380,0.0-8.0-1.0,fgwn8k8lro5theb9tpy0,female,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,11828,,survey-multi-choice,11,122221,0.0-9.0,fgwn8k8lro5theb9tpy0,female,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,2562,,survey-text,12,124787,0.0-10.0,fgwn8k8lro5theb9tpy0,female,journey,,,age,,,"{""Q0"":""39""}"
+13,2614,,survey-text,13,127402,0.0-11.0,fgwn8k8lro5theb9tpy0,female,journey,,,purpose,,,"{""Q0"":""""}"
+14,1926,,survey-text,14,129330,0.0-12.0,fgwn8k8lro5theb9tpy0,female,journey,,,feedback,,,"{""Q0"":""""}"
+15,2989,debrief.html,external-html,15,132602,0.0-13.0,fgwn8k8lro5theb9tpy0,female,journey,,,,,,

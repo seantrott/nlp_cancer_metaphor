@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Descriptions | Metaphors on Charitable Donations</title>
+  <meta name="description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Descriptions | Metaphors on Charitable Donations" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Descriptions | Metaphors on Charitable Donations" />
+  
+  <meta name="twitter:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  
+
+<meta name="author" content="Alex Liebscher" />
+
+
+<meta name="date" content="2020-06-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="demographics.html"/>
+<link rel="next" href="response-times.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Metaphors on Charitable Donations</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#load-libraries"><i class="fa fa-check"></i><b>1.1</b> Load Libraries</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#load-data"><i class="fa fa-check"></i><b>1.2</b> Load Data</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#build-custom-functions"><i class="fa fa-check"></i><b>1.3</b> Build Custom Functions</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#set-custom-plot-themes"><i class="fa fa-check"></i><b>1.4</b> Set Custom Plot Themes</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>2</b> Data Overview</a><ul>
+<li class="chapter" data-level="2.1" data-path="overview.html"><a href="overview.html#tabular-summaries"><i class="fa fa-check"></i><b>2.1</b> Tabular Summaries</a></li>
+<li class="chapter" data-level="2.2" data-path="overview.html"><a href="overview.html#visualization-summaries"><i class="fa fa-check"></i><b>2.2</b> Visualization Summaries</a></li>
+<li class="chapter" data-level="2.3" data-path="overview.html"><a href="overview.html#duration-statistics"><i class="fa fa-check"></i><b>2.3</b> Duration Statistics</a></li>
+<li class="chapter" data-level="2.4" data-path="overview.html"><a href="overview.html#coarse-donation-behavior"><i class="fa fa-check"></i><b>2.4</b> Coarse Donation Behavior</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="metaphors.html"><a href="metaphors.html"><i class="fa fa-check"></i><b>3</b> Metaphors</a><ul>
+<li class="chapter" data-level="3.1" data-path="metaphors.html"><a href="metaphors.html#immediate-alternative-questions"><i class="fa fa-check"></i><b>3.1</b> Immediate Alternative Questions</a></li>
+<li class="chapter" data-level="3.2" data-path="metaphors.html"><a href="metaphors.html#coarse-donation-groups"><i class="fa fa-check"></i><b>3.2</b> Coarse Donation Groups</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-wide-donation-group"><i class="fa fa-check"></i><b>3.2.1</b> Metaphor Condition and Presence on Likelihood of Wide Donation Group</a></li>
+<li class="chapter" data-level="3.2.2" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-narrow-donation-group"><i class="fa fa-check"></i><b>3.2.2</b> Metaphor Condition and Presence on Likelihood of Narrow Donation Group</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="metaphors.html"><a href="metaphors.html#broader-alternative-questions"><i class="fa fa-check"></i><b>3.3</b> Broader Alternative Questions</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="metaphors.html"><a href="metaphors.html#gaussian-mixture-model"><i class="fa fa-check"></i><b>3.3.1</b> Gaussian Mixture Model</a></li>
+<li class="chapter" data-level="3.3.2" data-path="metaphors.html"><a href="metaphors.html#decision-tree"><i class="fa fa-check"></i><b>3.3.2</b> Decision Tree</a></li>
+<li class="chapter" data-level="3.3.3" data-path="metaphors.html"><a href="metaphors.html#random-forest-regression"><i class="fa fa-check"></i><b>3.3.3</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="3.3.4" data-path="metaphors.html"><a href="metaphors.html#xgboost"><i class="fa fa-check"></i><b>3.3.4</b> xgboost</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="metaphors.html"><a href="metaphors.html#gams"><i class="fa fa-check"></i><b>3.4</b> GAMs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html"><i class="fa fa-check"></i><b>4</b> Sympathy and Urgency</a><ul>
+<li class="chapter" data-level="4.1" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#sympathy"><i class="fa fa-check"></i><b>4.1</b> Sympathy</a></li>
+<li class="chapter" data-level="4.2" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#urgency"><i class="fa fa-check"></i><b>4.2</b> Urgency</a></li>
+<li class="chapter" data-level="4.3" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-sympathy"><i class="fa fa-check"></i><b>4.3</b> Metaphor on Sympathy</a></li>
+<li class="chapter" data-level="4.4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-urgency"><i class="fa fa-check"></i><b>4.4</b> Metaphor on Urgency</a></li>
+<li class="chapter" data-level="4.5" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-sympathy"><i class="fa fa-check"></i><b>4.5</b> Cancer Experience on Sympathy</a></li>
+<li class="chapter" data-level="4.6" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-urgency"><i class="fa fa-check"></i><b>4.6</b> Cancer Experience on Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="demographics.html"><a href="demographics.html"><i class="fa fa-check"></i><b>5</b> Demographics</a><ul>
+<li class="chapter" data-level="5.1" data-path="demographics.html"><a href="demographics.html#patient-gender"><i class="fa fa-check"></i><b>5.1</b> Patient Gender</a></li>
+<li class="chapter" data-level="5.2" data-path="demographics.html"><a href="demographics.html#gender"><i class="fa fa-check"></i><b>5.2</b> Gender</a></li>
+<li class="chapter" data-level="5.3" data-path="demographics.html"><a href="demographics.html#gender-congruency-effects"><i class="fa fa-check"></i><b>5.3</b> Gender Congruency Effects</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="demographics.html"><a href="demographics.html#gender-congruence-on-sympathy"><i class="fa fa-check"></i><b>5.3.1</b> Gender Congruence on Sympathy</a></li>
+<li class="chapter" data-level="5.3.2" data-path="demographics.html"><a href="demographics.html#gender-congruence-on-urgency"><i class="fa fa-check"></i><b>5.3.2</b> Gender Congruence on Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="demographics.html"><a href="demographics.html#self-cancer"><i class="fa fa-check"></i><b>5.4</b> Self Cancer</a></li>
+<li class="chapter" data-level="5.5" data-path="demographics.html"><a href="demographics.html#friends-and-family-cancer"><i class="fa fa-check"></i><b>5.5</b> Friends and Family Cancer</a></li>
+<li class="chapter" data-level="5.6" data-path="demographics.html"><a href="demographics.html#education"><i class="fa fa-check"></i><b>5.6</b> Education</a></li>
+<li class="chapter" data-level="5.7" data-path="demographics.html"><a href="demographics.html#socioeconomics"><i class="fa fa-check"></i><b>5.7</b> Socioeconomics</a></li>
+<li class="chapter" data-level="5.8" data-path="demographics.html"><a href="demographics.html#past-donations"><i class="fa fa-check"></i><b>5.8</b> Past Donations</a></li>
+<li class="chapter" data-level="5.9" data-path="demographics.html"><a href="demographics.html#age"><i class="fa fa-check"></i><b>5.9</b> Age</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="descriptions.html"><a href="descriptions.html"><i class="fa fa-check"></i><b>6</b> Descriptions</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="descriptions.html"><a href="descriptions.html#quality"><i class="fa fa-check"></i><b>6.0.1</b> Quality</a></li>
+<li class="chapter" data-level="6.0.2" data-path="descriptions.html"><a href="descriptions.html#metaphor"><i class="fa fa-check"></i><b>6.0.2</b> Metaphor</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="response-times.html"><a href="response-times.html"><i class="fa fa-check"></i><b>7</b> Response Times</a><ul>
+<li class="chapter" data-level="7.1" data-path="response-times.html"><a href="response-times.html#main-stimulus-timing"><i class="fa fa-check"></i><b>7.1</b> Main Stimulus Timing</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="response-times.html"><a href="response-times.html#relationship-with-metaphor-condition"><i class="fa fa-check"></i><b>7.1.1</b> Relationship with Metaphor Condition</a></li>
+<li class="chapter" data-level="7.1.2" data-path="response-times.html"><a href="response-times.html#continuous-rt"><i class="fa fa-check"></i><b>7.1.2</b> Continuous RT</a></li>
+<li class="chapter" data-level="7.1.3" data-path="response-times.html"><a href="response-times.html#discretized-rt"><i class="fa fa-check"></i><b>7.1.3</b> Discretized RT</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="response-times.html"><a href="response-times.html#experiment-content-timing"><i class="fa fa-check"></i><b>7.2</b> Experiment Content Timing</a></li>
+<li class="chapter" data-level="7.3" data-path="response-times.html"><a href="response-times.html#experiment-timing"><i class="fa fa-check"></i><b>7.3</b> Experiment Timing</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="mediation.html"><a href="mediation.html"><i class="fa fa-check"></i><b>8</b> Mediation</a><ul>
+<li class="chapter" data-level="8.1" data-path="mediation.html"><a href="mediation.html#any-metaphor-to-literal-condition"><i class="fa fa-check"></i><b>8.1</b> Any Metaphor to Literal condition</a></li>
+<li class="chapter" data-level="8.2" data-path="mediation.html"><a href="mediation.html#battle-to-literal-condition"><i class="fa fa-check"></i><b>8.2</b> Battle to Literal condition</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="mediation.html"><a href="mediation.html#sympathy-1"><i class="fa fa-check"></i><b>8.2.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.2.2" data-path="mediation.html"><a href="mediation.html#urgency-1"><i class="fa fa-check"></i><b>8.2.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="mediation.html"><a href="mediation.html#journey-to-literal-condition"><i class="fa fa-check"></i><b>8.3</b> Journey to Literal condition</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="mediation.html"><a href="mediation.html#sympathy-2"><i class="fa fa-check"></i><b>8.3.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.3.2" data-path="mediation.html"><a href="mediation.html#urgency-2"><i class="fa fa-check"></i><b>8.3.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="mediation.html"><a href="mediation.html#battle-to-journey-condition"><i class="fa fa-check"></i><b>8.4</b> Battle to Journey condition</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="mediation.html"><a href="mediation.html#sympathy-3"><i class="fa fa-check"></i><b>8.4.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.4.2" data-path="mediation.html"><a href="mediation.html#urgency-3"><i class="fa fa-check"></i><b>8.4.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="mediation.html"><a href="mediation.html#summary"><i class="fa fa-check"></i><b>8.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>9</b> Introduction</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Metaphors on Charitable Donations</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="descriptions" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Descriptions</h1>
+<div id="quality" class="section level3">
+<h3><span class="header-section-number">6.0.1</span> Quality</h3>
+<p>H: Higher quality descriptions lead to more pronounced effects of metaphor</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">on =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;tf3xonytl4jagsno9cql&quot;</span>,
+<span class="st">&quot;smh4v9rqeytrb2yegyqw&quot;</span>,
+<span class="st">&quot;b0cfxvjb6q2vya1cesbo&quot;</span>,
+<span class="st">&quot;3b9w0bh94du4phw3wsos&quot;</span>,
+<span class="st">&quot;reqfg8cx246zoszmrnff&quot;</span>,
+<span class="st">&quot;3dkdcw9ekafjqz1v2w87&quot;</span>,
+<span class="st">&quot;hct0sxcek1473jxxe8fl&quot;</span>,
+<span class="st">&quot;xznwx3jeunh9jk5lh787&quot;</span>,
+<span class="st">&quot;f2rmnlfbsanlttcfne6y&quot;</span>,
+<span class="st">&quot;fpyospteggoemb59nuxw&quot;</span>,
+<span class="st">&quot;m77sun1swt96wjlejhj6&quot;</span>,
+<span class="st">&quot;87swbk6cknu3hdbmapv5&quot;</span>,
+<span class="st">&quot;8wvbwfbnuwpumphgu940&quot;</span>,
+<span class="st">&quot;xz0dwsq3erfumzdk6g3u&quot;</span>,
+<span class="st">&quot;6yv9fs9rw94r7q9eph9c&quot;</span>,
+<span class="st">&quot;lzpwuq5kjk1clpq2lt16&quot;</span>,
+<span class="st">&quot;2jzymuz60avswfz729e6&quot;</span>,
+<span class="st">&quot;vqbjja5qhfyvdcvakwur&quot;</span>,
+<span class="st">&quot;7srebzx2pfdv2yx03v05&quot;</span>,
+<span class="st">&quot;tdv6duh9sarj5s60pwm3&quot;</span>,
+<span class="st">&quot;z5brs0mevdumpjuevm8v&quot;</span>,
+<span class="st">&quot;kt20270j5t571c8z3xn9&quot;</span>,
+<span class="st">&quot;cccex8n929kjh1y8mzre&quot;</span>,
+<span class="st">&quot;tn0jgbbqmhghfw196c61&quot;</span>,
+<span class="st">&quot;xp86x9vm339usdvxlfza&quot;</span>,
+<span class="st">&quot;t3lu8b4ftr1by3lpap4e&quot;</span>,
+<span class="st">&quot;xyofqyp1nh9q97v9wfyr&quot;</span>,
+<span class="st">&quot;lkbdt5nzgzmkhurkkwye&quot;</span>,
+<span class="st">&quot;zphy1s3uahrw79lo6mgb&quot;</span>,
+<span class="st">&quot;0w96jzbx6rdxxs1ennv1&quot;</span>,
+<span class="st">&quot;4rd5bhz5mbns2md570oc&quot;</span>,
+<span class="st">&quot;ahc5yd008ex82nru2km3&quot;</span>,
+<span class="st">&quot;yzd7ffgsxonycgctlwga&quot;</span>,
+<span class="st">&quot;yo8hsz0wgqzm509mght8&quot;</span>,
+<span class="st">&quot;1dj947x3sc3yy2wuvvya&quot;</span>,
+<span class="st">&quot;mxz5ekm89vlybuhn45mf&quot;</span>,
+<span class="st">&quot;pbja5q8hatb1x8pznvb4&quot;</span>,
+<span class="st">&quot;tc64drmbb8x3uyr99lab&quot;</span>,
+<span class="st">&quot;ja3fc6jnmpma4hm93w63&quot;</span>,
+<span class="st">&quot;g6jnvll7m4fxlu5nb2my&quot;</span>,
+<span class="st">&quot;pwge07onacepsxu8ba4j&quot;</span>,
+<span class="st">&quot;kghh5kbbucbp2mndl166&quot;</span>,
+<span class="st">&quot;cd7f7jhhw8ktzobf5fg2&quot;</span>,
+<span class="st">&quot;buhomawfdyuurlb0nnre&quot;</span>,
+<span class="st">&quot;24g8fky5nr8myjgjv1au&quot;</span>,
+<span class="st">&quot;5ca7r126ycutz4435shn&quot;</span>,
+<span class="st">&quot;dy96zubatwjfjnoafvq7&quot;</span>,
+<span class="st">&quot;o963w232hcuton7o0wwe&quot;</span>,
+<span class="st">&quot;yrymka12ud48yor18fgs&quot;</span>,
+<span class="st">&quot;165hlrnwg8zjg0kkd326&quot;</span>,
+<span class="st">&quot;xzutvogrmy61h1uhmsms&quot;</span>,
+<span class="st">&quot;vzrg2pv9yx73wdy1vrjf&quot;</span>,
+<span class="st">&quot;wg0gstttpx8chpre3u4y&quot;</span>,
+<span class="st">&quot;su4l0tfwd1bmt97epd8v&quot;</span>,
+<span class="st">&quot;g45swcjf8fdr5g3o486h&quot;</span>,
+<span class="st">&quot;50s8fq827n3j3xb2pge1&quot;</span>,
+<span class="st">&quot;v8aauzyac07yh0dw57j5&quot;</span>,
+<span class="st">&quot;99bujlc9qce15w9kkq3w&quot;</span>,
+<span class="st">&quot;x3elx8ryobdby1qskvle&quot;</span>,
+<span class="st">&quot;9qyfkvaqwdenrguloyck&quot;</span>,
+<span class="st">&quot;fyrxw8fvway3odnpx7k7&quot;</span>,
+<span class="st">&quot;1ta7ybxtkrz9ooc76cvc&quot;</span>,
+<span class="st">&quot;0ajaoxsy3347gmp5cazv&quot;</span>,
+<span class="st">&quot;34tqgyvfj9n2cb0y0jok&quot;</span>,
+<span class="st">&quot;sum9001yhghvel368vlp&quot;</span>,
+<span class="st">&quot;c4hw391phy51jro89k0j&quot;</span>,
+<span class="st">&quot;6rfmwmzr79ozthsvraug&quot;</span>,
+<span class="st">&quot;484fpe4p96clmbe7n0t8&quot;</span>,
+<span class="st">&quot;qkfy72l6ejvbop9ancku&quot;</span>,
+<span class="st">&quot;jzlusqash832fk2ex4k1&quot;</span>,
+<span class="st">&quot;zb21gmjo80u9ek8rd8nw&quot;</span>,
+<span class="st">&quot;x2qk2ah2h3e2r7qylde5&quot;</span>,
+<span class="st">&quot;jqcf9p69pkyu7gskhtyr&quot;</span>,
+<span class="st">&quot;bvrgr53v0g5nlqz0xb6g&quot;</span>,
+<span class="st">&quot;sp9byj7fyme5tt5om2ug&quot;</span>,
+<span class="st">&quot;kg9hm5p8q9e27x6o15y4&quot;</span>,
+<span class="st">&quot;71h2qmqd9rygbn0t61lz&quot;</span>,
+<span class="st">&quot;fdf356gfqc40gbbuavtc&quot;</span>)
+
+off =<span class="st"> </span><span class="kw">c</span>(
+  <span class="st">&quot;hhw1u9my0wb4mmloq5y1&quot;</span>,
+  <span class="st">&quot;qfuprcslsqhvsj8m0204&quot;</span>,
+  <span class="st">&quot;om5tgdnye66bl2op1gn9&quot;</span>,
+  <span class="st">&quot;laol6h7mwr9vo7ck33pa&quot;</span>,
+  <span class="st">&quot;x7shu9mtsmpkepgvw8x0&quot;</span>,
+  <span class="st">&quot;wffsbmhstf2k0ttl0g62&quot;</span>,
+  <span class="st">&quot;yy5wq00249pxqchykw10&quot;</span>,
+  <span class="st">&quot;6h4czt8gx5la9zm1fkdk&quot;</span>,
+  <span class="st">&quot;0my60drm8ju1mw1c6aza&quot;</span>,
+  <span class="st">&quot;3o12tk6lf73ykhpwop0o&quot;</span>,
+  <span class="st">&quot;7hmwgza7hkmrn7zhq2n6&quot;</span>,
+  <span class="st">&quot;aqv3l25op1er93152tl1&quot;</span>,
+  <span class="st">&quot;wl17338rdug8ga22xeo6&quot;</span>,
+  <span class="st">&quot;naqlakmus7gzy4y962ge&quot;</span>,
+  <span class="st">&quot;fzbdpsr2n7o8q1pgk8h2&quot;</span>,
+  <span class="st">&quot;hzp8n2szsjvw3j3pz6dd&quot;</span>,
+  <span class="st">&quot;va5md1g5j1cmw5pb8v78&quot;</span>,
+  <span class="st">&quot;6dt1dlktrcgsb68yeyko&quot;</span>
+)
+
+trials[trials<span class="op">$</span>ppt <span class="op">%in%</span><span class="st"> </span>on, <span class="st">&quot;on_topic&quot;</span>] =<span class="st"> </span><span class="dv">1</span>
+trials[trials<span class="op">$</span>ppt <span class="op">%in%</span><span class="st"> </span>off, <span class="st">&quot;on_topic&quot;</span>] =<span class="st"> </span><span class="dv">0</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m1 =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>.), <span class="dt">data =</span> <span class="kw">filter</span>(trials, on_topic <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))
+m2 =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>on_topic), <span class="dt">data =</span> <span class="kw">filter</span>(trials, on_topic <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))
+
+<span class="kw">summary</span>(m2)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = update(base.formula, donation ~ . + on_topic), data = filter(trials, 
+##     on_topic == 1))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -25.195  -8.798   0.000  10.593  34.604 
+## 
+## Coefficients: (1 not defined because of singularities)
+##                       Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)            13.3045    10.4163   1.277   0.2070  
+## cond_sexfemale          2.0184     4.8056   0.420   0.6762  
+## self_cancerY           16.5048    12.7703   1.292   0.2017  
+## ff_cancerY             -5.0225     4.7000  -1.069   0.2900  
+## ff_cancerOO            -8.3786    17.9919  -0.466   0.6433  
+## genderF                -0.6889     4.1850  -0.165   0.8699  
+## genderNB               -2.3389    17.6956  -0.132   0.8953  
+## educationA             13.3765     8.7490   1.529   0.1321  
+## educationB              5.8496     6.0772   0.963   0.3401  
+## educationM             10.0327     6.9371   1.446   0.1539  
+## educationP             44.4054    19.1625   2.317   0.0243 *
+## educationD             16.0046    16.7335   0.956   0.3431  
+## socioeconomic10-25k     6.7491     8.3375   0.809   0.4218  
+## socioeconomic25-50k     6.7738     7.5784   0.894   0.3754  
+## socioeconomic50-75k    10.1761     8.0094   1.271   0.2093  
+## socioeconomic75-100k   -0.7693     9.7585  -0.079   0.9375  
+## socioeconomic100-150k  10.0685    13.0581   0.771   0.4440  
+## socioeconomic&gt;150k     32.2743    16.6867   1.934   0.0583 .
+## socioeconomicOO         0.2886    12.3383   0.023   0.9814  
+## past_donations.z        4.4055    10.9138   0.404   0.6881  
+## age.z                  -2.2729     5.2310  -0.434   0.6657  
+## on_topic                    NA         NA      NA       NA  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 15.96 on 54 degrees of freedom
+## Multiple R-squared:  0.2679, Adjusted R-squared:  -0.003193 
+## F-statistic: 0.9882 on 20 and 54 DF,  p-value: 0.4899</code></pre>
+</div>
+<div id="metaphor" class="section level3">
+<h3><span class="header-section-number">6.0.2</span> Metaphor</h3>
+<p>Define some keywords under two main families and one exploratory family of metaphor (only lemmas).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">BATTLE_PHRASES &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;fight&#39;</span>, <span class="st">&#39;fought&#39;</span>, <span class="st">&#39;battling&#39;</span>, <span class="st">&#39;battle&#39;</span>, <span class="st">&#39;war&#39;</span>, <span class="st">&#39;beat&#39;</span>, <span class="st">&#39;enemy&#39;</span>, <span class="st">&#39;defeat&#39;</span>, <span class="st">&#39;win&#39;</span>, <span class="st">&#39;combat&#39;</span>)
+
+JOURNEY_PHRASES &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;path&#39;</span>, <span class="st">&#39;journey&#39;</span>, <span class="st">&#39;road&#39;</span>, <span class="st">&#39;rollercoaster&#39;</span>, <span class="st">&#39;going through&#39;</span>)
+
+<span class="co"># FORCE_PHRASES &lt;- c(&#39;forced&#39;, &#39;force&#39;, &#39;lava&#39;, &#39;flood&#39;, &#39;volcano&#39;, &#39;wave&#39;, &#39;drown&#39;, &#39;storm&#39;, &#39;disaster&#39;, &#39;river&#39;)</span></code></pre></div>
+<p>Run a search over descriptions for the keywords and count their occurances.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">search_description_for_battle &lt;-<span class="st"> </span><span class="cf">function</span>(row) {
+  <span class="kw">return</span>(<span class="kw">sum</span>(<span class="kw">sapply</span>(BATTLE_PHRASES, <span class="cf">function</span> (k) <span class="kw">grepl</span>(k, <span class="kw">tolower</span>(row), <span class="dt">fixed =</span> T))))
+}
+
+search_description_for_journey &lt;-<span class="st"> </span><span class="cf">function</span>(row) {
+  <span class="kw">return</span>(<span class="kw">sum</span>(<span class="kw">sapply</span>(JOURNEY_PHRASES, <span class="cf">function</span> (k) <span class="kw">grepl</span>(k, <span class="kw">tolower</span>(row), <span class="dt">fixed =</span> T))))
+}
+
+<span class="co"># search_description_for_force &lt;- function(row) {</span>
+<span class="co">#   return(sum(sapply(FORCE_PHRASES, function (k) grepl(k, tolower(row), fixed = T))))</span>
+<span class="co"># }</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials<span class="op">$</span>battle_words =<span class="st"> </span><span class="kw">unname</span>(<span class="kw">sapply</span>(trials<span class="op">$</span>description, search_description_for_battle))
+trials<span class="op">$</span>journey_words =<span class="st"> </span><span class="kw">unname</span>(<span class="kw">sapply</span>(trials<span class="op">$</span>description, search_description_for_journey))
+<span class="co"># trials$force_words = unname(sapply(trials$description, search_description_for_force))</span>
+
+trials<span class="op">$</span>description_metaphor =
+<span class="st">  </span><span class="kw">case_when</span>(trials<span class="op">$</span>battle_words <span class="op">&gt;</span><span class="st">  </span><span class="dv">0</span>  <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>journey_words <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> &quot;battle&quot;</span>,
+            trials<span class="op">$</span>journey_words <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>  <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>battle_words <span class="op">==</span><span class="st">  </span><span class="dv">0</span> <span class="op">~</span><span class="st"> &quot;journey&quot;</span>,
+            trials<span class="op">$</span>battle_words <span class="op">&gt;</span><span class="st">  </span><span class="dv">0</span>  <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>journey_words <span class="op">&gt;</span><span class="st">  </span><span class="dv">0</span> <span class="op">~</span><span class="st"> &quot;mixed&quot;</span>,
+            trials<span class="op">$</span>battle_words <span class="op">==</span><span class="st"> </span><span class="dv">0</span>  <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>journey_words <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> &quot;none&quot;</span>)
+
+trials<span class="op">$</span>description_metaphor =<span class="st"> </span><span class="kw">factor</span>(trials<span class="op">$</span>description_metaphor, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;none&quot;</span>, <span class="st">&quot;mixed&quot;</span>, <span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials<span class="op">$</span>word_count =<span class="st"> </span><span class="kw">sapply</span>(trials<span class="op">$</span>description, <span class="cf">function</span>(t) <span class="kw">str_count</span>(t, <span class="st">&quot; &quot;</span>)<span class="op">+</span><span class="dv">1</span>)
+
+<span class="kw">sum</span>(trials<span class="op">$</span>battle_words) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(trials<span class="op">$</span>word_count) <span class="op">*</span><span class="st"> </span><span class="dv">1000</span></code></pre></div>
+<pre><code>## [1] 9.486639</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(trials<span class="op">$</span>journey_words) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(trials<span class="op">$</span>word_count) <span class="op">*</span><span class="st"> </span><span class="dv">1000</span></code></pre></div>
+<pre><code>## [1] 5.735666</code></pre>
+<p>Approxiamtely 9.5 battle metaphors per 1,000 words and 2.9 journey metaphors per 1,000 words overall.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(cond_metaphor, <span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>battle_words <span class="op">/</span><span class="st"> </span>word_count)) <span class="op">+</span><span class="st"> </span>itheme <span class="op">+</span>
+<span class="st">  </span>geom_errorbars <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Battle Metaphor Frequency by Metaphor Condition&quot;</span>)</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-134-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(cond_metaphor, <span class="dv">1000</span> <span class="op">*</span><span class="st"> </span>journey_words <span class="op">/</span><span class="st"> </span>word_count)) <span class="op">+</span><span class="st"> </span>itheme <span class="op">+</span>
+<span class="st">  </span>geom_errorbars <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Journey Metaphor Frequency by Metaphor Condition&quot;</span>)</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-135-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">mean</span>(trials<span class="op">$</span>description_metaphor <span class="op">==</span><span class="st"> &quot;battle&quot;</span>), <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] 15.82</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">mean</span>(trials<span class="op">$</span>description_metaphor <span class="op">==</span><span class="st"> &quot;journey&quot;</span>), <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] 9.8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">mean</span>(trials<span class="op">$</span>description_metaphor <span class="op">==</span><span class="st"> &quot;mixed&quot;</span>), <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] 2.87</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">mean</span>(trials<span class="op">$</span>description_metaphor <span class="op">==</span><span class="st"> &quot;none&quot;</span>), <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] 71.52</code></pre>
+<p>About 24% of participants preserved a metaphor: 17% preserved a battle metaphor, 5% preserved a journey metaphor, and 1.6% preserved both metaphors.</p>
+<div id="effect-of-metaphor-condition-on-preserved-metaphor-in-description" class="section level4">
+<h4><span class="header-section-number">6.0.2.1</span> Effect of Metaphor Condition on preserved Metaphor in Description</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># g = trials %&gt;%</span>
+<span class="co">#   filter(description_metaphor %in% c(&quot;battle&quot;, &quot;journey&quot;, &quot;mixed&quot;)) %&gt;%</span>
+<span class="co">#   group_by( cond_metaphor, description_metaphor) %&gt;%</span>
+<span class="co">#   summarize(prop = n() / nrow(trials)) %&gt;%</span>
+<span class="co">#   ggplot(aes(cond_metaphor, y = prop, group = description_metaphor, color = description_metaphor)) + ptheme +</span>
+<span class="co">#   geom_point() +</span>
+<span class="co">#   geom_line() +</span>
+<span class="co">#   scale_y_continuous(labels = scales::percent) +</span>
+<span class="co">#   scale_x_discrete(labels = c(&quot;literal&quot; = &quot;Literal&quot;, &quot;battle&quot; = &quot;Battle&quot;, &quot;journey&quot; = &quot;Journey&quot;)) +</span>
+<span class="co">#   labs(title = &quot;Proportion of Participants with Preserved Metaphor by Condition&quot;,</span>
+<span class="co">#        x = &quot;Metaphor Condition&quot;, </span>
+<span class="co">#        y = &quot;% of Participants&quot;) +</span>
+<span class="co">#   scale_color_brewer(palette = &quot;Set1&quot;, name = &quot;Metaphors\nPreserved&quot;, labels = c(&quot;mixed&quot; = &quot;Mixed&quot;, &quot;journey&quot; = &quot;Journey&quot;, &quot;battle&quot; = &quot;Battle&quot;)) +</span>
+<span class="co">#   coord_cartesian(ylim = c(0.0, 0.1))</span>
+<span class="co"># </span>
+<span class="co"># g</span>
+<span class="co"># ggsave(&quot;preserved_metaphor.png&quot;, g, width = pwidth, height = pheight, bg = &quot;transparent&quot;)</span></code></pre></div>
+<p>We analyzed the free-response answers the participants completed in response to being asked to explain the patient’s situation to a friend. We were interested in whether the metaphor in the passage predicts the presence of metaphors in the description. We will model this with a logistic regression, accounting for the covariates included in the primary hypothesis model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials<span class="op">$</span>preserved_metaphor =<span class="st"> </span>trials<span class="op">$</span>description_metaphor <span class="op">!=</span><span class="st"> &quot;none&quot;</span>
+
+model_metaphor_preserve_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, preserved_metaphor <span class="op">~</span><span class="st"> </span>.), 
+                                   <span class="dt">data =</span> trials, 
+                                   <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_metaphor_preserve_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, preserved_metaphor <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                                   <span class="dt">data =</span> trials, 
+                                   <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_metaphor_preserve_base, model_metaphor_preserve_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: preserved_metaphor ~ cond_sex + self_cancer + ff_cancer + gender + 
+##     education + socioeconomic + past_donations.z + age.z
+## Model 2: preserved_metaphor ~ cond_sex + self_cancer + ff_cancer + gender + 
+##     education + socioeconomic + past_donations.z + age.z + cond_metaphor
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1      4477     5295.0                          
+## 2      4475     5220.3  2   74.702 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Chisq Stat:  74.702 
+## NULL
+## MODEL INFO:
+## Observations: 4502
+## Dependent Variable: preserved_metaphor
+## Type: Generalized linear model
+##   Family: binomial 
+##   Link function: logit 
+## 
+## MODEL FIT:
+## χ²(26) = 158.630, p = 0.000
+## Pseudo-R² (Cragg-Uhler) = 0.050
+## Pseudo-R² (McFadden) = 0.029
+## AIC = 5274.315, BIC = 5447.447 
+## 
+## Standard errors: MLE
+## -----------------------------------------------------------------------
+##                                 Est.     2.5%    97.5%   z val.       p
+## --------------------------- -------- -------- -------- -------- -------
+## (Intercept)                   -2.635   -3.867   -1.404   -4.194   0.000
+## cond_sexfemale                 0.110   -0.022    0.243    1.630   0.103
+## self_cancerY                  -0.139   -0.462    0.183   -0.845   0.398
+## self_cancerOO                 -0.674   -1.476    0.129   -1.645   0.100
+## ff_cancerY                     0.272    0.125    0.418    3.632   0.000
+## ff_cancerOO                    0.307   -0.201    0.816    1.184   0.237
+## genderF                        0.125   -0.010    0.259    1.809   0.070
+## genderNB                      -0.639   -1.726    0.448   -1.152   0.249
+## genderOO                       0.595   -0.680    1.871    0.915   0.360
+## educationHS                    1.190   -0.034    2.413    1.906   0.057
+## educationA                     1.285    0.054    2.517    2.046   0.041
+## educationB                     0.939   -0.283    2.162    1.506   0.132
+## educationM                     0.865   -0.369    2.098    1.374   0.169
+## educationP                     0.509   -0.792    1.811    0.767   0.443
+## educationD                     0.675   -0.645    1.995    1.002   0.316
+## educationOO                    0.516   -1.130    2.162    0.615   0.539
+## socioeconomic10-25k           -0.046   -0.297    0.206   -0.357   0.721
+## socioeconomic25-50k            0.036   -0.192    0.264    0.309   0.758
+## socioeconomic50-75k           -0.021   -0.265    0.224   -0.166   0.868
+## socioeconomic75-100k           0.114   -0.164    0.391    0.803   0.422
+## socioeconomic100-150k         -0.031   -0.356    0.294   -0.186   0.852
+## socioeconomic&gt;150k             0.332   -0.102    0.766    1.498   0.134
+## socioeconomicOO                0.366   -0.070    0.801    1.646   0.100
+## past_donations.z               0.044   -0.086    0.174    0.661   0.509
+## age.z                          0.226    0.089    0.362    3.244   0.001
+## cond_metaphorbattle            0.714    0.550    0.877    8.536   0.000
+## cond_metaphorjourney           0.406    0.238    0.574    4.736   0.000
+## -----------------------------------------------------------------------</code></pre>
+<p>In both metaphor conditions, we see a significant increase in the likelihood that the participant will go on to use some sort of metaphor.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_metaphor_preserve_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(description_metaphor <span class="op">==</span><span class="st"> &quot;journey&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                                   <span class="dt">data =</span> trials <span class="op">%&gt;%</span>
+<span class="st">                                     </span><span class="kw">filter</span>(cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>), 
+                                            description_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)), 
+                                   <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_metaphor_preserve_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(description_metaphor <span class="op">==</span><span class="st"> &quot;journey&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                                   <span class="dt">data =</span> trials <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">                                     </span><span class="kw">filter</span>(cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>),
+                                            description_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)), 
+                                   <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_metaphor_preserve_base, model_metaphor_preserve_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(description_metaphor == &quot;journey&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(description_metaphor == &quot;journey&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_metaphor
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1       827    1073.59                          
+## 2       826     892.28  1   181.31 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Chisq Stat:  181.314 
+## NULL
+## MODEL INFO:
+## Observations: 852
+## Dependent Variable: I(description_metaphor == &quot;journey&quot;)
+## Type: Generalized linear model
+##   Family: binomial 
+##   Link function: logit 
+## 
+## MODEL FIT:
+## χ²(25) = 217.977, p = 0.000
+## Pseudo-R² (Cragg-Uhler) = 0.310
+## Pseudo-R² (McFadden) = 0.196
+## AIC = 944.280, BIC = 1067.717 
+## 
+## Standard errors: MLE
+## -----------------------------------------------------------------------------
+##                                  Est.        2.5%      97.5%   z val.       p
+## --------------------------- --------- ----------- ---------- -------- -------
+## (Intercept)                   -15.161   -1201.625   1171.303   -0.025   0.980
+## cond_sexfemale                 -0.181      -0.508      0.146   -1.087   0.277
+## self_cancerY                    0.253      -0.527      1.033    0.636   0.525
+## self_cancerOO                  -1.174      -3.552      1.204   -0.968   0.333
+## ff_cancerY                     -0.017      -0.389      0.355   -0.089   0.929
+## ff_cancerOO                    -0.291      -1.652      1.071   -0.418   0.676
+## genderF                         0.421       0.088      0.754    2.480   0.013
+## genderNB                        0.524      -2.087      3.136    0.394   0.694
+## genderOO                        0.747      -1.821      3.315    0.570   0.568
+## educationHS                    12.908   -1173.555   1199.372    0.021   0.983
+## educationA                     12.799   -1173.664   1199.263    0.021   0.983
+## educationB                     12.526   -1173.937   1198.990    0.021   0.983
+## educationM                     12.423   -1174.041   1198.886    0.021   0.984
+## educationP                     12.099   -1174.365   1198.563    0.020   0.984
+## educationD                     11.352   -1175.113   1197.817    0.019   0.985
+## educationOO                    -1.218   -1642.061   1639.625   -0.001   0.999
+## socioeconomic10-25k             0.509      -0.136      1.155    1.547   0.122
+## socioeconomic25-50k             1.092       0.500      1.684    3.613   0.000
+## socioeconomic50-75k             1.107       0.475      1.739    3.432   0.001
+## socioeconomic75-100k            0.781       0.063      1.500    2.130   0.033
+## socioeconomic100-150k           0.127      -0.765      1.020    0.279   0.780
+## socioeconomic&gt;150k              0.888      -0.149      1.925    1.679   0.093
+## socioeconomicOO                 0.891      -0.103      1.885    1.757   0.079
+## past_donations.z               -0.054      -0.349      0.240   -0.361   0.718
+## age.z                          -0.110      -0.459      0.238   -0.621   0.534
+## cond_metaphorjourney            2.131       1.795      2.467   12.442   0.000
+## -----------------------------------------------------------------------------</code></pre>
+<p>In both metaphor conditions, we see a significant increase in the likelihood that the participant will go on to use a journey metaphor.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>),
+         description_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(cond_metaphor, <span class="dt">fill =</span> description_metaphor), <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-140-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_metaphor_preserve_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(description_metaphor <span class="op">==</span><span class="st"> &quot;battle&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                                   <span class="dt">data =</span> trials <span class="op">%&gt;%</span>
+<span class="st">                                     </span><span class="kw">filter</span>(cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>), 
+                                            description_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)), 
+                                   <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_metaphor_preserve_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(description_metaphor <span class="op">==</span><span class="st"> &quot;battle&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                                   <span class="dt">data =</span> trials <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">                                     </span><span class="kw">filter</span>(cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>),
+                                            description_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)), 
+                                   <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_metaphor_preserve_base, model_metaphor_preserve_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(description_metaphor == &quot;battle&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(description_metaphor == &quot;battle&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_metaphor
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1       827    1073.59                          
+## 2       826     892.28  1   181.31 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Chisq Stat:  181.314 
+## NULL
+## MODEL INFO:
+## Observations: 852
+## Dependent Variable: I(description_metaphor == &quot;battle&quot;)
+## Type: Generalized linear model
+##   Family: binomial 
+##   Link function: logit 
+## 
+## MODEL FIT:
+## χ²(25) = 217.977, p = 0.000
+## Pseudo-R² (Cragg-Uhler) = 0.310
+## Pseudo-R² (McFadden) = 0.196
+## AIC = 944.280, BIC = 1067.717 
+## 
+## Standard errors: MLE
+## ------------------------------------------------------------------------------
+##                                  Est.        2.5%      97.5%    z val.       p
+## --------------------------- --------- ----------- ---------- --------- -------
+## (Intercept)                    15.161   -1171.303   1201.625     0.025   0.980
+## cond_sexfemale                  0.181      -0.146      0.508     1.087   0.277
+## self_cancerY                   -0.253      -1.033      0.527    -0.636   0.525
+## self_cancerOO                   1.174      -1.204      3.552     0.968   0.333
+## ff_cancerY                      0.017      -0.355      0.389     0.089   0.929
+## ff_cancerOO                     0.291      -1.071      1.652     0.418   0.676
+## genderF                        -0.421      -0.754     -0.088    -2.480   0.013
+## genderNB                       -0.524      -3.136      2.087    -0.394   0.694
+## genderOO                       -0.747      -3.315      1.821    -0.570   0.568
+## educationHS                   -12.908   -1199.372   1173.555    -0.021   0.983
+## educationA                    -12.799   -1199.263   1173.664    -0.021   0.983
+## educationB                    -12.526   -1198.990   1173.937    -0.021   0.983
+## educationM                    -12.423   -1198.886   1174.041    -0.021   0.984
+## educationP                    -12.099   -1198.563   1174.365    -0.020   0.984
+## educationD                    -11.352   -1197.817   1175.113    -0.019   0.985
+## educationOO                     1.218   -1639.625   1642.061     0.001   0.999
+## socioeconomic10-25k            -0.509      -1.155      0.136    -1.547   0.122
+## socioeconomic25-50k            -1.092      -1.684     -0.500    -3.613   0.000
+## socioeconomic50-75k            -1.107      -1.739     -0.475    -3.432   0.001
+## socioeconomic75-100k           -0.781      -1.500     -0.063    -2.130   0.033
+## socioeconomic100-150k          -0.127      -1.020      0.765    -0.279   0.780
+## socioeconomic&gt;150k             -0.888      -1.925      0.149    -1.679   0.093
+## socioeconomicOO                -0.891      -1.885      0.103    -1.757   0.079
+## past_donations.z                0.054      -0.240      0.349     0.361   0.718
+## age.z                           0.110      -0.238      0.459     0.621   0.534
+## cond_metaphorjourney           -2.131      -2.467     -1.795   -12.442   0.000
+## ------------------------------------------------------------------------------</code></pre>
+<p>In the battle metaphor condition, we see a significant increase in the likelihood that the participant will go on to use a battle metaphor. This increase does not exist for participants who were exposed to journey metaphors.</p>
+</div>
+<div id="effect-of-preserved-metaphor-on-donation-behavior" class="section level4">
+<h4><span class="header-section-number">6.0.2.2</span> Effect of Preserved Metaphor on Donation Behavior</h4>
+<p>Additionally, we are interested in knowing whether preserved metaphor usage in responses predicts a main effect of donation amount. We will model this with an ordinary linear regression model, accounting for the same covariates as the other models.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_preserved_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>.), <span class="dt">data =</span> trials)
+model_preserved_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>preserved_metaphor), <span class="dt">data =</span> trials)
+
+<span class="kw">compare_lm</span>(model_preserved_base, model_preserved_full)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z
+## Model 2: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z + preserved_metaphor
+##   Res.Df     RSS Df Sum of Sq Pr(&gt;Chi)
+## 1   4477 1145461                      
+## 2   4476 1144827  1    634.47   0.1153
+## Chisq Stat:  2.494 
+## NULL</code></pre>
+</div>
+<div id="interaction-of-preserved-metaphor-on-donation-behavior" class="section level4">
+<h4><span class="header-section-number">6.0.2.3</span> Interaction of Preserved Metaphor on Donation Behavior</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print_crosstabs</span>(<span class="kw">ftable</span>(trials<span class="op">$</span>cond_metaphor, trials<span class="op">$</span>description_metaphor))</code></pre></div>
+<pre><code>##          none mixed journey battle
+##                                   
+## literal  1206    24     137    164
+## battle    955    49      80    399
+## journey  1059    56     224    149
+## 
+##           none mixed journey battle
+##                                    
+## literal  0.268 0.005   0.030  0.036
+## battle   0.212 0.011   0.018  0.089
+## journey  0.235 0.012   0.050  0.033</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(description_metaphor <span class="op">!=</span><span class="st"> &quot;mixed&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(cond_metaphor, donation, <span class="dt">color =</span> description_metaphor)) <span class="op">+</span><span class="st"> </span>itheme <span class="op">+</span>
+<span class="st">  </span>geom_errorbars <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">32</span>))</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-144-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>NH: Donation amounts do not differ between participants who preserve the metaphor they were exposed to and those who did not preserve any metaphor.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_preserved_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                          <span class="dt">data =</span> trials) <span class="co">#filter(trials, description_metaphor != &quot;none&quot;))</span>
+model_preserved_mid =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor <span class="op">+</span><span class="st"> </span>description_metaphor), 
+                         <span class="dt">data =</span>  trials) <span class="co">#filter(trials, description_metaphor != &quot;none&quot;))</span>
+model_preserved_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor <span class="op">*</span><span class="st"> </span>description_metaphor), 
+                          <span class="dt">data =</span>  trials) <span class="co">#filter(trials, description_metaphor != &quot;none&quot;))</span>
+
+<span class="kw">compare_lm</span>(model_preserved_base, model_preserved_mid)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z + cond_metaphor
+## Model 2: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z + cond_metaphor + 
+##     description_metaphor
+##   Res.Df     RSS Df Sum of Sq Pr(&gt;Chi)
+## 1   4475 1144489                      
+## 2   4472 1143837  3    651.94   0.4665
+## Chisq Stat:  2.565 
+## NULL</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compare_lm</span>(model_preserved_mid, model_preserved_full)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z + cond_metaphor + 
+##     description_metaphor
+## Model 2: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z + cond_metaphor + 
+##     description_metaphor + cond_metaphor:description_metaphor
+##   Res.Df     RSS Df Sum of Sq Pr(&gt;Chi)
+## 1   4472 1143837                      
+## 2   4466 1141368  6    2468.5   0.1398
+## Chisq Stat:  9.726 
+## NULL</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_urgent_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, urgent <span class="op">~</span><span class="st"> </span>.), 
+                       <span class="dt">data =</span> <span class="kw">filter</span>(trials, description_metaphor <span class="op">!=</span><span class="st"> &quot;none&quot;</span>))
+model_urgent_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, urgent <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(description_metaphor <span class="op">==</span><span class="st"> &quot;battle&quot;</span>)), 
+                       <span class="dt">data =</span> <span class="kw">filter</span>(trials, description_metaphor <span class="op">!=</span><span class="st"> &quot;none&quot;</span>))
+
+<span class="kw">compare_lm</span>(model_urgent_base, model_urgent_full)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: urgent ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z
+## Model 2: urgent ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z + I(description_metaphor == 
+##     &quot;battle&quot;)
+##   Res.Df    RSS Df Sum of Sq  Pr(&gt;Chi)    
+## 1   1257 1976.1                           
+## 2   1256 1957.2  1    18.918 0.0004934 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Chisq Stat:  12.332 
+## NULL
+## MODEL INFO:
+## Observations: 1282
+## Dependent Variable: urgent
+## Type: OLS linear regression 
+## 
+## MODEL FIT:
+## F(25,1256) = 1.497, p = 0.055
+## R² = 0.029
+## Adj. R² = 0.010 
+## 
+## Standard errors: OLS
+## -------------------------------------------------------------------------
+##                                   Est.     2.5%    97.5%   t val.       p
+## ----------------------------- -------- -------- -------- -------- -------
+## (Intercept)                      5.922    4.476    7.368    8.035   0.000
+## cond_sexfemale                  -0.104   -0.243    0.034   -1.477   0.140
+## self_cancerY                     0.029   -0.308    0.365    0.166   0.868
+## self_cancerOO                   -0.020   -0.954    0.913   -0.042   0.966
+## ff_cancerY                       0.023   -0.134    0.180    0.290   0.772
+## ff_cancerOO                     -0.190   -0.743    0.363   -0.675   0.500
+## genderF                         -0.060   -0.202    0.082   -0.832   0.406
+## genderNB                        -0.216   -1.458    1.026   -0.341   0.733
+## genderOO                         0.282   -0.854    1.418    0.488   0.626
+## educationHS                     -1.230   -2.664    0.205   -1.682   0.093
+## educationA                      -1.294   -2.734    0.146   -1.763   0.078
+## educationB                      -1.415   -2.846    0.016   -1.940   0.053
+## educationM                      -1.522   -2.965   -0.079   -2.069   0.039
+## educationP                      -1.611   -3.125   -0.097   -2.088   0.037
+## educationD                      -1.348   -2.877    0.181   -1.730   0.084
+## educationOO                     -1.336   -3.157    0.486   -1.439   0.150
+## socioeconomic10-25k              0.152   -0.113    0.416    1.125   0.261
+## socioeconomic25-50k              0.131   -0.106    0.368    1.085   0.278
+## socioeconomic50-75k              0.210   -0.047    0.467    1.604   0.109
+## socioeconomic75-100k             0.049   -0.240    0.337    0.332   0.740
+## socioeconomic100-150k           -0.136   -0.481    0.210   -0.770   0.442
+## socioeconomic&gt;150k              -0.015   -0.460    0.429   -0.067   0.946
+## socioeconomicOO                 -0.192   -0.620    0.236   -0.878   0.380
+## past_donations.z                -0.011   -0.152    0.131   -0.148   0.882
+## age.z                            0.065   -0.081    0.211    0.874   0.382
+## I(description_metaphor ==        0.247    0.108    0.386    3.484   0.001
+## &quot;battle&quot;)TRUE                                                            
+## -------------------------------------------------------------------------</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="demographics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="response-times.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["book.pdf", "book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,5792,consent.html,external-html,0,5939,0.0-0.0,wrowyp6lhz7w1mv952w8,female,literal,,,,,,
+1,2345,,image-button-response,1,8285,0.0-1.0,wrowyp6lhz7w1mv952w8,female,literal,check-1.png,1.0,check1,,,
+2,4015,,image-button-response,2,12301,0.0-2.0,wrowyp6lhz7w1mv952w8,female,literal,check-2.png,2.0,check2,,,
+3,61491,,instructions,3,73793,0.0-3.0,wrowyp6lhz7w1mv952w8,female,literal,,,,"[{""page_index"":0,""viewing_time"":6481},{""page_index"":1,""viewing_time"":30619},{""page_index"":2,""viewing_time"":22791},{""page_index"":3,""viewing_time"":1599}]",,
+4,69605,,html-slider-response,4,143400,0.0-4.0,wrowyp6lhz7w1mv952w8,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,10.0,
+5,96683,,survey-text,5,240084,0.0-5.0,wrowyp6lhz7w1mv952w8,female,literal,,,description,,,"{""Q0"":""Jennifer is in an unfortunate situation. She needs help.""}"
+6,6455,,survey-likert,6,246540,0.0-6.0-0.0,wrowyp6lhz7w1mv952w8,female,literal,,,urgent,,,"{""Q0"":5}"
+7,2918,,survey-likert,7,249461,0.0-6.0-1.0,wrowyp6lhz7w1mv952w8,female,literal,,,sympathy,,,"{""Q0"":5}"
+8,4628,,survey-text,8,254090,0.0-7.0,wrowyp6lhz7w1mv952w8,female,literal,,,past-donations,,,"{""Q0"":""4""}"
+9,3495,,survey-multi-choice,9,257586,0.0-8.0-0.0,wrowyp6lhz7w1mv952w8,female,literal,,,self-cancer,,,"{""Q0"":""Prefer not to say""}"
+10,2849,,survey-multi-choice,10,260438,0.0-8.0-1.0,wrowyp6lhz7w1mv952w8,female,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,6831,,survey-multi-choice,11,267274,0.0-9.0,wrowyp6lhz7w1mv952w8,female,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,2890,,survey-text,12,270164,0.0-10.0,wrowyp6lhz7w1mv952w8,female,literal,,,age,,,"{""Q0"":""24""}"
+13,40480,,survey-text,13,310644,0.0-11.0,wrowyp6lhz7w1mv952w8,female,literal,,,purpose,,,"{""Q0"":""Memory retention, attention, levels of empathy towards another individual in an unfortunate situation""}"
+14,4413,,survey-text,14,315059,0.0-12.0,wrowyp6lhz7w1mv952w8,female,literal,,,feedback,,,"{""Q0"":""N/A""}"
+15,2776,debrief.html,external-html,15,318158,0.0-13.0,wrowyp6lhz7w1mv952w8,female,literal,,,,,,

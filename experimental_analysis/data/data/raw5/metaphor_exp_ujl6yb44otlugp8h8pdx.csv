@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,7852,consent.html,external-html,0,7956,0.0-0.0,ujl6yb44otlugp8h8pdx,male,battle,,,,,,
+1,2655,,image-button-response,1,10613,0.0-1.0,ujl6yb44otlugp8h8pdx,male,battle,check-1.png,1.0,check1,,,
+2,3313,,image-button-response,2,13928,0.0-2.0,ujl6yb44otlugp8h8pdx,male,battle,check-2.png,2.0,check2,,,
+3,64743,,instructions,3,78672,0.0-3.0,ujl6yb44otlugp8h8pdx,male,battle,,,,"[{""page_index"":0,""viewing_time"":9328},{""page_index"":1,""viewing_time"":42724},{""page_index"":2,""viewing_time"":11167},{""page_index"":3,""viewing_time"":1523}]",,
+4,142278,,html-slider-response,4,220952,0.0-4.0,ujl6yb44otlugp8h8pdx,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_battle.png"" class=""main-trial""/>",,trial,,15.0,
+5,155167,,survey-text,5,376120,0.0-5.0,ujl6yb44otlugp8h8pdx,male,battle,,,description,,,"{""Q0"":""He has Stage II Lymphoma that he was diagnosed with after a complicated thyroid surgery.  He is also experiencing sickness from undergoing chemotherapy.""}"
+6,6465,,survey-likert,6,382586,0.0-6.0-0.0,ujl6yb44otlugp8h8pdx,male,battle,,,sympathy,,,"{""Q0"":3}"
+7,3743,,survey-likert,7,386330,0.0-6.0-1.0,ujl6yb44otlugp8h8pdx,male,battle,,,urgent,,,"{""Q0"":2}"
+8,5339,,survey-text,8,391670,0.0-7.0,ujl6yb44otlugp8h8pdx,male,battle,,,past-donations,,,"{""Q0"":""2""}"
+9,2395,,survey-multi-choice,9,394066,0.0-8.0-0.0,ujl6yb44otlugp8h8pdx,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,2832,,survey-multi-choice,10,396900,0.0-8.0-1.0,ujl6yb44otlugp8h8pdx,male,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,27701,,survey-multi-choice,11,424606,0.0-9.0,ujl6yb44otlugp8h8pdx,male,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Associate degree (e.g. AA, AS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,3250,,survey-text,12,427857,0.0-10.0,ujl6yb44otlugp8h8pdx,male,battle,,,age,,,"{""Q0"":""41""}"
+13,36899,,survey-text,13,464757,0.0-11.0,ujl6yb44otlugp8h8pdx,male,battle,,,purpose,,,"{""Q0"":""I have no idea.""}"
+14,3611,,survey-text,14,468369,0.0-12.0,ujl6yb44otlugp8h8pdx,male,battle,,,feedback,,,"{""Q0"":""""}"
+15,62409,debrief.html,external-html,15,531028,0.0-13.0,ujl6yb44otlugp8h8pdx,male,battle,,,,,,

@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,29057,consent.html,external-html,0,29356,0.0-0.0,vj7qhf3s4tko6jem19fm,male,battle,,,,,,
+1,2651,,image-button-response,1,32027,0.0-1.0,vj7qhf3s4tko6jem19fm,male,battle,check-1.png,1.0,check1,,,
+2,3861,,image-button-response,2,35898,0.0-2.0,vj7qhf3s4tko6jem19fm,male,battle,check-2.png,2.0,check2,,,
+3,24807,,instructions,3,60707,0.0-3.0,vj7qhf3s4tko6jem19fm,male,battle,,,,"[{""page_index"":0,""viewing_time"":5716},{""page_index"":1,""viewing_time"":10343},{""page_index"":2,""viewing_time"":7260},{""page_index"":3,""viewing_time"":1487}]",,
+4,35478,,html-slider-response,4,96189,0.0-4.0,vj7qhf3s4tko6jem19fm,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_battle.png"" class=""main-trial""/>",,trial,,25.0,
+5,87114,,survey-text,5,183305,0.0-5.0,vj7qhf3s4tko6jem19fm,male,battle,,,description,,,"{""Q0"":""Jason is suffering from lymphoma. He has a lot of chemotherapy treatments ahead over the coming months and will have expenses that he needs help in paying, so his friend has created on online fundraiser.""}"
+6,7317,,survey-likert,6,190625,0.0-6.0-0.0,vj7qhf3s4tko6jem19fm,male,battle,,,sympathy,,,"{""Q0"":6}"
+7,3077,,survey-likert,7,193705,0.0-6.0-1.0,vj7qhf3s4tko6jem19fm,male,battle,,,urgent,,,"{""Q0"":5}"
+8,3809,,survey-text,8,197516,0.0-7.0,vj7qhf3s4tko6jem19fm,male,battle,,,past-donations,,,"{""Q0"":""2""}"
+9,3097,,survey-multi-choice,9,200618,0.0-8.0-0.0,vj7qhf3s4tko6jem19fm,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,2389,,survey-multi-choice,10,203009,0.0-8.0-1.0,vj7qhf3s4tko6jem19fm,male,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,29472,,survey-multi-choice,11,232488,0.0-9.0,vj7qhf3s4tko6jem19fm,male,battle,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,3682,,survey-text,12,236172,0.0-10.0,vj7qhf3s4tko6jem19fm,male,battle,,,age,,,"{""Q0"":""47""}"
+13,22623,,survey-text,13,258796,0.0-11.0,vj7qhf3s4tko6jem19fm,male,battle,,,purpose,,,"{""Q0"":""Whether we are generous with hypothetical money?""}"
+14,50315,,survey-text,14,309112,0.0-12.0,vj7qhf3s4tko6jem19fm,male,battle,,,feedback,,,"{""Q0"":""Too remote of a possibility of getting the $50 for people to treat it like real money. ""}"
+15,23591,debrief.html,external-html,15,333101,0.0-13.0,vj7qhf3s4tko6jem19fm,male,battle,,,,,,

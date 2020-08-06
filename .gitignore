@@ -3,19 +3,16 @@ data/processed/cancer_projects.csv
 data/processed/cancer_projects_full.csv
 
 paper/
+presentations/
+literature/
 
-experimental/experiment_design/check.psd
-experimental/experiment_design/consent.docx
-experimental/experiment_design/debrief.doc
+experiment_analysis/materials/web/jspsych-6.0.5
+experiment_analysis/materials/web/debrief.doc
+experiment_analysis/materials/web/debrief.pdf
+experiment_analysis/materials/web/consent.pdf
+experiment_analysis/materials/web/campaign_src
 
-exploration/labeling_times.txt
-
-URC Presentation.pptx
-Model Selection.docx
-
-reports/*.png
-
-*.pdf
+gofundme_analysis/exploration/labeling_times.txt
 
 .idea
 

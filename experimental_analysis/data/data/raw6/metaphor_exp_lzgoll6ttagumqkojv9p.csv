@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,14361,consent.html,external-html,0,14471,0.0-0.0,lzgoll6ttagumqkojv9p,female,battle,,,,,,
+1,2910,,image-button-response,1,17394,0.0-1.0,lzgoll6ttagumqkojv9p,female,battle,check-1.png,1.0,check1,,,
+2,4707,,image-button-response,2,22105,0.0-2.0,lzgoll6ttagumqkojv9p,female,battle,check-2.png,2.0,check2,,,
+3,31017,,instructions,3,53125,0.0-3.0,lzgoll6ttagumqkojv9p,female,battle,,,,"[{""page_index"":0,""viewing_time"":6774},{""page_index"":1,""viewing_time"":18990},{""page_index"":2,""viewing_time"":4158},{""page_index"":3,""viewing_time"":1092}]",,
+4,16352,,html-slider-response,4,69484,0.0-4.0,lzgoll6ttagumqkojv9p,female,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_fb.png"" class=""main-trial""/>",,trial,,50.0,
+5,89422,,survey-text,5,158911,0.0-5.0,lzgoll6ttagumqkojv9p,female,battle,,,description,,,"{""Q0"":""A beautiful person with a heart of gold in a need of help and is a fighter . Has will to survive but needs our help  for the expenses. ""}"
+6,4376,,survey-likert,6,163291,0.0-6.0-0.0,lzgoll6ttagumqkojv9p,female,battle,,,sympathy,,,"{""Q0"":6}"
+7,2665,,survey-likert,7,165960,0.0-6.0-1.0,lzgoll6ttagumqkojv9p,female,battle,,,urgent,,,"{""Q0"":6}"
+8,4206,,survey-text,8,170169,0.0-7.0,lzgoll6ttagumqkojv9p,female,battle,,,past-donations,,,"{""Q0"":""2""}"
+9,3580,,survey-multi-choice,9,173757,0.0-8.0-0.0,lzgoll6ttagumqkojv9p,female,battle,,,ff-cancer,,,"{""Q0"":""No""}"
+10,1976,,survey-multi-choice,10,175739,0.0-8.0-1.0,lzgoll6ttagumqkojv9p,female,battle,,,self-cancer,,,"{""Q0"":""No""}"
+11,16085,,survey-multi-choice,11,191848,0.0-9.0,lzgoll6ttagumqkojv9p,female,battle,,,demographics,,,"{""Q0"":""Female"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,4206,,survey-text,12,196056,0.0-10.0,lzgoll6ttagumqkojv9p,female,battle,,,age,,,"{""Q0"":""30""}"
+13,48461,,survey-text,13,244519,0.0-11.0,lzgoll6ttagumqkojv9p,female,battle,,,purpose,,,"{""Q0"":""How willing people are to help out or they will still benefits themselves.""}"
+14,1641,,survey-text,14,246163,0.0-12.0,lzgoll6ttagumqkojv9p,female,battle,,,feedback,,,"{""Q0"":""""}"
+15,7153,debrief.html,external-html,15,253481,0.0-13.0,lzgoll6ttagumqkojv9p,female,battle,,,,,,

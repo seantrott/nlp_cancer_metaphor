@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,7606,consent.html,external-html,0,7639,0.0-0.0,9otgq7ajwmtbx4az31k0,female,journey,,,,,,
+1,2547,,image-button-response,1,10194,0.0-1.0,9otgq7ajwmtbx4az31k0,female,journey,check-1.png,1.0,check1,,,
+2,4149,,image-button-response,2,14345,0.0-2.0,9otgq7ajwmtbx4az31k0,female,journey,check-2.png,2.0,check2,,,
+3,67221,,instructions,3,81567,0.0-3.0,9otgq7ajwmtbx4az31k0,female,journey,,,,"[{""page_index"":0,""viewing_time"":6543},{""page_index"":1,""viewing_time"":22046},{""page_index"":2,""viewing_time"":37207},{""page_index"":3,""viewing_time"":1424}]",,
+4,62307,,html-slider-response,4,143877,0.0-4.0,9otgq7ajwmtbx4az31k0,female,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_journey.png"" class=""main-trial""/>",,trial,,25.0,
+5,91241,,survey-text,5,235121,0.0-5.0,9otgq7ajwmtbx4az31k0,female,journey,,,description,,,"{""Q0"":""She is undergoing a journey of life or death and needs the help financially to get through the crisis in her life.She needs to focus om the help in her health rather then worry about money.""}"
+6,8061,,survey-likert,6,243185,0.0-6.0-0.0,9otgq7ajwmtbx4az31k0,female,journey,,,urgent,,,"{""Q0"":6}"
+7,3541,,survey-likert,7,246728,0.0-6.0-1.0,9otgq7ajwmtbx4az31k0,female,journey,,,sympathy,,,"{""Q0"":5}"
+8,6245,,survey-text,8,252976,0.0-7.0,9otgq7ajwmtbx4az31k0,female,journey,,,past-donations,,,"{""Q0"":""4""}"
+9,4872,,survey-multi-choice,9,257852,0.0-8.0-0.0,9otgq7ajwmtbx4az31k0,female,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2493,,survey-multi-choice,10,260347,0.0-8.0-1.0,9otgq7ajwmtbx4az31k0,female,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,11775,,survey-multi-choice,11,272132,0.0-9.0,9otgq7ajwmtbx4az31k0,female,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,4932,,survey-text,12,277066,0.0-10.0,9otgq7ajwmtbx4az31k0,female,journey,,,age,,,"{""Q0"":""55""}"
+13,6238,,survey-text,13,283306,0.0-11.0,9otgq7ajwmtbx4az31k0,female,journey,,,purpose,,,"{""Q0"":""m""}"
+14,5782,,survey-text,14,289090,0.0-12.0,9otgq7ajwmtbx4az31k0,female,journey,,,feedback,,,"{""Q0"":""m""}"
+15,15033,debrief.html,external-html,15,304397,0.0-13.0,9otgq7ajwmtbx4az31k0,female,journey,,,,,,

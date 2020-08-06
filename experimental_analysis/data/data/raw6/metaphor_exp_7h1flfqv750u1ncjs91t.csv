@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,28842,consent.html,external-html,0,28956,0.0-0.0,7h1flfqv750u1ncjs91t,male,journey,,,,,,
+1,2412,,image-button-response,1,31373,0.0-1.0,7h1flfqv750u1ncjs91t,male,journey,check-1.png,1.0,check1,,,
+2,4365,,image-button-response,2,35740,0.0-2.0,7h1flfqv750u1ncjs91t,male,journey,check-2.png,2.0,check2,,,
+3,26906,,instructions,3,62647,0.0-3.0,7h1flfqv750u1ncjs91t,male,journey,,,,"[{""page_index"":0,""viewing_time"":4389},{""page_index"":1,""viewing_time"":15702},{""page_index"":2,""viewing_time"":4930},{""page_index"":3,""viewing_time"":1884}]",,
+4,32360,,html-slider-response,4,95009,0.0-4.0,7h1flfqv750u1ncjs91t,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,5.0,
+5,42203,,survey-text,5,137213,0.0-5.0,7h1flfqv750u1ncjs91t,male,journey,,,description,,,"{""Q0"":""He has had a tough battle with cancer. His therapy is taking a lot out of him, but we think he is on the road to recovery.""}"
+6,5904,,survey-likert,6,143121,0.0-6.0-0.0,7h1flfqv750u1ncjs91t,male,journey,,,urgent,,,"{""Q0"":4}"
+7,2371,,survey-likert,7,145494,0.0-6.0-1.0,7h1flfqv750u1ncjs91t,male,journey,,,sympathy,,,"{""Q0"":6}"
+8,6389,,survey-text,8,151884,0.0-7.0,7h1flfqv750u1ncjs91t,male,journey,,,past-donations,,,"{""Q0"":""20""}"
+9,2948,,survey-multi-choice,9,154837,0.0-8.0-0.0,7h1flfqv750u1ncjs91t,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+10,2262,,survey-multi-choice,10,157102,0.0-8.0-1.0,7h1flfqv750u1ncjs91t,male,journey,,,ff-cancer,,,"{""Q0"":""No""}"
+11,10872,,survey-multi-choice,11,167989,0.0-9.0,7h1flfqv750u1ncjs91t,male,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""Prefer not to say"",""Q3"":""Yes""}"
+12,3660,,survey-text,12,171651,0.0-10.0,7h1flfqv750u1ncjs91t,male,journey,,,age,,,"{""Q0"":""56""}"
+13,23245,,survey-text,13,194899,0.0-11.0,7h1flfqv750u1ncjs91t,male,journey,,,purpose,,,"{""Q0"":""How people feel about donating to cancer patients""}"
+14,1366,,survey-text,14,196266,0.0-12.0,7h1flfqv750u1ncjs91t,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,6801,debrief.html,external-html,15,203240,0.0-13.0,7h1flfqv750u1ncjs91t,male,journey,,,,,,

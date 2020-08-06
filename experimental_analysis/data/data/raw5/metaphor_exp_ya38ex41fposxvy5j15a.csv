@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,279659,consent.html,external-html,0,280142,0.0-0.0,ya38ex41fposxvy5j15a,female,literal,,,,,,
+1,7748,,image-button-response,1,287897,0.0-1.0,ya38ex41fposxvy5j15a,female,literal,check-1.png,1.0,check1,,,
+2,10277,,image-button-response,2,298176,0.0-2.0,ya38ex41fposxvy5j15a,female,literal,check-2.png,2.0,check2,,,
+3,133520,,instructions,3,431697,0.0-3.0,ya38ex41fposxvy5j15a,female,literal,,,,"[{""page_index"":0,""viewing_time"":24222},{""page_index"":1,""viewing_time"":85257},{""page_index"":2,""viewing_time"":20880},{""page_index"":3,""viewing_time"":3160}]",,
+4,56247,,html-slider-response,4,487946,0.0-4.0,ya38ex41fposxvy5j15a,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,25.0,
+5,196302,,survey-text,5,684250,0.0-5.0,ya38ex41fposxvy5j15a,female,literal,,,description,,,"{""Q0"":""jennifer's situation is a painful situation anyone would want to be in. \n""}"
+6,23613,,survey-likert,6,707867,0.0-6.0-0.0,ya38ex41fposxvy5j15a,female,literal,,,sympathy,,,"{""Q0"":5}"
+7,6885,,survey-likert,7,714755,0.0-6.0-1.0,ya38ex41fposxvy5j15a,female,literal,,,urgent,,,"{""Q0"":5}"
+8,16004,,survey-text,8,730762,0.0-7.0,ya38ex41fposxvy5j15a,female,literal,,,past-donations,,,"{""Q0"":""4""}"
+9,15244,,survey-multi-choice,9,746010,0.0-8.0-0.0,ya38ex41fposxvy5j15a,female,literal,,,ff-cancer,,,"{""Q0"":""Prefer not to say""}"
+10,5012,,survey-multi-choice,10,751025,0.0-8.0-1.0,ya38ex41fposxvy5j15a,female,literal,,,self-cancer,,,"{""Q0"":""Prefer not to say""}"
+11,77216,,survey-multi-choice,11,828250,0.0-9.0,ya38ex41fposxvy5j15a,female,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,27277,,survey-text,12,855529,0.0-10.0,ya38ex41fposxvy5j15a,female,literal,,,age,,,"{""Q0"":""13/02/1960""}"
+13,11486,,survey-text,13,867017,0.0-11.0,ya38ex41fposxvy5j15a,female,literal,,,purpose,,,"{""Q0"":""""}"
+14,5390,,survey-text,14,872409,0.0-12.0,ya38ex41fposxvy5j15a,female,literal,,,feedback,,,"{""Q0"":""""}"
+15,9424,debrief.html,external-html,15,883648,0.0-13.0,ya38ex41fposxvy5j15a,female,literal,,,,,,

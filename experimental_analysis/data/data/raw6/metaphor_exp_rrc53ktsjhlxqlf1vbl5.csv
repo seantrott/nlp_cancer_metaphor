@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,10761,consent.html,external-html,0,10950,0.0-0.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,,,,
+1,7947,,image-button-response,1,18900,0.0-1.0,rrc53ktsjhlxqlf1vbl5,female,battle,check-1.png,1.0,check1,,,
+2,5476,,image-button-response,2,24378,0.0-2.0,rrc53ktsjhlxqlf1vbl5,female,battle,check-2.png,2.0,check2,,,
+3,40289,,instructions,3,64667,0.0-3.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,,"[{""page_index"":0,""viewing_time"":8831},{""page_index"":1,""viewing_time"":22938},{""page_index"":2,""viewing_time"":6199},{""page_index"":3,""viewing_time"":2320}]",,
+4,74502,,html-slider-response,4,139172,0.0-4.0,rrc53ktsjhlxqlf1vbl5,female,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_battle.png"" class=""main-trial""/>",,trial,,25.0,
+5,114718,,survey-text,5,253892,0.0-5.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,description,,,"{""Q0"":""Jennifer is a good person and battling with stage 2 Lymphoma.She needs to undergo several treatments of chemo therapy and other medical treatments. It is going to be physically and financially draining for her and her family. And hence we need to raise money for her treatment.""}"
+6,6862,,survey-likert,6,260756,0.0-6.0-0.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,urgent,,,"{""Q0"":4}"
+7,3854,,survey-likert,7,264611,0.0-6.0-1.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,sympathy,,,"{""Q0"":6}"
+8,4678,,survey-text,8,269290,0.0-7.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,past-donations,,,"{""Q0"":""2""}"
+9,4918,,survey-multi-choice,9,274210,0.0-8.0-0.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,3502,,survey-multi-choice,10,277714,0.0-8.0-1.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,17616,,survey-multi-choice,11,295338,0.0-9.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$100,000 through $149,999"",""Q3"":""Yes""}"
+12,5750,,survey-text,12,301088,0.0-10.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,age,,,"{""Q0"":""35""}"
+13,4982,,survey-text,13,306071,0.0-11.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,purpose,,,"{""Q0"":""""}"
+14,1975,,survey-text,14,308047,0.0-12.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,feedback,,,"{""Q0"":""""}"
+15,6735,debrief.html,external-html,15,315102,0.0-13.0,rrc53ktsjhlxqlf1vbl5,female,battle,,,,,,

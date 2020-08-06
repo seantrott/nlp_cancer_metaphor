@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,37488,consent.html,external-html,0,37805,0.0-0.0,jdnovn98dt08ql21jtkv,male,journey,,,,,,
+1,4258,,image-button-response,1,42070,0.0-1.0,jdnovn98dt08ql21jtkv,male,journey,check-1.png,1.0,check1,,,
+2,5044,,image-button-response,2,47116,0.0-2.0,jdnovn98dt08ql21jtkv,male,journey,check-2.png,2.0,check2,,,
+3,34431,,instructions,3,81549,0.0-3.0,jdnovn98dt08ql21jtkv,male,journey,,,,"[{""page_index"":0,""viewing_time"":9256},{""page_index"":1,""viewing_time"":15797},{""page_index"":2,""viewing_time"":7674},{""page_index"":3,""viewing_time"":1702}]",,
+4,98557,,html-slider-response,4,180111,0.0-4.0,jdnovn98dt08ql21jtkv,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,50.0,
+5,79321,,survey-text,5,259438,0.0-5.0,jdnovn98dt08ql21jtkv,male,journey,,,description,,,"{""Q0"":""Jason has stage II lymphoma and is seriously ill. He is going to need many chemotherapy treatments, doctor visits, and even possibly radiation treatments in the next few months.""}"
+6,10737,,survey-likert,6,270181,0.0-6.0-0.0,jdnovn98dt08ql21jtkv,male,journey,,,urgent,,,"{""Q0"":6}"
+7,7252,,survey-likert,7,277435,0.0-6.0-1.0,jdnovn98dt08ql21jtkv,male,journey,,,sympathy,,,"{""Q0"":6}"
+8,9931,,survey-text,8,287371,0.0-7.0,jdnovn98dt08ql21jtkv,male,journey,,,past-donations,,,"{""Q0"":""3""}"
+9,6190,,survey-multi-choice,9,293566,0.0-8.0-0.0,jdnovn98dt08ql21jtkv,male,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,4698,,survey-multi-choice,10,298269,0.0-8.0-1.0,jdnovn98dt08ql21jtkv,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,20289,,survey-multi-choice,11,318574,0.0-9.0,jdnovn98dt08ql21jtkv,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Associate degree (e.g. AA, AS)"",""Q2"":""Less than $10,000"",""Q3"":""Yes""}"
+12,7168,,survey-text,12,325745,0.0-10.0,jdnovn98dt08ql21jtkv,male,journey,,,age,,,"{""Q0"":""57""}"
+13,54427,,survey-text,13,380175,0.0-11.0,jdnovn98dt08ql21jtkv,male,journey,,,purpose,,,"{""Q0"":""""}"
+14,3495,,survey-text,14,383673,0.0-12.0,jdnovn98dt08ql21jtkv,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,31630,debrief.html,external-html,15,419485,0.0-13.0,jdnovn98dt08ql21jtkv,male,journey,,,,,,

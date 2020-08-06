@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,22635,consent.html,external-html,0,22749,0.0-0.0,ny5r120mmmheko7z4k1r,female,literal,,,,,,
+1,2913,,image-button-response,1,25667,0.0-1.0,ny5r120mmmheko7z4k1r,female,literal,check-1.png,1.0,check1,,,
+2,4400,,image-button-response,2,30070,0.0-2.0,ny5r120mmmheko7z4k1r,female,literal,check-2.png,2.0,check2,,,
+3,51597,,instructions,3,81668,0.0-3.0,ny5r120mmmheko7z4k1r,female,literal,,,,"[{""page_index"":0,""viewing_time"":12735},{""page_index"":1,""viewing_time"":28877},{""page_index"":2,""viewing_time"":7789},{""page_index"":3,""viewing_time"":2196}]",,
+4,113663,,html-slider-response,4,195334,0.0-4.0,ny5r120mmmheko7z4k1r,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,10.0,
+5,67748,,survey-text,5,263086,0.0-5.0,ny5r120mmmheko7z4k1r,female,literal,,,description,,,"{""Q0"":""Someone who has cancer and needs help paying medical expenses. She is young and a very nice person. She has started chemo sessions which she will receive every 21 days for 3-4 months. ""}"
+6,16807,,survey-likert,6,279897,0.0-6.0-0.0,ny5r120mmmheko7z4k1r,female,literal,,,sympathy,,,"{""Q0"":3}"
+7,4498,,survey-likert,7,284399,0.0-6.0-1.0,ny5r120mmmheko7z4k1r,female,literal,,,urgent,,,"{""Q0"":4}"
+8,7068,,survey-text,8,291470,0.0-7.0,ny5r120mmmheko7z4k1r,female,literal,,,past-donations,,,"{""Q0"":""1""}"
+9,3561,,survey-multi-choice,9,295036,0.0-8.0-0.0,ny5r120mmmheko7z4k1r,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,5587,,survey-multi-choice,10,300626,0.0-8.0-1.0,ny5r120mmmheko7z4k1r,female,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,31389,,survey-multi-choice,11,332023,0.0-9.0,ny5r120mmmheko7z4k1r,female,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,8047,,survey-text,12,340073,0.0-10.0,ny5r120mmmheko7z4k1r,female,literal,,,age,,,"{""Q0"":""44""}"
+13,22053,,survey-text,13,362129,0.0-11.0,ny5r120mmmheko7z4k1r,female,literal,,,purpose,,,"{""Q0"":""How much someone emphasizes with other and will donate to the cause.""}"
+14,5099,,survey-text,14,367230,0.0-12.0,ny5r120mmmheko7z4k1r,female,literal,,,feedback,,,"{""Q0"":""none""}"
+15,10625,debrief.html,external-html,15,378297,0.0-13.0,ny5r120mmmheko7z4k1r,female,literal,,,,,,

@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,8988,consent.html,external-html,0,9095,0.0-0.0,qxrpo2szhooejanrwdd6,male,journey,,,,,,
+1,1511,,image-button-response,1,10612,0.0-1.0,qxrpo2szhooejanrwdd6,male,journey,check-1.png,1.0,check1,,,
+2,1917,,image-button-response,2,12531,0.0-2.0,qxrpo2szhooejanrwdd6,male,journey,check-2.png,2.0,check2,,,
+3,9632,,instructions,3,22163,0.0-3.0,qxrpo2szhooejanrwdd6,male,journey,,,,"[{""page_index"":0,""viewing_time"":1287},{""page_index"":1,""viewing_time"":1721},{""page_index"":2,""viewing_time"":5903},{""page_index"":3,""viewing_time"":720}]",,
+4,5390,,html-slider-response,4,27555,0.0-4.0,qxrpo2szhooejanrwdd6,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,4.0,
+5,8878,,survey-text,5,36435,0.0-5.0,qxrpo2szhooejanrwdd6,male,journey,,,description,,,"{""Q0"":""A guy with cancer looking for donations. ""}"
+6,2798,,survey-likert,6,39236,0.0-6.0-0.0,qxrpo2szhooejanrwdd6,male,journey,,,urgent,,,"{""Q0"":4}"
+7,2661,,survey-likert,7,41899,0.0-6.0-1.0,qxrpo2szhooejanrwdd6,male,journey,,,sympathy,,,"{""Q0"":4}"
+8,2190,,survey-text,8,44090,0.0-7.0,qxrpo2szhooejanrwdd6,male,journey,,,past-donations,,,"{""Q0"":""12""}"
+9,1534,,survey-multi-choice,9,45627,0.0-8.0-0.0,qxrpo2szhooejanrwdd6,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+10,2092,,survey-multi-choice,10,47723,0.0-8.0-1.0,qxrpo2szhooejanrwdd6,male,journey,,,ff-cancer,,,"{""Q0"":""No""}"
+11,4978,,survey-multi-choice,11,52709,0.0-9.0,qxrpo2szhooejanrwdd6,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,3898,,survey-text,12,56611,0.0-10.0,qxrpo2szhooejanrwdd6,male,journey,,,age,,,"{""Q0"":""26""}"
+13,4586,,survey-text,13,61198,0.0-11.0,qxrpo2szhooejanrwdd6,male,journey,,,purpose,,,"{""Q0"":""Comparing perceptions. ""}"
+14,2401,,survey-text,14,63602,0.0-12.0,qxrpo2szhooejanrwdd6,male,journey,,,feedback,,,"{""Q0"":""No""}"
+15,3489,debrief.html,external-html,15,67388,0.0-13.0,qxrpo2szhooejanrwdd6,male,journey,,,,,,

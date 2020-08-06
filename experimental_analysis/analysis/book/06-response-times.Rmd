@@ -1,0 +1,197 @@
+# Response Times {#response-times}
+
+Response time across several levels may be correlated with comprehension and survey quality, and here we explore this speculative relationship.
+
+Create a time that represent the time they took reading the actual content of the experiment (everything minus the consent form, brief form, purpose question, and feedback question).
+
+```{r}
+trials = trials %>%
+  mutate(rt_inner = rt_instructions + rt_trial + rt_description + rt_pastdonations + rt_urgent + rt_sympathy + rt_self_cancer + rt_ff_cancer + rt_demographic + rt_age)
+```
+
+
+We'll scale the continuous times for easier interpretation of the models.
+
+```{r}
+trials$rt_trial_sc = trials$rt_trial / (2 * sd(trials$rt_trial))
+trials$rt_inner_sc = trials$rt_inner / (2 * sd(trials$rt_inner))
+trials$total_time_sc = trials$total_time / (2 * sd(trials$total_time))
+```
+
+
+## Main Stimulus Timing
+
+### Relationship with Metaphor Condition
+
+```{r}
+trials %>%
+  ggplot(aes(cond_metaphor, fill = rt_trial_group)) + itheme +
+  stat_count(geom = "bar", position = position_dodge(width = 0.8), width = 0.75)
+```
+
+```{r}
+model_bj_metaphor_base <- glm(update(base.formula, cond_metaphor ~ . ),
+                           data = trials %>% filter(cond_metaphor != "literal"),
+                           family = "binomial")
+model_bj_metaphor_full <- glm(update(base.formula, cond_metaphor ~ . + rt_trial_group), 
+                           data = trials %>% filter(cond_metaphor != "literal"),
+                           family = "binomial")
+
+model_lj_metaphor_base <- glm(update(base.formula, cond_metaphor ~ . ),
+                           data = trials %>% filter(cond_metaphor != "battle"),
+                           family = "binomial")
+model_lj_metaphor_full <- glm(update(base.formula, cond_metaphor ~ . + rt_trial_group), 
+                           data = trials %>% filter(cond_metaphor != "battle"),
+                           family = "binomial")
+
+model_lb_metaphor_base <- glm(update(base.formula, cond_metaphor ~ . ),
+                           data = trials %>% filter(cond_metaphor != "journey"),
+                           family = "binomial")
+model_lb_metaphor_full <- glm(update(base.formula, cond_metaphor ~ . + rt_trial_group), 
+                           data = trials %>% filter(cond_metaphor != "journey"),
+                           family = "binomial")
+
+compare_lm(model_bj_metaphor_base, model_bj_metaphor_full)
+compare_lm(model_lj_metaphor_base, model_lj_metaphor_full)
+compare_lm(model_lb_metaphor_base, model_lb_metaphor_full)
+```
+
+The amount of time one takes to answer the main stimulus response signficantly predicts whether the condition was battle or journey, with the longer amount of time taken, the more likely the condition is battle.
+
+The main stimulus response time does not predict whether the participant was in the journey or the literal condition, or the battle or the literal condition.
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(cond_metaphor, donation, color = rt_trial_group)) + itheme +
+  geom_errorbars +
+  coord_cartesian(ylim = c(20, 30)) +
+  labs(title = "Donation by Metaphor Condition and Trial RT Group")
+```
+
+```{r}
+model_metaphor_trial_group_base <- lm(update(base.formula, donation ~ . + cond_metaphor), 
+                                      data = trials)
+model_metaphor_trial_group_mid <- lm(update(base.formula, donation ~ . + cond_metaphor + rt_trial_group), 
+                                      data = trials)
+model_metaphor_trial_group_full <- lm(update(base.formula, donation ~ . + cond_metaphor * rt_trial_group), 
+                                      data = trials)
+
+compare_lm(model_metaphor_trial_group_base, model_metaphor_trial_group_mid)
+compare_lm(model_metaphor_trial_group_mid,  model_metaphor_trial_group_full)
+```
+
+There is a main effect of main trial response time on donation amount, with participants who responded between 42.7 and 69.3 secs donating \$2.13 more than baseline, and participants who responded slower than 69.3 secs donating on average \$4.29 more than baseline.
+
+There was no interaction between the metaphor condition and response time on the main trial which affected donations.
+
+### Continuous RT
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(log(rt_trial_sc), donation)) + itheme +
+  geom_point() +
+  labs(title = "Donation by Metaphor Condition and Trial RT")
+```
+
+```{r}
+model_trial_base <- lm(update(base.formula, donation ~ .), 
+                                      data = trials)
+model_trial_full <- lm(update(base.formula, donation ~ . + rt_trial_sc), 
+                                      data = trials)
+model_trial_full_log <- lm(update(base.formula, donation ~ . + log(rt_trial_sc)), 
+                                      data = trials)
+model_trial_full_poly <- lm(update(base.formula, donation ~ . + rt_trial_sc + I(rt_trial_sc^2)), 
+                                      data = trials)
+model_trial_full_poly_log <- lm(update(base.formula, donation ~ . + log(rt_trial_sc) + I(log(rt_trial_sc)^2)), 
+                                      data = trials)
+
+compare_lm(model_trial_base,      model_trial_full)
+compare_lm(model_trial_base,      model_trial_full_log)
+compare_lm(model_trial_full,      model_trial_full_poly)
+compare_lm(model_trial_full_log,  model_trial_full_poly_log)
+```
+
+A linear predictor of main trial stimulus RT significantly predicts the donation amount, and a predictor of the log of the main trial RT even moreso significantly predicts donations amounts. Compared to the scaled stimulus RT, a degree-2 polynomial nontransformed stimulus RT predictor makes a significant improvement in model fit.
+
+There is not, however, an improvement for a polynomial model when the stimulus RT variables are log-transformed
+
+### Discretized RT
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(rt_trial_group, donation)) + itheme +
+  geom_errorbars +
+  coord_cartesian(ylim = c(20, 30)) +
+  labs(title = "Donation by Metaphor Condition and Trial RT Group")
+```
+
+Participants’ donations depend on the amount of time they took reading the main stimulus
+
+```{r}
+model_trial_group_base <- lm(update(base.formula, donation ~ .), 
+                                      data = trials)
+model_trial_group_full <- lm(update(base.formula, donation ~ . + rt_trial_group), 
+                                      data = trials)
+
+compare_lm(model_trial_group_base, model_trial_group_full)
+```
+
+## Experiment Content Timing
+
+Participants’ donations depend on the amount of time they took reading the actual content of the experiment (everything minus the consent form, brief form, purpose question, and feedback question).
+
+```{r}
+trials %>%
+  ggplot(aes(log(rt_inner), donation)) + itheme +
+  geom_point() +
+  labs(title = "Donation by Metaphor Condition and Sum of Inner RTs")
+```
+
+```{r}
+model_inner_base <- lm(update(base.formula, donation ~ .), 
+                                      data = trials)
+model_inner_full <- lm(update(base.formula, donation ~ . + rt_inner), 
+                                      data = trials)
+model_inner_full_log <- lm(update(base.formula, donation ~ . + log(rt_inner)), 
+                                      data = trials)
+model_inner_full_poly <- lm(update(base.formula, donation ~ . + rt_inner + I(rt_inner^2)), 
+                                      data = trials)
+model_inner_full_poly_log <- lm(update(base.formula, donation ~ . + log(rt_inner) + I(log(rt_inner)^2)), 
+                                      data = trials)
+
+compare_lm(model_inner_base,     model_inner_full)
+compare_lm(model_inner_base,     model_inner_full_log)
+compare_lm(model_inner_full,     model_inner_full_poly)
+compare_lm(model_inner_full_log, model_inner_full_poly_log)
+```
+
+## Experiment Timing
+
+Participants’ donations depend on the amount of time they took for the entire experiment.
+
+```{r}
+trials %>%
+  ggplot(aes(log(total_time), donation)) + itheme +
+  geom_point() +
+  labs(title = "Donation by Metaphor Condition and Total Time")
+```
+
+```{r}
+model_entire_base <- lm(update(base.formula, donation ~ .), 
+                                      data = trials)
+model_entire_full <- lm(update(base.formula, donation ~ . + total_time), 
+                                      data = trials)
+model_entire_full_log <- lm(update(base.formula, donation ~ . + log(total_time)), 
+                                      data = trials)
+model_entire_full_poly <- lm(update(base.formula, donation ~ . + total_time + I(total_time^2)), 
+                                      data = trials)
+model_entire_full_poly_log <- lm(update(base.formula, donation ~ . + log(total_time) + I(log(total_time)^2)), 
+                                      data = trials)
+
+compare_lm(model_entire_base,     model_entire_full)
+compare_lm(model_entire_base,     model_entire_full_log)
+compare_lm(model_entire_full,     model_entire_full_poly)
+compare_lm(model_entire_full_log, model_entire_full_poly_log)
+```
+
+## Summary

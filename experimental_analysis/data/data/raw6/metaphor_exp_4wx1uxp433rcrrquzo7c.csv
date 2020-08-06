@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,7316,consent.html,external-html,0,7426,0.0-0.0,4wx1uxp433rcrrquzo7c,male,literal,,,,,,
+1,3049,,image-button-response,1,10479,0.0-1.0,4wx1uxp433rcrrquzo7c,male,literal,check-1.png,1.0,check1,,,
+2,3653,,image-button-response,2,14134,0.0-2.0,4wx1uxp433rcrrquzo7c,male,literal,check-2.png,2.0,check2,,,
+3,36088,,instructions,3,50224,0.0-3.0,4wx1uxp433rcrrquzo7c,male,literal,,,,"[{""page_index"":0,""viewing_time"":9710},{""page_index"":1,""viewing_time"":17224},{""page_index"":2,""viewing_time"":7344},{""page_index"":3,""viewing_time"":1809}]",,
+4,60520,,html-slider-response,4,110747,0.0-4.0,4wx1uxp433rcrrquzo7c,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,35.0,
+5,80250,,survey-text,5,190998,0.0-5.0,4wx1uxp433rcrrquzo7c,male,literal,,,description,,,"{""Q0"":""A strong individual that after getting surgery was diagnosed with a lymphoma. He is already getting treatment but needs economic support for all the expenses related to his treatment for the following months.""}"
+6,9700,,survey-likert,6,200701,0.0-6.0-0.0,4wx1uxp433rcrrquzo7c,male,literal,,,sympathy,,,"{""Q0"":6}"
+7,2852,,survey-likert,7,203556,0.0-6.0-1.0,4wx1uxp433rcrrquzo7c,male,literal,,,urgent,,,"{""Q0"":5}"
+8,3605,,survey-text,8,207164,0.0-7.0,4wx1uxp433rcrrquzo7c,male,literal,,,past-donations,,,"{""Q0"":""1""}"
+9,3725,,survey-multi-choice,9,210894,0.0-8.0-0.0,4wx1uxp433rcrrquzo7c,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,4052,,survey-multi-choice,10,214948,0.0-8.0-1.0,4wx1uxp433rcrrquzo7c,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,11229,,survey-multi-choice,11,226189,0.0-9.0,4wx1uxp433rcrrquzo7c,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Doctorate (e.g. PhD, EdD)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,3784,,survey-text,12,229975,0.0-10.0,4wx1uxp433rcrrquzo7c,male,literal,,,age,,,"{""Q0"":""44""}"
+13,6788,,survey-text,13,236765,0.0-11.0,4wx1uxp433rcrrquzo7c,male,literal,,,purpose,,,"{""Q0"":""I'm not sure""}"
+14,4801,,survey-text,14,241567,0.0-12.0,4wx1uxp433rcrrquzo7c,male,literal,,,feedback,,,"{""Q0"":""No""}"
+15,14701,debrief.html,external-html,15,256567,0.0-13.0,4wx1uxp433rcrrquzo7c,male,literal,,,,,,

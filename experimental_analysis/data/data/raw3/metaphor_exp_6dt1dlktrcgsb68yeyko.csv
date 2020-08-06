@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,35373,consent.html,external-html,0,36309,0.0-0.0,6dt1dlktrcgsb68yeyko,male,battle,,,,,,
+1,1591,,image-button-response,1,37924,0.0-1.0,6dt1dlktrcgsb68yeyko,male,battle,check-1.png,2.0,check1,,,
+2,10243,,image-button-response,2,48171,0.0-2.0,6dt1dlktrcgsb68yeyko,male,battle,check-2.png,2.0,check2,,,
+3,87622,,instructions,3,135796,0.0-3.0,6dt1dlktrcgsb68yeyko,male,battle,,,,"[{""page_index"":0,""viewing_time"":7275},{""page_index"":1,""viewing_time"":75408},{""page_index"":2,""viewing_time"":3664},{""page_index"":3,""viewing_time"":1272}]",,
+4,18760,,html-slider-response,4,154563,0.0-4.0,6dt1dlktrcgsb68yeyko,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_battle.png"" class=""main-trial""/>",,trial,,40.0,
+5,34041,,survey-text,5,188609,0.0-5.0,6dt1dlktrcgsb68yeyko,male,battle,,,description,,,"{""Q0"":""This friendship has very interesting and honesty""}"
+6,5907,,survey-likert,6,194522,0.0-6.0-0.0,6dt1dlktrcgsb68yeyko,male,battle,,,urgent,,,"{""Q0"":5}"
+7,4826,,survey-likert,7,199353,0.0-6.0-1.0,6dt1dlktrcgsb68yeyko,male,battle,,,sympathy,,,"{""Q0"":4}"
+8,14266,,survey-text,8,213624,0.0-7.0,6dt1dlktrcgsb68yeyko,male,battle,,,past-donations,,,"{""Q0"":""2000""}"
+9,5265,,survey-multi-choice,9,218897,0.0-8.0-0.0,6dt1dlktrcgsb68yeyko,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,3463,,survey-multi-choice,10,222368,0.0-8.0-1.0,6dt1dlktrcgsb68yeyko,male,battle,,,ff-cancer,,,"{""Q0"":""No""}"
+11,9579,,survey-multi-choice,11,231978,0.0-9.0,6dt1dlktrcgsb68yeyko,male,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,5344,,survey-text,12,237327,0.0-10.0,6dt1dlktrcgsb68yeyko,male,battle,,,age,,,"{""Q0"":""58""}"
+13,3164,,survey-text,13,240495,0.0-11.0,6dt1dlktrcgsb68yeyko,male,battle,,,purpose,,,"{""Q0"":""""}"
+14,2557,,survey-text,14,243055,0.0-12.0,6dt1dlktrcgsb68yeyko,male,battle,,,feedback,,,"{""Q0"":""""}"
+15,28910,debrief.html,external-html,15,275749,0.0-13.0,6dt1dlktrcgsb68yeyko,male,battle,,,,,,

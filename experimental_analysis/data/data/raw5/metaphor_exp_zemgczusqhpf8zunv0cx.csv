@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,21849,consent.html,external-html,0,21947,0.0-0.0,zemgczusqhpf8zunv0cx,female,literal,,,,,,
+1,2588,,image-button-response,1,24542,0.0-1.0,zemgczusqhpf8zunv0cx,female,literal,check-1.png,1.0,check1,,,
+2,4034,,image-button-response,2,28579,0.0-2.0,zemgczusqhpf8zunv0cx,female,literal,check-2.png,2.0,check2,,,
+3,45407,,instructions,3,73987,0.0-3.0,zemgczusqhpf8zunv0cx,female,literal,,,,"[{""page_index"":0,""viewing_time"":8954},{""page_index"":1,""viewing_time"":20765},{""page_index"":2,""viewing_time"":13536},{""page_index"":3,""viewing_time"":2150}]",,
+4,66766,,html-slider-response,4,140758,0.0-4.0,zemgczusqhpf8zunv0cx,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,25.0,
+5,122688,,survey-text,5,263450,0.0-5.0,zemgczusqhpf8zunv0cx,female,literal,,,description,,,"{""Q0"":""A young woman had a difficulty thyroid surgery and has also been diagnosed with lymphoma.  Seh had weeks ahead of her of hospital visits and debilitating  and expensive medical treatment.""}"
+6,9980,,survey-likert,6,273435,0.0-6.0-0.0,zemgczusqhpf8zunv0cx,female,literal,,,sympathy,,,"{""Q0"":3}"
+7,12180,,survey-likert,7,285618,0.0-6.0-1.0,zemgczusqhpf8zunv0cx,female,literal,,,urgent,,,"{""Q0"":5}"
+8,12547,,survey-text,8,298168,0.0-7.0,zemgczusqhpf8zunv0cx,female,literal,,,past-donations,,,"{""Q0"":""3""}"
+9,4027,,survey-multi-choice,9,302200,0.0-8.0-0.0,zemgczusqhpf8zunv0cx,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,11420,,survey-multi-choice,10,313624,0.0-8.0-1.0,zemgczusqhpf8zunv0cx,female,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+11,18557,,survey-multi-choice,11,332201,0.0-9.0,zemgczusqhpf8zunv0cx,female,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,4502,,survey-text,12,336708,0.0-10.0,zemgczusqhpf8zunv0cx,female,literal,,,age,,,"{""Q0"":""52""}"
+13,72360,,survey-text,13,409071,0.0-11.0,zemgczusqhpf8zunv0cx,female,literal,,,purpose,,,"{""Q0"":""My best guess is you are testing for a person's sense of empathy or community responsibility.""}"
+14,6301,,survey-text,14,415374,0.0-12.0,zemgczusqhpf8zunv0cx,female,literal,,,feedback,,,"{""Q0"":""no""}"
+15,54636,debrief.html,external-html,15,470311,0.0-13.0,zemgczusqhpf8zunv0cx,female,literal,,,,,,

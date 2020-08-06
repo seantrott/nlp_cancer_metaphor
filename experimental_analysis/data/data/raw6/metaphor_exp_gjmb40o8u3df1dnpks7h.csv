@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,72861,consent.html,external-html,0,73040,0.0-0.0,gjmb40o8u3df1dnpks7h,male,literal,,,,,,
+1,4039,,image-button-response,1,77097,0.0-1.0,gjmb40o8u3df1dnpks7h,male,literal,check-1.png,1.0,check1,,,
+2,3753,,image-button-response,2,80857,0.0-2.0,gjmb40o8u3df1dnpks7h,male,literal,check-2.png,2.0,check2,,,
+3,37572,,instructions,3,118433,0.0-3.0,gjmb40o8u3df1dnpks7h,male,literal,,,,"[{""page_index"":0,""viewing_time"":14289},{""page_index"":1,""viewing_time"":18126},{""page_index"":2,""viewing_time"":3755},{""page_index"":3,""viewing_time"":1399}]",,
+4,71901,,html-slider-response,4,190344,0.0-4.0,gjmb40o8u3df1dnpks7h,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,40.0,
+5,23936,,survey-text,5,214289,0.0-5.0,gjmb40o8u3df1dnpks7h,male,literal,,,description,,,"{""Q0"":""He has cancer but he is a fighter who will pull through and has a good support system.""}"
+6,6739,,survey-likert,6,221036,0.0-6.0-0.0,gjmb40o8u3df1dnpks7h,male,literal,,,sympathy,,,"{""Q0"":6}"
+7,4582,,survey-likert,7,225625,0.0-6.0-1.0,gjmb40o8u3df1dnpks7h,male,literal,,,urgent,,,"{""Q0"":4}"
+8,10655,,survey-text,8,236289,0.0-7.0,gjmb40o8u3df1dnpks7h,male,literal,,,past-donations,,,"{""Q0"":""15-20""}"
+9,3008,,survey-multi-choice,9,239310,0.0-8.0-0.0,gjmb40o8u3df1dnpks7h,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,4795,,survey-multi-choice,10,244116,0.0-8.0-1.0,gjmb40o8u3df1dnpks7h,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,17526,,survey-multi-choice,11,261686,0.0-9.0,gjmb40o8u3df1dnpks7h,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,4515,,survey-text,12,266208,0.0-10.0,gjmb40o8u3df1dnpks7h,male,literal,,,age,,,"{""Q0"":""22""}"
+13,15859,,survey-text,13,282072,0.0-11.0,gjmb40o8u3df1dnpks7h,male,literal,,,purpose,,,"{""Q0"":""Willingness to give when there is a reward on the line.""}"
+14,3189,,survey-text,14,285265,0.0-12.0,gjmb40o8u3df1dnpks7h,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,33276,debrief.html,external-html,15,318951,0.0-13.0,gjmb40o8u3df1dnpks7h,male,literal,,,,,,

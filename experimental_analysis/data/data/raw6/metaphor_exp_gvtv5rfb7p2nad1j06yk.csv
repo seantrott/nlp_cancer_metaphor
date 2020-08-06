@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,36983,consent.html,external-html,0,37044,0.0-0.0,gvtv5rfb7p2nad1j06yk,female,journey,,,,,,
+1,2608,,image-button-response,1,39655,0.0-1.0,gvtv5rfb7p2nad1j06yk,female,journey,check-1.png,1.0,check1,,,
+2,3614,,image-button-response,2,43272,0.0-2.0,gvtv5rfb7p2nad1j06yk,female,journey,check-2.png,2.0,check2,,,
+3,61857,,instructions,3,105130,0.0-3.0,gvtv5rfb7p2nad1j06yk,female,journey,,,,"[{""page_index"":0,""viewing_time"":25238},{""page_index"":1,""viewing_time"":26079},{""page_index"":2,""viewing_time"":9080},{""page_index"":3,""viewing_time"":1459}]",,
+4,121284,,html-slider-response,4,226416,0.0-4.0,gvtv5rfb7p2nad1j06yk,female,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_journey.png"" class=""main-trial""/>",,trial,,20.0,
+5,254257,,survey-text,5,480675,0.0-5.0,gvtv5rfb7p2nad1j06yk,female,journey,,,description,,,"{""Q0"":""Jenifer, a very nice girl has found herself in a rather unfortunate situation which poses some threat to her life and well-being. To recover her normal life back, she will need to undergo several stages of treatment which will cost good money. This is a rough and tough journey and she needs the help of everyone to be able to recover fully.""}"
+6,5802,,survey-likert,6,486479,0.0-6.0-0.0,gvtv5rfb7p2nad1j06yk,female,journey,,,sympathy,,,"{""Q0"":5}"
+7,5900,,survey-likert,7,492381,0.0-6.0-1.0,gvtv5rfb7p2nad1j06yk,female,journey,,,urgent,,,"{""Q0"":5}"
+8,4691,,survey-text,8,497075,0.0-7.0,gvtv5rfb7p2nad1j06yk,female,journey,,,past-donations,,,"{""Q0"":""3""}"
+9,5027,,survey-multi-choice,9,502104,0.0-8.0-0.0,gvtv5rfb7p2nad1j06yk,female,journey,,,ff-cancer,,,"{""Q0"":""No""}"
+10,2744,,survey-multi-choice,10,504850,0.0-8.0-1.0,gvtv5rfb7p2nad1j06yk,female,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,12408,,survey-multi-choice,11,517266,0.0-9.0,gvtv5rfb7p2nad1j06yk,female,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Associate degree (e.g. AA, AS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,38718,,survey-text,12,555985,0.0-10.0,gvtv5rfb7p2nad1j06yk,female,journey,,,age,,,"{""Q0"":""27""}"
+13,3099,,survey-text,13,559086,0.0-11.0,gvtv5rfb7p2nad1j06yk,female,journey,,,purpose,,,"{""Q0"":""""}"
+14,2964,,survey-text,14,562051,0.0-12.0,gvtv5rfb7p2nad1j06yk,female,journey,,,feedback,,,"{""Q0"":""""}"
+15,5197,debrief.html,external-html,15,567844,0.0-13.0,gvtv5rfb7p2nad1j06yk,female,journey,,,,,,

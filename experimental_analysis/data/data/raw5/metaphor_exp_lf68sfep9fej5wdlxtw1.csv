@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,36302,consent.html,external-html,0,36691,0.0-0.0,lf68sfep9fej5wdlxtw1,male,literal,,,,,,
+1,3878,,image-button-response,1,40575,0.0-1.0,lf68sfep9fej5wdlxtw1,male,literal,check-1.png,1.0,check1,,,
+2,3856,,image-button-response,2,44435,0.0-2.0,lf68sfep9fej5wdlxtw1,male,literal,check-2.png,2.0,check2,,,
+3,61173,,instructions,3,105609,0.0-3.0,lf68sfep9fej5wdlxtw1,male,literal,,,,"[{""page_index"":0,""viewing_time"":10227},{""page_index"":1,""viewing_time"":21067},{""page_index"":2,""viewing_time"":11683},{""page_index"":3,""viewing_time"":18194}]",,
+4,102727,,html-slider-response,4,208341,0.0-4.0,lf68sfep9fej5wdlxtw1,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,47.0,
+5,47033,,survey-text,5,255378,0.0-5.0,lf68sfep9fej5wdlxtw1,male,literal,,,description,,,"{""Q0"":""Jason is struggling with lymphoma and is needing financial help. His friend created a campaign to help with costs. ""}"
+6,8985,,survey-likert,6,264369,0.0-6.0-0.0,lf68sfep9fej5wdlxtw1,male,literal,,,urgent,,,"{""Q0"":4}"
+7,5833,,survey-likert,7,270206,0.0-6.0-1.0,lf68sfep9fej5wdlxtw1,male,literal,,,sympathy,,,"{""Q0"":4}"
+8,12300,,survey-text,8,282511,0.0-7.0,lf68sfep9fej5wdlxtw1,male,literal,,,past-donations,,,"{""Q0"":""10""}"
+9,3258,,survey-multi-choice,9,285775,0.0-8.0-0.0,lf68sfep9fej5wdlxtw1,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,5068,,survey-multi-choice,10,290848,0.0-8.0-1.0,lf68sfep9fej5wdlxtw1,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,50101,,survey-multi-choice,11,340963,0.0-9.0,lf68sfep9fej5wdlxtw1,male,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,7873,,survey-text,12,348840,0.0-10.0,lf68sfep9fej5wdlxtw1,male,literal,,,age,,,"{""Q0"":""22""}"
+13,59625,,survey-text,13,408468,0.0-11.0,lf68sfep9fej5wdlxtw1,male,literal,,,purpose,,,"{""Q0"":""Likelihood of sympathizing and donating with those who have cancer.""}"
+14,58019,,survey-text,14,466491,0.0-12.0,lf68sfep9fej5wdlxtw1,male,literal,,,feedback,,,"{""Q0"":""nope""}"
+15,15181,debrief.html,external-html,15,481820,0.0-13.0,lf68sfep9fej5wdlxtw1,male,literal,,,,,,

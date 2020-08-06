@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,52686,consent.html,external-html,0,52737,0.0-0.0,1dxop3qtxgd60kxn1uah,female,battle,,,,,,
+1,2650,,image-button-response,1,55394,0.0-1.0,1dxop3qtxgd60kxn1uah,female,battle,check-1.png,1.0,check1,,,
+2,4159,,image-button-response,2,59556,0.0-2.0,1dxop3qtxgd60kxn1uah,female,battle,check-2.png,2.0,check2,,,
+3,26024,,instructions,3,85582,0.0-3.0,1dxop3qtxgd60kxn1uah,female,battle,,,,"[{""page_index"":0,""viewing_time"":5123},{""page_index"":1,""viewing_time"":15625},{""page_index"":2,""viewing_time"":3837},{""page_index"":3,""viewing_time"":1438}]",,
+4,84272,,html-slider-response,4,169857,0.0-4.0,1dxop3qtxgd60kxn1uah,female,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_battle.png"" class=""main-trial""/>",,trial,,40.0,
+5,157085,,survey-text,5,326945,0.0-5.0,1dxop3qtxgd60kxn1uah,female,battle,,,description,,,"{""Q0"":""Jennifer has Lymphoma, a serious form of cancer. She's currently undergoing treatments to try and beat it but, these treatments are really tough. They make her feel terrible.  On top of all that, these treatments are really expensive and she will have to pay for a lot of it herself.""}"
+6,8985,,survey-likert,6,335934,0.0-6.0-0.0,1dxop3qtxgd60kxn1uah,female,battle,,,urgent,,,"{""Q0"":5}"
+7,3734,,survey-likert,7,339671,0.0-6.0-1.0,1dxop3qtxgd60kxn1uah,female,battle,,,sympathy,,,"{""Q0"":5}"
+8,10884,,survey-text,8,350558,0.0-7.0,1dxop3qtxgd60kxn1uah,female,battle,,,past-donations,,,"{""Q0"":""15""}"
+9,4821,,survey-multi-choice,9,355383,0.0-8.0-0.0,1dxop3qtxgd60kxn1uah,female,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2895,,survey-multi-choice,10,358283,0.0-8.0-1.0,1dxop3qtxgd60kxn1uah,female,battle,,,self-cancer,,,"{""Q0"":""No""}"
+11,16838,,survey-multi-choice,11,375134,0.0-9.0,1dxop3qtxgd60kxn1uah,female,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""More than $150,000"",""Q3"":""Yes""}"
+12,4321,,survey-text,12,379458,0.0-10.0,1dxop3qtxgd60kxn1uah,female,battle,,,age,,,"{""Q0"":""46""}"
+13,58610,,survey-text,13,438070,0.0-11.0,1dxop3qtxgd60kxn1uah,female,battle,,,purpose,,,"{""Q0"":""I think we were testing how we related to the story and if it translated to action. I am guessing there is another group that will have a different script to determine if it has a different effect.""}"
+14,4422,,survey-text,14,442495,0.0-12.0,1dxop3qtxgd60kxn1uah,female,battle,,,feedback,,,"{""Q0"":""no""}"
+15,29456,debrief.html,external-html,15,472038,0.0-13.0,1dxop3qtxgd60kxn1uah,female,battle,,,,,,

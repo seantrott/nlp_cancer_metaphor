@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,3234,consent.html,external-html,0,3417,0.0-0.0,p7k95q8fhnl9pblb8u5o,female,journey,,,,,,
+1,2274,,image-button-response,1,5706,0.0-1.0,p7k95q8fhnl9pblb8u5o,female,journey,check-1.png,1.0,check1,,,
+2,2747,,image-button-response,2,8458,0.0-2.0,p7k95q8fhnl9pblb8u5o,female,journey,check-2.png,2.0,check2,,,
+3,25894,,instructions,3,34355,0.0-3.0,p7k95q8fhnl9pblb8u5o,female,journey,,,,"[{""page_index"":0,""viewing_time"":3708},{""page_index"":1,""viewing_time"":16512},{""page_index"":2,""viewing_time"":4640},{""page_index"":3,""viewing_time"":1032}]",,
+4,16304,,html-slider-response,4,50666,0.0-4.0,p7k95q8fhnl9pblb8u5o,female,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_journey.png"" class=""main-trial""/>",,trial,,0.0,
+5,40261,,survey-text,5,90931,0.0-5.0,p7k95q8fhnl9pblb8u5o,female,journey,,,description,,,"{""Q0"":""Jennifer has been suffering from lymphoma and is trying to raise money to cover her increased costs. She has a heart of gold.""}"
+6,4297,,survey-likert,6,95233,0.0-6.0-0.0,p7k95q8fhnl9pblb8u5o,female,journey,,,urgent,,,"{""Q0"":4}"
+7,2800,,survey-likert,7,98036,0.0-6.0-1.0,p7k95q8fhnl9pblb8u5o,female,journey,,,sympathy,,,"{""Q0"":3}"
+8,2490,,survey-text,8,100529,0.0-7.0,p7k95q8fhnl9pblb8u5o,female,journey,,,past-donations,,,"{""Q0"":""0""}"
+9,5699,,survey-multi-choice,9,106236,0.0-8.0-0.0,p7k95q8fhnl9pblb8u5o,female,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,1938,,survey-multi-choice,10,108180,0.0-8.0-1.0,p7k95q8fhnl9pblb8u5o,female,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,13643,,survey-multi-choice,11,121837,0.0-9.0,p7k95q8fhnl9pblb8u5o,female,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,4442,,survey-text,12,126281,0.0-10.0,p7k95q8fhnl9pblb8u5o,female,journey,,,age,,,"{""Q0"":""49""}"
+13,2324,,survey-text,13,128609,0.0-11.0,p7k95q8fhnl9pblb8u5o,female,journey,,,purpose,,,"{""Q0"":""""}"
+14,1757,,survey-text,14,130370,0.0-12.0,p7k95q8fhnl9pblb8u5o,female,journey,,,feedback,,,"{""Q0"":""""}"
+15,18814,debrief.html,external-html,15,149455,0.0-13.0,p7k95q8fhnl9pblb8u5o,female,journey,,,,,,

@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,14664,consent.html,external-html,0,14679,0.0-0.0,26v8ddbyueb2eukq6ajm,female,literal,,,,,,
+1,3808,,image-button-response,1,18490,0.0-1.0,26v8ddbyueb2eukq6ajm,female,literal,check-1.png,3.0,check1,,,
+2,1524,,image-button-response,2,20016,0.0-2.0,26v8ddbyueb2eukq6ajm,female,literal,check-2.png,2.0,check2,,,
+3,32590,,instructions,3,52606,0.0-3.0,26v8ddbyueb2eukq6ajm,female,literal,,,,"[{""page_index"":0,""viewing_time"":8509},{""page_index"":1,""viewing_time"":15075},{""page_index"":2,""viewing_time"":6515},{""page_index"":3,""viewing_time"":2490}]",,
+4,77427,,html-slider-response,4,130037,0.0-4.0,26v8ddbyueb2eukq6ajm,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,50.0,
+5,33691,,survey-text,5,163730,0.0-5.0,26v8ddbyueb2eukq6ajm,female,literal,,,description,,,"{""Q0"":""PLEASE DONATE AMOUNT TO CANCER PEOPLE WHEN THEY REALLY AFFECTED""}"
+6,9563,,survey-likert,6,173295,0.0-6.0-0.0,26v8ddbyueb2eukq6ajm,female,literal,,,urgent,,,"{""Q0"":6}"
+7,5238,,survey-likert,7,178535,0.0-6.0-1.0,26v8ddbyueb2eukq6ajm,female,literal,,,sympathy,,,"{""Q0"":5}"
+8,10208,,survey-text,8,188745,0.0-7.0,26v8ddbyueb2eukq6ajm,female,literal,,,past-donations,,,"{""Q0"":""10""}"
+9,5326,,survey-multi-choice,9,194076,0.0-8.0-0.0,26v8ddbyueb2eukq6ajm,female,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+10,8725,,survey-multi-choice,10,202805,0.0-8.0-1.0,26v8ddbyueb2eukq6ajm,female,literal,,,self-cancer,,,"{""Q0"":""Yes""}"
+11,11853,,survey-multi-choice,11,214680,0.0-9.0,26v8ddbyueb2eukq6ajm,female,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,7402,,survey-text,12,222084,0.0-10.0,26v8ddbyueb2eukq6ajm,female,literal,,,age,,,"{""Q0"":""24""}"
+13,15644,,survey-text,13,237730,0.0-11.0,26v8ddbyueb2eukq6ajm,female,literal,,,purpose,,,"{""Q0"":""VERY USEFUL SURVEY""}"
+14,1612,,survey-text,14,239344,0.0-12.0,26v8ddbyueb2eukq6ajm,female,literal,,,feedback,,,"{""Q0"":""""}"
+15,10463,debrief.html,external-html,15,250376,0.0-13.0,26v8ddbyueb2eukq6ajm,female,literal,,,,,,

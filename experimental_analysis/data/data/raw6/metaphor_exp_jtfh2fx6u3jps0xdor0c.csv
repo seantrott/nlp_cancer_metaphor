@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,2886,consent.html,external-html,0,2988,0.0-0.0,jtfh2fx6u3jps0xdor0c,male,journey,,,,,,
+1,1488,,image-button-response,1,4479,0.0-1.0,jtfh2fx6u3jps0xdor0c,male,journey,check-1.png,1.0,check1,,,
+2,2875,,image-button-response,2,7356,0.0-2.0,jtfh2fx6u3jps0xdor0c,male,journey,check-2.png,2.0,check2,,,
+3,17374,,instructions,3,24731,0.0-3.0,jtfh2fx6u3jps0xdor0c,male,journey,,,,"[{""page_index"":0,""viewing_time"":3145},{""page_index"":1,""viewing_time"":10151},{""page_index"":2,""viewing_time"":2932},{""page_index"":3,""viewing_time"":1145}]",,
+4,22898,,html-slider-response,4,47641,0.0-4.0,jtfh2fx6u3jps0xdor0c,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,50.0,
+5,8124,,survey-text,5,55766,0.0-5.0,jtfh2fx6u3jps0xdor0c,male,journey,,,description,,,"{""Q0"":""Hopeful, but scary.""}"
+6,4196,,survey-likert,6,59964,0.0-6.0-0.0,jtfh2fx6u3jps0xdor0c,male,journey,,,sympathy,,,"{""Q0"":5}"
+7,2700,,survey-likert,7,62665,0.0-6.0-1.0,jtfh2fx6u3jps0xdor0c,male,journey,,,urgent,,,"{""Q0"":5}"
+8,3513,,survey-text,8,66180,0.0-7.0,jtfh2fx6u3jps0xdor0c,male,journey,,,past-donations,,,"{""Q0"":""12""}"
+9,2724,,survey-multi-choice,9,68908,0.0-8.0-0.0,jtfh2fx6u3jps0xdor0c,male,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2299,,survey-multi-choice,10,71210,0.0-8.0-1.0,jtfh2fx6u3jps0xdor0c,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,9419,,survey-multi-choice,11,80636,0.0-9.0,jtfh2fx6u3jps0xdor0c,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,3400,,survey-text,12,84036,0.0-10.0,jtfh2fx6u3jps0xdor0c,male,journey,,,age,,,"{""Q0"":""29""}"
+13,8342,,survey-text,13,92379,0.0-11.0,jtfh2fx6u3jps0xdor0c,male,journey,,,purpose,,,"{""Q0"":""Generosity and empathy""}"
+14,1440,,survey-text,14,93820,0.0-12.0,jtfh2fx6u3jps0xdor0c,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,1411,debrief.html,external-html,15,95449,0.0-13.0,jtfh2fx6u3jps0xdor0c,male,journey,,,,,,

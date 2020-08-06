@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,16056,consent.html,external-html,0,16160,0.0-0.0,fx847m4kzf8gxr33vkhm,male,literal,,,,,,
+1,2264,,image-button-response,1,18428,0.0-1.0,fx847m4kzf8gxr33vkhm,male,literal,check-1.png,1.0,check1,,,
+2,3023,,image-button-response,2,21453,0.0-2.0,fx847m4kzf8gxr33vkhm,male,literal,check-2.png,2.0,check2,,,
+3,32804,,instructions,3,54259,0.0-3.0,fx847m4kzf8gxr33vkhm,male,literal,,,,"[{""page_index"":0,""viewing_time"":6163},{""page_index"":1,""viewing_time"":21208},{""page_index"":2,""viewing_time"":4454},{""page_index"":3,""viewing_time"":978}]",,
+4,40013,,html-slider-response,4,94276,0.0-4.0,fx847m4kzf8gxr33vkhm,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,5.0,
+5,44030,,survey-text,5,138308,0.0-5.0,fx847m4kzf8gxr33vkhm,male,literal,,,description,,,"{""Q0"":""He went to have surgery for thyroid problems and was diagnosed with cancer. He needs chemo and goes about once a month to get it. ""}"
+6,6557,,survey-likert,6,144868,0.0-6.0-0.0,fx847m4kzf8gxr33vkhm,male,literal,,,sympathy,,,"{""Q0"":3}"
+7,2731,,survey-likert,7,147601,0.0-6.0-1.0,fx847m4kzf8gxr33vkhm,male,literal,,,urgent,,,"{""Q0"":2}"
+8,3272,,survey-text,8,150875,0.0-7.0,fx847m4kzf8gxr33vkhm,male,literal,,,past-donations,,,"{""Q0"":""0""}"
+9,2043,,survey-multi-choice,9,152923,0.0-8.0-0.0,fx847m4kzf8gxr33vkhm,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,2842,,survey-multi-choice,10,155768,0.0-8.0-1.0,fx847m4kzf8gxr33vkhm,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,11744,,survey-multi-choice,11,167526,0.0-9.0,fx847m4kzf8gxr33vkhm,male,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""Less than $10,000"",""Q3"":""Yes""}"
+12,5138,,survey-text,12,172666,0.0-10.0,fx847m4kzf8gxr33vkhm,male,literal,,,age,,,"{""Q0"":""33""}"
+13,16581,,survey-text,13,189249,0.0-11.0,fx847m4kzf8gxr33vkhm,male,literal,,,purpose,,,"{""Q0"":""compassion? ""}"
+14,1573,,survey-text,14,190824,0.0-12.0,fx847m4kzf8gxr33vkhm,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,19977,debrief.html,external-html,15,211077,0.0-13.0,fx847m4kzf8gxr33vkhm,male,literal,,,,,,

@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,4527,consent.html,external-html,0,4628,0.0-0.0,9rjvtyanqalojetgqopm,female,literal,,,,,,
+1,1768,,image-button-response,1,6406,0.0-1.0,9rjvtyanqalojetgqopm,female,literal,check-1.png,1.0,check1,,,
+2,2721,,image-button-response,2,9131,0.0-2.0,9rjvtyanqalojetgqopm,female,literal,check-2.png,2.0,check2,,,
+3,15858,,instructions,3,24990,0.0-3.0,9rjvtyanqalojetgqopm,female,literal,,,,"[{""page_index"":0,""viewing_time"":3499},{""page_index"":1,""viewing_time"":7563},{""page_index"":2,""viewing_time"":3709},{""page_index"":3,""viewing_time"":1085}]",,
+4,19712,,html-slider-response,4,44706,0.0-4.0,9rjvtyanqalojetgqopm,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,10.0,
+5,29441,,survey-text,5,74150,0.0-5.0,9rjvtyanqalojetgqopm,female,literal,,,description,,,"{""Q0"":""Jennifer has lymphoma and needs a lot of treatment. Her best friend is helping raise money for her.""}"
+6,5599,,survey-likert,6,79752,0.0-6.0-0.0,9rjvtyanqalojetgqopm,female,literal,,,sympathy,,,"{""Q0"":4}"
+7,1785,,survey-likert,7,81541,0.0-6.0-1.0,9rjvtyanqalojetgqopm,female,literal,,,urgent,,,"{""Q0"":4}"
+8,3868,,survey-text,8,85412,0.0-7.0,9rjvtyanqalojetgqopm,female,literal,,,past-donations,,,"{""Q0"":""3""}"
+9,2573,,survey-multi-choice,9,87993,0.0-8.0-0.0,9rjvtyanqalojetgqopm,female,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2430,,survey-multi-choice,10,90428,0.0-8.0-1.0,9rjvtyanqalojetgqopm,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,7588,,survey-multi-choice,11,98037,0.0-9.0,9rjvtyanqalojetgqopm,female,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,2876,,survey-text,12,100914,0.0-10.0,9rjvtyanqalojetgqopm,female,literal,,,age,,,"{""Q0"":""39""}"
+13,14106,,survey-text,13,115022,0.0-11.0,9rjvtyanqalojetgqopm,female,literal,,,purpose,,,"{""Q0"":""To see how giving or charitable someone would be if they won money.""}"
+14,1892,,survey-text,14,116916,0.0-12.0,9rjvtyanqalojetgqopm,female,literal,,,feedback,,,"{""Q0"":""""}"
+15,3213,debrief.html,external-html,15,120390,0.0-13.0,9rjvtyanqalojetgqopm,female,literal,,,,,,

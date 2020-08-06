@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,151230,consent.html,external-html,0,151698,0.0-0.0,s571ert0pdbyhwyqgpsq,male,literal,,,,,,
+1,5074,,image-button-response,1,156783,0.0-1.0,s571ert0pdbyhwyqgpsq,male,literal,check-1.png,1.0,check1,,,
+2,4303,,image-button-response,2,161089,0.0-2.0,s571ert0pdbyhwyqgpsq,male,literal,check-2.png,2.0,check2,,,
+3,119146,,instructions,3,280238,0.0-3.0,s571ert0pdbyhwyqgpsq,male,literal,,,,"[{""page_index"":0,""viewing_time"":14837},{""page_index"":1,""viewing_time"":90744},{""page_index"":2,""viewing_time"":11152},{""page_index"":3,""viewing_time"":2412}]",,
+4,374154,,html-slider-response,4,654396,0.0-4.0,s571ert0pdbyhwyqgpsq,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,50.0,
+5,261875,,survey-text,5,916274,0.0-5.0,s571ert0pdbyhwyqgpsq,male,literal,,,description,,,"{""Q0"":""Jason is a promising young man undergoing chemotherapy and needs both financial and emotional support to pull through.i feel and know he will pull through.""}"
+6,38571,,survey-likert,6,954849,0.0-6.0-0.0,s571ert0pdbyhwyqgpsq,male,literal,,,urgent,,,"{""Q0"":6}"
+7,7384,,survey-likert,7,962236,0.0-6.0-1.0,s571ert0pdbyhwyqgpsq,male,literal,,,sympathy,,,"{""Q0"":6}"
+8,9186,,survey-text,8,971424,0.0-7.0,s571ert0pdbyhwyqgpsq,male,literal,,,past-donations,,,"{""Q0"":""several""}"
+9,3862,,survey-multi-choice,9,975293,0.0-8.0-0.0,s571ert0pdbyhwyqgpsq,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,4774,,survey-multi-choice,10,980071,0.0-8.0-1.0,s571ert0pdbyhwyqgpsq,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,63035,,survey-multi-choice,11,1043122,0.0-9.0,s571ert0pdbyhwyqgpsq,male,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,6742,,survey-text,12,1049867,0.0-10.0,s571ert0pdbyhwyqgpsq,male,literal,,,age,,,"{""Q0"":""24""}"
+13,35007,,survey-text,13,1084877,0.0-11.0,s571ert0pdbyhwyqgpsq,male,literal,,,purpose,,,"{""Q0"":""To relate to peoples issues.""}"
+14,1422,,survey-text,14,1086301,0.0-12.0,s571ert0pdbyhwyqgpsq,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,30692,debrief.html,external-html,15,1127629,0.0-13.0,s571ert0pdbyhwyqgpsq,male,literal,,,,,,

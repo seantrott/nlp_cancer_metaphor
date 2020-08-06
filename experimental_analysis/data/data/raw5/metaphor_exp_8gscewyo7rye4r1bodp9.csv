@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,7033,consent.html,external-html,0,7135,0.0-0.0,8gscewyo7rye4r1bodp9,female,journey,,,,,,
+1,1873,,image-button-response,1,9012,0.0-1.0,8gscewyo7rye4r1bodp9,female,journey,check-1.png,1.0,check1,,,
+2,4550,,image-button-response,2,13563,0.0-2.0,8gscewyo7rye4r1bodp9,female,journey,check-2.png,2.0,check2,,,
+3,5751,,instructions,3,19315,0.0-3.0,8gscewyo7rye4r1bodp9,female,journey,,,,"[{""page_index"":0,""viewing_time"":2512},{""page_index"":1,""viewing_time"":783},{""page_index"":2,""viewing_time"":1624},{""page_index"":3,""viewing_time"":832}]",,
+4,3366,,html-slider-response,4,22684,0.0-4.0,8gscewyo7rye4r1bodp9,female,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_journey.png"" class=""main-trial""/>",,trial,,25.0,
+5,22503,,survey-text,5,45189,0.0-5.0,8gscewyo7rye4r1bodp9,female,journey,,,description,,,"{""Q0"":""It's a sticky situation. She needs money now. She's in between a rock and a hard place.""}"
+6,5474,,survey-likert,6,50667,0.0-6.0-0.0,8gscewyo7rye4r1bodp9,female,journey,,,urgent,,,"{""Q0"":5}"
+7,3090,,survey-likert,7,53780,0.0-6.0-1.0,8gscewyo7rye4r1bodp9,female,journey,,,sympathy,,,"{""Q0"":5}"
+8,3113,,survey-text,8,56917,0.0-7.0,8gscewyo7rye4r1bodp9,female,journey,,,past-donations,,,"{""Q0"":""1""}"
+9,3300,,survey-multi-choice,9,60220,0.0-8.0-0.0,8gscewyo7rye4r1bodp9,female,journey,,,ff-cancer,,,"{""Q0"":""No""}"
+10,2839,,survey-multi-choice,10,63085,0.0-8.0-1.0,8gscewyo7rye4r1bodp9,female,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,9330,,survey-multi-choice,11,72445,0.0-9.0,8gscewyo7rye4r1bodp9,female,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,3534,,survey-text,12,76003,0.0-10.0,8gscewyo7rye4r1bodp9,female,journey,,,age,,,"{""Q0"":""29""}"
+13,5014,,survey-text,13,81019,0.0-11.0,8gscewyo7rye4r1bodp9,female,journey,,,purpose,,,"{""Q0"":""Not too sure.""}"
+14,4023,,survey-text,14,85043,0.0-12.0,8gscewyo7rye4r1bodp9,female,journey,,,feedback,,,"{""Q0"":""This was fun.""}"
+15,8835,debrief.html,external-html,15,94159,0.0-13.0,8gscewyo7rye4r1bodp9,female,journey,,,,,,

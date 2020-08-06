@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,17333,consent.html,external-html,0,17484,0.0-0.0,qoy7f8x5uzerabn032jo,male,literal,,,,,,
+1,2525,,image-button-response,1,20013,0.0-1.0,qoy7f8x5uzerabn032jo,male,literal,check-1.png,1.0,check1,,,
+2,5368,,image-button-response,2,25383,0.0-2.0,qoy7f8x5uzerabn032jo,male,literal,check-2.png,2.0,check2,,,
+3,24842,,instructions,3,50226,0.0-3.0,qoy7f8x5uzerabn032jo,male,literal,,,,"[{""page_index"":0,""viewing_time"":3238},{""page_index"":1,""viewing_time"":15967},{""page_index"":2,""viewing_time"":4470},{""page_index"":3,""viewing_time"":1166}]",,
+4,53923,,html-slider-response,4,104152,0.0-4.0,qoy7f8x5uzerabn032jo,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,25.0,
+5,103794,,survey-text,5,207948,0.0-5.0,qoy7f8x5uzerabn032jo,male,literal,,,description,,,"{""Q0"":""Jason is really sick, and he needs help. He's been diagnosed with lymphoma. It's going to be a long road for him, but we've started a fundraiser to help him with expenses. He's gone through his fist rounds of chemo, and seems to be handling the side effects well so far. ""}"
+6,5985,,survey-likert,6,213934,0.0-6.0-0.0,qoy7f8x5uzerabn032jo,male,literal,,,urgent,,,"{""Q0"":6}"
+7,2763,,survey-likert,7,216699,0.0-6.0-1.0,qoy7f8x5uzerabn032jo,male,literal,,,sympathy,,,"{""Q0"":6}"
+8,7412,,survey-text,8,224113,0.0-7.0,qoy7f8x5uzerabn032jo,male,literal,,,past-donations,,,"{""Q0"":""6""}"
+9,3033,,survey-multi-choice,9,227150,0.0-8.0-0.0,qoy7f8x5uzerabn032jo,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,2990,,survey-multi-choice,10,230143,0.0-8.0-1.0,qoy7f8x5uzerabn032jo,male,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+11,12446,,survey-multi-choice,11,242598,0.0-9.0,qoy7f8x5uzerabn032jo,male,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,4130,,survey-text,12,246730,0.0-10.0,qoy7f8x5uzerabn032jo,male,literal,,,age,,,"{""Q0"":""35""}"
+13,18315,,survey-text,13,265046,0.0-11.0,qoy7f8x5uzerabn032jo,male,literal,,,purpose,,,"{""Q0"":""To see how generous people would be if they were to get the bonus money. ""}"
+14,4265,,survey-text,14,269312,0.0-12.0,qoy7f8x5uzerabn032jo,male,literal,,,feedback,,,"{""Q0"":""n/a""}"
+15,19794,debrief.html,external-html,15,289381,0.0-13.0,qoy7f8x5uzerabn032jo,male,literal,,,,,,

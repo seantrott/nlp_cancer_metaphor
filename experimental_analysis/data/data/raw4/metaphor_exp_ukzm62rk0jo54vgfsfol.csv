@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,30362,consent.html,external-html,0,30454,0.0-0.0,ukzm62rk0jo54vgfsfol,male,literal,,,,,,
+1,2124,,image-button-response,1,32589,0.0-1.0,ukzm62rk0jo54vgfsfol,male,literal,check-1.png,1.0,check1,,,
+2,3326,,image-button-response,2,35923,0.0-2.0,ukzm62rk0jo54vgfsfol,male,literal,check-2.png,2.0,check2,,,
+3,37906,,instructions,3,73834,0.0-3.0,ukzm62rk0jo54vgfsfol,male,literal,,,,"[{""page_index"":0,""viewing_time"":6812},{""page_index"":1,""viewing_time"":21216},{""page_index"":2,""viewing_time"":8523},{""page_index"":3,""viewing_time"":1352}]",,
+4,49794,,html-slider-response,4,123634,0.0-4.0,ukzm62rk0jo54vgfsfol,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,30.0,
+5,40181,,survey-text,5,163821,0.0-5.0,ukzm62rk0jo54vgfsfol,male,literal,,,description,,,"{""Q0"":""Jason's friend seems willing to help and do whatever a good friend should for someone that is suffering. He seems supportive and willing to do whatever he can while his friend goes through a tough time.""}"
+6,7028,,survey-likert,6,170856,0.0-6.0-0.0,ukzm62rk0jo54vgfsfol,male,literal,,,urgent,,,"{""Q0"":4}"
+7,3040,,survey-likert,7,173904,0.0-6.0-1.0,ukzm62rk0jo54vgfsfol,male,literal,,,sympathy,,,"{""Q0"":5}"
+8,4085,,survey-text,8,177994,0.0-7.0,ukzm62rk0jo54vgfsfol,male,literal,,,past-donations,,,"{""Q0"":""3""}"
+9,6022,,survey-multi-choice,9,184025,0.0-8.0-0.0,ukzm62rk0jo54vgfsfol,male,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+10,2460,,survey-multi-choice,10,186492,0.0-8.0-1.0,ukzm62rk0jo54vgfsfol,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,10747,,survey-multi-choice,11,197265,0.0-9.0,ukzm62rk0jo54vgfsfol,male,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,3494,,survey-text,12,200763,0.0-10.0,ukzm62rk0jo54vgfsfol,male,literal,,,age,,,"{""Q0"":""31""}"
+13,27446,,survey-text,13,228213,0.0-11.0,ukzm62rk0jo54vgfsfol,male,literal,,,purpose,,,"{""Q0"":""empathy towards a hypathetical crowd funding situtation""}"
+14,2250,,survey-text,14,230466,0.0-12.0,ukzm62rk0jo54vgfsfol,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,37122,debrief.html,external-html,15,267798,0.0-13.0,ukzm62rk0jo54vgfsfol,male,literal,,,,,,

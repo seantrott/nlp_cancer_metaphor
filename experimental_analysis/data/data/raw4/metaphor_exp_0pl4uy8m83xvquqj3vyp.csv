@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,2054,consent.html,external-html,0,2065,0.0-0.0,0pl4uy8m83xvquqj3vyp,female,literal,,,,,,
+1,1034,,image-button-response,1,3101,0.0-1.0,0pl4uy8m83xvquqj3vyp,female,literal,check-1.png,1.0,check1,,,
+2,863,,image-button-response,2,3966,0.0-2.0,0pl4uy8m83xvquqj3vyp,female,literal,check-2.png,2.0,check2,,,
+3,4575,,instructions,3,8541,0.0-3.0,0pl4uy8m83xvquqj3vyp,female,literal,,,,"[{""page_index"":0,""viewing_time"":1406},{""page_index"":1,""viewing_time"":1592},{""page_index"":2,""viewing_time"":865},{""page_index"":3,""viewing_time"":711}]",,
+4,17749,,html-slider-response,4,26292,0.0-4.0,0pl4uy8m83xvquqj3vyp,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,0.0,
+5,47166,,survey-text,5,73460,0.0-5.0,0pl4uy8m83xvquqj3vyp,female,literal,,,description,,,"{""Q0"":""Jennifer was diagnosed with stage 2 lymphoma. She started undergoing chemotherapy and will receive treatments every 21 days for the next 3-4 months.""}"
+6,4686,,survey-likert,6,78148,0.0-6.0-0.0,0pl4uy8m83xvquqj3vyp,female,literal,,,sympathy,,,"{""Q0"":6}"
+7,1790,,survey-likert,7,79940,0.0-6.0-1.0,0pl4uy8m83xvquqj3vyp,female,literal,,,urgent,,,"{""Q0"":6}"
+8,2166,,survey-text,8,82106,0.0-7.0,0pl4uy8m83xvquqj3vyp,female,literal,,,past-donations,,,"{""Q0"":""1""}"
+9,2214,,survey-multi-choice,9,84324,0.0-8.0-0.0,0pl4uy8m83xvquqj3vyp,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,2038,,survey-multi-choice,10,86362,0.0-8.0-1.0,0pl4uy8m83xvquqj3vyp,female,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+11,6139,,survey-multi-choice,11,92507,0.0-9.0,0pl4uy8m83xvquqj3vyp,female,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,4277,,survey-text,12,96785,0.0-10.0,0pl4uy8m83xvquqj3vyp,female,literal,,,age,,,"{""Q0"":""27""}"
+13,1872,,survey-text,13,98659,0.0-11.0,0pl4uy8m83xvquqj3vyp,female,literal,,,purpose,,,"{""Q0"":""""}"
+14,1078,,survey-text,14,99738,0.0-12.0,0pl4uy8m83xvquqj3vyp,female,literal,,,feedback,,,"{""Q0"":""""}"
+15,2668,debrief.html,external-html,15,102484,0.0-13.0,0pl4uy8m83xvquqj3vyp,female,literal,,,,,,

@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,13091,consent.html,external-html,0,13384,0.0-0.0,j6fh09kv5emcfeu74q7f,female,literal,,,,,,
+1,3880,,image-button-response,1,17270,0.0-1.0,j6fh09kv5emcfeu74q7f,female,literal,check-1.png,1.0,check1,,,
+2,4038,,image-button-response,2,21311,0.0-2.0,j6fh09kv5emcfeu74q7f,female,literal,check-2.png,2.0,check2,,,
+3,39195,,instructions,3,60507,0.0-3.0,j6fh09kv5emcfeu74q7f,female,literal,,,,"[{""page_index"":0,""viewing_time"":13096},{""page_index"":1,""viewing_time"":17474},{""page_index"":2,""viewing_time"":6942},{""page_index"":3,""viewing_time"":1682}]",,
+4,46191,,html-slider-response,4,106701,0.0-4.0,j6fh09kv5emcfeu74q7f,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,25.0,
+5,70187,,survey-text,5,176891,0.0-5.0,j6fh09kv5emcfeu74q7f,female,literal,,,description,,,"{""Q0"":""She is very sick and requires medication every 21 days that is very costly.  If you are able to help donate to her fund, she will be helped in a financial way.""}"
+6,8289,,survey-likert,6,185182,0.0-6.0-0.0,j6fh09kv5emcfeu74q7f,female,literal,,,urgent,,,"{""Q0"":6}"
+7,3905,,survey-likert,7,189089,0.0-6.0-1.0,j6fh09kv5emcfeu74q7f,female,literal,,,sympathy,,,"{""Q0"":6}"
+8,5143,,survey-text,8,194236,0.0-7.0,j6fh09kv5emcfeu74q7f,female,literal,,,past-donations,,,"{""Q0"":""2""}"
+9,3826,,survey-multi-choice,9,198068,0.0-8.0-0.0,j6fh09kv5emcfeu74q7f,female,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2962,,survey-multi-choice,10,201032,0.0-8.0-1.0,j6fh09kv5emcfeu74q7f,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,9783,,survey-multi-choice,11,210829,0.0-9.0,j6fh09kv5emcfeu74q7f,female,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Associate degree (e.g. AA, AS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,5897,,survey-text,12,216728,0.0-10.0,j6fh09kv5emcfeu74q7f,female,literal,,,age,,,"{""Q0"":""53""}"
+13,27127,,survey-text,13,243856,0.0-11.0,j6fh09kv5emcfeu74q7f,female,literal,,,purpose,,,"{""Q0"":""How likely i am to donate money to a sick person.  How much empathy I have.""}"
+14,18395,,survey-text,14,262253,0.0-12.0,j6fh09kv5emcfeu74q7f,female,literal,,,feedback,,,"{""Q0"":""It was hard to remember the details after a while""}"
+15,19825,debrief.html,external-html,15,283921,0.0-13.0,j6fh09kv5emcfeu74q7f,female,literal,,,,,,

@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,9877,consent.html,external-html,0,9911,0.0-0.0,shdwra0qm7teodc47h24,male,literal,,,,,,
+1,2379,,image-button-response,1,12293,0.0-1.0,shdwra0qm7teodc47h24,male,literal,check-1.png,1.0,check1,,,
+2,3255,,image-button-response,2,15548,0.0-2.0,shdwra0qm7teodc47h24,male,literal,check-2.png,2.0,check2,,,
+3,39421,,instructions,3,54970,0.0-3.0,shdwra0qm7teodc47h24,male,literal,,,,"[{""page_index"":0,""viewing_time"":13232},{""page_index"":1,""viewing_time"":16490},{""page_index"":2,""viewing_time"":8490},{""page_index"":3,""viewing_time"":1209}]",,
+4,50215,,html-slider-response,4,105188,0.0-4.0,shdwra0qm7teodc47h24,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_ml.png"" class=""main-trial""/>",,trial,,30.0,
+5,27094,,survey-text,5,132283,0.0-5.0,shdwra0qm7teodc47h24,male,literal,,,description,,,"{""Q0"":""He has cancer and is undergoing chemo.  He has an extremely tough path ahead of him.""}"
+6,5891,,survey-likert,6,138177,0.0-6.0-0.0,shdwra0qm7teodc47h24,male,literal,,,sympathy,,,"{""Q0"":5}"
+7,3719,,survey-likert,7,141897,0.0-6.0-1.0,shdwra0qm7teodc47h24,male,literal,,,urgent,,,"{""Q0"":3}"
+8,3697,,survey-text,8,145595,0.0-7.0,shdwra0qm7teodc47h24,male,literal,,,past-donations,,,"{""Q0"":""1""}"
+9,2288,,survey-multi-choice,9,147886,0.0-8.0-0.0,shdwra0qm7teodc47h24,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,3155,,survey-multi-choice,10,151042,0.0-8.0-1.0,shdwra0qm7teodc47h24,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,9570,,survey-multi-choice,11,160620,0.0-9.0,shdwra0qm7teodc47h24,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$100,000 through $149,999"",""Q3"":""Yes""}"
+12,3487,,survey-text,12,164108,0.0-10.0,shdwra0qm7teodc47h24,male,literal,,,age,,,"{""Q0"":""34""}"
+13,2831,,survey-text,13,166940,0.0-11.0,shdwra0qm7teodc47h24,male,literal,,,purpose,,,"{""Q0"":""""}"
+14,1423,,survey-text,14,168364,0.0-12.0,shdwra0qm7teodc47h24,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,26597,debrief.html,external-html,15,195077,0.0-13.0,shdwra0qm7teodc47h24,male,literal,,,,,,

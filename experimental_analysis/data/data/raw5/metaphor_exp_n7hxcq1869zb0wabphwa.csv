@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,7688,consent.html,external-html,0,7840,0.0-0.0,n7hxcq1869zb0wabphwa,male,journey,,,,,,
+1,2885,,image-button-response,1,10736,0.0-1.0,n7hxcq1869zb0wabphwa,male,journey,check-1.png,1.0,check1,,,
+2,4522,,image-button-response,2,15262,0.0-2.0,n7hxcq1869zb0wabphwa,male,journey,check-2.png,2.0,check2,,,
+3,52687,,instructions,3,67953,0.0-3.0,n7hxcq1869zb0wabphwa,male,journey,,,,"[{""page_index"":0,""viewing_time"":24251},{""page_index"":1,""viewing_time"":19074},{""page_index"":2,""viewing_time"":7449},{""page_index"":3,""viewing_time"":1911}]",,
+4,69114,,html-slider-response,4,137081,0.0-4.0,n7hxcq1869zb0wabphwa,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,30.0,
+5,80755,,survey-text,5,217841,0.0-5.0,n7hxcq1869zb0wabphwa,male,journey,,,description,,,"{""Q0"":""jason has to fight a severe battle with a major health issue. he needs planty of support to help win his battle.""}"
+6,6556,,survey-likert,6,224403,0.0-6.0-0.0,n7hxcq1869zb0wabphwa,male,journey,,,urgent,,,"{""Q0"":6}"
+7,4762,,survey-likert,7,229171,0.0-6.0-1.0,n7hxcq1869zb0wabphwa,male,journey,,,sympathy,,,"{""Q0"":6}"
+8,5290,,survey-text,8,234465,0.0-7.0,n7hxcq1869zb0wabphwa,male,journey,,,past-donations,,,"{""Q0"":""1""}"
+9,5752,,survey-multi-choice,9,240228,0.0-8.0-0.0,n7hxcq1869zb0wabphwa,male,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2894,,survey-multi-choice,10,243129,0.0-8.0-1.0,n7hxcq1869zb0wabphwa,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+11,18935,,survey-multi-choice,11,262091,0.0-9.0,n7hxcq1869zb0wabphwa,male,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,5937,,survey-text,12,268032,0.0-10.0,n7hxcq1869zb0wabphwa,male,journey,,,age,,,"{""Q0"":""65""}"
+13,20013,,survey-text,13,288049,0.0-11.0,n7hxcq1869zb0wabphwa,male,journey,,,purpose,,,"{""Q0"":""your genorousity""}"
+14,3597,,survey-text,14,291649,0.0-12.0,n7hxcq1869zb0wabphwa,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,8899,debrief.html,external-html,15,300833,0.0-13.0,n7hxcq1869zb0wabphwa,male,journey,,,,,,

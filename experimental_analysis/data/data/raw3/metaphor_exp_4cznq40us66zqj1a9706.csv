@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,2775,consent.html,external-html,0,3184,0.0-0.0,4cznq40us66zqj1a9706,male,battle,,,,,,
+1,2816,,image-button-response,1,6009,0.0-1.0,4cznq40us66zqj1a9706,male,battle,check-1.png,1.0,check1,,,
+2,1584,,image-button-response,2,7598,0.0-2.0,4cznq40us66zqj1a9706,male,battle,check-2.png,2.0,check2,,,
+3,6866,,instructions,3,14466,0.0-3.0,4cznq40us66zqj1a9706,male,battle,,,,"[{""page_index"":0,""viewing_time"":1178},{""page_index"":1,""viewing_time"":971},{""page_index"":0,""viewing_time"":1403},{""page_index"":1,""viewing_time"":1030},{""page_index"":2,""viewing_time"":1175},{""page_index"":3,""viewing_time"":1094}]",,
+4,3367,,html-slider-response,4,17843,0.0-4.0,4cznq40us66zqj1a9706,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_battle.png"" class=""main-trial""/>",,trial,,34.0,
+5,7865,,survey-text,5,25718,0.0-5.0,4cznq40us66zqj1a9706,male,battle,,,description,,,"{""Q0"":""preety good""}"
+6,2419,,survey-likert,6,28172,0.0-6.0-0.0,4cznq40us66zqj1a9706,male,battle,,,sympathy,,,"{""Q0"":5}"
+7,5082,,survey-likert,7,33259,0.0-6.0-1.0,4cznq40us66zqj1a9706,male,battle,,,urgent,,,"{""Q0"":4}"
+8,2458,,survey-text,8,35734,0.0-7.0,4cznq40us66zqj1a9706,male,battle,,,past-donations,,,"{""Q0"":""5""}"
+9,1957,,survey-multi-choice,9,37699,0.0-8.0-0.0,4cznq40us66zqj1a9706,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,1420,,survey-multi-choice,10,39137,0.0-8.0-1.0,4cznq40us66zqj1a9706,male,battle,,,ff-cancer,,,"{""Q0"":""No""}"
+11,8139,,survey-multi-choice,11,47285,0.0-9.0,4cznq40us66zqj1a9706,male,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,6974,,survey-text,12,54274,0.0-10.0,4cznq40us66zqj1a9706,male,battle,,,age,,,"{""Q0"":""32""}"
+13,4359,,survey-text,13,58646,0.0-11.0,4cznq40us66zqj1a9706,male,battle,,,purpose,,,"{""Q0"":""no""}"
+14,3069,,survey-text,14,61721,0.0-12.0,4cznq40us66zqj1a9706,male,battle,,,feedback,,,"{""Q0"":""good""}"
+15,3479,debrief.html,external-html,15,66808,0.0-13.0,4cznq40us66zqj1a9706,male,battle,,,,,,

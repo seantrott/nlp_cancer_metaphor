@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,8165,consent.html,external-html,0,8382,0.0-0.0,dpnbe5uf6x1dn9k06jat,female,journey,,,,,,
+1,2950,,image-button-response,1,11337,0.0-1.0,dpnbe5uf6x1dn9k06jat,female,journey,check-1.png,1.0,check1,,,
+2,4059,,image-button-response,2,15398,0.0-2.0,dpnbe5uf6x1dn9k06jat,female,journey,check-2.png,2.0,check2,,,
+3,30958,,instructions,3,46356,0.0-3.0,dpnbe5uf6x1dn9k06jat,female,journey,,,,"[{""page_index"":0,""viewing_time"":5183},{""page_index"":1,""viewing_time"":18262},{""page_index"":2,""viewing_time"":5508},{""page_index"":3,""viewing_time"":2004}]",,
+4,76649,,html-slider-response,4,123008,0.0-4.0,dpnbe5uf6x1dn9k06jat,female,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_journey.png"" class=""main-trial""/>",,trial,,20.0,
+5,49759,,survey-text,5,172769,0.0-5.0,dpnbe5uf6x1dn9k06jat,female,journey,,,description,,,"{""Q0"":""She has lymphoma cancer. She will have to go through chemotherapy treatments every 21 days for a few months, and maybe also local radiation. She is trying to raise money to help her friend pay her expenses.""}"
+6,13021,,survey-likert,6,185792,0.0-6.0-0.0,dpnbe5uf6x1dn9k06jat,female,journey,,,urgent,,,"{""Q0"":4}"
+7,3694,,survey-likert,7,189488,0.0-6.0-1.0,dpnbe5uf6x1dn9k06jat,female,journey,,,sympathy,,,"{""Q0"":6}"
+8,6167,,survey-text,8,195658,0.0-7.0,dpnbe5uf6x1dn9k06jat,female,journey,,,past-donations,,,"{""Q0"":""4""}"
+9,2628,,survey-multi-choice,9,198290,0.0-8.0-0.0,dpnbe5uf6x1dn9k06jat,female,journey,,,self-cancer,,,"{""Q0"":""No""}"
+10,2499,,survey-multi-choice,10,200793,0.0-8.0-1.0,dpnbe5uf6x1dn9k06jat,female,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,10698,,survey-multi-choice,11,211503,0.0-9.0,dpnbe5uf6x1dn9k06jat,female,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,5008,,survey-text,12,216514,0.0-10.0,dpnbe5uf6x1dn9k06jat,female,journey,,,age,,,"{""Q0"":""60""}"
+13,3594,,survey-text,13,220110,0.0-11.0,dpnbe5uf6x1dn9k06jat,female,journey,,,purpose,,,"{""Q0"":""""}"
+14,8257,,survey-text,14,228369,0.0-12.0,dpnbe5uf6x1dn9k06jat,female,journey,,,feedback,,,"{""Q0"":""""}"
+15,8469,debrief.html,external-html,15,237168,0.0-13.0,dpnbe5uf6x1dn9k06jat,female,journey,,,,,,

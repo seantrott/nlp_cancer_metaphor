@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,39217,consent.html,external-html,0,39335,0.0-0.0,z8aesflfto9kwmo03daj,male,journey,,,,,,
+1,3100,,image-button-response,1,42442,0.0-1.0,z8aesflfto9kwmo03daj,male,journey,check-1.png,1.0,check1,,,
+2,5349,,image-button-response,2,47794,0.0-2.0,z8aesflfto9kwmo03daj,male,journey,check-2.png,2.0,check2,,,
+3,38863,,instructions,3,86659,0.0-3.0,z8aesflfto9kwmo03daj,male,journey,,,,"[{""page_index"":0,""viewing_time"":7597},{""page_index"":1,""viewing_time"":19390},{""page_index"":2,""viewing_time"":9715},{""page_index"":3,""viewing_time"":2160}]",,
+4,90392,,html-slider-response,4,177057,0.0-4.0,z8aesflfto9kwmo03daj,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_mj.png"" class=""main-trial""/>",,trial,,15.0,
+5,109546,,survey-text,5,286607,0.0-5.0,z8aesflfto9kwmo03daj,male,journey,,,description,,,"{""Q0"":""Jason has Lymphoma and needs chemotherapy and radiation.  Jason is a great guy who has a heart of gold.  This journey will be tough for Jason not to mention the cost he has on top of trying to recover.  Jason's best friend is asking for donations and I plan to donate.  ""}"
+6,15860,,survey-likert,6,302472,0.0-6.0-0.0,z8aesflfto9kwmo03daj,male,journey,,,urgent,,,"{""Q0"":6}"
+7,4796,,survey-likert,7,307272,0.0-6.0-1.0,z8aesflfto9kwmo03daj,male,journey,,,sympathy,,,"{""Q0"":6}"
+8,8625,,survey-text,8,315900,0.0-7.0,z8aesflfto9kwmo03daj,male,journey,,,past-donations,,,"{""Q0"":""2""}"
+9,8651,,survey-multi-choice,9,324558,0.0-8.0-0.0,z8aesflfto9kwmo03daj,male,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,4770,,survey-multi-choice,10,329334,0.0-8.0-1.0,z8aesflfto9kwmo03daj,male,journey,,,self-cancer,,,"{""Q0"":""Yes""}"
+11,29167,,survey-multi-choice,11,358524,0.0-9.0,z8aesflfto9kwmo03daj,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,6337,,survey-text,12,364865,0.0-10.0,z8aesflfto9kwmo03daj,male,journey,,,age,,,"{""Q0"":""67""}"
+13,102457,,survey-text,13,467326,0.0-11.0,z8aesflfto9kwmo03daj,male,journey,,,purpose,,,"{""Q0"":""Our ability to relate with another individual who is in need of help and if we are willing to help that individual.""}"
+14,3446,,survey-text,14,470775,0.0-12.0,z8aesflfto9kwmo03daj,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,44153,debrief.html,external-html,15,515129,0.0-13.0,z8aesflfto9kwmo03daj,male,journey,,,,,,

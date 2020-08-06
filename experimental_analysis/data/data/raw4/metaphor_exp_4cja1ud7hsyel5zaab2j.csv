@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,6626,consent.html,external-html,0,6689,0.0-0.0,4cja1ud7hsyel5zaab2j,male,literal,,,,,,
+1,2290,,image-button-response,1,8982,0.0-1.0,4cja1ud7hsyel5zaab2j,male,literal,check-1.png,1.0,check1,,,
+2,2543,,image-button-response,2,11526,0.0-2.0,4cja1ud7hsyel5zaab2j,male,literal,check-2.png,2.0,check2,,,
+3,15359,,instructions,3,26886,0.0-3.0,4cja1ud7hsyel5zaab2j,male,literal,,,,"[{""page_index"":0,""viewing_time"":2646},{""page_index"":1,""viewing_time"":8856},{""page_index"":2,""viewing_time"":2976},{""page_index"":3,""viewing_time"":880}]",,
+4,28615,,html-slider-response,4,55503,0.0-4.0,4cja1ud7hsyel5zaab2j,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,15.0,
+5,32213,,survey-text,5,87716,0.0-5.0,4cja1ud7hsyel5zaab2j,male,literal,,,description,,,"{""Q0"":""Jason has a form of cancer that was discovered after surgery. He is going to need chemotherapy and doctors visit as he struggles through this disease.""}"
+6,3800,,survey-likert,6,91518,0.0-6.0-0.0,4cja1ud7hsyel5zaab2j,male,literal,,,urgent,,,"{""Q0"":4}"
+7,2165,,survey-likert,7,93684,0.0-6.0-1.0,4cja1ud7hsyel5zaab2j,male,literal,,,sympathy,,,"{""Q0"":4}"
+8,3223,,survey-text,8,96908,0.0-7.0,4cja1ud7hsyel5zaab2j,male,literal,,,past-donations,,,"{""Q0"":""5""}"
+9,1535,,survey-multi-choice,9,98444,0.0-8.0-0.0,4cja1ud7hsyel5zaab2j,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,1710,,survey-multi-choice,10,100156,0.0-8.0-1.0,4cja1ud7hsyel5zaab2j,male,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+11,8596,,survey-multi-choice,11,108757,0.0-9.0,4cja1ud7hsyel5zaab2j,male,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,2983,,survey-text,12,111740,0.0-10.0,4cja1ud7hsyel5zaab2j,male,literal,,,age,,,"{""Q0"":""35""}"
+13,3655,,survey-text,13,115396,0.0-11.0,4cja1ud7hsyel5zaab2j,male,literal,,,purpose,,,"{""Q0"":""not sure""}"
+14,2416,,survey-text,14,117812,0.0-12.0,4cja1ud7hsyel5zaab2j,male,literal,,,feedback,,,"{""Q0"":""no""}"
+15,5603,debrief.html,external-html,15,123590,0.0-13.0,4cja1ud7hsyel5zaab2j,male,literal,,,,,,

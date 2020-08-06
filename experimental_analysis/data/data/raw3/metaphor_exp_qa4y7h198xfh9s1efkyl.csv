@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,20304,consent.html,external-html,0,20735,0.0-0.0,qa4y7h198xfh9s1efkyl,female,battle,,,,,,
+1,10576,,image-button-response,1,31321,0.0-1.0,qa4y7h198xfh9s1efkyl,female,battle,check-1.png,1.0,check1,,,
+2,7025,,image-button-response,2,38350,0.0-2.0,qa4y7h198xfh9s1efkyl,female,battle,check-2.png,2.0,check2,,,
+3,25831,,instructions,3,64182,0.0-3.0,qa4y7h198xfh9s1efkyl,female,battle,,,,"[{""page_index"":0,""viewing_time"":2734},{""page_index"":1,""viewing_time"":19256},{""page_index"":2,""viewing_time"":2464},{""page_index"":3,""viewing_time"":1376}]",,
+4,45292,,html-slider-response,4,109478,0.0-4.0,qa4y7h198xfh9s1efkyl,female,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_battle.png"" class=""main-trial""/>",,trial,,10.0,
+5,197941,,survey-text,5,307421,0.0-5.0,qa4y7h198xfh9s1efkyl,female,battle,,,description,,,"{""Q0"":""it was a tricky situation  ""}"
+6,22750,,survey-likert,6,330174,0.0-6.0-0.0,qa4y7h198xfh9s1efkyl,female,battle,,,sympathy,,,"{""Q0"":4}"
+7,16357,,survey-likert,7,346534,0.0-6.0-1.0,qa4y7h198xfh9s1efkyl,female,battle,,,urgent,,,"{""Q0"":5}"
+8,20637,,survey-text,8,367173,0.0-7.0,qa4y7h198xfh9s1efkyl,female,battle,,,past-donations,,,"{""Q0"":""10""}"
+9,10819,,survey-multi-choice,9,377998,0.0-8.0-0.0,qa4y7h198xfh9s1efkyl,female,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,2921,,survey-multi-choice,10,380925,0.0-8.0-1.0,qa4y7h198xfh9s1efkyl,female,battle,,,ff-cancer,,,"{""Q0"":""No""}"
+11,8515,,survey-multi-choice,11,389462,0.0-9.0,qa4y7h198xfh9s1efkyl,female,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,10540,,survey-text,12,400005,0.0-10.0,qa4y7h198xfh9s1efkyl,female,battle,,,age,,,"{""Q0"":""32""}"
+13,13574,,survey-text,13,413580,0.0-11.0,qa4y7h198xfh9s1efkyl,female,battle,,,purpose,,,"{""Q0"":""""}"
+14,1486,,survey-text,14,415068,0.0-12.0,qa4y7h198xfh9s1efkyl,female,battle,,,feedback,,,"{""Q0"":""""}"
+15,10888,debrief.html,external-html,15,428023,0.0-13.0,qa4y7h198xfh9s1efkyl,female,battle,,,,,,

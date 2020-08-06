@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Metaphors | Metaphors on Charitable Donations</title>
+  <meta name="description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Metaphors | Metaphors on Charitable Donations" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Metaphors | Metaphors on Charitable Donations" />
+  
+  <meta name="twitter:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  
+
+<meta name="author" content="Alex Liebscher" />
+
+
+<meta name="date" content="2020-06-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="overview.html"/>
+<link rel="next" href="sympathy-urgency.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Metaphors on Charitable Donations</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#load-libraries"><i class="fa fa-check"></i><b>1.1</b> Load Libraries</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#load-data"><i class="fa fa-check"></i><b>1.2</b> Load Data</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#build-custom-functions"><i class="fa fa-check"></i><b>1.3</b> Build Custom Functions</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#set-custom-plot-themes"><i class="fa fa-check"></i><b>1.4</b> Set Custom Plot Themes</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>2</b> Data Overview</a><ul>
+<li class="chapter" data-level="2.1" data-path="overview.html"><a href="overview.html#tabular-summaries"><i class="fa fa-check"></i><b>2.1</b> Tabular Summaries</a></li>
+<li class="chapter" data-level="2.2" data-path="overview.html"><a href="overview.html#visualization-summaries"><i class="fa fa-check"></i><b>2.2</b> Visualization Summaries</a></li>
+<li class="chapter" data-level="2.3" data-path="overview.html"><a href="overview.html#duration-statistics"><i class="fa fa-check"></i><b>2.3</b> Duration Statistics</a></li>
+<li class="chapter" data-level="2.4" data-path="overview.html"><a href="overview.html#coarse-donation-behavior"><i class="fa fa-check"></i><b>2.4</b> Coarse Donation Behavior</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="metaphors.html"><a href="metaphors.html"><i class="fa fa-check"></i><b>3</b> Metaphors</a><ul>
+<li class="chapter" data-level="3.1" data-path="metaphors.html"><a href="metaphors.html#immediate-alternative-questions"><i class="fa fa-check"></i><b>3.1</b> Immediate Alternative Questions</a></li>
+<li class="chapter" data-level="3.2" data-path="metaphors.html"><a href="metaphors.html#coarse-donation-groups"><i class="fa fa-check"></i><b>3.2</b> Coarse Donation Groups</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-wide-donation-group"><i class="fa fa-check"></i><b>3.2.1</b> Metaphor Condition and Presence on Likelihood of Wide Donation Group</a></li>
+<li class="chapter" data-level="3.2.2" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-narrow-donation-group"><i class="fa fa-check"></i><b>3.2.2</b> Metaphor Condition and Presence on Likelihood of Narrow Donation Group</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="metaphors.html"><a href="metaphors.html#broader-alternative-questions"><i class="fa fa-check"></i><b>3.3</b> Broader Alternative Questions</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="metaphors.html"><a href="metaphors.html#gaussian-mixture-model"><i class="fa fa-check"></i><b>3.3.1</b> Gaussian Mixture Model</a></li>
+<li class="chapter" data-level="3.3.2" data-path="metaphors.html"><a href="metaphors.html#decision-tree"><i class="fa fa-check"></i><b>3.3.2</b> Decision Tree</a></li>
+<li class="chapter" data-level="3.3.3" data-path="metaphors.html"><a href="metaphors.html#random-forest-regression"><i class="fa fa-check"></i><b>3.3.3</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="3.3.4" data-path="metaphors.html"><a href="metaphors.html#xgboost"><i class="fa fa-check"></i><b>3.3.4</b> xgboost</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="metaphors.html"><a href="metaphors.html#gams"><i class="fa fa-check"></i><b>3.4</b> GAMs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html"><i class="fa fa-check"></i><b>4</b> Sympathy and Urgency</a><ul>
+<li class="chapter" data-level="4.1" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#sympathy"><i class="fa fa-check"></i><b>4.1</b> Sympathy</a></li>
+<li class="chapter" data-level="4.2" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#urgency"><i class="fa fa-check"></i><b>4.2</b> Urgency</a></li>
+<li class="chapter" data-level="4.3" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-sympathy"><i class="fa fa-check"></i><b>4.3</b> Metaphor on Sympathy</a></li>
+<li class="chapter" data-level="4.4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-urgency"><i class="fa fa-check"></i><b>4.4</b> Metaphor on Urgency</a></li>
+<li class="chapter" data-level="4.5" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-sympathy"><i class="fa fa-check"></i><b>4.5</b> Cancer Experience on Sympathy</a></li>
+<li class="chapter" data-level="4.6" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-urgency"><i class="fa fa-check"></i><b>4.6</b> Cancer Experience on Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="demographics.html"><a href="demographics.html"><i class="fa fa-check"></i><b>5</b> Demographics</a><ul>
+<li class="chapter" data-level="5.1" data-path="demographics.html"><a href="demographics.html#patient-gender"><i class="fa fa-check"></i><b>5.1</b> Patient Gender</a></li>
+<li class="chapter" data-level="5.2" data-path="demographics.html"><a href="demographics.html#gender"><i class="fa fa-check"></i><b>5.2</b> Gender</a></li>
+<li class="chapter" data-level="5.3" data-path="demographics.html"><a href="demographics.html#gender-congruency-effects"><i class="fa fa-check"></i><b>5.3</b> Gender Congruency Effects</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="demographics.html"><a href="demographics.html#gender-congruence-on-sympathy"><i class="fa fa-check"></i><b>5.3.1</b> Gender Congruence on Sympathy</a></li>
+<li class="chapter" data-level="5.3.2" data-path="demographics.html"><a href="demographics.html#gender-congruence-on-urgency"><i class="fa fa-check"></i><b>5.3.2</b> Gender Congruence on Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="demographics.html"><a href="demographics.html#self-cancer"><i class="fa fa-check"></i><b>5.4</b> Self Cancer</a></li>
+<li class="chapter" data-level="5.5" data-path="demographics.html"><a href="demographics.html#friends-and-family-cancer"><i class="fa fa-check"></i><b>5.5</b> Friends and Family Cancer</a></li>
+<li class="chapter" data-level="5.6" data-path="demographics.html"><a href="demographics.html#education"><i class="fa fa-check"></i><b>5.6</b> Education</a></li>
+<li class="chapter" data-level="5.7" data-path="demographics.html"><a href="demographics.html#socioeconomics"><i class="fa fa-check"></i><b>5.7</b> Socioeconomics</a></li>
+<li class="chapter" data-level="5.8" data-path="demographics.html"><a href="demographics.html#past-donations"><i class="fa fa-check"></i><b>5.8</b> Past Donations</a></li>
+<li class="chapter" data-level="5.9" data-path="demographics.html"><a href="demographics.html#age"><i class="fa fa-check"></i><b>5.9</b> Age</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="descriptions.html"><a href="descriptions.html"><i class="fa fa-check"></i><b>6</b> Descriptions</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="descriptions.html"><a href="descriptions.html#quality"><i class="fa fa-check"></i><b>6.0.1</b> Quality</a></li>
+<li class="chapter" data-level="6.0.2" data-path="descriptions.html"><a href="descriptions.html#metaphor"><i class="fa fa-check"></i><b>6.0.2</b> Metaphor</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="response-times.html"><a href="response-times.html"><i class="fa fa-check"></i><b>7</b> Response Times</a><ul>
+<li class="chapter" data-level="7.1" data-path="response-times.html"><a href="response-times.html#main-stimulus-timing"><i class="fa fa-check"></i><b>7.1</b> Main Stimulus Timing</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="response-times.html"><a href="response-times.html#relationship-with-metaphor-condition"><i class="fa fa-check"></i><b>7.1.1</b> Relationship with Metaphor Condition</a></li>
+<li class="chapter" data-level="7.1.2" data-path="response-times.html"><a href="response-times.html#continuous-rt"><i class="fa fa-check"></i><b>7.1.2</b> Continuous RT</a></li>
+<li class="chapter" data-level="7.1.3" data-path="response-times.html"><a href="response-times.html#discretized-rt"><i class="fa fa-check"></i><b>7.1.3</b> Discretized RT</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="response-times.html"><a href="response-times.html#experiment-content-timing"><i class="fa fa-check"></i><b>7.2</b> Experiment Content Timing</a></li>
+<li class="chapter" data-level="7.3" data-path="response-times.html"><a href="response-times.html#experiment-timing"><i class="fa fa-check"></i><b>7.3</b> Experiment Timing</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="mediation.html"><a href="mediation.html"><i class="fa fa-check"></i><b>8</b> Mediation</a><ul>
+<li class="chapter" data-level="8.1" data-path="mediation.html"><a href="mediation.html#any-metaphor-to-literal-condition"><i class="fa fa-check"></i><b>8.1</b> Any Metaphor to Literal condition</a></li>
+<li class="chapter" data-level="8.2" data-path="mediation.html"><a href="mediation.html#battle-to-literal-condition"><i class="fa fa-check"></i><b>8.2</b> Battle to Literal condition</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="mediation.html"><a href="mediation.html#sympathy-1"><i class="fa fa-check"></i><b>8.2.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.2.2" data-path="mediation.html"><a href="mediation.html#urgency-1"><i class="fa fa-check"></i><b>8.2.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="mediation.html"><a href="mediation.html#journey-to-literal-condition"><i class="fa fa-check"></i><b>8.3</b> Journey to Literal condition</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="mediation.html"><a href="mediation.html#sympathy-2"><i class="fa fa-check"></i><b>8.3.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.3.2" data-path="mediation.html"><a href="mediation.html#urgency-2"><i class="fa fa-check"></i><b>8.3.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="mediation.html"><a href="mediation.html#battle-to-journey-condition"><i class="fa fa-check"></i><b>8.4</b> Battle to Journey condition</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="mediation.html"><a href="mediation.html#sympathy-3"><i class="fa fa-check"></i><b>8.4.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.4.2" data-path="mediation.html"><a href="mediation.html#urgency-3"><i class="fa fa-check"></i><b>8.4.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="mediation.html"><a href="mediation.html#summary"><i class="fa fa-check"></i><b>8.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>9</b> Introduction</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Metaphors on Charitable Donations</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="metaphors" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Metaphors</h1>
+<div id="immediate-alternative-questions" class="section level2">
+<h2><span class="header-section-number">3.1</span> Immediate Alternative Questions</h2>
+<p>Does donation behavior differ between participants in the literal condition and the journey condition?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">journey_mask =<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;battle&quot;</span>
+model_journey_literal_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>.), <span class="dt">data =</span> trials[journey_mask, ])
+model_journey_literal_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), <span class="dt">data =</span> trials[journey_mask, ])
+
+<span class="kw">compare_lm</span>(model_journey_literal_base, model_journey_literal_full)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z
+## Model 2: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z + cond_metaphor
+##   Res.Df    RSS Df Sum of Sq Pr(&gt;Chi)
+## 1   2994 765031                      
+## 2   2993 764880  1    151.53   0.4413
+## Chisq Stat:  0.598 
+## NULL</code></pre>
+<p>There is no significant difference in donation amounts between journey and literal conditions.</p>
+<p>Does donation behavior differ between participants in the literal condition and the battle condition?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">battle_mask =<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;journey&quot;</span>
+model_battle_literal_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>.), <span class="dt">data =</span> trials[battle_mask, ])
+model_battle_literal_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), <span class="dt">data =</span> trials[battle_mask, ])
+
+<span class="kw">compare_lm</span>(model_battle_literal_base, model_battle_literal_full)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z
+## Model 2: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z + cond_metaphor
+##   Res.Df    RSS Df Sum of Sq Pr(&gt;Chi)
+## 1   2989 767780                      
+## 2   2988 767374  1    406.21   0.2085
+## Chisq Stat:  1.595 
+## NULL</code></pre>
+<p>There is no significant difference in donation amounts between battle and literal conditions.</p>
+<p>H: Donors contribute different amounts to a campaign which employs battle metaphors compared to a campaign which employs journey metaphors.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">literal_mask =<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;literal&quot;</span>
+model_battle_journey_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>.), <span class="dt">data =</span> trials[literal_mask, ])
+model_battle_journey_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), <span class="dt">data =</span> trials[literal_mask, ])
+
+<span class="kw">compare_lm</span>(model_battle_journey_base, model_battle_journey_full)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z
+## Model 2: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + past_donations.z + age.z + cond_metaphor
+##   Res.Df    RSS Df Sum of Sq Pr(&gt;Chi)  
+## 1   2946 752003                        
+## 2   2945 751023  1    979.78  0.04998 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Chisq Stat:  3.873 
+## NULL
+## MODEL INFO:
+## Observations: 2971
+## Dependent Variable: donation
+## Type: OLS linear regression 
+## 
+## MODEL FIT:
+## F(25,2945) = 3.526, p = 0.000
+## R² = 0.029
+## Adj. R² = 0.021 
+## 
+## Standard errors: OLS
+## ------------------------------------------------------------------------
+##                                 Est.      2.5%    97.5%   t val.       p
+## --------------------------- -------- --------- -------- -------- -------
+## (Intercept)                   25.593    17.834   33.351    6.468   0.000
+## cond_sexfemale                -0.700    -1.855    0.456   -1.187   0.235
+## self_cancerY                   5.556     2.803    8.309    3.957   0.000
+## self_cancerOO                  2.084    -4.113    8.280    0.659   0.510
+## ff_cancerY                     1.203    -0.056    2.462    1.874   0.061
+## ff_cancerOO                    3.828    -0.417    8.072    1.768   0.077
+## genderF                        0.538    -0.643    1.718    0.893   0.372
+## genderNB                       1.157    -7.013    9.327    0.278   0.781
+## genderOO                      -0.930   -12.341   10.481   -0.160   0.873
+## educationHS                   -4.525   -12.242    3.193   -1.150   0.250
+## educationA                    -4.108   -11.936    3.720   -1.029   0.304
+## educationB                    -2.929   -10.628    4.770   -0.746   0.456
+## educationM                    -1.028    -8.853    6.798   -0.257   0.797
+## educationP                    -3.181   -11.687    5.326   -0.733   0.464
+## educationD                    -3.659   -12.384    5.066   -0.822   0.411
+## educationOO                   -2.316   -13.814    9.182   -0.395   0.693
+## socioeconomic10-25k           -0.235    -2.413    1.944   -0.211   0.833
+## socioeconomic25-50k            0.865    -1.134    2.863    0.849   0.396
+## socioeconomic50-75k            1.007    -1.121    3.135    0.928   0.353
+## socioeconomic75-100k           1.889    -0.539    4.317    1.525   0.127
+## socioeconomic100-150k          0.891    -1.917    3.700    0.622   0.534
+## socioeconomic&gt;150k             2.749    -1.062    6.561    1.414   0.157
+## socioeconomicOO               -2.440    -6.299    1.420   -1.239   0.215
+## past_donations.z               2.472     1.342    3.603    4.289   0.000
+## age.z                          0.199    -1.031    1.430    0.318   0.751
+## cond_metaphorjourney          -1.153    -2.307    0.000   -1.960   0.050
+## ------------------------------------------------------------------------</code></pre>
+<p>There is a significant difference in donation amounts between participants exposed to battle metaphors and participants exposed to journey metaphors (Chisq = 4.0, p &lt; 0.05).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># g = trials %&gt;%</span>
+<span class="co">#   ggplot(aes(cond_anymet, donation)) + ptheme +</span>
+<span class="co">#   stat_summary(fun.data = mean_se, geom = &quot;errorbar&quot;, position = position_dodge(width = 0.35), width = 0.2) +</span>
+<span class="co">#   stat_summary(fun.data = mean_se, geom = &quot;point&quot;, shape = 5, position = position_dodge(width = 0.35)) +</span>
+<span class="co">#   scale_x_discrete(labels = c(&quot;FALSE&quot; = &quot;Literal\n&quot;, &quot;TRUE&quot; = &quot;Any\nMetaphor&quot;)) +</span>
+<span class="co">#   scale_y_continuous(labels = scales::dollar) +</span>
+<span class="co">#   coord_cartesian(ylim = c(22, 27)) +</span>
+<span class="co">#   labs(x = element_blank(), y = &quot;Donation&quot;) +</span>
+<span class="co">#   geom_signif(comparisons = list(c(&quot;FALSE&quot;, &quot;TRUE&quot;)),</span>
+<span class="co">#               y_position = 26,</span>
+<span class="co">#               tip_length = 0.01,</span>
+<span class="co">#               textsize = 2.75,</span>
+<span class="co">#               annotations = &quot;list({\U03C7^2}(1) == 0.8, ~~ ns)&quot;,</span>
+<span class="co">#               parse = T)</span>
+<span class="co"># </span>
+<span class="co"># g</span>
+
+<span class="co"># ggsave(&quot;any_metaphor_donation.png&quot;, g, width = pwidth/3, height = pheight, bg = &quot;transparent&quot;)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># g = trials %&gt;%</span>
+<span class="co">#   ggplot(aes(cond_metaphor, donation)) + ptheme +</span>
+<span class="co">#   stat_summary(fun.data = mean_se, geom = &quot;errorbar&quot;, position = position_dodge(width = 0.35), width = 0.2) +</span>
+<span class="co">#   stat_summary(fun.data = mean_se, geom = &quot;point&quot;, shape = 5, position = position_dodge(width = 0.35)) +</span>
+<span class="co">#   scale_x_discrete(labels = c(&quot;literal&quot; = &quot;Literal\n&quot;, &quot;journey&quot; = &quot;Journey\n&quot;, &quot;battle&quot; = &quot;Battle\n&quot;)) +</span>
+<span class="co">#   scale_y_continuous(labels = scales::dollar) +</span>
+<span class="co">#   coord_cartesian(ylim = c(22, 27)) +</span>
+<span class="co">#   labs(x = element_blank(), y = element_blank())</span>
+<span class="co">#   # geom_signif(comparisons = list(c(&quot;literal&quot;, &quot;journey&quot;), c(&quot;literal&quot;, &quot;battle&quot;), c(&quot;battle&quot;, &quot;journey&quot;)),</span>
+<span class="co">#   #             y_position = c(26.6, 26, 25.4),</span>
+<span class="co">#   #             tip_length = 0.005,</span>
+<span class="co">#   #             textsize = 2.75,</span>
+<span class="co">#   #             annotations = c(&quot;list({\U03C7^2}(1) == 0.6, ~~ ns)&quot;,</span>
+<span class="co">#   #                             &quot;list({\U03C7^2}(1) == 1.7, ~~ ns)&quot;,</span>
+<span class="co">#   #                             &quot;list({\U03C7^2}(1) == 4.0, ~~ p &lt; 0.05)&quot;),</span>
+<span class="co">#   #             parse = T)</span>
+<span class="co"># </span>
+<span class="co"># g</span>
+<span class="co"># ggsave(&quot;metaphor_donation0.png&quot;, g, width = pwidth/1.8, height = pheight, bg = &quot;transparent&quot;)</span></code></pre></div>
+</div>
+<div id="coarse-donation-groups" class="section level2">
+<h2><span class="header-section-number">3.2</span> Coarse Donation Groups</h2>
+<div id="metaphor-condition-and-presence-on-likelihood-of-wide-donation-group" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Metaphor Condition and Presence on Likelihood of Wide Donation Group</h3>
+<p>Visualizations of donation amounts seems to convey that donations are generally trimodal, on $0, $25, and $50. What if participants donated according to a coarser scale than anticpated? They may have chosen an amount mentally represented as “small” or “medium” or “large”. In other words, we may see an effect if the donations are binned into three groups: lower, middle, and high; corresponding to $0-16.67, $16.67-33.33, and $33.33-50. Note the difference between these wide bins compared to the narrow bins previously explored (which are resurfaced soon).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trials<span class="op">$</span>donation_wide_group =<span class="st"> </span><span class="kw">cut</span>(trials<span class="op">$</span>donation, 
+                                 <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">50</span><span class="op">*</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">50</span><span class="op">*</span><span class="dv">2</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">50</span>), 
+                                 <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;large&quot;</span>), 
+                                 <span class="dt">include.lowest =</span> T)</code></pre></div>
+<p>Contingency table: Wide Donation Groups x Any Metaphor</p>
+<pre><code>##         FALSE TRUE
+##                   
+## small     609 1111
+## medium    464  978
+## large     458  882
+## 
+##         FALSE  TRUE
+##                    
+## small   0.135 0.247
+## medium  0.103 0.217
+## large   0.102 0.196</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># g = trials %&gt;%</span>
+<span class="co">#   mutate(int = interaction(cond_metaphor, donation_wide_group)) %&gt;%</span>
+<span class="co">#   group_by(int) %&gt;%</span>
+<span class="co">#   mutate(y = n()) %&gt;%</span>
+<span class="co">#   ggplot(aes(cond_metaphor, y, fill = int)) + ptheme +</span>
+<span class="co">#   geom_col(position = position_dodge(width = 0.8), width = 0.75) +</span>
+<span class="co">#   # dodgerblue1 chartreuse3</span>
+<span class="co">#   scale_fill_manual(values = c(&quot;grey90&quot;, &quot;grey90&quot;, &quot;grey90&quot;,</span>
+<span class="co">#                                &quot;grey80&quot;, &quot;grey80&quot;, &quot;grey80&quot;,</span>
+<span class="co">#                                &quot;grey70&quot;, &quot;grey70&quot;, &quot;grey70&quot;),</span>
+<span class="co">#                     breaks = c(&quot;battle.small&quot;,</span>
+<span class="co">#                                &quot;battle.medium&quot;,</span>
+<span class="co">#                                &quot;battle.large&quot;),</span>
+<span class="co">#                     labels = c(&quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;),</span>
+<span class="co">#                     name = &quot;Donation\nGroup&quot;) +</span>
+<span class="co">#   # scale_fill_manual(values = c(&quot;firebrick2&quot;, &quot;grey94&quot;, &quot;grey94&quot;,</span>
+<span class="co">#   #                              &quot;firebrick4&quot;, &quot;grey94&quot;, &quot;grey94&quot;,</span>
+<span class="co">#   #                              &quot;grey94&quot;, &quot;grey94&quot;, &quot;grey94&quot;),</span>
+<span class="co">#   #                   breaks = c(&quot;literal.small&quot;,</span>
+<span class="co">#   #                              &quot;literal.medium&quot;),</span>
+<span class="co">#   #                   labels = c(&quot;Small&quot;, &quot;Medium&quot;),</span>
+<span class="co">#   #                   name = &quot;Donation\nGroup&quot;) +</span>
+<span class="co">#   # scale_fill_manual(values = c(&quot;grey94&quot;, &quot;dodgerblue1&quot;, &quot;dodgerblue1&quot;,</span>
+<span class="co">#   #                              &quot;grey94&quot;, &quot;dodgerblue4&quot;, &quot;dodgerblue4&quot;,</span>
+<span class="co">#   #                              &quot;grey94&quot;, &quot;grey94&quot;, &quot;grey94&quot;),</span>
+<span class="co">#   #                   breaks = c(&quot;battle.small&quot;,</span>
+<span class="co">#   #                              &quot;battle.medium&quot;),</span>
+<span class="co">#   #                   labels = c(&quot;Small&quot;, &quot;Medium&quot;),</span>
+<span class="co">#   #                   name = &quot;Donation\nGroup&quot;) +</span>
+<span class="co">#   # scale_fill_manual(values = c(&quot;firebrick2&quot;, &quot;dodgerblue1&quot;, &quot;dodgerblue1&quot;,</span>
+<span class="co">#   #                              &quot;firebrick4&quot;, &quot;dodgerblue4&quot;, &quot;dodgerblue4&quot;,</span>
+<span class="co">#   #                              &quot;grey94&quot;, &quot;grey94&quot;, &quot;grey94&quot;),</span>
+<span class="co">#   #                   breaks = c(&quot;battle.small&quot;,</span>
+<span class="co">#   #                              &quot;literal.small&quot;,</span>
+<span class="co">#   #                              &quot;battle.medium&quot;,</span>
+<span class="co">#   #                              &quot;literal.medium&quot;),</span>
+<span class="co">#   #                   labels = c(&quot;Small&quot;, &quot;Small&quot;,</span>
+<span class="co">#   #                              &quot;Medium&quot;, &quot;Medium&quot;),</span>
+<span class="co">#   #                   name = &quot;Donation\nGroup&quot;) +</span>
+<span class="co">#   </span>
+<span class="co">#   scale_x_discrete(labels = c(&quot;literal&quot; = &quot;Literal&quot;, &quot;battle&quot; = &quot;Battle&quot;, &quot;journey&quot; = &quot;Journey&quot;)) +</span>
+<span class="co">#   labs(title = &quot;Count of Participants in Donation Groups by Metaphor Condition&quot;, x = &quot;Donation Group&quot;, y = &quot;Count of Participants&quot;) +</span>
+<span class="co">#   coord_cartesian(ylim = c(0, 680))</span>
+<span class="co">#   # geom_signif(xmin = 1 - 0.13,</span>
+<span class="co">#   #             xmax = 2.5,</span>
+<span class="co">#   #             y_position = 650,</span>
+<span class="co">#   #             tip_length = 0.1,</span>
+<span class="co">#   #             textsize = 2.75,</span>
+<span class="co">#   #             annotations = &quot;list({\U03C7^2}(1) == 4.2, ~~ p &lt; 0.05)&quot;,</span>
+<span class="co">#   #             parse = T)</span>
+<span class="co">#   </span>
+<span class="co"># </span>
+<span class="co"># g</span>
+<span class="co"># ggsave(&quot;coarse_donations0.png&quot;, g, width = pwidth, height = pheight, bg = &quot;transparent&quot;)</span></code></pre></div>
+<p>H: Donors are more likely to contribute to the large third when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_sm_l_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials, 
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_sm_l_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_anymet), 
+                         <span class="dt">data =</span> trials, 
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_sm_l_base, model_sm_l_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_wide_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_wide_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_anymet
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      4477     5385.2                     
+## 2      4476     5385.2  1 0.084994   0.7706
+## Chisq Stat:  0.085 
+## NULL</code></pre>
+<p>There is no evidence that participants who were exposed to metaphor were any more likely to be “large” donors.</p>
+<p>H: Donors are more likely to contribute to the large third or the medium third when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_s_ml_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">!=</span><span class="st"> &quot;small&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials, 
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_s_ml_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">!=</span><span class="st"> &quot;small&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_anymet), 
+                         <span class="dt">data =</span> trials, 
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_s_ml_base, model_s_ml_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_wide_group != &quot;small&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_wide_group != &quot;small&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_anymet
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      4477     5904.0                     
+## 2      4476     5901.5  1    2.474   0.1157
+## Chisq Stat:  2.474 
+## NULL</code></pre>
+<p>There is marginal evidence that participants who were exposed to metaphor were slightly more likely to be “large” or “medium” donors. We can break this down further to see differences in likelihood that metaphor exposed participants are more or less likely to be either “medium” or “large” donors.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_wide_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;medium&quot;</span>)
+model_s_m_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;medium&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ], 
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_s_m_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;medium&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_anymet), 
+                         <span class="dt">data =</span> trials[mask, ], 
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_s_m_base, model_s_m_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_wide_group == &quot;medium&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_wide_group == &quot;medium&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_anymet
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)  
+## 1      3137     4320.0                       
+## 2      3136     4315.7  1   4.2385  0.03952 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Chisq Stat:  4.238 
+## NULL
+## MODEL INFO:
+## Observations: 3162
+## Dependent Variable: I(donation_wide_group == &quot;medium&quot;)
+## Type: Generalized linear model
+##   Family: binomial 
+##   Link function: logit 
+## 
+## MODEL FIT:
+## χ²(25) = 43.259, p = 0.013
+## Pseudo-R² (Cragg-Uhler) = 0.018
+## Pseudo-R² (McFadden) = 0.010
+## AIC = 4367.731, BIC = 4525.264 
+## 
+## Standard errors: MLE
+## ----------------------------------------------------------------------
+##                                 Est.     2.5%   97.5%   z val.       p
+## --------------------------- -------- -------- ------- -------- -------
+## (Intercept)                   -0.309   -1.286   0.668   -0.619   0.536
+## cond_sexfemale                -0.052   -0.193   0.090   -0.719   0.472
+## self_cancerY                   0.342   -0.041   0.726    1.750   0.080
+## self_cancerOO                 -0.273   -1.139   0.594   -0.617   0.538
+## ff_cancerY                     0.105   -0.047   0.257    1.353   0.176
+## ff_cancerOO                   -0.036   -0.620   0.547   -0.122   0.903
+## genderF                        0.068   -0.077   0.214    0.922   0.357
+## genderNB                      -0.074   -1.056   0.908   -0.147   0.883
+## genderOO                      -0.357   -1.798   1.084   -0.485   0.627
+## educationHS                   -0.268   -1.238   0.703   -0.541   0.589
+## educationA                    -0.132   -1.114   0.850   -0.264   0.792
+## educationB                     0.007   -0.960   0.975    0.015   0.988
+## educationM                     0.169   -0.815   1.152    0.336   0.737
+## educationP                     0.210   -0.846   1.265    0.389   0.697
+## educationD                    -0.205   -1.304   0.893   -0.366   0.714
+## educationOO                   -0.119   -1.626   1.388   -0.155   0.877
+## socioeconomic10-25k            0.058   -0.204   0.321    0.437   0.662
+## socioeconomic25-50k            0.049   -0.191   0.290    0.403   0.687
+## socioeconomic50-75k           -0.076   -0.334   0.182   -0.576   0.565
+## socioeconomic75-100k           0.134   -0.164   0.432    0.882   0.378
+## socioeconomic100-150k         -0.012   -0.354   0.330   -0.067   0.946
+## socioeconomic&gt;150k            -0.290   -0.794   0.214   -1.127   0.260
+## socioeconomicOO               -0.477   -0.974   0.021   -1.877   0.061
+## past_donations.z               0.087   -0.067   0.240    1.107   0.268
+## age.z                          0.061   -0.089   0.212    0.801   0.423
+## cond_anymetTRUE                0.157    0.007   0.307    2.056   0.040
+## ----------------------------------------------------------------------</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_wide_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;large&quot;</span>) <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;literal&quot;</span>, <span class="st">&quot;battle&quot;</span>)
+
+model_met_s_l_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_met_s_l_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_met_s_l_base, model_met_s_l_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_wide_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_wide_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_metaphor
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      1845     2547.4                     
+## 2      1844     2547.3  1 0.082458    0.774
+## Chisq Stat:  0.082 
+## NULL</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_wide_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;large&quot;</span>)
+model_s_l_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ], 
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_s_l_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_anymet), 
+                         <span class="dt">data =</span> trials[mask, ], 
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_s_l_base, model_s_l_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_wide_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_wide_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_anymet
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      3035     4082.4                     
+## 2      3034     4082.2  1  0.24269   0.6223
+## Chisq Stat:  0.243 
+## NULL</code></pre>
+<p>There is evidence that participants exposed to metaphor are more likely to donate “medium” amounts than “small” amounts (Chisq = 4.2, p &lt; 0.05). However, there is no evidence that participants who are exposed to metaphor are any more likely to donate “large” amounts than “small” amounts.</p>
+<p>NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a “large” amount compared to a “small” amount.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_wide_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;large&quot;</span>) <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)
+
+model_met_s_l_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_met_s_l_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_met_s_l_base, model_met_s_l_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_wide_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_wide_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_metaphor
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)  
+## 1      1968     2663.8                       
+## 2      1967     2659.2  1   4.5505  0.03291 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Chisq Stat:  4.55 
+## NULL
+## MODEL INFO:
+## Observations: 1993
+## Dependent Variable: I(donation_wide_group == &quot;large&quot;)
+## Type: Generalized linear model
+##   Family: binomial 
+##   Link function: logit 
+## 
+## MODEL FIT:
+## χ²(25) = 77.283, p = 0.000
+## Pseudo-R² (Cragg-Uhler) = 0.051
+## Pseudo-R² (McFadden) = 0.028
+## AIC = 2711.231, BIC = 2856.764 
+## 
+## Standard errors: MLE
+## -----------------------------------------------------------------------
+##                                 Est.     2.5%    97.5%   z val.       p
+## --------------------------- -------- -------- -------- -------- -------
+## (Intercept)                    0.012   -1.159    1.184    0.021   0.983
+## cond_sexfemale                -0.097   -0.279    0.085   -1.048   0.295
+## self_cancerY                   0.866    0.418    1.313    3.789   0.000
+## self_cancerOO                  0.038   -0.871    0.947    0.082   0.935
+## ff_cancerY                     0.189   -0.010    0.388    1.861   0.063
+## ff_cancerOO                    0.415   -0.229    1.060    1.264   0.206
+## genderF                        0.019   -0.166    0.203    0.197   0.844
+## genderNB                      -0.089   -1.407    1.229   -0.132   0.895
+## genderOO                      -0.250   -2.049    1.550   -0.272   0.786
+## educationHS                   -0.624   -1.794    0.546   -1.046   0.296
+## educationA                    -0.547   -1.737    0.644   -0.900   0.368
+## educationB                    -0.308   -1.475    0.859   -0.517   0.605
+## educationM                    -0.035   -1.223    1.153   -0.058   0.954
+## educationP                    -0.433   -1.737    0.871   -0.651   0.515
+## educationD                    -0.424   -1.744    0.897   -0.628   0.530
+## educationOO                   -0.264   -2.029    1.500   -0.293   0.769
+## socioeconomic10-25k           -0.078   -0.427    0.271   -0.438   0.661
+## socioeconomic25-50k            0.135   -0.180    0.451    0.841   0.401
+## socioeconomic50-75k            0.152   -0.182    0.485    0.890   0.374
+## socioeconomic75-100k           0.202   -0.181    0.586    1.034   0.301
+## socioeconomic100-150k          0.106   -0.329    0.542    0.479   0.632
+## socioeconomic&gt;150k             0.372   -0.210    0.954    1.253   0.210
+## socioeconomicOO               -0.295   -0.896    0.306   -0.963   0.336
+## past_donations.z               0.353    0.161    0.546    3.595   0.000
+## age.z                         -0.047   -0.243    0.150   -0.465   0.642
+## cond_metaphorjourney          -0.197   -0.379   -0.016   -2.131   0.033
+## -----------------------------------------------------------------------</code></pre>
+<p>Given the observed data for participants who saw either battle or journey metaphors, those who were exposed to battle metaphors were significantly more likely to donate a “large” amount compared to a “small” amount.</p>
+<p>NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a “large” amount compared to a “medium” amount.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_wide_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;large&quot;</span>) <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)
+
+model_met_m_l_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_met_m_l_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_met_m_l_base, model_met_m_l_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_wide_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_wide_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_metaphor
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      1835     2532.4                     
+## 2      1834     2531.0  1   1.4535    0.228
+## Chisq Stat:  1.454 
+## NULL</code></pre>
+<p>NS</p>
+<p>H: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a “medium” amount compared to a “small” amount.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_wide_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;medium&quot;</span>) <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)
+
+model_met_s_m_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;medium&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_met_s_m_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_wide_group <span class="op">==</span><span class="st"> &quot;medium&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_met_s_m_base, model_met_s_m_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_wide_group == &quot;medium&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_wide_group == &quot;medium&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_metaphor
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      2064     2862.6                     
+## 2      2063     2861.9  1  0.65247   0.4192
+## Chisq Stat:  0.652 
+## NULL</code></pre>
+<p>NS</p>
+</div>
+<div id="metaphor-condition-and-presence-on-likelihood-of-narrow-donation-group" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Metaphor Condition and Presence on Likelihood of Narrow Donation Group</h3>
+<p>Because the campaign is fictional and participants are given an upper bound on their donations, there may not be the same motivations to donate specific amounts compared to a real world fundraiser. Participants may choose to donate under one of the three most salient responses: $0, $25, or $50, or something very close ($5 to $0 or $45 to $50).</p>
+<p>Thus, we measure the effect of metaphor presence of participants’ decision to choose one of these three groups of donation amounts (small, medium, and large).</p>
+<pre><code>##         FALSE TRUE
+##                   
+##           596 1118
+## large     237  443
+## medium    422  875
+## small     276  535
+## 
+##         FALSE  TRUE
+##                    
+##         0.132 0.248
+## large   0.053 0.098
+## medium  0.094 0.194
+## small   0.061 0.119</code></pre>
+<p>H: Donors are more likely to contribute a “large” donation ($45 or $50) when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_narrow_group <span class="op">!=</span><span class="st"> &quot;&quot;</span>
+
+model_sm_l_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_sm_l_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_anymet), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_sm_l_base, model_sm_l_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_narrow_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_narrow_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_anymet
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      2763     3030.4                     
+## 2      2762     3029.5  1  0.91468   0.3389
+## Chisq Stat:  0.915 
+## NULL</code></pre>
+<p>There is no evidence that there is an effect of metaphor presence on participants’ decision to make a small or medium donation compared to a large donation.</p>
+<p>H: Donors are more likely to contribute a “large” or “medium” donation ($20, $25, $30) when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_narrow_group <span class="op">!=</span><span class="st"> &quot;&quot;</span>
+
+model_s_ml_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">!=</span><span class="st"> &quot;small&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_s_ml_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">!=</span><span class="st"> &quot;small&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_anymet), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_s_ml_base, model_s_ml_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_narrow_group != &quot;small&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_narrow_group != &quot;small&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_anymet
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      2763     3301.9                     
+## 2      2762     3301.5  1  0.32706   0.5674
+## Chisq Stat:  0.327 
+## NULL</code></pre>
+<p>There is no evidence that there is an effect of metaphor presence on participants’ decision to make a small donation compared to a medium or large donation.</p>
+<p>We can attempt to break down this last result into a small-medium contrast and small-large contrast:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_narrow_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;medium&quot;</span>)
+
+model_s_m_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;medium&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_s_m_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;medium&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_anymet), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_s_m_base, model_s_m_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_narrow_group == &quot;medium&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_narrow_group == &quot;medium&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_anymet
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      2083     2767.5                     
+## 2      2082     2766.6  1  0.92207   0.3369
+## Chisq Stat:  0.922 
+## NULL</code></pre>
+<p>There is no evidence that there is an effect of metaphor presence on participants’ decision to make a small donation compared to a medium donation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_narrow_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;large&quot;</span>)
+model_s_l_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_s_l_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_anymet), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_s_l_base, model_s_l_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_narrow_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_narrow_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_anymet
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      1466     1977.0                     
+## 2      1465     1976.8  1   0.1908   0.6623
+## Chisq Stat:  0.191 
+## NULL</code></pre>
+<p>There is no evidence that there is an effect of metaphor presence on participants’ decision to make a small donation compared to a large donation.</p>
+<p>NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a “large” amount compared to a “small” amount.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_narrow_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;large&quot;</span>) <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)
+
+model_met_s_l_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_met_s_l_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_met_s_l_base, model_met_s_l_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_narrow_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_narrow_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_metaphor
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1       953     1299.2                     
+## 2       952     1298.0  1   1.1945   0.2744
+## Chisq Stat:  1.194 
+## NULL</code></pre>
+<p>Given the observed data for participants who saw either battle or journey metaphors, those who were exposed to battle metaphors were significantly more likely to donate a “large” amount compared to a “small” amount.</p>
+<p>NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a “large” amount compared to a “medium” amount.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_narrow_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;large&quot;</span>) <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)
+
+model_met_m_l_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_met_m_l_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;large&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_met_m_l_base, model_met_m_l_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_narrow_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_narrow_group == &quot;large&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_metaphor
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      1293     1643.6                     
+## 2      1292     1642.8  1   0.7419   0.3891
+## Chisq Stat:  0.742 
+## NULL</code></pre>
+<p>H: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a “medium” amount compared to a “small” amount.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask =<span class="st"> </span>trials<span class="op">$</span>donation_narrow_group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;medium&quot;</span>) <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;journey&quot;</span>, <span class="st">&quot;battle&quot;</span>)
+
+model_met_s_m_base =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;medium&quot;</span>) <span class="op">~</span><span class="st"> </span>.), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+model_met_s_m_full =<span class="st"> </span><span class="kw">glm</span>(<span class="kw">update</span>(base.formula, <span class="kw">I</span>(donation_narrow_group <span class="op">==</span><span class="st"> &quot;medium&quot;</span>) <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                         <span class="dt">data =</span> trials[mask, ],
+                         <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+
+<span class="kw">compare_lm</span>(model_met_s_m_base, model_met_s_m_full)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: I(donation_narrow_group == &quot;medium&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z
+## Model 2: I(donation_narrow_group == &quot;medium&quot;) ~ cond_sex + self_cancer + 
+##     ff_cancer + gender + education + socioeconomic + past_donations.z + 
+##     age.z + cond_metaphor
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1      1385     1844.5                     
+## 2      1384     1844.4  1   0.1435   0.7048
+## Chisq Stat:  0.143 
+## NULL</code></pre>
+</div>
+</div>
+<div id="broader-alternative-questions" class="section level2">
+<h2><span class="header-section-number">3.3</span> Broader Alternative Questions</h2>
+<div id="gaussian-mixture-model" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Gaussian Mixture Model</h3>
+<p>The donations appear to be clustered around $0, $25, and $50. Here’s an attempt at modeling these peaks under a trimodal mixture of regressions model.</p>
+<p>This section is still under development.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library(flexmix)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># mixture = flexmix(update(base.formula, donation ~ . + cond_anymet), </span>
+<span class="co">#                   data = trials, </span>
+<span class="co">#                   k = 3,</span>
+<span class="co">#                   control = list(iter.max = 600, </span>
+<span class="co">#                                  verbose = 100))</span>
+<span class="co"># </span>
+<span class="co"># summary(mixture)</span>
+<span class="co"># parameters(mixture)</span>
+<span class="co"># plot(mixture)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># c1_mu &lt;- mixture@components$Comp.1[[1]]@parameters$coef[&quot;(Intercept)&quot;]</span>
+<span class="co"># c1_sig &lt;- mixture@components$Comp.1[[1]]@parameters$sigma</span>
+<span class="co"># c2_mu &lt;- mixture@components$Comp.2[[1]]@parameters$coef[&quot;(Intercept)&quot;]</span>
+<span class="co"># c2_sig &lt;- mixture@components$Comp.2[[1]]@parameters$sigma</span>
+<span class="co"># c3_mu &lt;- mixture@components$Comp.3[[1]]@parameters$coef[&quot;(Intercept)&quot;]</span>
+<span class="co"># c3_sig &lt;- mixture@components$Comp.3[[1]]@parameters$sigma</span>
+<span class="co"># </span>
+<span class="co"># x = seq(0, 50, by = 0.5)</span>
+<span class="co"># ggplot() + itheme +</span>
+<span class="co">#   geom_line(aes(trials$donation), color = &quot;red&quot;, stat = &quot;density&quot;) +</span>
+<span class="co">#   geom_line(aes(x, dnorm(x, mean = c1_mu, sd = c1_sig)), color = &quot;blue&quot;) +</span>
+<span class="co">#   geom_line(aes(x, dnorm(x, mean = c2_mu, sd = c2_sig)), color = &quot;green&quot;) +</span>
+<span class="co">#   geom_line(aes(x, dnorm(x, mean = c3_mu, sd = c3_sig)), color = &quot;orange&quot;) +</span>
+<span class="co">#   coord_cartesian(xlim = c(0,50))</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot(refit(mixture))</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># N = 1000</span>
+<span class="co"># x = rnorm(N, mean = c(-25, 0, 25), sd = 2)</span>
+<span class="co"># length(x)</span>
+<span class="co"># </span>
+<span class="co"># y = 25 + x + rnorm(N, 0, 1)</span>
+<span class="co"># length(y)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># m = flexmix(y ~ x, k = 3, control = list(minprior = 0))</span>
+<span class="co"># m = FLXglmFix(fixed = ~x, varFix = F)</span>
+<span class="co"># fit = stepFlexmix(y ~ 1, model = m, nrep = 6, k = 3)</span>
+<span class="co"># fit</span>
+<span class="co"># summary(fit)</span>
+<span class="co"># parameters(fit)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># q = seq(0, 50, by=0.1)</span>
+<span class="co"># ggplot() +</span>
+<span class="co">#   geom_density(aes(y)) +</span>
+<span class="co"># geom_line(aes(q, dnorm(q, fit@components$Comp.1[[1]]@parameters$coef[&quot;(Intercept)&quot;], fit@components$Comp.1[[1]]@parameters$sigma))) +</span>
+<span class="co"># geom_line(aes(q, dnorm(q, fit@components$Comp.2[[1]]@parameters$coef[&quot;(Intercept)&quot;], fit@components$Comp.2[[1]]@parameters$sigma))) +</span>
+<span class="co"># geom_line(aes(q, dnorm(q, fit@components$Comp.3[[1]]@parameters$coef[&quot;(Intercept)&quot;], fit@components$Comp.3[[1]]@parameters$sigma)))</span></code></pre></div>
+</div>
+<div id="decision-tree" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Decision Tree</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rpart)
+<span class="kw">library</span>(rpart.plot)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_rpart &lt;-<span class="st"> </span><span class="kw">rpart</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>.), 
+                     <span class="dt">method =</span> <span class="st">&quot;anova&quot;</span>,
+                     <span class="dt">data =</span> trials)
+model_rpart</code></pre></div>
+<pre><code>## n= 4502 
+## 
+## node), split, n, deviance, yval
+##       * denotes terminal node
+## 
+## 1) root 4502 1177791.0 23.53088  
+##   2) past_donations.z&lt; -0.1966858 1404  381195.0 19.49573 *
+##   3) past_donations.z&gt;=-0.1966858 3098  763375.4 25.35959 *</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">printcp</span>(model_rpart)</code></pre></div>
+<pre><code>## 
+## Regression tree:
+## rpart(formula = update(base.formula, donation ~ .), data = trials, 
+##     method = &quot;anova&quot;)
+## 
+## Variables actually used in tree construction:
+## [1] past_donations.z
+## 
+## Root node error: 1177791/4502 = 261.62
+## 
+## n= 4502 
+## 
+##         CP nsplit rel error xerror     xstd
+## 1 0.028206      0   1.00000 1.0007 0.013705
+## 2 0.010000      1   0.97179 0.9729 0.013903</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">predict</span>(model_rpart), <span class="kw">jitter</span>(<span class="kw">resid</span>(model_rpart)))</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
+</div>
+<div id="random-forest-regression" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Random Forest Regression</h3>
+<p>Preliminary work</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(randomForest)</code></pre></div>
+<pre><code>## randomForest 4.6-14</code></pre>
+<pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;randomForest&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:gridExtra&#39;:
+## 
+##     combine</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     combine</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     margin</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rf =<span class="st"> </span><span class="kw">randomForest</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor),
+                  <span class="dt">data =</span> trials,
+                  <span class="dt">mtry =</span> <span class="dv">2</span>,
+                  <span class="dt">nPerm =</span> <span class="dv">3</span>,
+                  <span class="dt">importance =</span> T,
+                  <span class="dt">ntree =</span> <span class="dv">1000</span>,
+                  <span class="dt">do.trace =</span> <span class="dv">250</span>)</code></pre></div>
+<pre><code>##      |      Out-of-bag   |
+## Tree |      MSE  %Var(y) |
+##  250 |    252.4    96.49 |
+##  500 |    251.5    96.15 |
+##  750 |    251.8    96.24 |
+## 1000 |    251.8    96.26 |</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rf</code></pre></div>
+<pre><code>## 
+## Call:
+##  randomForest(formula = update(base.formula, donation ~ . + cond_metaphor),      data = trials, mtry = 2, nPerm = 3, importance = T, ntree = 1000,      do.trace = 250) 
+##                Type of random forest: regression
+##                      Number of trees: 1000
+## No. of variables tried at each split: 2
+## 
+##           Mean of squared residuals: 251.837
+##                     % Var explained: 3.74</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imp &lt;-<span class="st"> </span><span class="kw">importance</span>(rf, <span class="dt">type =</span> <span class="dv">1</span>)
+imp &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(imp)
+imp &lt;-<span class="st"> </span><span class="kw">cbind</span>(imp, <span class="dt">var =</span> <span class="kw">rownames</span>(imp))
+<span class="kw">rownames</span>(imp) &lt;-<span class="st"> </span><span class="ot">NULL</span>
+<span class="kw">colnames</span>(imp)[<span class="dv">1</span>] &lt;-<span class="st"> &quot;PercentMSEInc&quot;</span>
+
+imp <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(PercentMSEInc)</code></pre></div>
+<pre><code>##   PercentMSEInc              var
+## 1      8.653897         cond_sex
+## 2     10.632344           gender
+## 3     14.520240    cond_metaphor
+## 4     20.839725        ff_cancer
+## 5     21.466540    socioeconomic
+## 6     23.203906      self_cancer
+## 7     25.144753        education
+## 8     26.550979            age.z
+## 9     64.767338 past_donations.z</code></pre>
+<p>3.082656 cond_sex<br />
+4.402399 cond_anymet<br />
+8.915330 gender<br />
+19.014619 socioeconomic<br />
+19.713089 ff_cancer<br />
+20.159477 self_cancer<br />
+23.262238 education<br />
+23.662233 age.z<br />
+62.021355 past_donations.z</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imp <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(PercentMSEInc) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var =</span> <span class="kw">factor</span>(var, var)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(var, PercentMSEInc)) <span class="op">+</span><span class="st"> </span>itheme <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Predictor&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Percent MSE Increase&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">shape =</span> <span class="dv">1</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(PercentMSEInc, <span class="dv">2</span>)), <span class="dt">nudge_x =</span> <span class="fl">0.3</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>()</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+</div>
+<div id="xgboost" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> xgboost</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(xgboost)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;xgboost&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     slice</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">train &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="kw">update</span>(base.formula, <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_anymet), trials)
+data &lt;-<span class="st"> </span><span class="kw">xgb.DMatrix</span>(<span class="dt">data =</span> train, <span class="dt">label =</span> trials<span class="op">$</span>donation)
+model_xgboost &lt;-<span class="st"> </span><span class="kw">xgboost</span>(<span class="dt">data =</span> data,
+                         <span class="dt">nrounds =</span> <span class="dv">10</span>,
+                         <span class="dt">max_depth =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1]  train-rmse:22.736273 
+## [2]  train-rmse:19.543009 
+## [3]  train-rmse:17.756754 
+## [4]  train-rmse:16.808321 
+## [5]  train-rmse:16.308138 
+## [6]  train-rmse:16.050875 
+## [7]  train-rmse:15.914721 
+## [8]  train-rmse:15.838706 
+## [9]  train-rmse:15.796639 
+## [10] train-rmse:15.771056</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">imp &lt;-<span class="st"> </span><span class="kw">xgb.importance</span>(<span class="dt">model =</span> model_xgboost)
+<span class="co"># xgb.plot.importance(imp)</span>
+imp</code></pre></div>
+<pre><code>##                  Feature        Gain      Cover  Frequency
+##  1:     past_donations.z 0.702244305 0.43084185 0.36666667
+##  2:                age.z 0.108940344 0.15981786 0.26666667
+##  3:           ff_cancerY 0.042051614 0.08365171 0.06666667
+##  4:         self_cancerY 0.038167501 0.08440693 0.06666667
+##  5:          ff_cancerOO 0.019857059 0.01559307 0.03333333
+##  6:           educationM 0.018635433 0.05000000 0.03333333
+##  7:           educationP 0.018234205 0.00345402 0.03333333
+##  8:          educationHS 0.016573641 0.02445580 0.03333333
+##  9:  socioeconomic10-25k 0.013243446 0.04777876 0.03333333
+## 10:        self_cancerOO 0.012567527 0.05000000 0.03333333
+## 11: socioeconomic75-100k 0.009484925 0.05000000 0.03333333</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data &lt;- xgb.DMatrix(data = train[100:102, ], label = trials$donation[100:102])</span>
+<span class="co"># rbind(trials$donation[100:102], predict(model_xgboost, data))</span>
+
+<span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(trials<span class="op">$</span>donation, <span class="kw">predict</span>(model_xgboost, data)))</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+</div>
+</div>
+<div id="gams" class="section level2">
+<h2><span class="header-section-number">3.4</span> GAMs</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mgcv)</code></pre></div>
+<pre><code>## Loading required package: nlme</code></pre>
+<pre><code>## 
+## Attaching package: &#39;nlme&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:glue&#39;:
+## 
+##     collapse</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     collapse</code></pre>
+<pre><code>## This is mgcv 1.8-31. For overview type &#39;help(&quot;mgcv-package&quot;)&#39;.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(trials<span class="op">$</span>socioeconomic)</code></pre></div>
+<pre><code>## [1] 75-100k 10-25k  10-25k  10-25k  50-75k  25-50k 
+## Levels: &lt;10k 10-25k 25-50k 50-75k 75-100k 100-150k &gt;150k OO</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(<span class="kw">as.numeric</span>(trials<span class="op">$</span>socioeconomic))</code></pre></div>
+<pre><code>## [1] 5 2 4 3 1 6 7 8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_gam &lt;-<span class="st"> </span><span class="kw">gam</span>(donation <span class="op">~</span><span class="st"> </span>cond_sex <span class="op">+</span><span class="st"> </span>self_cancer <span class="op">+</span><span class="st"> </span>ff_cancer <span class="op">+</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>socioeconomic <span class="op">+</span><span class="st"> </span>
+<span class="st">                   </span><span class="kw">s</span>(past_donations.z) <span class="op">+</span><span class="st"> </span>age.z <span class="op">+</span><span class="st"> </span>cond_anymet,
+                 <span class="dt">data =</span> trials <span class="op">%&gt;%</span>
+<span class="st">                   </span><span class="kw">mutate</span>(<span class="dt">education =</span> <span class="kw">as.integer</span>(education),
+                          <span class="dt">socioeconomic =</span> <span class="kw">as.integer</span>(socioeconomic)))
+<span class="kw">summary</span>(model_gam)</code></pre></div>
+<pre><code>## 
+## Family: gaussian 
+## Link function: identity 
+## 
+## Formula:
+## donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
+##     socioeconomic + s(past_donations.z) + age.z + cond_anymet
+## 
+## Parametric coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      20.1450     1.0346  19.471  &lt; 2e-16 ***
+## cond_sexfemale   -0.5879     0.4744  -1.239 0.215309    
+## self_cancerY      4.0293     1.1678   3.450 0.000565 ***
+## self_cancerOO     5.0268     2.5187   1.996 0.046015 *  
+## ff_cancerY        1.7131     0.5134   3.336 0.000855 ***
+## ff_cancerOO       3.7574     1.8345   2.048 0.040599 *  
+## genderF           0.5305     0.4847   1.095 0.273789    
+## genderNB          1.9542     3.2003   0.611 0.541481    
+## genderOO         -5.2548     4.6286  -1.135 0.256316    
+## education         0.4277     0.2122   2.015 0.043937 *  
+## socioeconomic     0.1028     0.1506   0.682 0.495092    
+## age.z            -0.9012     0.4940  -1.824 0.068188 .  
+## cond_anymetTRUE   0.1697     0.5002   0.339 0.734406    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Approximate significance of smooth terms:
+##                       edf Ref.df     F p-value    
+## s(past_donations.z) 7.298   8.18 14.42  &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## R-sq.(adj) =  0.0375   Deviance explained = 4.16%
+## GCV = 253.01  Scale est. = 251.87    n = 4502</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(model_gam, <span class="dt">residuals =</span> T)</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-79-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(<span class="kw">resid</span>(model_gam))</code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="overview.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sympathy-urgency.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["book.pdf", "book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

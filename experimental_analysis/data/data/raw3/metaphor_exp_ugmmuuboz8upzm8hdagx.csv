@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,18871,consent.html,external-html,0,18922,0.0-0.0,ugmmuuboz8upzm8hdagx,male,literal,,,,,,
+1,1781,,image-button-response,1,20708,0.0-1.0,ugmmuuboz8upzm8hdagx,male,literal,check-1.png,1.0,check1,,,
+2,3255,,image-button-response,2,23966,0.0-2.0,ugmmuuboz8upzm8hdagx,male,literal,check-2.png,2.0,check2,,,
+3,18692,,instructions,3,42659,0.0-3.0,ugmmuuboz8upzm8hdagx,male,literal,,,,"[{""page_index"":0,""viewing_time"":3588},{""page_index"":1,""viewing_time"":11463},{""page_index"":2,""viewing_time"":2751},{""page_index"":3,""viewing_time"":889}]",,
+4,25801,,html-slider-response,4,68462,0.0-4.0,ugmmuuboz8upzm8hdagx,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,0.0,
+5,17524,,survey-text,5,85989,0.0-5.0,ugmmuuboz8upzm8hdagx,male,literal,,,description,,,"{""Q0"":""He has been diagnosed with stage 2 lymphoma which has been very difficult and life altering""}"
+6,4795,,survey-likert,6,90786,0.0-6.0-0.0,ugmmuuboz8upzm8hdagx,male,literal,,,sympathy,,,"{""Q0"":5}"
+7,3662,,survey-likert,7,94451,0.0-6.0-1.0,ugmmuuboz8upzm8hdagx,male,literal,,,urgent,,,"{""Q0"":4}"
+8,3669,,survey-text,8,98122,0.0-7.0,ugmmuuboz8upzm8hdagx,male,literal,,,past-donations,,,"{""Q0"":""6""}"
+9,2186,,survey-multi-choice,9,100312,0.0-8.0-0.0,ugmmuuboz8upzm8hdagx,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,2558,,survey-multi-choice,10,102874,0.0-8.0-1.0,ugmmuuboz8upzm8hdagx,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,6198,,survey-multi-choice,11,109088,0.0-9.0,ugmmuuboz8upzm8hdagx,male,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Associate degree (e.g. AA, AS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,7790,,survey-text,12,116880,0.0-10.0,ugmmuuboz8upzm8hdagx,male,literal,,,age,,,"{""Q0"":""22""}"
+13,23695,,survey-text,13,140578,0.0-11.0,ugmmuuboz8upzm8hdagx,male,literal,,,purpose,,,"{""Q0"":""If we would be moved by the post and plea for help and be willing to donate.""}"
+14,111128,,survey-text,14,251707,0.0-12.0,ugmmuuboz8upzm8hdagx,male,literal,,,feedback,,,"{""Q0"":""I am not cold hearted by not donating haha. If it was like \""would this be something you would like to donate to?\"" I totally would. My dad has lymphoma. I would love to be able to help. But honestly, there are so many people who need help and need money, but I personally am not in a great financial situation and simply could not afford at this time to donate to people who need it as it would be very straining to me.""}"
+15,33195,debrief.html,external-html,15,285024,0.0-13.0,ugmmuuboz8upzm8hdagx,male,literal,,,,,,

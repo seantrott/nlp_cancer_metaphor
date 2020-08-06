@@ -1,0 +1,264 @@
+---
+title: "Mediation"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(MASS)
+library(tidyverse)
+library(mediation)
+library(jtools)
+theme = theme_minimal()
+```
+
+# Mediation Analysis
+
+https://crumplab.github.io/psyc7709/book/docs/bootstrapped-mediation-tutorial.html
+
+We will use the responses to the questions about perceived urgency and sympathy toward the patient as variables in a mediation analysis to explore their role in mediating metaphor's effect on donation amounts.
+
+## Load clean data
+
+Created via `clean_data.R`.
+
+```{r}
+trials <- read_csv("data/data_clean_excluded.csv", col_types = cols()) %>%
+
+  # remove outliers in past_donations and age which lie greater than 3 SDs away
+  filter(past_donations < (mean(past_donations, na.rm = T) + 3*sd(past_donations, na.rm = T))) %>%
+  filter(age < (mean(age, na.rm = T) + 3*sd(age, na.rm = T))) %>%
+  filter(age >= 18) %>%
+  
+  # set the levels of the factors variables and rescale age and past_donations
+  mutate(
+    cond_sex = factor(cond_sex, levels = c("male", "female")),
+    cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
+    cond_anymet = cond_metaphor %in% c("battle", "journey"),
+
+    urgent = as.integer(urgent),
+    sympathy = as.integer(sympathy),
+
+    self_cancer = factor(self_cancer, levels = c("N", "Y", "OO")),
+    ff_cancer = factor(ff_cancer, levels = c("N", "Y", "OO")),
+
+    gender = factor(gender, levels = c("M", "F", "NB", "OO")),
+    education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D", "OO")),
+    socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "OO")),
+
+    age.z = (age - mean(age)) / (2 * sd(age)),
+    past_donations.z = (past_donations - mean(past_donations)) / (2 * sd(past_donations)),
+  )
+
+# fill in missing values for past_donation and age with their means
+trials = trials %>% 
+  replace_na(list(past_donations = mean(trials$past_donations, na.rm = T))) %>%
+  replace_na(list(age = mean(trials$age, na.rm = T)))
+
+nrow(trials)
+```
+
+```{r}
+base.formula = formula(~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + past_donations.z + age.z)
+```
+
+# Any Metaphor
+
+## Sympathy
+
+```{r}
+temp_trials = filter(trials, cond_anymet)
+# model.m.x = lm(update(base.formula, sympathy ~ . + cond_metaphor), data = temp_trials)
+model.y.m.x = lm(update(base.formula, donation ~ . + sympathy + cond_metaphor), data = temp_trials)
+model.y.x = lm(update(base.formula, donation ~ . + cond_anymet), data = trials)
+
+
+# summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x, digits = 3)
+```
+
+Is there an indirect effect of the presence of metaphor on the donation amount via one's sympathy for the patient?
+
+              Sympathy
+            ^         v
+Any Metaphor --------> Donation Amount
+
+```{r}
+model.m.x = lm(update(base.formula, sympathy ~ . + cond_anymet), data = trials)
+model.y.m.x = lm(update(base.formula, donation ~ . + sympathy + cond_anymet), data = trials)
+model.y.x = lm(update(base.formula, donation ~ . + cond_anymet), data = trials)
+
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
+```
+
+<!-- X does not predict Y, although we have reason to believe it might. X does not predict M. Given Y ~ M + X, X does not predict Y. Therefore, mediation analysis does not apply here. -->
+
+## Urgency
+
+Is there an indirect effect of the presence of metaphor on the donation amount via one's perception of urgency for the patient?
+
+```{r}
+model.m.x = lm(update(base.formula, urgent ~ . + cond_anymet), data = trials)
+model.y.m.x = lm(update(base.formula, donation ~ . + urgent + cond_anymet), data = trials)
+model.y.x = lm(update(base.formula, donation ~ . + cond_anymet), data = trials)
+
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
+```
+
+<!-- X does not predict Y, although we have reason to believe it might. X does, however, predict M. Given Y ~ M + X, X does not predict Y, although the effect is slightly less. We attempt mediation analysis. -->
+
+
+```{r}
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_anymet", mediator = "urgent", boot = T, boot.ci.type = "bca")
+
+summary(med.anlys)
+```
+
+<!-- Urgency is a partial mediator of donation given the *any metaphor* condition. -->
+
+# Battle and Journey Metaphors
+
+## Sympathy
+
+Is there an indirect effect of the presence of battle metaphors over literal metaphors on the donation amount via one's sympathy for the patient?
+
+```{r}
+mask = trials$cond_metaphor != "journey"
+model.m.x = lm(update(base.formula, sympathy ~ . + cond_metaphor), data = trials[mask, ])
+model.y.m.x = lm(update(base.formula, donation ~ . + sympathy + cond_metaphor), data = trials[mask, ])
+model.y.x = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[mask, ])
+
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
+```
+
+Is there an indirect effect of the presence of journey metaphors over literal metaphors on the donation amount via one's sympathy for the patient?
+
+```{r}
+mask = trials$cond_metaphor != "battle"
+model.m.x = lm(update(base.formula, sympathy ~ . + cond_metaphor), data = trials[mask, ])
+model.y.m.x = lm(update(base.formula, donation ~ . + sympathy + cond_metaphor), data = trials[mask, ])
+model.y.x = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[mask, ])
+
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
+```
+
+## Urgency
+
+Is there an indirect effect of the presence of battle metaphors over literal metaphors on the donation amount via one's perception of urgency for the patient?
+
+```{r}
+mask = trials$cond_metaphor != "journey"
+model.m.x = lm(update(base.formula, urgent ~ . + cond_metaphor), data = trials[mask, ])
+model.y.m.x = lm(update(base.formula, donation ~ . + urgent + cond_metaphor), data = trials[mask, ])
+model.y.x = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[mask, ])
+
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
+```
+
+```{r}
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_metaphor", mediator = "urgent", boot = T, boot.ci.type = "bca")
+
+summary(med.anlys)
+```
+
+Is there an indirect effect of the presence of battle metaphors over literal metaphors on the donation amount via one's perception of urgency for the patient?
+
+```{r}
+mask = trials$cond_metaphor != "battle"
+model.m.x = lm(update(base.formula, urgent ~ . + cond_metaphor), data = trials[mask, ])
+model.y.m.x = lm(update(base.formula, donation ~ . + urgent + cond_metaphor), data = trials[mask, ])
+model.y.x = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[mask, ])
+
+
+summ(model.m.x)
+summ(model.y.m.x)
+summ(model.y.x)
+```
+
+<!-- X does not mediate Y, however we have reason to believe it might. X (battle) does predict M, however X (journey) doesn't. The effect of X on Y is less with M included. We test the mediation M of X (battle). -->
+
+```{r}
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_metaphor", mediator = "urgent", boot = T, boot.ci.type = "bca")
+
+summary(med.anlys)
+```
+
+<!-- Donation amounts are mediated by the urgent variable given the battle metaphor condition. -->
+
+# Compared Metaphors
+
+## Sympathy
+
+```{r}
+mask = trials$cond_metaphor != "literal"
+
+model.m.x = lm(update(base.formula, sympathy ~ . + cond_metaphor), 
+               data = trials[mask, ] %>%
+                 mutate(cond_metaphor = factor(cond_metaphor, levels = c("journey", "battle"))))
+model.y.m.x = lm(update(base.formula, donation ~ . + sympathy + cond_metaphor), 
+                 data = trials[mask, ] %>%
+                 mutate(cond_metaphor = factor(cond_metaphor, levels = c("journey", "battle"))))
+model.y.x = lm(update(base.formula, donation ~ . + cond_metaphor), 
+               data = trials[mask, ] %>%
+                 mutate(cond_metaphor = factor(cond_metaphor, levels = c("journey", "battle"))))
+
+summ(model.y.x)
+```
+
+```{r}
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_metaphor", mediator = "sympathy", boot = T, boot.ci.type = "bca")
+
+summary(med.anlys)
+```
+
+No mediation of sympathy on donation between battle and journey conditions.
+
+## Urgency
+
+```{r}
+mask = trials$cond_metaphor != "literal"
+
+model.m.x = lm(update(base.formula, urgent ~ . + cond_metaphor), 
+               data = trials[mask, ] %>%
+                 mutate(cond_metaphor = factor(cond_metaphor, levels = c("journey", "battle"))))
+model.y.m.x = lm(update(base.formula, donation ~ . + urgent + cond_metaphor), 
+                 data = trials[mask, ] %>%
+                 mutate(cond_metaphor = factor(cond_metaphor, levels = c("journey", "battle"))))
+model.y.x = lm(update(base.formula, donation ~ . + cond_metaphor), 
+               data = trials[mask, ] %>%
+                 mutate(cond_metaphor = factor(cond_metaphor, levels = c("journey", "battle"))))
+
+summ(model.y.x)
+```
+
+```{r}
+med.anlys = mediate(model.m.x, model.y.m.x, treat = "cond_metaphor", mediator = "urgent", boot = T, boot.ci.type = "bca")
+
+summary(med.anlys)
+```
+
+Fully mediated
+

@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,67682,consent.html,external-html,0,68066,0.0-0.0,6wxlc42jvyk12f7a4q2o,female,journey,,,,,,
+1,6548,,image-button-response,1,74621,0.0-1.0,6wxlc42jvyk12f7a4q2o,female,journey,check-1.png,1.0,check1,,,
+2,5916,,image-button-response,2,80540,0.0-2.0,6wxlc42jvyk12f7a4q2o,female,journey,check-2.png,2.0,check2,,,
+3,68391,,instructions,3,148932,0.0-3.0,6wxlc42jvyk12f7a4q2o,female,journey,,,,"[{""page_index"":0,""viewing_time"":12358},{""page_index"":1,""viewing_time"":29088},{""page_index"":2,""viewing_time"":24327},{""page_index"":3,""viewing_time"":2616}]",,
+4,135260,,html-slider-response,4,284196,0.0-4.0,6wxlc42jvyk12f7a4q2o,female,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_journey.png"" class=""main-trial""/>",,trial,,35.0,
+5,152460,,survey-text,5,436659,0.0-5.0,6wxlc42jvyk12f7a4q2o,female,journey,,,description,,,"{""Q0"":""She is really in need of help. She is suffering from cancer and needs to undergo several treatments of chemotherapy and also radio therapy. She is a very good person and any little financial help will be highly appreciated.""}"
+6,271750,,survey-likert,6,708412,0.0-6.0-0.0,6wxlc42jvyk12f7a4q2o,female,journey,,,urgent,,,"{""Q0"":6}"
+7,6341,,survey-likert,7,714755,0.0-6.0-1.0,6wxlc42jvyk12f7a4q2o,female,journey,,,sympathy,,,"{""Q0"":6}"
+8,7445,,survey-text,8,722203,0.0-7.0,6wxlc42jvyk12f7a4q2o,female,journey,,,past-donations,,,"{""Q0"":""2""}"
+9,5011,,survey-multi-choice,9,727220,0.0-8.0-0.0,6wxlc42jvyk12f7a4q2o,female,journey,,,self-cancer,,,"{""Q0"":""No""}"
+10,6820,,survey-multi-choice,10,734043,0.0-8.0-1.0,6wxlc42jvyk12f7a4q2o,female,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,37141,,survey-multi-choice,11,771196,0.0-9.0,6wxlc42jvyk12f7a4q2o,female,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,6852,,survey-text,12,778050,0.0-10.0,6wxlc42jvyk12f7a4q2o,female,journey,,,age,,,"{""Q0"":""32""}"
+13,52982,,survey-text,13,831035,0.0-11.0,6wxlc42jvyk12f7a4q2o,female,journey,,,purpose,,,"{""Q0"":""How sympathetic and charitable we are.""}"
+14,7702,,survey-text,14,838739,0.0-12.0,6wxlc42jvyk12f7a4q2o,female,journey,,,feedback,,,"{""Q0"":""None""}"
+15,11699,debrief.html,external-html,15,851991,0.0-13.0,6wxlc42jvyk12f7a4q2o,female,journey,,,,,,

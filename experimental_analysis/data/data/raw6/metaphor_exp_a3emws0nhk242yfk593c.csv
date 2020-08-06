@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,4286,consent.html,external-html,0,4391,0.0-0.0,a3emws0nhk242yfk593c,female,journey,,,,,,
+1,2031,,image-button-response,1,6426,0.0-1.0,a3emws0nhk242yfk593c,female,journey,check-1.png,1.0,check1,,,
+2,2283,,image-button-response,2,8711,0.0-2.0,a3emws0nhk242yfk593c,female,journey,check-2.png,2.0,check2,,,
+3,19527,,instructions,3,28239,0.0-3.0,a3emws0nhk242yfk593c,female,journey,,,,"[{""page_index"":0,""viewing_time"":2738},{""page_index"":1,""viewing_time"":12003},{""page_index"":2,""viewing_time"":4040},{""page_index"":3,""viewing_time"":746}]",,
+4,21604,,html-slider-response,4,49844,0.0-4.0,a3emws0nhk242yfk593c,female,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_fj.png"" class=""main-trial""/>",,trial,,10.0,
+5,24895,,survey-text,5,74741,0.0-5.0,a3emws0nhk242yfk593c,female,journey,,,description,,,"{""Q0"":""Jennifer is a woman recently diagnosed with Stage II Lymphoma who is looking to fundraise for costs associated with medical treatment. She will have to undergo chemotherapy and will likely have expensive hospital bills.""}"
+6,3945,,survey-likert,6,78688,0.0-6.0-0.0,a3emws0nhk242yfk593c,female,journey,,,urgent,,,"{""Q0"":4}"
+7,2190,,survey-likert,7,80885,0.0-6.0-1.0,a3emws0nhk242yfk593c,female,journey,,,sympathy,,,"{""Q0"":5}"
+8,1883,,survey-text,8,82774,0.0-7.0,a3emws0nhk242yfk593c,female,journey,,,past-donations,,,"{""Q0"":""3""}"
+9,1461,,survey-multi-choice,9,84243,0.0-8.0-0.0,a3emws0nhk242yfk593c,female,journey,,,self-cancer,,,"{""Q0"":""No""}"
+10,1404,,survey-multi-choice,10,85655,0.0-8.0-1.0,a3emws0nhk242yfk593c,female,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,8531,,survey-multi-choice,11,94205,0.0-9.0,a3emws0nhk242yfk593c,female,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,1546,,survey-text,12,95758,0.0-10.0,a3emws0nhk242yfk593c,female,journey,,,age,,,"{""Q0"":""21""}"
+13,9246,,survey-text,13,105005,0.0-11.0,a3emws0nhk242yfk593c,female,journey,,,purpose,,,"{""Q0"":""People's willingness to donate when they know it will be coming out of their own pocket.""}"
+14,1174,,survey-text,14,106181,0.0-12.0,a3emws0nhk242yfk593c,female,journey,,,feedback,,,"{""Q0"":""""}"
+15,2049,debrief.html,external-html,15,108511,0.0-13.0,a3emws0nhk242yfk593c,female,journey,,,,,,

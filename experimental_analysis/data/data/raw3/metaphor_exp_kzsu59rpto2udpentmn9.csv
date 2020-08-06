@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,5732,consent.html,external-html,0,5819,0.0-0.0,kzsu59rpto2udpentmn9,female,battle,,,,,,
+1,2725,,image-button-response,1,8552,0.0-1.0,kzsu59rpto2udpentmn9,female,battle,check-1.png,1.0,check1,,,
+2,5603,,image-button-response,2,14159,0.0-2.0,kzsu59rpto2udpentmn9,female,battle,check-2.png,2.0,check2,,,
+3,25378,,instructions,3,39539,0.0-3.0,kzsu59rpto2udpentmn9,female,battle,,,,"[{""page_index"":0,""viewing_time"":4883},{""page_index"":1,""viewing_time"":14595},{""page_index"":2,""viewing_time"":4487},{""page_index"":3,""viewing_time"":1411}]",,
+4,49424,,html-slider-response,4,88969,0.0-4.0,kzsu59rpto2udpentmn9,female,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_battle.png"" class=""main-trial""/>",,trial,,15.0,
+5,180639,,survey-text,5,269612,0.0-5.0,kzsu59rpto2udpentmn9,female,battle,,,description,,,"{""Q0"":""She was unexpectedly diagnosed with Stage II Lymphoma and started to undergo chemotherapy, and the doctors say that radiation may also be needed. As a result of the intense chemo treatments thus far, she is experiencing nausea, fatigue, and other related side effects. ""}"
+6,5187,,survey-likert,6,274806,0.0-6.0-0.0,kzsu59rpto2udpentmn9,female,battle,,,sympathy,,,"{""Q0"":6}"
+7,3358,,survey-likert,7,278169,0.0-6.0-1.0,kzsu59rpto2udpentmn9,female,battle,,,urgent,,,"{""Q0"":5}"
+8,3704,,survey-text,8,281875,0.0-7.0,kzsu59rpto2udpentmn9,female,battle,,,past-donations,,,"{""Q0"":""1""}"
+9,2415,,survey-multi-choice,9,284296,0.0-8.0-0.0,kzsu59rpto2udpentmn9,female,battle,,,ff-cancer,,,"{""Q0"":""No""}"
+10,2084,,survey-multi-choice,10,286386,0.0-8.0-1.0,kzsu59rpto2udpentmn9,female,battle,,,self-cancer,,,"{""Q0"":""No""}"
+11,8033,,survey-multi-choice,11,294439,0.0-9.0,kzsu59rpto2udpentmn9,female,battle,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Professional degree (e.g. MD, DDS, DVM)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,4150,,survey-text,12,298593,0.0-10.0,kzsu59rpto2udpentmn9,female,battle,,,age,,,"{""Q0"":""43 ""}"
+13,19883,,survey-text,13,318478,0.0-11.0,kzsu59rpto2udpentmn9,female,battle,,,purpose,,,"{""Q0"":""people's willingness to give for charitable causes related to illness.""}"
+14,1746,,survey-text,14,320226,0.0-12.0,kzsu59rpto2udpentmn9,female,battle,,,feedback,,,"{""Q0"":""""}"
+15,9171,debrief.html,external-html,15,332028,0.0-13.0,kzsu59rpto2udpentmn9,female,battle,,,,,,

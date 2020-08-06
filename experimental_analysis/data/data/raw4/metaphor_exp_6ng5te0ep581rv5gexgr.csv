@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,27646,consent.html,external-html,0,27937,0.0-0.0,6ng5te0ep581rv5gexgr,female,battle,,,,,,
+1,2871,,image-button-response,1,30819,0.0-1.0,6ng5te0ep581rv5gexgr,female,battle,check-1.png,1.0,check1,,,
+2,3314,,image-button-response,2,34139,0.0-2.0,6ng5te0ep581rv5gexgr,female,battle,check-2.png,2.0,check2,,,
+3,26090,,instructions,3,60231,0.0-3.0,6ng5te0ep581rv5gexgr,female,battle,,,,"[{""page_index"":0,""viewing_time"":5648},{""page_index"":1,""viewing_time"":12530},{""page_index"":2,""viewing_time"":6128},{""page_index"":3,""viewing_time"":1783}]",,
+4,49499,,html-slider-response,4,109738,0.0-4.0,6ng5te0ep581rv5gexgr,female,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_battle.png"" class=""main-trial""/>",,trial,,25.0,
+5,53048,,survey-text,5,162793,0.0-5.0,6ng5te0ep581rv5gexgr,female,battle,,,description,,,"{""Q0"":""Jennifer has lymphoma cancer and is undergoing chemotherapy treatments. Her friend is trying to help raise money to help with the expenses along the way.""}"
+6,5008,,survey-likert,6,167808,0.0-6.0-0.0,6ng5te0ep581rv5gexgr,female,battle,,,urgent,,,"{""Q0"":6}"
+7,2565,,survey-likert,7,170417,0.0-6.0-1.0,6ng5te0ep581rv5gexgr,female,battle,,,sympathy,,,"{""Q0"":6}"
+8,7877,,survey-text,8,178310,0.0-7.0,6ng5te0ep581rv5gexgr,female,battle,,,past-donations,,,"{""Q0"":""20""}"
+9,2925,,survey-multi-choice,9,181247,0.0-8.0-0.0,6ng5te0ep581rv5gexgr,female,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,2634,,survey-multi-choice,10,183897,0.0-8.0-1.0,6ng5te0ep581rv5gexgr,female,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,15960,,survey-multi-choice,11,199899,0.0-9.0,6ng5te0ep581rv5gexgr,female,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Doctorate (e.g. PhD, EdD)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,3558,,survey-text,12,203471,0.0-10.0,6ng5te0ep581rv5gexgr,female,battle,,,age,,,"{""Q0"":""56""}"
+13,3434,,survey-text,13,206910,0.0-11.0,6ng5te0ep581rv5gexgr,female,battle,,,purpose,,,"{""Q0"":""""}"
+14,2205,,survey-text,14,209119,0.0-12.0,6ng5te0ep581rv5gexgr,female,battle,,,feedback,,,"{""Q0"":""""}"
+15,14548,debrief.html,external-html,15,224011,0.0-13.0,6ng5te0ep581rv5gexgr,female,battle,,,,,,

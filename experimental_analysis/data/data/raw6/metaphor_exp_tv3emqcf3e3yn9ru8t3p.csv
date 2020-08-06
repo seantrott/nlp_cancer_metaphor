@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,15700,consent.html,external-html,0,15874,0.0-0.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,,,,
+1,4884,,image-button-response,1,20762,0.0-1.0,tv3emqcf3e3yn9ru8t3p,female,battle,check-1.png,1.0,check1,,,
+2,4107,,image-button-response,2,24870,0.0-2.0,tv3emqcf3e3yn9ru8t3p,female,battle,check-2.png,2.0,check2,,,
+3,85867,,instructions,3,110738,0.0-3.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,,"[{""page_index"":0,""viewing_time"":30653},{""page_index"":1,""viewing_time"":20789},{""page_index"":2,""viewing_time"":32705},{""page_index"":3,""viewing_time"":1719}]",,
+4,61305,,html-slider-response,4,172046,0.0-4.0,tv3emqcf3e3yn9ru8t3p,female,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_fb.png"" class=""main-trial""/>",,trial,,35.0,
+5,118174,,survey-text,5,290222,0.0-5.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,description,,,"{""Q0"":""She is battling stage II Lymphoma. She will have to have some rounds of chemotherapy over the next 3-4 months. She is doing well right now but needs all the help she can get.""}"
+6,6005,,survey-likert,6,296229,0.0-6.0-0.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,urgent,,,"{""Q0"":6}"
+7,3498,,survey-likert,7,299729,0.0-6.0-1.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,sympathy,,,"{""Q0"":6}"
+8,10107,,survey-text,8,309838,0.0-7.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,past-donations,,,"{""Q0"":""2""}"
+9,3982,,survey-multi-choice,9,313822,0.0-8.0-0.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,4793,,survey-multi-choice,10,318618,0.0-8.0-1.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,11868,,survey-multi-choice,11,330495,0.0-9.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,3153,,survey-text,12,333650,0.0-10.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,age,,,"{""Q0"":""47""}"
+13,49085,,survey-text,13,382736,0.0-11.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,purpose,,,"{""Q0"":""How likely we are to donate to a person/charity with money we don't actually have... as of yet.""}"
+14,1802,,survey-text,14,384540,0.0-12.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,feedback,,,"{""Q0"":""""}"
+15,18406,debrief.html,external-html,15,403473,0.0-13.0,tv3emqcf3e3yn9ru8t3p,female,battle,,,,,,

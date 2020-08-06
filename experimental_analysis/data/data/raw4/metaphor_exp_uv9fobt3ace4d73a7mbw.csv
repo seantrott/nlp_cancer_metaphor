@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,11498,consent.html,external-html,0,11585,0.0-0.0,uv9fobt3ace4d73a7mbw,male,literal,,,,,,
+1,2435,,image-button-response,1,14026,0.0-1.0,uv9fobt3ace4d73a7mbw,male,literal,check-1.png,1.0,check1,,,
+2,3148,,image-button-response,2,17177,0.0-2.0,uv9fobt3ace4d73a7mbw,male,literal,check-2.png,2.0,check2,,,
+3,24684,,instructions,3,41862,0.0-3.0,uv9fobt3ace4d73a7mbw,male,literal,,,,"[{""page_index"":0,""viewing_time"":5703},{""page_index"":1,""viewing_time"":13440},{""page_index"":2,""viewing_time"":4590},{""page_index"":3,""viewing_time"":950}]",,
+4,20587,,html-slider-response,4,62451,0.0-4.0,uv9fobt3ace4d73a7mbw,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,5.0,
+5,83683,,survey-text,5,146137,0.0-5.0,uv9fobt3ace4d73a7mbw,male,literal,,,description,,,"{""Q0"":""at this time he needs all the financial and moral support that he can get.  Please do not be afraid to open your heart and your wallet to help a friend in need.""}"
+6,10338,,survey-likert,6,156479,0.0-6.0-0.0,uv9fobt3ace4d73a7mbw,male,literal,,,sympathy,,,"{""Q0"":4}"
+7,8807,,survey-likert,7,165288,0.0-6.0-1.0,uv9fobt3ace4d73a7mbw,male,literal,,,urgent,,,"{""Q0"":4}"
+8,6699,,survey-text,8,171990,0.0-7.0,uv9fobt3ace4d73a7mbw,male,literal,,,past-donations,,,"{""Q0"":""2""}"
+9,8350,,survey-multi-choice,9,180344,0.0-8.0-0.0,uv9fobt3ace4d73a7mbw,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2707,,survey-multi-choice,10,183056,0.0-8.0-1.0,uv9fobt3ace4d73a7mbw,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,10863,,survey-multi-choice,11,193938,0.0-9.0,uv9fobt3ace4d73a7mbw,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,3699,,survey-text,12,197639,0.0-10.0,uv9fobt3ace4d73a7mbw,male,literal,,,age,,,"{""Q0"":""50""}"
+13,27589,,survey-text,13,225229,0.0-11.0,uv9fobt3ace4d73a7mbw,male,literal,,,purpose,,,"{""Q0"":""an experiment about how people understand language""}"
+14,1264,,survey-text,14,226495,0.0-12.0,uv9fobt3ace4d73a7mbw,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,4749,debrief.html,external-html,15,231479,0.0-13.0,uv9fobt3ace4d73a7mbw,male,literal,,,,,,

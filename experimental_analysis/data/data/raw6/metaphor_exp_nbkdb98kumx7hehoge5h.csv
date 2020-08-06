@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,6707,consent.html,external-html,0,6804,0.0-0.0,nbkdb98kumx7hehoge5h,male,battle,,,,,,
+1,3082,,image-button-response,1,9889,0.0-1.0,nbkdb98kumx7hehoge5h,male,battle,check-1.png,1.0,check1,,,
+2,4094,,image-button-response,2,13985,0.0-2.0,nbkdb98kumx7hehoge5h,male,battle,check-2.png,2.0,check2,,,
+3,35261,,instructions,3,49247,0.0-3.0,nbkdb98kumx7hehoge5h,male,battle,,,,"[{""page_index"":0,""viewing_time"":7199},{""page_index"":1,""viewing_time"":20486},{""page_index"":2,""viewing_time"":6334},{""page_index"":3,""viewing_time"":1241}]",,
+4,50557,,html-slider-response,4,99805,0.0-4.0,nbkdb98kumx7hehoge5h,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_battle.png"" class=""main-trial""/>",,trial,,10.0,
+5,70015,,survey-text,5,169823,0.0-5.0,nbkdb98kumx7hehoge5h,male,battle,,,description,,,"{""Q0"":""I would say that Jason has Stage II cancer and is going through chemo in order to fight it. According to his friend, he's a strong person who just wants to put this disease behind him.""}"
+6,11234,,survey-likert,6,181057,0.0-6.0-0.0,nbkdb98kumx7hehoge5h,male,battle,,,sympathy,,,"{""Q0"":5}"
+7,7296,,survey-likert,7,188355,0.0-6.0-1.0,nbkdb98kumx7hehoge5h,male,battle,,,urgent,,,"{""Q0"":4}"
+8,10089,,survey-text,8,198445,0.0-7.0,nbkdb98kumx7hehoge5h,male,battle,,,past-donations,,,"{""Q0"":""6""}"
+9,4960,,survey-multi-choice,9,203407,0.0-8.0-0.0,nbkdb98kumx7hehoge5h,male,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,3904,,survey-multi-choice,10,207313,0.0-8.0-1.0,nbkdb98kumx7hehoge5h,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+11,11392,,survey-multi-choice,11,218709,0.0-9.0,nbkdb98kumx7hehoge5h,male,battle,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Associate degree (e.g. AA, AS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,7259,,survey-text,12,225970,0.0-10.0,nbkdb98kumx7hehoge5h,male,battle,,,age,,,"{""Q0"":""59""}"
+13,38563,,survey-text,13,264534,0.0-11.0,nbkdb98kumx7hehoge5h,male,battle,,,purpose,,,"{""Q0"":""How much sympathy we would have for Jason's plight because of his friend asking for help.""}"
+14,1758,,survey-text,14,266294,0.0-12.0,nbkdb98kumx7hehoge5h,male,battle,,,feedback,,,"{""Q0"":""""}"
+15,24719,debrief.html,external-html,15,291273,0.0-13.0,nbkdb98kumx7hehoge5h,male,battle,,,,,,

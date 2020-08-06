@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,16712,consent.html,external-html,0,16746,0.0-0.0,cd72t5ztoh5zjsog5pft,male,literal,,,,,,
+1,2794,,image-button-response,1,19542,0.0-1.0,cd72t5ztoh5zjsog5pft,male,literal,check-1.png,1.0,check1,,,
+2,5613,,image-button-response,2,25158,0.0-2.0,cd72t5ztoh5zjsog5pft,male,literal,check-2.png,2.0,check2,,,
+3,51384,,instructions,3,76543,0.0-3.0,cd72t5ztoh5zjsog5pft,male,literal,,,,"[{""page_index"":0,""viewing_time"":12615},{""page_index"":1,""viewing_time"":28571},{""page_index"":2,""viewing_time"":8917},{""page_index"":3,""viewing_time"":1280}]",,
+4,39694,,html-slider-response,4,116239,0.0-4.0,cd72t5ztoh5zjsog5pft,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,10.0,
+5,36533,,survey-text,5,152774,0.0-5.0,cd72t5ztoh5zjsog5pft,male,literal,,,description,,,"{""Q0"":""Jason is suffering from lymphoma and is in need of financial aid. His friend is doing a campaign to raise money for his treatments.""}"
+6,6774,,survey-likert,6,159551,0.0-6.0-0.0,cd72t5ztoh5zjsog5pft,male,literal,,,urgent,,,"{""Q0"":5}"
+7,5321,,survey-likert,7,164879,0.0-6.0-1.0,cd72t5ztoh5zjsog5pft,male,literal,,,sympathy,,,"{""Q0"":4}"
+8,8096,,survey-text,8,172981,0.0-7.0,cd72t5ztoh5zjsog5pft,male,literal,,,past-donations,,,"{""Q0"":""2""}"
+9,3133,,survey-multi-choice,9,176118,0.0-8.0-0.0,cd72t5ztoh5zjsog5pft,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,3770,,survey-multi-choice,10,179894,0.0-8.0-1.0,cd72t5ztoh5zjsog5pft,male,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+11,9868,,survey-multi-choice,11,189775,0.0-9.0,cd72t5ztoh5zjsog5pft,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,4145,,survey-text,12,193926,0.0-10.0,cd72t5ztoh5zjsog5pft,male,literal,,,age,,,"{""Q0"":""64""}"
+13,31751,,survey-text,13,225678,0.0-11.0,cd72t5ztoh5zjsog5pft,male,literal,,,purpose,,,"{""Q0"":""How people would allocate gifted money they receive for someone who is in dire need of it.""}"
+14,1383,,survey-text,14,227062,0.0-12.0,cd72t5ztoh5zjsog5pft,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,26639,debrief.html,external-html,15,253768,0.0-13.0,cd72t5ztoh5zjsog5pft,male,literal,,,,,,

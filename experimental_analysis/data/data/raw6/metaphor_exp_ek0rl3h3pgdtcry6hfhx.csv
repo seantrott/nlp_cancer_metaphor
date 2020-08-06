@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,57550,consent.html,external-html,0,57710,0.0-0.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,,,,
+1,1976,,image-button-response,1,59689,0.0-1.0,ek0rl3h3pgdtcry6hfhx,male,battle,check-1.png,1.0,check1,,,
+2,2687,,image-button-response,2,62378,0.0-2.0,ek0rl3h3pgdtcry6hfhx,male,battle,check-2.png,2.0,check2,,,
+3,34599,,instructions,3,96978,0.0-3.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,,"[{""page_index"":0,""viewing_time"":9645},{""page_index"":1,""viewing_time"":17261},{""page_index"":2,""viewing_time"":6618},{""page_index"":3,""viewing_time"":1074}]",,
+4,43607,,html-slider-response,4,140588,0.0-4.0,ek0rl3h3pgdtcry6hfhx,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_battle.png"" class=""main-trial""/>",,trial,,50.0,
+5,24261,,survey-text,5,164852,0.0-5.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,description,,,"{""Q0"":""Jason is suffering from lymphoma and going through chemotherapy. Jason seems to be responding to the treatment well.""}"
+6,6507,,survey-likert,6,171362,0.0-6.0-0.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,urgent,,,"{""Q0"":5}"
+7,6957,,survey-likert,7,178324,0.0-6.0-1.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,sympathy,,,"{""Q0"":5}"
+8,6299,,survey-text,8,184628,0.0-7.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,past-donations,,,"{""Q0"":""2""}"
+9,7496,,survey-multi-choice,9,192129,0.0-8.0-0.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,self-cancer,,,"{""Q0"":""Prefer not to say""}"
+10,3254,,survey-multi-choice,10,195389,0.0-8.0-1.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,9854,,survey-multi-choice,11,205255,0.0-9.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,5457,,survey-text,12,210718,0.0-10.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,age,,,"{""Q0"":""32""}"
+13,24644,,survey-text,13,235364,0.0-11.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,purpose,,,"{""Q0"":""Whether or not people are more sympathetic if they or a close person to them have experienced a similar circumstance.""}"
+14,2993,,survey-text,14,238359,0.0-12.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,feedback,,,"{""Q0"":""none""}"
+15,8360,debrief.html,external-html,15,247156,0.0-13.0,ek0rl3h3pgdtcry6hfhx,male,battle,,,,,,

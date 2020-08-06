@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,28321,consent.html,external-html,0,28408,0.0-0.0,kdop9m5bqackl7w351p5,male,journey,,,,,,
+1,2565,,image-button-response,1,30974,0.0-1.0,kdop9m5bqackl7w351p5,male,journey,check-1.png,1.0,check1,,,
+2,2978,,image-button-response,2,33954,0.0-2.0,kdop9m5bqackl7w351p5,male,journey,check-2.png,2.0,check2,,,
+3,27854,,instructions,3,61809,0.0-3.0,kdop9m5bqackl7w351p5,male,journey,,,,"[{""page_index"":0,""viewing_time"":10069},{""page_index"":1,""viewing_time"":11667},{""page_index"":2,""viewing_time"":4745},{""page_index"":3,""viewing_time"":1373}]",,
+4,34336,,html-slider-response,4,96146,0.0-4.0,kdop9m5bqackl7w351p5,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,50.0,
+5,43211,,survey-text,5,139359,0.0-5.0,kdop9m5bqackl7w351p5,male,journey,,,description,,,"{""Q0"":""He is undergoing treatment for lymphoma and will have chemo every 3 weeks for the next few months. He needs money to cover his costs while undergoing treatment.""}"
+6,4913,,survey-likert,6,144273,0.0-6.0-0.0,kdop9m5bqackl7w351p5,male,journey,,,sympathy,,,"{""Q0"":6}"
+7,8382,,survey-likert,7,152657,0.0-6.0-1.0,kdop9m5bqackl7w351p5,male,journey,,,urgent,,,"{""Q0"":5}"
+8,12950,,survey-text,8,165608,0.0-7.0,kdop9m5bqackl7w351p5,male,journey,,,past-donations,,,"{""Q0"":""30""}"
+9,5114,,survey-multi-choice,9,170725,0.0-8.0-0.0,kdop9m5bqackl7w351p5,male,journey,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,2675,,survey-multi-choice,10,173402,0.0-8.0-1.0,kdop9m5bqackl7w351p5,male,journey,,,self-cancer,,,"{""Q0"":""Yes""}"
+11,10116,,survey-multi-choice,11,183528,0.0-9.0,kdop9m5bqackl7w351p5,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Doctorate (e.g. PhD, EdD)"",""Q2"":""More than $150,000"",""Q3"":""Yes""}"
+12,3765,,survey-text,12,187294,0.0-10.0,kdop9m5bqackl7w351p5,male,journey,,,age,,,"{""Q0"":""51""}"
+13,7301,,survey-text,13,194597,0.0-11.0,kdop9m5bqackl7w351p5,male,journey,,,purpose,,,"{""Q0"":""""}"
+14,1473,,survey-text,14,196070,0.0-12.0,kdop9m5bqackl7w351p5,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,3605,debrief.html,external-html,15,199940,0.0-13.0,kdop9m5bqackl7w351p5,male,journey,,,,,,

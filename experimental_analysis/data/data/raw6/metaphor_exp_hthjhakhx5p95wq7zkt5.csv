@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,6701,consent.html,external-html,0,6844,0.0-0.0,hthjhakhx5p95wq7zkt5,female,literal,,,,,,
+1,2711,,image-button-response,1,9557,0.0-1.0,hthjhakhx5p95wq7zkt5,female,literal,check-1.png,1.0,check1,,,
+2,2420,,image-button-response,2,11980,0.0-2.0,hthjhakhx5p95wq7zkt5,female,literal,check-2.png,2.0,check2,,,
+3,30593,,instructions,3,42574,0.0-3.0,hthjhakhx5p95wq7zkt5,female,literal,,,,"[{""page_index"":0,""viewing_time"":6158},{""page_index"":1,""viewing_time"":16269},{""page_index"":2,""viewing_time"":7260},{""page_index"":3,""viewing_time"":906}]",,
+4,43343,,html-slider-response,4,85920,0.0-4.0,hthjhakhx5p95wq7zkt5,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,20.0,
+5,51245,,survey-text,5,137166,0.0-5.0,hthjhakhx5p95wq7zkt5,female,literal,,,description,,,"{""Q0"":""Jennifer is sick with lymphoma and will have to undergo treatment in the coming months. She will have some expenses related to this. ""}"
+6,5582,,survey-likert,6,142749,0.0-6.0-0.0,hthjhakhx5p95wq7zkt5,female,literal,,,sympathy,,,"{""Q0"":5}"
+7,3239,,survey-likert,7,145989,0.0-6.0-1.0,hthjhakhx5p95wq7zkt5,female,literal,,,urgent,,,"{""Q0"":4}"
+8,3197,,survey-text,8,149187,0.0-7.0,hthjhakhx5p95wq7zkt5,female,literal,,,past-donations,,,"{""Q0"":""2""}"
+9,1998,,survey-multi-choice,9,151186,0.0-8.0-0.0,hthjhakhx5p95wq7zkt5,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,5557,,survey-multi-choice,10,156744,0.0-8.0-1.0,hthjhakhx5p95wq7zkt5,female,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,8382,,survey-multi-choice,11,165131,0.0-9.0,hthjhakhx5p95wq7zkt5,female,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,3012,,survey-text,12,168143,0.0-10.0,hthjhakhx5p95wq7zkt5,female,literal,,,age,,,"{""Q0"":""40""}"
+13,27522,,survey-text,13,195666,0.0-11.0,hthjhakhx5p95wq7zkt5,female,literal,,,purpose,,,"{""Q0"":""How much people give if they have the opportunity to keep some of the money. ""}"
+14,2859,,survey-text,14,198525,0.0-12.0,hthjhakhx5p95wq7zkt5,female,literal,,,feedback,,,"{""Q0"":""no""}"
+15,12981,debrief.html,external-html,15,211833,0.0-13.0,hthjhakhx5p95wq7zkt5,female,literal,,,,,,

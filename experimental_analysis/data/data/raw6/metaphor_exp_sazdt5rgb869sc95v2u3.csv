@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,49481,consent.html,external-html,0,49597,0.0-0.0,sazdt5rgb869sc95v2u3,male,battle,,,,,,
+1,3530,,image-button-response,1,53130,0.0-1.0,sazdt5rgb869sc95v2u3,male,battle,check-1.png,1.0,check1,,,
+2,5749,,image-button-response,2,58881,0.0-2.0,sazdt5rgb869sc95v2u3,male,battle,check-2.png,2.0,check2,,,
+3,62997,,instructions,3,121879,0.0-3.0,sazdt5rgb869sc95v2u3,male,battle,,,,"[{""page_index"":0,""viewing_time"":13833},{""page_index"":1,""viewing_time"":33122},{""page_index"":2,""viewing_time"":13401},{""page_index"":3,""viewing_time"":2640}]",,
+4,72946,,html-slider-response,4,194826,0.0-4.0,sazdt5rgb869sc95v2u3,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_battle.png"" class=""main-trial""/>",,trial,,50.0,
+5,109352,,survey-text,5,304179,0.0-5.0,sazdt5rgb869sc95v2u3,male,battle,,,description,,,"{""Q0"":""Jason is a lymphoma patient about to enter treatment.  He's faced with a long and challenge course for his care.  There's a go fund me campaign to help with paying expenses related to his situation.  ""}"
+6,11023,,survey-likert,6,315204,0.0-6.0-0.0,sazdt5rgb869sc95v2u3,male,battle,,,sympathy,,,"{""Q0"":6}"
+7,6583,,survey-likert,7,321789,0.0-6.0-1.0,sazdt5rgb869sc95v2u3,male,battle,,,urgent,,,"{""Q0"":4}"
+8,20298,,survey-text,8,342089,0.0-7.0,sazdt5rgb869sc95v2u3,male,battle,,,past-donations,,,"{""Q0"":""20""}"
+9,5273,,survey-multi-choice,9,347363,0.0-8.0-0.0,sazdt5rgb869sc95v2u3,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,9414,,survey-multi-choice,10,356780,0.0-8.0-1.0,sazdt5rgb869sc95v2u3,male,battle,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,22532,,survey-multi-choice,11,379319,0.0-9.0,sazdt5rgb869sc95v2u3,male,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Master’s degree (e.g. MA, MS, MEd)"",""Q2"":""$75,000 through $99,999"",""Q3"":""Yes""}"
+12,6526,,survey-text,12,385847,0.0-10.0,sazdt5rgb869sc95v2u3,male,battle,,,age,,,"{""Q0"":""64""}"
+13,53849,,survey-text,13,439697,0.0-11.0,sazdt5rgb869sc95v2u3,male,battle,,,purpose,,,"{""Q0"":""It felt like you were trying to access empathy and generosity with regard to someone in need.""}"
+14,108386,,survey-text,14,548084,0.0-12.0,sazdt5rgb869sc95v2u3,male,battle,,,feedback,,,"{""Q0"":""As an FYI, I may have been a bit biased in my responses.  My wife works with lymphoma patients in a bone marrow transplant group.  In turn, I've probably been around such patients and those who work with then more than most.""}"
+15,31934,debrief.html,external-html,15,580509,0.0-13.0,sazdt5rgb869sc95v2u3,male,battle,,,,,,

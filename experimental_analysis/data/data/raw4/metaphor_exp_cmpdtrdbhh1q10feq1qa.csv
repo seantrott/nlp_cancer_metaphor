@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,11862,consent.html,external-html,0,11946,0.0-0.0,cmpdtrdbhh1q10feq1qa,male,literal,,,,,,
+1,2675,,image-button-response,1,14623,0.0-1.0,cmpdtrdbhh1q10feq1qa,male,literal,check-1.png,1.0,check1,,,
+2,4551,,image-button-response,2,19175,0.0-2.0,cmpdtrdbhh1q10feq1qa,male,literal,check-2.png,2.0,check2,,,
+3,28745,,instructions,3,47920,0.0-3.0,cmpdtrdbhh1q10feq1qa,male,literal,,,,"[{""page_index"":0,""viewing_time"":7056},{""page_index"":1,""viewing_time"":12560},{""page_index"":2,""viewing_time"":8136},{""page_index"":3,""viewing_time"":992}]",,
+4,53293,,html-slider-response,4,101216,0.0-4.0,cmpdtrdbhh1q10feq1qa,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,0.0,
+5,153783,,survey-text,5,255001,0.0-5.0,cmpdtrdbhh1q10feq1qa,male,literal,,,description,,,"{""Q0"":""Jason was diagnosed with stage II Lymphoma, he is a very lovable person and will need a lot of help during this situation. In order to cure this disease, he would need to undergo chemo and local radiation.""}"
+6,6423,,survey-likert,6,261426,0.0-6.0-0.0,cmpdtrdbhh1q10feq1qa,male,literal,,,sympathy,,,"{""Q0"":5}"
+7,5230,,survey-likert,7,266657,0.0-6.0-1.0,cmpdtrdbhh1q10feq1qa,male,literal,,,urgent,,,"{""Q0"":5}"
+8,6350,,survey-text,8,273008,0.0-7.0,cmpdtrdbhh1q10feq1qa,male,literal,,,past-donations,,,"{""Q0"":""3""}"
+9,2303,,survey-multi-choice,9,275313,0.0-8.0-0.0,cmpdtrdbhh1q10feq1qa,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,6583,,survey-multi-choice,10,281898,0.0-8.0-1.0,cmpdtrdbhh1q10feq1qa,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,9044,,survey-multi-choice,11,290945,0.0-9.0,cmpdtrdbhh1q10feq1qa,male,literal,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,3422,,survey-text,12,294368,0.0-10.0,cmpdtrdbhh1q10feq1qa,male,literal,,,age,,,"{""Q0"":""24""}"
+13,13656,,survey-text,13,308025,0.0-11.0,cmpdtrdbhh1q10feq1qa,male,literal,,,purpose,,,"{""Q0"":""Gift giving and perception of others.""}"
+14,6376,,survey-text,14,314401,0.0-12.0,cmpdtrdbhh1q10feq1qa,male,literal,,,feedback,,,"{""Q0"":""Awesome study, stay well!""}"
+15,8868,debrief.html,external-html,15,323491,0.0-13.0,cmpdtrdbhh1q10feq1qa,male,literal,,,,,,

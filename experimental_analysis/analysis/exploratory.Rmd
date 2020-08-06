@@ -1,0 +1,1774 @@
+---
+title: "Exploration"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load libraries
+
+```{r}
+library(tidyverse) # mostly for ggplot2 and dplyr
+library(jtools) # for pretty printing model summaries
+library(gridExtra) # for combining plots
+library(showtext) # for custom fonts in presentation graphs
+
+# pretty printing summary contingency tables
+print_crosstabs = function(tab) {
+  print(tab)
+  cat("\n")
+  print(round(prop.table(tab), 3))
+}
+
+compare_lm = function (base, full, summary = FALSE) {
+  print(anova(base, full, test = "Chisq"))
+  print(cat("Chisq Stat: ", as.numeric(round(2*(logLik(full) - logLik(base)), 3)), "\n"))
+  
+  if (summary) {
+    print(summ(full, confint = T, digits = 3))
+  }
+}
+```
+
+```{r}
+font_add("Avenir", "/System/Library/Fonts/Avenir.ttc")
+showtext_auto()
+
+# Rmd interactive theme
+itheme = theme_minimal()
+
+# Presentation theme
+ptheme = theme_minimal() + theme(
+  panel.background = element_rect(fill = "transparent", color = NA),
+  plot.background = element_rect(fill = "transparent", color = NA),
+  legend.key = element_blank(),
+  legend.background = element_rect(fill = "transparent", color = NA),
+  text = element_text(family = "Avenir")
+)
+
+pwidth = 6.5
+pheight = 3
+```
+
+
+# Experiment Exploratory Analysis
+
+## Load Data
+
+Created via `exclusion.Rmd`, originally from `clean_data.R`. Here, we trim off some outliers in the `age` and `past_donations` columns (then fill in missing values with the new mean).
+
+```{r}
+trials <- read_csv("data/data_clean_excluded.csv", col_types = cols()) %>%
+
+  # remove outliers in past_donations and age which lie greater than 3 SDs away
+  filter(past_donations < (mean(past_donations, na.rm = T) + 3*sd(past_donations, na.rm = T))) %>%
+  filter(age < (mean(age, na.rm = T) + 3*sd(age, na.rm = T))) %>%
+  filter(age >= 18) %>%
+  
+  # set the levels of the factors variables and rescale age and past_donations
+  mutate(
+    cond_sex = factor(cond_sex, levels = c("male", "female")),
+    cond_metaphor = factor(cond_metaphor, levels = c("literal", "battle", "journey")),
+    cond_anymet = cond_metaphor %in% c("battle", "journey"),
+
+    urgent = as.integer(urgent),
+    sympathy = as.integer(sympathy),
+
+    self_cancer = factor(self_cancer, levels = c("N", "Y", "OO")),
+    ff_cancer = factor(ff_cancer, levels = c("N", "Y", "OO")),
+
+    gender = factor(gender, levels = c("M", "F", "NB", "OO")),
+    education = factor(education, levels = c("<HS", "HS", "A", "B", "M", "P", "D", "OO")),
+    socioeconomic = factor(socioeconomic, levels = c("<10k", "10-25k", "25-50k", "50-75k", "75-100k", "100-150k", ">150k", "OO")),
+    
+    rt_trial_group = factor(rt_trial_group, levels = c("[1.9,23]", "(23,42.7]", "(42.7,69.3]", "(69.3,4.25e+03]"))
+  )
+
+# fill in missing values for past_donation and age with their means
+trials = trials %>% 
+  replace_na(list(past_donations = mean(trials$past_donations, na.rm = T))) %>%
+  replace_na(list(age = mean(trials$age, na.rm = T)))
+
+trials = trials %>%
+  mutate(
+    age.z = (age - mean(age)) / (2 * sd(age)),
+    past_donations.z = (past_donations - mean(past_donations)) / (2 * sd(past_donations))
+  )
+
+trials$congruency = with(trials, ifelse((gender == "M" & cond_sex == "male") | (gender == "F" & cond_sex == "female"),
+                                        "congruent",
+                                        "incongruent"))
+
+nrow(trials)
+```
+
+A common formula used throughout which includes all the primary covariates.
+
+```{r}
+base.formula <- formula( ~ cond_sex + self_cancer + ff_cancer + gender + education + socioeconomic + past_donations.z + age.z)
+```
+
+# Summaries
+
+## Tables
+
+Contingency table: Metaphor Condition x Sex Condition
+
+```{r, echo=F}
+t = ftable(trials[, c("cond_metaphor", "cond_sex")])
+print_crosstabs(t)
+```
+
+Contingency table: Participant Gender x Sex Condition
+
+```{r, echo=F}
+t = ftable(trials[, c("gender", "cond_sex")])
+print_crosstabs(t)
+```
+
+Contingency table: Self-Cancer Treatment x Friends/Family-Cancer Treatment
+
+```{r, echo=F}
+t = ftable(trials[, c("self_cancer", "ff_cancer")])
+print_crosstabs(t)
+```
+
+Contingency table: Education achievement
+
+```{r, echo=F}
+t = ftable(trials$education)
+print_crosstabs(t)
+```
+
+Contingency table: Socioeconomic status
+
+```{r, echo=F}
+t = ftable(trials$socioeconomic)
+print_crosstabs(t)
+```
+
+Summary statistics of participant age and self-reported past donations (trailing 12-months)
+
+```{r}
+summary(trials$age)
+summary(trials$past_donations)
+```
+
+Average participant was 34 years old and had given 2 donations in the past 12-months.
+
+A quick summary statistic of donations for the presence of metaphor and each metaphor condition.
+
+```{r}
+with(trials, tapply(donation, cond_anymet, summary))
+cat("-----------------------------------------\n\n")
+with(trials, tapply(donation, cond_metaphor, summary))
+```
+
+```{r}
+prop.table(table(trials$gender))*100
+```
+
+## Plots
+
+Visualize the distributions of the conditions and demographic variables against donation amounts
+
+```{r, echo=F}
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=cond_anymet)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Metaphor Presence", title = "Donation Distributions by Metaphor Presence") +
+  scale_color_brewer(palette = "Pastel1")
+
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=cond_metaphor)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Metaphor Condition", title = "Donation Distributions by Metaphor Condition") +
+  scale_color_brewer(palette = "Pastel1")
+
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=cond_sex)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Sex Condition", title = "Donation Distributions by Sex Condition") +
+  scale_color_brewer(palette = "Pastel1")
+```
+
+```{r}
+g = ggplot(trials) + ptheme +
+  theme(axis.ticks = element_line(color = "white")) + 
+  geom_line(aes(donation, linetype=cond_metaphor), stat = "density") +
+  scale_linetype_manual(values = c(1,2,9), labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
+  scale_x_continuous(labels = scales::dollar) +
+  coord_cartesian(ylim = c(0.01, 0.028)) +
+  labs(x = "Donation Amount", y = "Density", linetype = element_blank(), title = element_blank())
+
+g
+# ggsave("metaphor_donation_density.png", g, width = pwidth, height = 2.7, bg = "transparent")
+#0.02, 0.01, 0, -- 0 - 50
+```
+
+
+Plots for the demographics-related questions
+
+```{r, echo=F}
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=self_cancer)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Self Cancer", title = "Donation Distributions by Self Cancer") +
+  scale_color_brewer(palette = "Pastel1")
+
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=ff_cancer)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Friends and Family\nCancer", title = "Donation Distributions by Friends and Family Cancer") +
+  scale_color_brewer(palette = "Pastel1")
+
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=gender)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Gender", title = "Donation Distributions by Gender") +
+  scale_color_brewer(palette = "Pastel1")
+
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=education)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Education Level", title = "Donation Distributions by Education Level") +
+  scale_color_brewer(palette = "Pastel1")
+
+ggplot(trials) + itheme +
+  geom_density(aes(donation, color=socioeconomic)) +
+  lims(x = c(0, 50)) +
+  labs(x = "Donation Amount", y = "Density", color = "Socioeconomic Level", title = "Donation Distributions by Socioeconomic Level") +
+  scale_color_brewer(palette = "Pastel1")
+
+ggplot(trials, aes(age, donation)) + itheme +
+  geom_point(size = 1, alpha = 0.2) +
+  geom_smooth(method = "lm")+
+  lims(y = c(0, 50)) +
+  labs(x = "Age", y = "Donation Amount", title = "Donation Distribution by Age")
+
+ggplot(trials, aes(past_donations, donation)) + itheme +
+  geom_point(size = 1, alpha = 0.2) +
+  geom_smooth(method = "lm") +
+  lims(y = c(0, 50)) +
+  labs(x = "Past Donations", y = "Donation Amount", title = "Donation Distribution by Past Donations")
+```
+
+## Duration Statistics
+
+How long did participants spend on the main stimulus and overall?
+
+```{r}
+summary(trials$rt_trial) / (1000) # in seconds
+summary(trials$total_time) / (1000*60) # in minutes
+
+ggplot(trials) + itheme +
+  geom_density(aes(total_time/(1000*60))) +
+  labs(x = "Total Duration (mins)", y = "Density", title = "Total Duration Distribution")
+```
+
+Participants spent a median time of 45.6 seconds on the main stimulus and a median time of 4.43 minutes overall.
+
+Take a look at the fastest and slowest participants to see if they are completely unreasonable outliers
+
+```{r}
+# only useful when run interactively as an Rmd
+# trials %>% arrange(rt_trial) %>% head()
+```
+
+```{r}
+# only useful when run interactively as an Rmd
+# trials %>% arrange(desc(rt_trial)) %>% head()
+```
+
+Some of the responses do look a little fishy, but excluding them would be nontrivial. Perhaps set aside for future work.
+
+## Coarse Donation Behavior
+
+First, the count and proportion of participants, grouped by gender, then sex condition, then metaphor condition, with donations at three natural breaks: \$0, \$25, and \$50. These natural breaks (minimum, default/middle, maximum) might signal certain behavior (e.g. people often giving nothing, staying with the default value).
+
+Summary statistics of donation amounts:
+
+```{r}
+summary(trials$donation)
+```
+
+The mean donation was \$23.53 and the median was \$25. However, the donation distribution plot above appears to be somewhat trimodal, so this statistics may be unreliable.
+
+Participants, by demand of the experiment, may have had mental representations of possible donations, perhaps small, medium, and large amounts. These may correspond to standard values, falling onto certain donation values. Based on inspection, participants tended to go toward donations at \$5 increments. Therefore, the smallest standard values they may donate were \$0 and \$5. The medium standard values were \$20, \$25, and \$30, surround the defaut value of \$25. The large standard values were \$45 and \$50.
+
+```{r}
+trials$donation_narrow_group = ""
+
+trials[trials$donation %in% c(0, 5), "donation_narrow_group"] = "small"
+cat("Proportion of small donations: ", round(mean(trials$donation_narrow_group == "small"), 3), "\n")
+
+trials[trials$donation %in% c(20, 25, 30), "donation_narrow_group"] = "medium"
+cat("Proportion of medium donations: ", round(mean(trials$donation_narrow_group == "medium"), 3), "\n")
+
+trials[trials$donation %in% c(45, 50), "donation_narrow_group"] = "large"
+cat("Proportion of large donations: ", round(mean(trials$donation_narrow_group == "large"), 3), "\n")
+
+# the proportion of participants who donated one of the above amounts
+with(trials, mean(trials$donation_narrow_group %in% c("small", "medium", "large")))
+```
+
+18% of participants donated one of the coarse small donation amounts (\$0 and \$5). 29% of participants donated one of the coarse medium donation amounts (\$20, \$25, \$30). 15% of participants donated one of the coarse large donation amounts (\$45 and \$50).
+
+In total, 62% of participants donated one of these coarse donations. 
+
+```{r}
+trials %>%
+  ggplot(aes(donation_narrow_group, fill = cond_metaphor)) + itheme +
+  geom_bar(position = position_dodge()) +
+  labs(title = "Number of Standard Donations given Metaphor Condition", subtitle = "e.g. \"small\" donations are $0 or $5", x = "Donation Group", y = "# of Participants") +
+  scale_fill_brewer(palette = "Pastel1")
+```
+
+Metaphor may dictate small differences here between groups of standard donations, we'll model these in a bit.
+
+# Donations by Metaphor
+
+**For the confirmatory analysis and model, see `inference.Rmd`.**
+
+## Immediate Alternative Questions
+
+Does donation behavior differ between participants in the literal condition and the journey condition?
+
+```{r}
+journey_mask = trials$cond_metaphor != "battle"
+model_journey_literal_base = lm(update(base.formula, donation ~ .), data = trials[journey_mask, ])
+model_journey_literal_full = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[journey_mask, ])
+
+compare_lm(model_journey_literal_base, model_journey_literal_full, summary = F)
+```
+
+There is no significant difference in donation amounts between journey and literal conditions.
+
+Does donation behavior differ between participants in the literal condition and the battle condition?
+
+```{r}
+battle_mask = trials$cond_metaphor != "journey"
+model_battle_literal_base = lm(update(base.formula, donation ~ .), data = trials[battle_mask, ])
+model_battle_literal_full = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[battle_mask, ])
+
+compare_lm(model_battle_literal_base, model_battle_literal_full, summary = F)
+```
+
+There is no significant difference in donation amounts between battle and literal conditions.
+
+H: Donors contribute different amounts to a campaign which employs battle metaphors compared to a campaign which employs journey metaphors.
+
+```{r}
+literal_mask = trials$cond_metaphor != "literal"
+model_battle_journey_base = lm(update(base.formula, donation ~ .), data = trials[literal_mask, ])
+model_battle_journey_full = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[literal_mask, ])
+
+compare_lm(model_battle_journey_base, model_battle_journey_full)
+```
+
+There is a significant difference in donation amounts between participants exposed to battle metaphors and participants exposed to journey metaphors (Chisq = 4.0, p < 0.05).
+
+```{r}
+g = trials %>%
+  ggplot(aes(cond_anymet, donation)) + ptheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  scale_x_discrete(labels = c("FALSE" = "Literal\n", "TRUE" = "Any\nMetaphor")) +
+  scale_y_continuous(labels = scales::dollar) +
+  coord_cartesian(ylim = c(22, 27)) +
+  labs(x = element_blank(), y = "Donation") +
+  geom_signif(comparisons = list(c("FALSE", "TRUE")),
+              y_position = 26,
+              tip_length = 0.01,
+              textsize = 2.75,
+              annotations = "list({\U03C7^2}(1) == 0.8, ~~ ns)",
+              parse = T)
+
+g
+
+# ggsave("any_metaphor_donation.png", g, width = pwidth/3, height = pheight, bg = "transparent")
+```
+
+
+```{r}
+g = trials %>%
+  ggplot(aes(cond_metaphor, donation)) + ptheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  scale_x_discrete(labels = c("literal" = "Literal\n", "journey" = "Journey\n", "battle" = "Battle\n")) +
+  scale_y_continuous(labels = scales::dollar) +
+  coord_cartesian(ylim = c(22, 27)) +
+  labs(x = element_blank(), y = element_blank())
+  # geom_signif(comparisons = list(c("literal", "journey"), c("literal", "battle"), c("battle", "journey")),
+  #             y_position = c(26.6, 26, 25.4),
+  #             tip_length = 0.005,
+  #             textsize = 2.75,
+  #             annotations = c("list({\U03C7^2}(1) == 0.6, ~~ ns)",
+  #                             "list({\U03C7^2}(1) == 1.7, ~~ ns)",
+  #                             "list({\U03C7^2}(1) == 4.0, ~~ p < 0.05)"),
+  #             parse = T)
+
+g
+# ggsave("metaphor_donation0.png", g, width = pwidth/1.8, height = pheight, bg = "transparent")
+```
+
+## Coarse Donation Groups
+
+### Metaphor Condition and Presence on Likelihood of Wide Donation Group
+
+Visualizations of donation amounts seems to convey that donations are generally trimodal, on \$0, \$25, and \$50. What if participants donated according to a coarser scale than anticpated? They may have chosen an amount mentally represented as "small" or "medium" or "large". In other words, we may see an effect if the donations are binned into three groups: lower, middle, and high; corresponding to \$0-16.67, \$16.67-33.33, and \$33.33-50. Note the difference between these wide bins compared to the narrow bins previously explored (which are resurfaced soon).
+
+```{r}
+trials$donation_wide_group = cut(trials$donation, 
+                                 breaks = c(0, 50*1/3, 50*2/3, 50), 
+                                 labels = c("small", "medium", "large"), 
+                                 include.lowest = T)
+```
+
+Contingency table: Wide Donation Groups x Any Metaphor
+
+```{r, echo=F}
+print_crosstabs(ftable(trials$donation_wide_group, trials$cond_anymet))
+```
+
+```{r}
+g = trials %>%
+  mutate(int = interaction(cond_metaphor, donation_wide_group)) %>%
+  group_by(int) %>%
+  mutate(y = n()) %>%
+  ggplot(aes(cond_metaphor, y, fill = int)) + ptheme +
+  geom_col(position = position_dodge(width = 0.8), width = 0.75) +
+  # dodgerblue1 chartreuse3
+  scale_fill_manual(values = c("grey90", "grey90", "grey90",
+                               "grey80", "grey80", "grey80",
+                               "grey70", "grey70", "grey70"),
+                    breaks = c("battle.small",
+                               "battle.medium",
+                               "battle.large"),
+                    labels = c("Small", "Medium", "Large"),
+                    name = "Donation\nGroup") +
+  # scale_fill_manual(values = c("firebrick2", "grey94", "grey94",
+  #                              "firebrick4", "grey94", "grey94",
+  #                              "grey94", "grey94", "grey94"),
+  #                   breaks = c("literal.small",
+  #                              "literal.medium"),
+  #                   labels = c("Small", "Medium"),
+  #                   name = "Donation\nGroup") +
+  # scale_fill_manual(values = c("grey94", "dodgerblue1", "dodgerblue1",
+  #                              "grey94", "dodgerblue4", "dodgerblue4",
+  #                              "grey94", "grey94", "grey94"),
+  #                   breaks = c("battle.small",
+  #                              "battle.medium"),
+  #                   labels = c("Small", "Medium"),
+  #                   name = "Donation\nGroup") +
+  # scale_fill_manual(values = c("firebrick2", "dodgerblue1", "dodgerblue1",
+  #                              "firebrick4", "dodgerblue4", "dodgerblue4",
+  #                              "grey94", "grey94", "grey94"),
+  #                   breaks = c("battle.small",
+  #                              "literal.small",
+  #                              "battle.medium",
+  #                              "literal.medium"),
+  #                   labels = c("Small", "Small",
+  #                              "Medium", "Medium"),
+  #                   name = "Donation\nGroup") +
+  
+  scale_x_discrete(labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
+  labs(title = "Count of Participants in Donation Groups by Metaphor Condition", x = "Donation Group", y = "Count of Participants") +
+  coord_cartesian(ylim = c(0, 680))
+  # geom_signif(xmin = 1 - 0.13,
+  #             xmax = 2.5,
+  #             y_position = 650,
+  #             tip_length = 0.1,
+  #             textsize = 2.75,
+  #             annotations = "list({\U03C7^2}(1) == 4.2, ~~ p < 0.05)",
+  #             parse = T)
+  
+
+g
+# ggsave("coarse_donations0.png", g, width = pwidth, height = pheight, bg = "transparent")
+```
+
+H: Donors are more likely to contribute to the large third when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign
+
+```{r}
+model_sm_l_base = glm(update(base.formula, I(donation_wide_group == "large") ~ .), 
+                         data = trials, 
+                         family = "binomial")
+model_sm_l_full = glm(update(base.formula, I(donation_wide_group == "large") ~ . + cond_anymet), 
+                         data = trials, 
+                         family = "binomial")
+
+compare_lm(model_sm_l_base, model_sm_l_full)
+```
+
+There is no evidence that participants who were exposed to metaphor were any more likely to be "large" donors.
+
+H: Donors are more likely to contribute to the large third or the medium third when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign
+
+```{r}
+model_s_ml_base = glm(update(base.formula, I(donation_wide_group != "small") ~ .), 
+                         data = trials, 
+                         family = "binomial")
+model_s_ml_full = glm(update(base.formula, I(donation_wide_group != "small") ~ . + cond_anymet), 
+                         data = trials, 
+                         family = "binomial")
+
+compare_lm(model_s_ml_base, model_s_ml_full)
+```
+
+There is marginal evidence that participants who were exposed to metaphor were slightly more likely to be "large" or "medium" donors. We can break this down further to see differences in likelihood that metaphor exposed participants are more or less likely to be either "medium" or "large" donors.
+
+```{r}
+mask = trials$donation_wide_group %in% c("small", "medium")
+model_s_m_base = glm(update(base.formula, I(donation_wide_group == "medium") ~ .), 
+                         data = trials[mask, ], 
+                         family = "binomial")
+model_s_m_full = glm(update(base.formula, I(donation_wide_group == "medium") ~ . + cond_anymet), 
+                         data = trials[mask, ], 
+                         family = "binomial")
+
+compare_lm(model_s_m_base, model_s_m_full)
+```
+
+```{r}
+mask = trials$donation_wide_group %in% c("medium", "large") & trials$cond_metaphor %in% c("literal", "battle")
+
+model_met_s_l_base = glm(update(base.formula, I(donation_wide_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_s_l_full = glm(update(base.formula, I(donation_wide_group == "large") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_met_s_l_base, model_met_s_l_full)
+```
+
+```{r}
+mask = trials$donation_wide_group %in% c("small", "large")
+model_s_l_base = glm(update(base.formula, I(donation_wide_group == "large") ~ .), 
+                         data = trials[mask, ], 
+                         family = "binomial")
+model_s_l_full = glm(update(base.formula, I(donation_wide_group == "large") ~ . + cond_anymet), 
+                         data = trials[mask, ], 
+                         family = "binomial")
+
+compare_lm(model_s_l_base, model_s_l_full)
+```
+
+There is evidence that participants exposed to metaphor are more likely to donate "medium" amounts than "small" amounts (Chisq = 4.2, p < 0.05). However, there is no evidence that participants who are exposed to metaphor are any more likely to donate "large" amounts than "small" amounts.
+
+NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "large" amount compared to a "small" amount.
+
+```{r}
+mask = trials$donation_wide_group %in% c("small", "large") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_s_l_base = glm(update(base.formula, I(donation_wide_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_s_l_full = glm(update(base.formula, I(donation_wide_group == "large") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_met_s_l_base, model_met_s_l_full)
+```
+
+Given the observed data for participants who saw either battle or journey metaphors, those who were exposed to battle metaphors were significantly more likely to donate a "large" amount compared to a "small" amount.
+
+NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "large" amount compared to a "medium" amount.
+
+```{r}
+mask = trials$donation_wide_group %in% c("medium", "large") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_m_l_base = glm(update(base.formula, I(donation_wide_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_m_l_full = glm(update(base.formula, I(donation_wide_group == "large") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+compare_lm(model_met_m_l_base, model_met_m_l_full)
+```
+
+NS
+
+H: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "medium" amount compared to a "small" amount.
+
+```{r}
+mask = trials$donation_wide_group %in% c("small", "medium") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_s_m_base = glm(update(base.formula, I(donation_wide_group == "medium") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_s_m_full = glm(update(base.formula, I(donation_wide_group == "medium") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+summary(model_met_s_m_full)$coefficients["cond_metaphorjourney", ]
+cat("\n")
+anova(model_met_s_m_base, model_met_s_m_full, test = "Chisq")
+```
+
+NS
+
+### Metaphor Condition and Presence on Likelihood of Narrow Donation Group
+
+Because the campaign is fictional and participants are given an upper bound on their donations, there may not be the same motivations to donate specific amounts compared to a real world fundraiser. Participants may choose to donate under one of the three most salient responses: \$0, \$25, or $50, or something very close (\$5 to \$0 or \$45 to \$50).
+
+Thus, we measure the effect of metaphor presence of participants' decision to choose one of these three groups of donation amounts (small, medium, and large).
+
+```{r, echo=F}
+trials$donation_narrow_group = with(trials, 
+                                    case_when(
+                                      donation %in% c(0, 5) ~     "small",
+                                      donation %in% c(20,25,30) ~ "medium",
+                                      donation %in% c(45,50) ~    "large",
+                                      T ~ ""
+                                    ))
+
+print_crosstabs(ftable(trials$donation_narrow_group, trials$cond_anymet))
+```
+
+H: Donors are more likely to contribute a "large" donation (\$45 or \$50) when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign
+
+```{r}
+mask = trials$donation_narrow_group != ""
+
+model_sm_l_base = glm(update(base.formula, I(donation_narrow_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_sm_l_full = glm(update(base.formula, I(donation_narrow_group == "large") ~ . + cond_anymet), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+summary(model_sm_l_full)$coefficients["cond_anymetTRUE", ]
+anova(model_sm_l_base, model_sm_l_full, test = "Chisq")
+```
+
+There is no evidence that there is an effect of metaphor presence on participants' decision to make a small or medium donation compared to a large donation.
+
+H: Donors are more likely to contribute a "large" or "medium" donation (\$20, \$25, \$30) when exposed to a campaign which employs battle or journey metaphors compared to a literal campaign
+
+```{r}
+mask = trials$donation_narrow_group != ""
+
+model_s_ml_base = glm(update(base.formula, I(donation_narrow_group != "small") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_s_ml_full = glm(update(base.formula, I(donation_narrow_group != "small") ~ . + cond_anymet), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+summary(model_s_ml_full)$coefficients["cond_anymetTRUE", ]
+anova(model_s_ml_base, model_s_ml_full, test = "Chisq")
+```
+
+There is no evidence that there is an effect of metaphor presence on participants' decision to make a small donation compared to a medium or large donation.
+
+We can attempt to break down this last result into a small-medium contrast and small-large contrast:
+
+```{r}
+mask = trials$donation_narrow_group %in% c("small", "medium")
+
+model_s_m_base = glm(update(base.formula, I(donation_narrow_group == "medium") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_s_m_full = glm(update(base.formula, I(donation_narrow_group == "medium") ~ . + cond_anymet), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+summary(model_s_m_full)$coefficients["cond_anymetTRUE", ]
+anova(model_s_m_base, model_s_m_full, test = "Chisq")
+```
+
+There is no evidence that there is an effect of metaphor presence on participants' decision to make a small donation compared to a medium donation.
+
+```{r}
+mask = trials$donation_narrow_group %in% c("small", "large")
+model_s_l_base = glm(update(base.formula, I(donation_narrow_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_s_l_full = glm(update(base.formula, I(donation_narrow_group == "large") ~ . + cond_anymet), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+summary(model_s_l_full)$coefficients["cond_anymetTRUE", ]
+anova(model_s_l_base, model_s_l_full, test = "Chisq")
+```
+
+There is no evidence that there is an effect of metaphor presence on participants' decision to make a small donation compared to a large donation.
+
+NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "large" amount compared to a "small" amount.
+
+```{r}
+mask = trials$donation_narrow_group %in% c("small", "large") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_s_l_base = glm(update(base.formula, I(donation_narrow_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_s_l_full = glm(update(base.formula, I(donation_narrow_group == "large") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+summary(model_met_s_l_full)$coefficients["cond_metaphorjourney", ]
+cat("\n")
+anova(model_met_s_l_base, model_met_s_l_full, test = "Chisq")
+```
+
+Given the observed data for participants who saw either battle or journey metaphors, those who were exposed to battle metaphors were significantly more likely to donate a "large" amount compared to a "small" amount.
+
+NH: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "large" amount compared to a "medium" amount.
+
+```{r}
+mask = trials$donation_narrow_group %in% c("medium", "large") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_m_l_base = glm(update(base.formula, I(donation_narrow_group == "large") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_m_l_full = glm(update(base.formula, I(donation_narrow_group == "large") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+summary(model_met_m_l_full)$coefficients["cond_metaphorjourney", ]
+cat("\n")
+anova(model_met_m_l_base, model_met_m_l_full, test = "Chisq")
+```
+
+H: Participants who were exposed to battle metaphor versus those exposed to journey metaphors were equally likely to choose to donate a "medium" amount compared to a "small" amount.
+
+```{r}
+mask = trials$donation_narrow_group %in% c("small", "medium") & trials$cond_metaphor %in% c("journey", "battle")
+
+model_met_s_m_base = glm(update(base.formula, I(donation_narrow_group == "medium") ~ .), 
+                         data = trials[mask, ],
+                         family = "binomial")
+model_met_s_m_full = glm(update(base.formula, I(donation_narrow_group == "medium") ~ . + cond_metaphor), 
+                         data = trials[mask, ],
+                         family = "binomial")
+
+summary(model_met_s_m_full)$coefficients["cond_metaphorjourney", ]
+cat("\n")
+anova(model_met_s_m_base, model_met_s_m_full, test = "Chisq")
+```
+
+## Broader Alternative Questions
+
+### Gaussian Mixture Model
+
+The donations appear to be clustered around \$0, \$25, and \$50. Here's an attempt at modeling these peaks under a trimodal mixture of regressions model.
+
+This section is still under development.
+
+```{r}
+# library(flexmix)
+```
+
+```{r}
+# mixture = flexmix(update(base.formula, donation ~ . + cond_anymet), 
+#                   data = trials, 
+#                   k = 3,
+#                   control = list(iter.max = 600, 
+#                                  verbose = 100))
+# 
+# summary(mixture)
+# parameters(mixture)
+# plot(mixture)
+```
+
+```{r}
+# c1_mu <- mixture@components$Comp.1[[1]]@parameters$coef["(Intercept)"]
+# c1_sig <- mixture@components$Comp.1[[1]]@parameters$sigma
+# c2_mu <- mixture@components$Comp.2[[1]]@parameters$coef["(Intercept)"]
+# c2_sig <- mixture@components$Comp.2[[1]]@parameters$sigma
+# c3_mu <- mixture@components$Comp.3[[1]]@parameters$coef["(Intercept)"]
+# c3_sig <- mixture@components$Comp.3[[1]]@parameters$sigma
+# 
+# x = seq(0, 50, by = 0.5)
+# ggplot() + itheme +
+#   geom_line(aes(trials$donation), color = "red", stat = "density") +
+#   geom_line(aes(x, dnorm(x, mean = c1_mu, sd = c1_sig)), color = "blue") +
+#   geom_line(aes(x, dnorm(x, mean = c2_mu, sd = c2_sig)), color = "green") +
+#   geom_line(aes(x, dnorm(x, mean = c3_mu, sd = c3_sig)), color = "orange") +
+#   coord_cartesian(xlim = c(0,50))
+```
+
+```{r}
+# plot(refit(mixture))
+```
+
+
+```{r}
+# N = 1000
+# x = rnorm(N, mean = c(-25, 0, 25), sd = 2)
+# length(x)
+# 
+# y = 25 + x + rnorm(N, 0, 1)
+# length(y)
+```
+
+```{r}
+# m = flexmix(y ~ x, k = 3, control = list(minprior = 0))
+# m = FLXglmFix(fixed = ~x, varFix = F)
+# fit = stepFlexmix(y ~ 1, model = m, nrep = 6, k = 3)
+# fit
+# summary(fit)
+# parameters(fit)
+```
+
+
+```{r}
+# q = seq(0, 50, by=0.1)
+# ggplot() +
+#   geom_density(aes(y)) +
+# geom_line(aes(q, dnorm(q, fit@components$Comp.1[[1]]@parameters$coef["(Intercept)"], fit@components$Comp.1[[1]]@parameters$sigma))) +
+# geom_line(aes(q, dnorm(q, fit@components$Comp.2[[1]]@parameters$coef["(Intercept)"], fit@components$Comp.2[[1]]@parameters$sigma))) +
+# geom_line(aes(q, dnorm(q, fit@components$Comp.3[[1]]@parameters$coef["(Intercept)"], fit@components$Comp.3[[1]]@parameters$sigma)))
+```
+
+
+### Random Forest Regression
+
+Preliminary work
+
+```{r}
+library(randomForest)
+```
+
+```{r}
+rf = randomForest(update(base.formula, donation ~ . + cond_anymet),
+                  data = trials,
+                  nodesize = 6,
+                  mtry = 2,
+                  nPerm = 2,
+                  importance = T,
+                  ntree = 500,
+                  do.trace = 100)
+rf
+```
+
+```{r}
+importance(rf)
+```
+
+```{r}
+varImpPlot(rf)
+```
+
+# Donations by Gender
+
+### Gender Effects
+
+```{r}
+a = trials %>%
+  filter(gender %in% c("M", "F")) %>%
+  ggplot(aes(gender, donation)) + ptheme +
+  labs(title = "Participant Gender and Donations\n") +
+  stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  scale_x_discrete(labels = c("M" = "Male\n", "F" = "Female\n")) +
+  scale_y_continuous(labels = scales::dollar) +
+  coord_cartesian(ylim = c(20, 30)) +
+  scale_color_brewer(palette = "Set1") +
+  labs(x = element_blank(), y = "Donation") +
+  geom_signif(comparisons = list(c("M", "F")),
+              y_position = 26.7,
+              tip_length = 0.01,
+              textsize = 2.75,
+              annotations = "list({\U03C7^2}(1) == 3.8, ~~ p < 0.06)",
+              parse = T)
+
+a
+```
+
+```{r}
+model_gender_base = lm(update(base.formula, donation ~ . - gender), 
+                       data = filter(trials, gender %in% c("M", "F")))
+model_gender_full  = lm(update(base.formula, donation ~ .), 
+                       data = filter(trials, gender %in% c("M", "F")))
+
+anova(model_gender_base, model_gender_full, test = "Chisq")
+chisq_stat(model_gender_base, model_gender_full)
+summ(model_gender_full, confint = T, digits = 3)
+```
+
+Gender has a marginally signficant relationship to donation amount (Chisq = 3.8, p < 0.06), with females donating about \$0.95 more than males.
+
+H: Men and women contribute to the campaigns differently depending on the family of metaphor they were exposed to
+
+```{r}
+g = trials %>%
+  filter(gender %in% c("M", "F")) %>%
+  ggplot(aes(cond_metaphor, donation, color = gender)) + itheme +
+  labs(title = "Interaction between Metaphor and Participant Gender") +
+  stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  scale_y_continuous(labels = scales::dollar) +
+  scale_x_discrete(expand = c(0, 1.5)) +
+  coord_cartesian(ylim = c(20, 30)) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(x = "Metaphor Condition", y = "Donation")
+
+g
+ggsave("gender_metaphor.png", g, width = 7, height = 3)
+```
+
+```{r}
+model_gender_base = lm(update(base.formula, donation ~ . + cond_metaphor - gender), 
+                       data = filter(trials, gender %in% c("M", "F")))
+model_gender_mid  = lm(update(base.formula, donation ~ . + cond_metaphor), 
+                       data = filter(trials, gender %in% c("M", "F")))
+model_gender_full = lm(update(base.formula, donation ~ . + cond_metaphor * gender), 
+                       data = filter(trials, gender %in% c("M", "F")))
+
+anova(model_gender_base, model_gender_mid, test = "Chisq")
+anova(model_gender_mid, model_gender_full, test = "Chisq")
+summ(model_gender_mid, confint = T, digits = 3)
+```
+
+Gender marginally significantly (p < 0.06) predicts donation conditional on metaphor condition, however there is no interaction between gender and metaphor.
+
+3-way interaction going on between `ppt gender`, `metaphor`, and `patient gender`.
+
+```{r}
+trials %>% 
+  filter(gender %in% c("M", "F")) %>%
+  mutate(gender = factor(gender)) %>% # to recode the levels of the variable
+  with(print_crosstabs(ftable(cond_metaphor, cond_sex, gender)))
+```
+
+```{r}
+g = trials %>%
+  filter(gender %in% c("M", "F")) %>%
+  mutate(cond_sex = recode(cond_sex,
+                           "male" = "Male",
+                           "female" = "Female")) %>%
+  # filter(cond_anymet) %>%
+  ggplot(aes(cond_metaphor, sympathy, color = gender)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  labs(x = "Metaphor condition",
+       y = "Donation",
+       color = "Gender",
+       title = "Donation by metaphor, sex, and participent gender") +
+  facet_grid(~ cond_sex) +
+  # coord_cartesian(ylim = c(18, 30)) +
+  scale_x_discrete(labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
+  # scale_y_continuous(labels = scales::dollar) +
+  scale_color_brewer(palette = "Dark2")
+
+# ggsave("3way-int.png", g, width = 8)
+g
+```
+
+```{r}
+temp <- trials %>%
+  filter(gender %in% c("M", "F"),
+         cond_metaphor != "literal")
+
+m1 = lm(data = temp, update(base.formula, donation ~ . + cond_metaphor + cond_sex + gender))
+m2 = lm(data = temp, update(base.formula, donation ~ . + cond_metaphor * cond_sex + gender)) # add 2 coefs
+m3 = lm(data = temp, update(base.formula, donation ~ . + cond_metaphor + cond_sex * gender)) # add 1 coefs
+m4 = lm(data = temp, update(base.formula, donation ~ . + cond_metaphor * gender + cond_sex)) # add 2 coefs
+m5 = lm(data = temp, update(base.formula, donation ~ . + cond_metaphor * gender + cond_metaphor * cond_sex + gender * cond_sex))
+m6 = lm(data = temp, update(base.formula, donation ~ . + cond_metaphor * cond_sex * gender))
+
+# Interaction between Metaphor and Sex
+# f2 = 0.00061, v = 20515.4
+
+anova(m1, m2, test = "Chisq")
+
+f <- f.sq(
+  lm(donation ~ 1, data = temp),
+  m1,
+  m2
+)
+
+pwr.f2.test(u = 2, v = NULL, f2 = f, power = 0.9)
+
+# Interaction between Sex and ppt Gender
+# f2 = ~0, v = inf
+
+anova(m1, m3, test = "Chisq")
+
+f <- f.sq(
+  lm(donation ~ 1, data = temp),
+  m1,
+  m3
+)
+
+pwr.f2.test(u = 1, v = NULL, f2 = f, power = 0.9)
+
+# Interaction between Metaphor and ppt Gender
+# f2 = 0.00044, v = 28542.73
+
+anova(m1, m4, test = "Chisq")
+
+f <- f.sq(
+  lm(donation ~ 1, data = temp),
+  m1,
+  m4
+)
+
+pwr.f2.test(u = 2, v = NULL, f2 = f, power = 0.9)
+
+# Interaction between Metaphor, Sex, and ppt Gender
+# f2 = 0.0032, v = 5001.734
+
+anova(m5, m6, test = "Chisq")
+
+f <- f.sq(
+  lm(donation ~ 1, data = temp),
+  m5,
+  m6
+)
+f
+length(coef(m5))-1
+```
+
+Using G*Power, to detect a true difference at 80% between the 3-way interaction and the model just prior, we'd need N=2,492
+
+There appears to be a difference between some of these factors (male and female participants exposed to the female battle condition and the male literal condition), although they could be suprious at this level of factorization.
+
+Male stereotype - males changed on battle
+
+### Gender Congruency Effects
+
+```{r}
+print_crosstabs(ftable(trials$cond_metaphor, trials$congruency))
+```
+
+```{r}
+ggplot(trials, aes(congruency, donation)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.1) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+  labs(x = "Congruency", y = "Donation", title = "Donation by gender congruence") +
+  coord_cartesian(ylim=c(20, 30))
+
+trials %>%
+  ggplot(aes(cond_metaphor, donation, color = congruency)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2, position = position_dodge(width = 0.35)) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  labs(x = "Congruency", y = "Donation", title = "Donation by gender congruence and metaphor") +
+  coord_cartesian(ylim=c(19, 29))
+```
+
+NH: Gender identity congruence for males and females does not affect donations
+
+```{r}
+model_congruent_base = lm(update(base.formula, donation ~ .), 
+                          data = trials)
+model_congruent_full = lm(update(base.formula, donation ~ . + congruency), 
+                          data = trials)
+
+anova(model_congruent_base, model_congruent_full, test = "Chisq")
+chisq_stat(model_congruent_base, model_congruent_full)
+```
+
+NH: Gender identity congruence for males and females does not affect donations conditional on metaphor
+
+```{r}
+model_congruent_base = lm(update(base.formula, donation ~ . + cond_metaphor), 
+                          data = trials)
+
+model_congruent_mid = lm(update(base.formula, donation ~ . + cond_metaphor + congruency), 
+                          data = trials)
+
+model_congruent_full = lm(update(base.formula, donation ~ . + cond_metaphor * congruency), 
+                          data = trials)
+
+anova(model_congruent_base, model_congruent_mid, test = "Chisq")
+anova(model_congruent_mid, model_congruent_full, test = "Chisq")
+summ(model_congruent_full)
+```
+
+#### Gender Congruence on Sympathy
+
+```{r}
+trials %>%
+  ggplot(aes(cond_metaphor, sympathy, color = congruency)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2, position = position_dodge(width = 0.35)) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  coord_cartesian(ylim = c(4.5, 6))
+```
+
+
+```{r}
+model_congruent_base = lm(update(base.formula, sympathy ~ . - gender + cond_metaphor), 
+                          data = trials)
+model_congruent_mid = lm(update(base.formula, sympathy ~ . - gender + cond_metaphor + congruency), 
+                          data = trials)
+model_congruent_full = lm(update(base.formula, sympathy ~ . - gender + cond_metaphor * congruency), 
+                          data = trials)
+
+anova(model_congruent_base, model_congruent_mid, test = "Chisq")
+# anova(model_congruent_mid, model_congruent_full, test = "Chisq")
+summ(model_congruent_mid)
+```
+
+```{r}
+trials %>%
+  ggplot(aes(cond_metaphor, urgent, color = congruency)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2, position = position_dodge(width = 0.35)) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  coord_cartesian(ylim = c(4, 6))
+```
+
+```{r}
+model_congruent_base = lm(update(base.formula, urgent ~ . - gender + cond_metaphor), 
+                          data = trials)
+model_congruent_mid = lm(update(base.formula, urgent ~ . - gender + cond_metaphor + congruency), 
+                          data = trials)
+model_congruent_full = lm(update(base.formula, urgent ~ . - gender + cond_metaphor * congruency), 
+                          data = trials)
+
+anova(model_congruent_base, model_congruent_mid, test = "Chisq")
+anova(model_congruent_mid, model_congruent_full, test = "Chisq")
+summ(model_congruent_full)
+```
+
+# Donations by Sympathy / Urgency
+
+Summary statistics of sympathy and urgency
+
+```{r}
+summary(trials$sympathy, digits = 2)
+summary(trials$urgent, digits = 2)
+```
+
+Distribution of the followup questions
+
+```{r}
+ggplot(trials) + itheme +
+  geom_bar(aes(urgent, group=1, y=..prop..)) +
+  scale_x_discrete(limits = seq(0,6)) +
+  labs(x = "Urgent", y = "Proportion", title = "Urgent Distribution", subtitle = "\"Her situation is urgent.\"")
+
+ggplot(trials) + itheme +
+  geom_bar(aes(sympathy, group=1, y=..prop..)) +
+  scale_x_discrete(limits = seq(0,6)) +
+  labs(x = "Sympathy", y = "Proportion", title = "Sympathy Distribution", subtitle = "\"Her situation is one I sympathize with.\"")
+```
+
+```{r}
+lbs = c("male" = "Condition: Male",
+        "female" = "Condition: Female")
+
+ggplot(trials) + itheme +
+  geom_bar(aes(as.factor(urgent), fill = cond_metaphor), width = 0.9, position = position_dodge2(preserve = "single")) +
+  labs(x = "Urgent", y = "Count", title = "Urgent Distribution", subtitle = "\"Her situation is urgent.\"") +
+  scale_fill_brewer(palette = "Pastel1")
+
+ggplot(trials) + itheme +
+  geom_bar(aes(as.factor(sympathy), fill = cond_metaphor), width = 0.9, position = position_dodge2(preserve = "single")) +
+  labs(x = "Sympathy", y = "Count", title = "Sympathy Distribution", subtitle = "\"Her situation is sympathy\"") +
+  scale_fill_brewer(palette = "Pastel1")
+```
+
+## Sympathy
+
+Does the metaphorical condition have a relationship to participant's rating of perceived sympathy?
+
+H: Higher sympathy leads to higher donations
+
+```{r}
+model_sympathy_base = lm(update(base.formula, donation ~ .), data = trials)
+model_sympathy_full = lm(update(base.formula, donation ~ . + sympathy), data = trials)
+
+anova(model_sympathy_base, model_sympathy_full, test = "Chisq")
+summ(model_sympathy_full, confint = T, digits = 3)
+```
+
+## Urgency
+
+```{r}
+b = trials %>%
+  ggplot(aes(factor(urgent+1), donation)) + ptheme +
+  # geom_boxplot()
+  stat_summary(geom = "errorbar", fun.data = mean_se, width = 0.2) +
+  stat_summary(geom = "point", fun.data = mean_se, shape = 5) +
+  geom_jitter(alpha = 0.02, width = 0.25, shape = 16) +
+  scale_x_discrete(labels = c("1" = "1\nNot urgent", "7" = "7")) +
+  scale_y_continuous(labels = scales::dollar) +
+  labs(y = "Donation", x = "Urgency", title = "Urgency on Donation") +
+  coord_cartesian(ylim = c(5, 36))
+
+b
+```
+
+
+Does the metaphorical condition have a relationship to participant's rating of perceived urgency?
+
+H: High urgency leads to higher donations
+
+```{r}
+model_urgent_base = lm(update(base.formula, donation ~ .), data = trials)
+model_urgent_full = lm(update(base.formula, donation ~ . + urgent), data = trials)
+
+anova(model_urgent_base, model_urgent_full, test = "Chisq")
+summ(model_urgent_full, confint = T, digits = 3)
+```
+
+## Metaphor on Sympathy
+
+```{r}
+a = trials %>%
+  # mutate(cond_metaphor = factor(cond_metaphor, levels = c("literal", "journey", "battle"))) %>%
+  ggplot(aes(cond_metaphor, urgent+1)) + ptheme +
+  stat_summary(geom = "errorbar", fun.data = mean_se, width = 0.1, position = position_dodge(width = 0.3)) +
+  stat_summary(geom = "point", fun.data = mean_se, shape = 5, position = position_dodge(width = 0.3)) +
+  scale_x_discrete(labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
+  labs(title = "Metaphor Condition on Urgency", x = "Metaphor", y = "Urgency (1 - 7)") +
+  # scale_color_brewer(palette = "Set1", name = "Gender") +
+  coord_cartesian(ylim = c(5.35, 6.2)) +
+  geom_signif(comparisons = list(c("journey", "battle"), c("literal", "battle")),
+              y_position = c(5.8, 5.95),
+              tip_length = 0.005,
+              textsize = 2.75,
+              annotations = c("list({\U03C7^2}(1) == 10.4, ~~ p < 0.01)", 
+                              "list({\U03C7^2}(1) == 7.8, ~~ p < 0.01)"),
+              parse = T)
+
+g = grid.arrange(a, b, nrow = 1)
+ggsave("urgency.png", g, width = pwidth, height = pheight, bg = "transparent")
+```
+
+
+The metaphor condition predicts how much sympathy participants feel
+
+```{r}
+model_sympathy_base = lm(update(base.formula, sympathy ~ .), data = trials)
+model_sympathy_full = lm(update(base.formula, sympathy ~ . + cond_metaphor), data = trials)
+
+anova(model_sympathy_base, model_sympathy_full, test = "Chisq")
+summ(model_sympathy_full, confint = T, digits = 3)
+```
+
+## Metaphor on Urgency
+
+The metaphor condition predicts how much urgency participants feel
+
+```{r}
+model_urgent_base = lm(update(base.formula, urgent ~ .), data = filter(trials, cond_metaphor != "literal"))
+model_urgent_full = lm(update(base.formula, urgent ~ . + cond_metaphor), data = filter(trials, cond_metaphor != "literal"))
+
+anova(model_urgent_base, model_urgent_full, test = "Chisq")
+chisq_stat(model_urgent_base, model_urgent_full)
+summ(model_urgent_full, confint = T, digits = 3)
+```
+
+## Cancer Experience on Sympathy
+
+```{r}
+model_selfcancer_sympathy_base = lm(update(base.formula, sympathy ~ . - self_cancer), data = trials)
+model_selfcancer_sympathy_full = lm(update(base.formula, sympathy ~ .), data = trials)
+
+anova(model_selfcancer_sympathy_base, model_selfcancer_sympathy_full, test = "Chisq")
+summ(model_selfcancer_sympathy_full, confint = T, digits = 3)
+```
+
+```{r}
+model_ffcancer_sympathy_base = lm(update(base.formula, sympathy ~ . - ff_cancer), data = trials)
+model_ffcancer_sympathy_full = lm(update(base.formula, sympathy ~ .), data = trials)
+
+anova(model_ffcancer_sympathy_base, model_ffcancer_sympathy_full, test = "Chisq")
+summ(model_ffcancer_sympathy_full, confint = T, digits = 3)
+```
+
+## Cancer Experience on Urgency
+
+```{r}
+model_selfcancer_urgent_base = lm(update(base.formula, urgent ~ . - self_cancer), data = trials)
+model_selfcancer_urgent_full = lm(update(base.formula, urgent ~ .), data = trials)
+
+anova(model_selfcancer_urgent_base, model_selfcancer_urgent_full, test = "Chisq")
+summ(model_selfcancer_urgent_full, confint = T, digits = 3)
+```
+
+```{r}
+model_ffcancer_urgent_base = lm(update(base.formula, urgent ~ . - ff_cancer), data = trials)
+model_ffcancer_urgent_full = lm(update(base.formula, urgent ~ .), data = trials)
+
+anova(model_ffcancer_urgent_base, model_ffcancer_urgent_full, test = "Chisq")
+summ(model_ffcancer_urgent_full, confint = T, digits = 3)
+```
+
+# Donations by Covariates
+
+## Past Donations
+
+NH: Participants with no history of charitable behavior have the same donation behavior as those with a history of charitable behavior
+
+```{r}
+trials %>%
+  ggplot(aes(past_donations, donation)) + itheme +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Past Donations", y = "Donation", title = "Past Donations and Donations")
+
+model_pastdonations_base = lm(update(base.formula, donation ~ . - past_donations.z), data = trials)
+model_pastdonations_full = lm(update(base.formula, donation ~ .), data = trials)
+
+anova(model_pastdonations_base, model_pastdonations_full, test = "Chisq")
+chisq_stat(model_pastdonations_base, model_pastdonations_full)
+summ(model_pastdonations_full, confint = T, digits = 3)
+```
+
+## Self Cancer
+
+H: Participants who have been treated for cancer donate more than those who haven't
+
+```{r}
+trials %>%
+  ggplot(aes(self_cancer, donation)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.1) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+  labs(x = "Self Cancer", y = "Donation", title = "Past self experience and donations") +
+  coord_cartesian(ylim = c(20, 35))
+
+model_selfcancer_base = lm(update(base.formula, donation ~ . - self_cancer), data = trials)
+model_selfcancer_full = lm(update(base.formula, donation ~ .), data = trials)
+
+anova(model_selfcancer_base, model_selfcancer_full, test = "Chisq")
+chisq_stat(model_selfcancer_base, model_selfcancer_full)
+summ(model_selfcancer_full, confint = T, digits = 3)
+```
+
+Past personal experience with cancer significantly predicts donation behavior (Chisq = 8.9, p < 0.001)
+
+## Friends and Family Cancer
+
+```{r}
+trials %>%
+  ggplot(aes(ff_cancer, donation)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.1) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+  labs(x = "Friends & Family Cancer", y = "Donation", title = "Friends & family experience and donations") +
+  coord_cartesian(ylim = c(20, 30))
+
+model_ffcancer_base = lm(update(base.formula, donation ~ . - ff_cancer), data = trials)
+model_ffcancer_full = lm(update(base.formula, donation ~ .), data = trials)
+
+anova(model_ffcancer_base, model_ffcancer_full, test = "Chisq")
+chisq_stat(model_ffcancer_base, model_ffcancer_full)
+summ(model_ffcancer_full, confint = T, digits = 3)
+```
+
+Past friends & family experience with cancer significantly predicts donation behavior (Chisq = 7.7, p < 0.001).
+
+```{r}
+library(ggsignif)
+```
+
+
+```{r}
+b = trials %>%
+  filter(self_cancer != "OO") %>%
+  ggplot(aes(self_cancer, donation)) + ptheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+  scale_x_discrete(labels = c("N" = "Have not been\ntreated", "Y" = "Have been treated")) +
+  labs(x = element_blank(), y = "Donation", title = "Self has had Cancer Treatment\nand Donations") +
+  scale_y_continuous(labels = scales::dollar) +
+  coord_cartesian(ylim = c(20, 32)) +
+  geom_signif(comparisons = list(c("N", "Y")),
+              textsize = 2.75,
+              y_position = 31,
+              tip_length = c(0.05, 0.01),
+              annotations = "list({\U03C7^2}(2) == 17.8, ~~ p < 0.001)",
+              parse = T)
+
+# c = trials %>%
+#   filter(ff_cancer != "OO") %>%
+#   ggplot(aes(ff_cancer, donation)) + ptheme +
+#   stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.1) +
+#   stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+#   scale_x_discrete(labels = c("N" = "Have not been treated", "Y" = "Have been treated")) +
+#   labs(x = element_blank(), y = "Donation", title = "Donations given Family or Friends have had Cancer Treatment ") +
+#   coord_cartesian(ylim = c(20, 32)) +
+#   geom_signif(comparisons = list(c("N", "Y")),
+#               y_position = 27.5,
+#               tip_length = c(0.01, 0.01),
+#               annotations = "list({\U03C7^2}(2) == 15.5, ~~ p < 0.001)",
+#               parse = T)
+```
+
+
+```{r}
+g = grid.arrange(a, b, nrow = 1)
+ggsave("covariates.png", g, width = pwidth, height = pheight, bg = "transparent")
+```
+
+
+## Socioeconomics
+
+H: Higher socioeconomic individuals donate more to the campaign
+
+```{r}
+trials %>%
+  filter(socioeconomic != "OO") %>%
+  mutate(socioeconomic_order = ordered(socioeconomic)) %>%
+  ggplot(aes(socioeconomic_order, donation)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.1) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+  labs(x = "Socioeconomics", y = "Donation", title = "Socioeconomic and donations") +
+  coord_cartesian(ylim = c(20, 30))
+
+model_socioeconomic_base = lm(update(base.formula, donation ~ . - socioeconomic), 
+                              data = trials %>% 
+                                filter(socioeconomic != "OO") %>%
+                                mutate(socioeconomic = ordered(socioeconomic)))
+model_socioeconomic_full = lm(update(base.formula, donation ~ .), 
+                              data = trials %>% 
+                                filter(socioeconomic != "OO") %>%
+                                mutate(socioeconomic = ordered(socioeconomic)))
+
+anova(model_socioeconomic_base, model_socioeconomic_full, test = "Chisq")
+chisq_stat(model_socioeconomic_base, model_socioeconomic_full)
+summ(model_socioeconomic_full, confint = T, digits = 3)
+```
+
+There is not signficant evidence that donation behavior is related to socioeconomic status. However, there is a marginally significant linear predictor through the ordered predictor for socioeconomic status (t = 1.665, p < 0.1).
+
+## Age
+
+```{r}
+ggplot(trials, aes(age, donation)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2))
+
+model_age_base = lm(update(base.formula, donation ~ .), 
+                              data = trials)
+model_age_full = lm(update(base.formula, donation ~ . + I(age.z^2)),
+                              data = trials)
+
+anova(model_age_base, model_age_full, test = "Chisq")
+chisq_stat(model_age_base, model_age_full)
+summ(model_age_full, confint = T, digits = 3)
+```
+
+
+## Description Responses
+
+### Quality
+
+H: Higher quality descriptions lead to more pronounced effects of metaphor
+
+TODO
+
+### Metaphor
+
+Define some keywords under two main families and one exploratory family of metaphor (only lemmas).
+
+```{r}
+BATTLE_PHRASES <- c('fight', 'fought', 'battling', 'battle', 'war', 'beat', 'enemy', 'defeat', 'win', 'combat')
+
+JOURNEY_PHRASES <- c('path', 'journey', 'road', 'rollercoaster', 'going through')
+
+# FORCE_PHRASES <- c('forced', 'force', 'lava', 'flood', 'volcano', 'wave', 'drown', 'storm', 'disaster', 'river')
+```
+
+Run a search over descriptions for the keywords and count their occurances. 
+
+```{r}
+search_description_for_battle <- function(row) {
+  return(sum(sapply(BATTLE_PHRASES, function (k) grepl(k, tolower(row), fixed = T))))
+}
+
+search_description_for_journey <- function(row) {
+  return(sum(sapply(JOURNEY_PHRASES, function (k) grepl(k, tolower(row), fixed = T))))
+}
+
+# search_description_for_force <- function(row) {
+#   return(sum(sapply(FORCE_PHRASES, function (k) grepl(k, tolower(row), fixed = T))))
+# }
+```
+
+```{r}
+trials$battle_words = unname(sapply(trials$description, search_description_for_battle))
+trials$journey_words = unname(sapply(trials$description, search_description_for_journey))
+# trials$force_words = unname(sapply(trials$description, search_description_for_force))
+
+trials$description_metaphor =
+  case_when(trials$battle_words >  0  & trials$journey_words == 0 ~ "battle",
+            trials$journey_words > 0  & trials$battle_words ==  0 ~ "journey",
+            trials$battle_words >  0  & trials$journey_words >  0 ~ "mixed",
+            trials$battle_words == 0  & trials$journey_words == 0 ~ "none")
+
+trials$description_metaphor = factor(trials$description_metaphor, levels = c("none", "mixed", "journey", "battle"))
+```
+
+```{r}
+trials$word_count = sapply(trials$description, function(t) str_count(t, " ")+1)
+
+sum(trials$battle_words) / sum(trials$word_count) * 1000
+sum(trials$journey_words) / sum(trials$word_count) * 1000
+```
+
+Approxiamtely 9.5 battle metaphors per 1,000 words and 2.9 journey metaphors per 1,000 words overall.
+
+```{r}
+trials %>%
+  ggplot(aes(cond_metaphor, 1000 * battle_words / word_count)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+  coord_cartesian(ylim = c(0, 20)) +
+  labs(title = "Battle Metaphor Frequency by Metaphor Condition")
+
+trials %>%
+  ggplot(aes(cond_metaphor, 1000 * journey_words / word_count)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+  coord_cartesian(ylim = c(0, 10)) +
+  labs(title = "Journey Metaphor Frequency by Metaphor Condition")
+```
+
+```{r}
+round(100*mean(trials$description_metaphor == "battle"),2)
+round(100*mean(trials$description_metaphor == "journey"),2)
+round(100*mean(trials$description_metaphor == "mixed"),2)
+round(100*mean(trials$description_metaphor == "none"),2)
+```
+
+About 24% of participants preserved a metaphor: 17% preserved a battle metaphor, 5% preserved a journey metaphor, and 1.6% preserved both metaphors.
+
+#### Effect of Metaphor Condition on preserved Metaphor in Description
+
+```{r}
+g = trials %>%
+  filter(description_metaphor %in% c("battle", "journey", "mixed")) %>%
+  group_by( cond_metaphor, description_metaphor) %>%
+  summarize(prop = n() / nrow(trials)) %>%
+  ggplot(aes(cond_metaphor, y = prop, group = description_metaphor, color = description_metaphor)) + ptheme +
+  geom_point() +
+  geom_line() +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_discrete(labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
+  labs(title = "Proportion of Participants with Preserved Metaphor by Condition",
+       x = "Metaphor Condition", 
+       y = "% of Participants") +
+  scale_color_brewer(palette = "Set1", name = "Metaphors\nPreserved", labels = c("mixed" = "Mixed", "journey" = "Journey", "battle" = "Battle")) +
+  coord_cartesian(ylim = c(0.0, 0.1))
+
+g
+ggsave("preserved_metaphor.png", g, width = pwidth, height = pheight, bg = "transparent")
+```
+
+
+We analyzed the free-response answers the participants completed in response to being asked to explain the patient's situation to a friend. We were interested in whether the metaphor in the passage predicts the presence of metaphors in the description. We will model this with a logistic regression, accounting for the covariates included in the primary hypothesis model.
+
+```{r}
+trials$preserved_metaphor = trials$description_metaphor != "none"
+
+model_metaphor_preserve_base = glm(update(base.formula, preserved_metaphor ~ .), 
+                                   data = trials, 
+                                   family = "binomial")
+model_metaphor_preserve_full = glm(update(base.formula, preserved_metaphor ~ . + cond_metaphor), 
+                                   data = trials, 
+                                   family = "binomial")
+
+anova(model_metaphor_preserve_base, model_metaphor_preserve_full, test = "Chisq")
+summ(model_metaphor_preserve_full, confint = T, digits = 3)
+```
+
+In both metaphor conditions, we see a significant increase in the likelihood that the participant will go on to use some sort of metaphor.
+
+```{r}
+model_metaphor_preserve_base = glm(update(base.formula, I(description_metaphor == "journey") ~ .), 
+                                   data = trials %>%
+                                     filter(cond_metaphor %in% c("journey", "battle"), 
+                                            description_metaphor %in% c("journey", "battle")), 
+                                   family = "binomial")
+model_metaphor_preserve_full = glm(update(base.formula, I(description_metaphor == "journey") ~ . + cond_metaphor), 
+                                   data = trials %>% 
+                                     filter(cond_metaphor %in% c("journey", "battle"),
+                                            description_metaphor %in% c("journey", "battle")), 
+                                   family = "binomial")
+
+anova(model_metaphor_preserve_base, model_metaphor_preserve_full, test = "Chisq")
+chisq_stat(model_metaphor_preserve_base, model_metaphor_preserve_full)
+summ(model_metaphor_preserve_full, confint = T, digits = 3)
+```
+
+In both metaphor conditions, we see a significant increase in the likelihood that the participant will go on to use a journey metaphor.
+
+```{r}
+trials %>%
+  filter(cond_metaphor %in% c("journey", "battle"),
+         description_metaphor %in% c("journey", "battle")) %>%
+  ggplot() +
+  geom_bar(aes(cond_metaphor, fill = description_metaphor), position = "dodge")
+```
+
+
+```{r}
+model_metaphor_preserve_base = glm(update(base.formula, I(description_metaphor == "battle") ~ .), 
+                                   data = trials %>%
+                                     filter(cond_metaphor %in% c("journey", "battle"), 
+                                            description_metaphor %in% c("journey", "battle")), 
+                                   family = "binomial")
+model_metaphor_preserve_full = glm(update(base.formula, I(description_metaphor == "battle") ~ . + cond_metaphor), 
+                                   data = trials %>% 
+                                     filter(cond_metaphor %in% c("journey", "battle"),
+                                            description_metaphor %in% c("journey", "battle")), 
+                                   family = "binomial")
+
+anova(model_metaphor_preserve_base, model_metaphor_preserve_full, test = "Chisq")
+chisq_stat(model_metaphor_preserve_base, model_metaphor_preserve_full)
+summ(model_metaphor_preserve_full, confint = T, digits = 3)
+```
+
+In the battle metaphor condition, we see a significant increase in the likelihood that the participant will go on to use a battle metaphor. This increase does not exist for participants who were exposed to journey metaphors.
+
+#### Effect of Preserved Metaphor on Donation Behavior
+
+Additionally, we are interested in knowing whether preserved metaphor usage in responses predicts a main effect of donation amount. We will model this with an ordinary linear regression model, accounting for the same covariates as the other models.
+
+```{r}
+model_preserved_base = lm(update(base.formula, donation ~ .), data = trials)
+model_preserved_full = lm(update(base.formula, donation ~ . + preserved_metaphor), data = trials)
+
+anova(model_preserved_base, model_preserved_full, test = "Chisq")
+summ(model_preserved_full, confint = T, digits = 3)
+```
+
+#### Interaction of Preserved Metaphor on Donation Behavior
+
+```{r}
+print_crosstabs(ftable(trials$cond_metaphor, trials$description_metaphor))
+```
+
+```{r}
+trials %>%
+  filter(description_metaphor != "mixed") %>%
+  ggplot(aes(cond_metaphor, donation, color = description_metaphor)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2, position = position_dodge(width = 0.35)) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  coord_cartesian(ylim = c(20, 32))
+```
+
+
+NH: Donation amounts do not differ between participants who preserve the metaphor they were exposed to and those who did not preserve any metaphor.
+
+```{r}
+model_preserved_base = lm(update(base.formula, donation ~ . + cond_metaphor), 
+                          data = trials) #filter(trials, description_metaphor != "none"))
+model_preserved_mid = lm(update(base.formula, donation ~ . + cond_metaphor + description_metaphor), 
+                         data =  trials) #filter(trials, description_metaphor != "none"))
+model_preserved_full = lm(update(base.formula, donation ~ . + cond_metaphor * description_metaphor), 
+                          data =  trials) #filter(trials, description_metaphor != "none"))
+
+anova(model_preserved_base, model_preserved_mid, test = "Chisq")
+anova(model_preserved_mid, model_preserved_full, test = "Chisq")
+summ(model_preserved_full, confint = T, digits = 3)
+```
+
+```{r}
+model_urgent_base = lm(update(base.formula, urgent ~ .), 
+                       data = filter(trials, description_metaphor != "none"))
+model_urgent_full = lm(update(base.formula, urgent ~ . + I(description_metaphor == "battle")), 
+                       data = filter(trials, description_metaphor != "none"))
+
+anova(model_urgent_base, model_urgent_full, test = "Chisq")
+summ(model_urgent_full, confint = T, digits = 3)
+```
+
+
+# Donations by Metavariables
+
+## Main Stimulus Timing
+
+```{r}
+trials %>%
+  ggplot(aes(cond_metaphor, donation, color = rt_trial_group)) + itheme +
+  stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2, position = position_dodge(width = 0.35)) +
+  stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+  coord_cartesian(ylim = c(20, 30)) +
+  scale_color_brewer(palette = "Spectral") +
+  labs(title = "Donation by Metaphor Condition and Trial RT Group")
+```
+
+Participants’ donations depend on the amount of time they took reading the main stimulus
+
+```{r}
+levels(trials$rt_trial_group)
+```
+
+
+```{r}
+model_rtgroup_base = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials)
+model_rtgroup_mid = lm(update(base.formula, donation ~ . + cond_metaphor + rt_trial_group), data = trials)
+model_rtgroup_full = lm(update(base.formula, donation ~ . + cond_metaphor * rt_trial_group), data = trials)
+
+anova(model_rtgroup_base, model_rtgroup_mid, test = "Chisq")
+chisq_stat(model_rtgroup_base, model_rtgroup_mid)
+anova(model_rtgroup_mid, model_rtgroup_full, test = "Chisq")
+chisq_stat(model_rtgroup_mid, model_rtgroup_full)
+```
+
+
+H: Donors contribute more to campaigns which employ either battle or journey metaphors compared to campaigns that do not include one of these metaphors and is most apparent for participants who didn’t complete the stimulus in the fastest or slowest quarters
+
+```{r}
+trials$rt_trial.z = with(trials,  (log(rt_trial) - mean(log(rt_trial))) / (2*sd(log(rt_trial))))
+
+model_rtgroup_base = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials)
+model_rtgroup_mid = lm(update(base.formula, donation ~ . + cond_metaphor + rt_trial.z), data = trials)
+model_rtgroup_full = lm(update(base.formula, donation ~ . + cond_metaphor * rt_trial.z), data = trials)
+
+anova(model_rtgroup_base, model_rtgroup_mid, test = "Chisq")
+chisq_stat(model_rtgroup_base, model_rtgroup_mid)
+anova(model_rtgroup_mid, model_rtgroup_full, test = "Chisq")
+chisq_stat(model_rtgroup_mid, model_rtgroup_full)
+# summ(model_rtgroup_full, confint = T, digits = 3)
+```
+
+The addition of the response time on the main trial significantly improves model fit, including Any Metaphor. The addition of the interaction between response time on the main trial and Any Metaphor significantly improves model fit.
+
+## Overall Experiment Timing
+
+Participants’ donations depend on the amount of time they took answering all questions from the instructions to the feedback
+
+```{r}
+trials = trials %>%
+  mutate(rt_inner = rt_instructions + rt_trial + rt_description + rt_pastdonations + rt_urgent + rt_sympathy + rt_self_cancer + rt_ff_cancer + rt_demographic + rt_age)
+
+model_rtgroup_base = lm(update(base.formula, donation ~ . + cond_anymet), data = trials)
+model_rtgroup_mid = lm(update(base.formula, donation ~ . + cond_anymet + poly(scale(rt_inner),2)), data = trials)
+model_rtgroup_full = lm(update(base.formula, donation ~ . + cond_anymet * poly(scale(rt_inner),2)), data = trials)
+
+anova(model_rtgroup_base, model_rtgroup_mid, test = "Chisq")
+anova(model_rtgroup_mid, model_rtgroup_full, test = "Chisq")
+summ(model_rtgroup_full, confint = T, digits = 3)
+```
+
+The addition of the response time over the main experiment questions significantly improves model fit, including Any Metaphor. The addition of the interaction between response time on the main trial and Any Metaphor did not significantly improve model fit.
+
+Participants’ donations depend on the amount of time they took over the entire experiment
+
+```{r}
+model_rtgroup_base = lm(update(base.formula, donation ~ . + cond_anymet), data = trials)
+model_rtgroup_mid = lm(update(base.formula, donation ~ . + cond_anymet + poly(scale(total_time),2)), data = trials)
+model_rtgroup_full = lm(update(base.formula, donation ~ . + cond_anymet * poly(scale(total_time),2)), data = trials)
+
+anova(model_rtgroup_base, model_rtgroup_mid, test = "Chisq")
+anova(model_rtgroup_mid, model_rtgroup_full, test = "Chisq")
+summ(model_rtgroup_full, confint = T, digits = 3)
+```
+
+
+The addition of the total time significantly improves model fit, including Any Metaphor. The addition of the interaction between total time and Any Metaphor significantly improves model fit.
+
+```{r}
+ggplot(trials) + itheme +
+  geom_point(aes(rt_trial, donation))
+```
+
+
+
+
+
+

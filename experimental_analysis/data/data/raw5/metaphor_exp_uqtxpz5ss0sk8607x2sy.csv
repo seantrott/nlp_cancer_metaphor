@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,20616,consent.html,external-html,0,20745,0.0-0.0,uqtxpz5ss0sk8607x2sy,male,literal,,,,,,
+1,1788,,image-button-response,1,22537,0.0-1.0,uqtxpz5ss0sk8607x2sy,male,literal,check-1.png,1.0,check1,,,
+2,2234,,image-button-response,2,24773,0.0-2.0,uqtxpz5ss0sk8607x2sy,male,literal,check-2.png,2.0,check2,,,
+3,15319,,instructions,3,40093,0.0-3.0,uqtxpz5ss0sk8607x2sy,male,literal,,,,"[{""page_index"":0,""viewing_time"":3513},{""page_index"":1,""viewing_time"":6789},{""page_index"":2,""viewing_time"":3996},{""page_index"":3,""viewing_time"":1020}]",,
+4,18311,,html-slider-response,4,58407,0.0-4.0,uqtxpz5ss0sk8607x2sy,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,0.0,
+5,14594,,survey-text,5,73002,0.0-5.0,uqtxpz5ss0sk8607x2sy,male,literal,,,description,,,"{""Q0"":""He has cancer and is looking to receive help for medical costs.""}"
+6,7297,,survey-likert,6,80302,0.0-6.0-0.0,uqtxpz5ss0sk8607x2sy,male,literal,,,sympathy,,,"{""Q0"":4}"
+7,4264,,survey-likert,7,84569,0.0-6.0-1.0,uqtxpz5ss0sk8607x2sy,male,literal,,,urgent,,,"{""Q0"":5}"
+8,2883,,survey-text,8,87454,0.0-7.0,uqtxpz5ss0sk8607x2sy,male,literal,,,past-donations,,,"{""Q0"":""0""}"
+9,2364,,survey-multi-choice,9,89819,0.0-8.0-0.0,uqtxpz5ss0sk8607x2sy,male,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+10,1705,,survey-multi-choice,10,91527,0.0-8.0-1.0,uqtxpz5ss0sk8607x2sy,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,7354,,survey-multi-choice,11,98891,0.0-9.0,uqtxpz5ss0sk8607x2sy,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""Less than $10,000"",""Q3"":""Yes""}"
+12,2084,,survey-text,12,100976,0.0-10.0,uqtxpz5ss0sk8607x2sy,male,literal,,,age,,,"{""Q0"":""21""}"
+13,1411,,survey-text,13,102388,0.0-11.0,uqtxpz5ss0sk8607x2sy,male,literal,,,purpose,,,"{""Q0"":""""}"
+14,983,,survey-text,14,103372,0.0-12.0,uqtxpz5ss0sk8607x2sy,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,6780,debrief.html,external-html,15,110468,0.0-13.0,uqtxpz5ss0sk8607x2sy,male,literal,,,,,,

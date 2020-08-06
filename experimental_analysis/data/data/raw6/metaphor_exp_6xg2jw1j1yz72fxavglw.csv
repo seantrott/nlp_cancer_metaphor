@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,5614,consent.html,external-html,0,5743,0.0-0.0,6xg2jw1j1yz72fxavglw,female,literal,,,,,,
+1,1808,,image-button-response,1,7558,0.0-1.0,6xg2jw1j1yz72fxavglw,female,literal,check-1.png,1.0,check1,,,
+2,4928,,image-button-response,2,12489,0.0-2.0,6xg2jw1j1yz72fxavglw,female,literal,check-2.png,2.0,check2,,,
+3,35474,,instructions,3,47965,0.0-3.0,6xg2jw1j1yz72fxavglw,female,literal,,,,"[{""page_index"":0,""viewing_time"":6152},{""page_index"":1,""viewing_time"":21339},{""page_index"":2,""viewing_time"":6644},{""page_index"":3,""viewing_time"":1337}]",,
+4,40770,,html-slider-response,4,88741,0.0-4.0,6xg2jw1j1yz72fxavglw,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,0.0,
+5,55939,,survey-text,5,144685,0.0-5.0,6xg2jw1j1yz72fxavglw,female,literal,,,description,,,"{""Q0"":""I'd say that Jennifer has cancer and that she has a lot of treatment ahead of her. I don't know how well she's doing but I wish her the best.""}"
+6,7714,,survey-likert,6,152403,0.0-6.0-0.0,6xg2jw1j1yz72fxavglw,female,literal,,,urgent,,,"{""Q0"":4}"
+7,2855,,survey-likert,7,155262,0.0-6.0-1.0,6xg2jw1j1yz72fxavglw,female,literal,,,sympathy,,,"{""Q0"":6}"
+8,9510,,survey-text,8,164775,0.0-7.0,6xg2jw1j1yz72fxavglw,female,literal,,,past-donations,,,"{""Q0"":""15""}"
+9,3410,,survey-multi-choice,9,168190,0.0-8.0-0.0,6xg2jw1j1yz72fxavglw,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,2599,,survey-multi-choice,10,170793,0.0-8.0-1.0,6xg2jw1j1yz72fxavglw,female,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+11,10240,,survey-multi-choice,11,181047,0.0-9.0,6xg2jw1j1yz72fxavglw,female,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,3308,,survey-text,12,184359,0.0-10.0,6xg2jw1j1yz72fxavglw,female,literal,,,age,,,"{""Q0"":""47""}"
+13,21944,,survey-text,13,206307,0.0-11.0,6xg2jw1j1yz72fxavglw,female,literal,,,purpose,,,"{""Q0"":""how willing I'd be to donate to a gofundme.""}"
+14,2923,,survey-text,14,209233,0.0-12.0,6xg2jw1j1yz72fxavglw,female,literal,,,feedback,,,"{""Q0"":""""}"
+15,19605,debrief.html,external-html,15,229153,0.0-13.0,6xg2jw1j1yz72fxavglw,female,literal,,,,,,

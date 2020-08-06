@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,5218,consent.html,external-html,0,5226,0.0-0.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,,,,
+1,1788,,image-button-response,1,7016,0.0-1.0,8okcvl8c0s7hbm7ab1xk,female,literal,check-1.png,1.0,check1,,,
+2,3615,,image-button-response,2,10631,0.0-2.0,8okcvl8c0s7hbm7ab1xk,female,literal,check-2.png,2.0,check2,,,
+3,29032,,instructions,3,39663,0.0-3.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,,"[{""page_index"":0,""viewing_time"":5752},{""page_index"":1,""viewing_time"":15280},{""page_index"":2,""viewing_time"":6800},{""page_index"":3,""viewing_time"":1199}]",,
+4,36975,,html-slider-response,4,76640,0.0-4.0,8okcvl8c0s7hbm7ab1xk,female,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_literal.png"" class=""main-trial""/>",,trial,,30.0,
+5,36720,,survey-text,5,113361,0.0-5.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,description,,,"{""Q0"":""She is looking forward to a long course to get to a point of being cured.  I'm sure it'll be an expensive treatment but I hope she is successful.""}"
+6,124918,,survey-likert,6,238279,0.0-6.0-0.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,urgent,,,"{""Q0"":4}"
+7,2740,,survey-likert,7,241023,0.0-6.0-1.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,sympathy,,,"{""Q0"":6}"
+8,2941,,survey-text,8,243966,0.0-7.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,past-donations,,,"{""Q0"":""5""}"
+9,2975,,survey-multi-choice,9,246943,0.0-8.0-0.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,1916,,survey-multi-choice,10,248863,0.0-8.0-1.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,5907,,survey-multi-choice,11,254775,0.0-9.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,2852,,survey-text,12,257630,0.0-10.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,age,,,"{""Q0"":""48""}"
+13,9535,,survey-text,13,267166,0.0-11.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,purpose,,,"{""Q0"":""Not sure, but perhaps charitable behavior?""}"
+14,3240,,survey-text,14,270407,0.0-12.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,feedback,,,"{""Q0"":""No""}"
+15,1709,debrief.html,external-html,15,272224,0.0-13.0,8okcvl8c0s7hbm7ab1xk,female,literal,,,,,,

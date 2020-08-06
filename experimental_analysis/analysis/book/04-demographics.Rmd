@@ -1,0 +1,378 @@
+# Demographics {#demographics}
+
+How do the demographics of participants correlate with donation behavior? Much of these questions have been previously asked in relation to charitable donations, hopefully our results match these.
+
+## Patient Gender
+
+Not a demographic variable, but important to see before setting up congruence effects.
+
+```{r}
+trials %>%
+  ggplot(aes(cond_sex, donation)) + itheme +
+  geom_errorbars +
+  coord_cartesian(ylim = c(20, 30))
+```
+
+```{r}
+model_sex_base = lm(update(base.formula, donation ~ . - cond_sex), data = trials)
+model_sex_full = lm(update(base.formula, donation ~ .), data = trials)
+
+compare_lm(model_sex_base, model_sex_full)
+```
+
+
+## Gender
+
+NH: Men and women donate the same amounts on average
+
+```{r}
+# a = trials %>%
+#   filter(gender %in% c("M", "F")) %>%
+#   ggplot(aes(gender, donation)) + ptheme +
+#   labs(title = "Participant Gender and Donations\n") +
+#   stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2) +
+#   stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
+#   scale_x_discrete(labels = c("M" = "Male\n", "F" = "Female\n")) +
+#   scale_y_continuous(labels = scales::dollar) +
+#   coord_cartesian(ylim = c(20, 30)) +
+#   scale_color_brewer(palette = "Set1") +
+#   labs(x = element_blank(), y = "Donation") +
+#   geom_signif(comparisons = list(c("M", "F")),
+#               y_position = 26.7,
+#               tip_length = 0.01,
+#               textsize = 2.75,
+#               annotations = "list({\U03C7^2}(1) == 3.8, ~~ p < 0.06)",
+#               parse = T)
+# 
+# a
+```
+
+```{r}
+model_gender_base = lm(update(base.formula, donation ~ . - gender), 
+                       data = filter(trials, gender %in% c("M", "F")))
+model_gender_full  = lm(update(base.formula, donation ~ .), 
+                       data = filter(trials, gender %in% c("M", "F")))
+
+compare_lm(model_gender_base, model_gender_full)
+```
+
+Gender has a signficant relationship to donation amount (Chisq = 3.9, p < 0.05), with females donating about \$0.97 more than males.
+
+NH: Men and women donate the same amounts regardless of the family of metaphor they were exposed to
+
+```{r, fig.align='center'}
+g = trials %>%
+  filter(gender %in% c("M", "F")) %>%
+  ggplot(aes(cond_metaphor, donation, color = gender)) + itheme +
+  labs(title = "Interaction between Metaphor and Participant Gender") +
+  geom_errorbars +
+  scale_y_continuous(labels = scales::dollar) +
+  scale_x_discrete(expand = c(0, 1.5)) +
+  coord_cartesian(ylim = c(20, 30)) +
+  labs(x = "Metaphor Condition", y = "Donation")
+
+# ggsave("gender_metaphor.png", g, width = 7, height = 3)
+
+g
+```
+
+```{r}
+model_gender_base = lm(update(base.formula, donation ~ . + cond_metaphor - gender), 
+                       data = filter(trials, gender %in% c("M", "F")))
+model_gender_mid  = lm(update(base.formula, donation ~ . + cond_metaphor), 
+                       data = filter(trials, gender %in% c("M", "F")))
+model_gender_full = lm(update(base.formula, donation ~ . + cond_metaphor * gender), 
+                       data = filter(trials, gender %in% c("M", "F")))
+
+compare_lm(model_gender_base, model_gender_mid)
+compare_lm(model_gender_mid, model_gender_full)
+```
+
+Gender marginally significantly (p < 0.06) predicts donation conditional on metaphor condition, however there is no interaction between gender and metaphor.
+
+3-way interaction going on between `ppt gender`, `metaphor`, and `patient gender`.
+
+```{r}
+trials %>% 
+  filter(gender %in% c("M", "F")) %>%
+  mutate(gender = factor(gender)) %>% # to recode the levels of the variable
+  with(print_crosstabs(ftable(cond_metaphor, cond_sex, gender)))
+```
+
+```{r, fig.align='center'}
+trials %>%
+  filter(gender %in% c("M", "F")) %>%
+  ggplot(aes(cond_metaphor, donation, color = gender)) + itheme +
+  geom_errorbars +
+  labs(x = "Metaphor condition",
+       y = "Donation",
+       title = "Donation by metaphor, sex, and participent gender") +
+  facet_grid(~cond_sex) +
+  coord_cartesian(ylim = c(20, 30))
+```
+
+```{r}
+m1 = lm(data = trials, update(base.formula, donation ~ . + cond_metaphor*cond_sex*gender))
+m2 = lm(data = trials, update(base.formula, donation ~ . + cond_metaphor*cond_sex*gender))
+```
+
+There appears to be a difference between some of these factors (male and female participants exposed to the female battle condition and the male literal condition), although they could be suprious at this level of factorization.
+
+Male stereotype - males changed on battle
+
+## Gender Congruency Effects
+
+```{r}
+print_crosstabs(ftable(trials$cond_metaphor, trials$congruency))
+```
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(congruency, donation)) + itheme +
+  geom_errorbars +
+  labs(x = "Congruency", y = "Donation", title = "Donation by gender congruence") +
+  coord_cartesian(ylim=c(20, 30))
+```
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(cond_metaphor, donation, color = congruency)) + itheme +
+  geom_errorbars +
+  labs(x = "Congruency", y = "Donation", title = "Donation by gender congruence and metaphor") +
+  coord_cartesian(ylim=c(19, 29))
+```
+
+NH: Gender identity congruence for males and females does not affect donations
+
+```{r}
+model_congruent_base = lm(update(base.formula, donation ~ .), 
+                          data = trials)
+model_congruent_full = lm(update(base.formula, donation ~ . + congruency), 
+                          data = trials)
+
+compare_lm(model_congruent_base, model_congruent_full)
+```
+
+NH: Gender identity congruence for males and females does not affect donations conditional on metaphor
+
+```{r}
+model_congruent_base = lm(update(base.formula, donation ~ . + cond_metaphor), 
+                          data = trials)
+
+model_congruent_mid = lm(update(base.formula, donation ~ . + cond_metaphor + congruency), 
+                          data = trials)
+
+model_congruent_full = lm(update(base.formula, donation ~ . + cond_metaphor * congruency), 
+                          data = trials)
+
+compare_lm(model_congruent_base, model_congruent_mid)
+compare_lm(model_congruent_mid, model_congruent_full)
+```
+
+### Gender Congruence on Sympathy
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(cond_metaphor, sympathy, color = congruency)) + itheme +
+  geom_errorbars +
+  coord_cartesian(ylim = c(4.5, 6))
+```
+
+```{r}
+model_congruent_base = lm(update(base.formula, sympathy ~ . + cond_metaphor), 
+                          data = trials)
+model_congruent_mid = lm(update(base.formula, sympathy ~ . + cond_metaphor + congruency), 
+                          data = trials)
+model_congruent_full = lm(update(base.formula, sympathy ~ . + cond_metaphor * congruency), 
+                          data = trials)
+
+compare_lm(model_congruent_base, model_congruent_mid)
+compare_lm(model_congruent_mid, model_congruent_full)
+```
+
+Gender congruence does not have a significant linear relationship with perceived sympathy beyond the metaphor condition.
+
+### Gender Congruence on Urgency
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(cond_metaphor, urgent, color = congruency)) + itheme +
+  geom_errorbars +
+  coord_cartesian(ylim = c(4, 6))
+```
+
+```{r}
+model_congruent_base = lm(update(base.formula, urgent ~ . + cond_metaphor), 
+                          data = trials)
+model_congruent_mid = lm(update(base.formula, urgent ~ . + cond_metaphor + congruency), 
+                          data = trials)
+model_congruent_full = lm(update(base.formula, urgent ~ . + cond_metaphor * congruency), 
+                          data = trials)
+
+compare_lm(model_congruent_base, model_congruent_mid)
+compare_lm(model_congruent_mid, model_congruent_full)
+```
+
+Gender congruence does not have a significant linear relationship with perceived urgency beyond the metaphor condition.
+
+## Self Cancer
+
+H: Participants who have been treated for cancer donate more than those who haven't
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(self_cancer, donation)) + itheme +
+  geom_errorbars +
+  labs(x = "Self Cancer", y = "Donation", title = "Past self experience and donations") +
+  coord_cartesian(ylim = c(20, 35))
+```
+
+```{r}
+model_selfcancer_base = lm(update(base.formula, donation ~ . - self_cancer), data = trials)
+model_selfcancer_full = lm(update(base.formula, donation ~ .), data = trials)
+
+compare_lm(model_selfcancer_base, model_selfcancer_full)
+```
+
+Past personal experience with cancer significantly predicts donation behavior (Chisq = 8.9, p < 0.001)
+
+## Friends and Family Cancer
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(ff_cancer, donation)) + itheme +
+  geom_errorbars +
+  labs(x = "Friends & Family Cancer", y = "Donation", title = "Friends & family experience and donations") +
+  coord_cartesian(ylim = c(20, 35))
+```
+
+```{r}
+model_ffcancer_base = lm(update(base.formula, donation ~ . - ff_cancer), data = trials)
+model_ffcancer_full = lm(update(base.formula, donation ~ .), data = trials)
+
+compare_lm(model_ffcancer_base, model_ffcancer_full)
+```
+
+Past friends & family experience with cancer significantly predicts donation behavior (Chisq = 7.7, p < 0.001).
+
+```{r}
+# b = trials %>%
+#   filter(self_cancer != "OO") %>%
+#   ggplot(aes(self_cancer, donation)) + ptheme +
+#   stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.2) +
+#   stat_summary(fun.data = mean_se, geom = "point", shape = 5) +
+#   scale_x_discrete(labels = c("N" = "Have not been\ntreated", "Y" = "Have been treated")) +
+#   labs(x = element_blank(), y = "Donation", title = "Self has had Cancer Treatment\nand Donations") +
+#   scale_y_continuous(labels = scales::dollar) +
+#   coord_cartesian(ylim = c(20, 32)) +
+#   geom_signif(comparisons = list(c("N", "Y")),
+#               textsize = 2.75,
+#               y_position = 31,
+#               tip_length = c(0.05, 0.01),
+#               annotations = "list({\U03C7^2}(2) == 17.8, ~~ p < 0.001)",
+#               parse = T)
+```
+
+```{r}
+# g = grid.arrange(a, b, nrow = 1)
+# ggsave("covariates.png", g, width = pwidth, height = pheight, bg = "transparent")
+```
+
+## Education
+
+NH: Education level has no linear correlation with donation amount
+
+```{r, fig.align='center'}
+trials %>%
+  filter(education != "OO") %>%
+  mutate(education_order = ordered(education)) %>%
+  ggplot(aes(education_order, donation)) + itheme +
+  geom_errorbars +
+  labs(x = "Education", y = "Donation", title = "Education and donations") +
+  coord_cartesian(ylim = c(20, 30))
+```
+
+```{r}
+model_education_base = lm(update(base.formula, donation ~ . - education), 
+                              data = trials %>% 
+                                filter(education != "OO") %>%
+                                mutate(education = ordered(education)))
+model_education_full = lm(update(base.formula, donation ~ .), 
+                              data = trials %>% 
+                                filter(education != "OO") %>%
+                                mutate(education = ordered(education)))
+
+compare_lm(model_education_base, model_education_full)
+```
+
+There is not signficant evidence that donation behavior is related to socioeconomic status. However, there is a marginally significant linear predictor through the ordered predictor for socioeconomic status (t = 1.665, p < 0.1).
+
+## Socioeconomics
+
+NH: Socioeconomic status has no linear correlation with donation amount
+
+```{r, fig.align='center'}
+trials %>%
+  filter(socioeconomic != "OO") %>%
+  mutate(socioeconomic_order = ordered(socioeconomic)) %>%
+  ggplot(aes(socioeconomic_order, donation)) + itheme +
+  geom_errorbars +
+  labs(x = "Socioeconomics", y = "Donation", title = "Socioeconomic and donations") +
+  coord_cartesian(ylim = c(20, 30))
+```
+
+```{r}
+model_socioeconomic_base = lm(update(base.formula, donation ~ . - socioeconomic), 
+                              data = trials %>% 
+                                filter(socioeconomic != "OO") %>%
+                                mutate(socioeconomic = ordered(socioeconomic)))
+model_socioeconomic_full = lm(update(base.formula, donation ~ .), 
+                              data = trials %>% 
+                                filter(socioeconomic != "OO") %>%
+                                mutate(socioeconomic = ordered(socioeconomic)))
+
+compare_lm(model_socioeconomic_base, model_socioeconomic_full)
+```
+
+There is not signficant evidence that donation behavior is related to socioeconomic status. However, there is a marginally significant linear predictor through the ordered predictor for socioeconomic status (t = 1.665, p < 0.1).
+
+## Past Donations
+
+NH: Participants with no history of charitable behavior have the same donation behavior as those with a history of charitable behavior
+
+```{r, fig.align='center'}
+trials %>%
+  ggplot(aes(past_donations, donation)) + itheme +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm") +
+  labs(x = "Past Donations", y = "Donation", title = "Past Donations and Donations")
+```
+
+```{r}
+model_pastdonations_base = lm(update(base.formula, donation ~ . - past_donations.z), data = trials)
+model_pastdonations_full = lm(update(base.formula, donation ~ .), data = trials)
+
+compare_lm(model_pastdonations_base, model_pastdonations_full)
+```
+
+## Age
+
+```{r, fig.align='center'}
+ggplot(trials, aes(age, donation)) + itheme +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2))
+```
+
+```{r}
+model_age_base = lm(update(base.formula, donation ~ . - age.z), 
+                              data = trials)
+model_age_mid = lm(update(base.formula, donation ~ .), 
+                              data = trials)
+model_age_full = lm(update(base.formula, donation ~ . + I(age.z^2)),
+                              data = trials)
+
+compare_lm(model_age_base, model_age_mid)
+compare_lm(model_age_mid, model_age_full)
+```
+
+## Summary

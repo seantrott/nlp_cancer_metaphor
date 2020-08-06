@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,69822,consent.html,external-html,0,70020,0.0-0.0,gw0tz355gy2xrauzvzlq,male,literal,,,,,,
+1,2582,,image-button-response,1,72609,0.0-1.0,gw0tz355gy2xrauzvzlq,male,literal,check-1.png,1.0,check1,,,
+2,3580,,image-button-response,2,76191,0.0-2.0,gw0tz355gy2xrauzvzlq,male,literal,check-2.png,2.0,check2,,,
+3,34304,,instructions,3,110496,0.0-3.0,gw0tz355gy2xrauzvzlq,male,literal,,,,"[{""page_index"":0,""viewing_time"":2991},{""page_index"":1,""viewing_time"":24888},{""page_index"":2,""viewing_time"":5152},{""page_index"":3,""viewing_time"":1272}]",,
+4,41589,,html-slider-response,4,152087,0.0-4.0,gw0tz355gy2xrauzvzlq,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,0.0,
+5,35238,,survey-text,5,187327,0.0-5.0,gw0tz355gy2xrauzvzlq,male,literal,,,description,,,"{""Q0"":""He has cancer and requires ongoing chemo treatments""}"
+6,5014,,survey-likert,6,192344,0.0-6.0-0.0,gw0tz355gy2xrauzvzlq,male,literal,,,urgent,,,"{""Q0"":4}"
+7,2846,,survey-likert,7,195192,0.0-6.0-1.0,gw0tz355gy2xrauzvzlq,male,literal,,,sympathy,,,"{""Q0"":6}"
+8,3645,,survey-text,8,198839,0.0-7.0,gw0tz355gy2xrauzvzlq,male,literal,,,past-donations,,,"{""Q0"":""12""}"
+9,2630,,survey-multi-choice,9,201472,0.0-8.0-0.0,gw0tz355gy2xrauzvzlq,male,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+10,1724,,survey-multi-choice,10,203199,0.0-8.0-1.0,gw0tz355gy2xrauzvzlq,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,4925,,survey-multi-choice,11,208136,0.0-9.0,gw0tz355gy2xrauzvzlq,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,3213,,survey-text,12,211351,0.0-10.0,gw0tz355gy2xrauzvzlq,male,literal,,,age,,,"{""Q0"":""40""}"
+13,5567,,survey-text,13,216919,0.0-11.0,gw0tz355gy2xrauzvzlq,male,literal,,,purpose,,,"{""Q0"":""charity""}"
+14,2622,,survey-text,14,219542,0.0-12.0,gw0tz355gy2xrauzvzlq,male,literal,,,feedback,,,"{""Q0"":""no""}"
+15,4550,debrief.html,external-html,15,224321,0.0-13.0,gw0tz355gy2xrauzvzlq,male,literal,,,,,,

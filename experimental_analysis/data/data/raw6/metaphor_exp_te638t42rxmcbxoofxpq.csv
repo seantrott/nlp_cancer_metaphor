@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,14077,consent.html,external-html,0,14245,0.0-0.0,te638t42rxmcbxoofxpq,male,journey,,,,,,
+1,2232,,image-button-response,1,16481,0.0-1.0,te638t42rxmcbxoofxpq,male,journey,check-1.png,1.0,check1,,,
+2,3773,,image-button-response,2,20256,0.0-2.0,te638t42rxmcbxoofxpq,male,journey,check-2.png,2.0,check2,,,
+3,18672,,instructions,3,38929,0.0-3.0,te638t42rxmcbxoofxpq,male,journey,,,,"[{""page_index"":0,""viewing_time"":4015},{""page_index"":1,""viewing_time"":10976},{""page_index"":2,""viewing_time"":2592},{""page_index"":3,""viewing_time"":1088}]",,
+4,39216,,html-slider-response,4,78148,0.0-4.0,te638t42rxmcbxoofxpq,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,10.0,
+5,70449,,survey-text,5,148599,0.0-5.0,te638t42rxmcbxoofxpq,male,journey,,,description,,,"{""Q0"":""He has stage II lymphoma. Having to do chemo after his surgery, combined with the medical bills he is likely to accrue, he needs funding.""}"
+6,5638,,survey-likert,6,154240,0.0-6.0-0.0,te638t42rxmcbxoofxpq,male,journey,,,urgent,,,"{""Q0"":5}"
+7,2530,,survey-likert,7,156776,0.0-6.0-1.0,te638t42rxmcbxoofxpq,male,journey,,,sympathy,,,"{""Q0"":6}"
+8,3610,,survey-text,8,160391,0.0-7.0,te638t42rxmcbxoofxpq,male,journey,,,past-donations,,,"{""Q0"":""2""}"
+9,3322,,survey-multi-choice,9,163716,0.0-8.0-0.0,te638t42rxmcbxoofxpq,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+10,2736,,survey-multi-choice,10,166467,0.0-8.0-1.0,te638t42rxmcbxoofxpq,male,journey,,,ff-cancer,,,"{""Q0"":""No""}"
+11,9949,,survey-multi-choice,11,176432,0.0-9.0,te638t42rxmcbxoofxpq,male,journey,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""More than $150,000"",""Q3"":""Yes""}"
+12,3528,,survey-text,12,179965,0.0-10.0,te638t42rxmcbxoofxpq,male,journey,,,age,,,"{""Q0"":""38""}"
+13,14547,,survey-text,13,194513,0.0-11.0,te638t42rxmcbxoofxpq,male,journey,,,purpose,,,"{""Q0"":""perceptions of likeliness to donate""}"
+14,2566,,survey-text,14,197080,0.0-12.0,te638t42rxmcbxoofxpq,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,6693,debrief.html,external-html,15,204059,0.0-13.0,te638t42rxmcbxoofxpq,male,journey,,,,,,

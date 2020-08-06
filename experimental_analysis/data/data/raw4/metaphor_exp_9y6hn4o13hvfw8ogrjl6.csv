@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,34341,consent.html,external-html,0,36095,0.0-0.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,,,,
+1,4466,,image-button-response,1,40570,0.0-1.0,9y6hn4o13hvfw8ogrjl6,male,literal,check-1.png,1.0,check1,,,
+2,8502,,image-button-response,2,49075,0.0-2.0,9y6hn4o13hvfw8ogrjl6,male,literal,check-2.png,2.0,check2,,,
+3,50468,,instructions,3,99544,0.0-3.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,,"[{""page_index"":0,""viewing_time"":14507},{""page_index"":1,""viewing_time"":29427},{""page_index"":2,""viewing_time"":4911},{""page_index"":3,""viewing_time"":1622}]",,
+4,42703,,html-slider-response,4,142250,0.0-4.0,9y6hn4o13hvfw8ogrjl6,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,50.0,
+5,74108,,survey-text,5,216361,0.0-5.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,description,,,"{""Q0"":""a friend who steals can be trusted not to steal ""}"
+6,15780,,survey-likert,6,232143,0.0-6.0-0.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,sympathy,,,"{""Q0"":6}"
+7,7168,,survey-likert,7,239314,0.0-6.0-1.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,urgent,,,"{""Q0"":5}"
+8,19642,,survey-text,8,258959,0.0-7.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,past-donations,,,"{""Q0"":""1""}"
+9,5941,,survey-multi-choice,9,264904,0.0-8.0-0.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+10,6065,,survey-multi-choice,10,270971,0.0-8.0-1.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,ff-cancer,,,"{""Q0"":""No""}"
+11,26557,,survey-multi-choice,11,297540,0.0-9.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,7369,,survey-text,12,304911,0.0-10.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,age,,,"{""Q0"":""34""}"
+13,7994,,survey-text,13,312906,0.0-11.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,purpose,,,"{""Q0"":""""}"
+14,6903,,survey-text,14,319810,0.0-12.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,feedback,,,"{""Q0"":""""}"
+15,6749,debrief.html,external-html,15,328633,0.0-13.0,9y6hn4o13hvfw8ogrjl6,male,literal,,,,,,

@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,17510,consent.html,external-html,0,17528,0.0-0.0,e6cr1dtn0njqypvbv7ru,male,journey,,,,,,
+1,3088,,image-button-response,1,20627,0.0-1.0,e6cr1dtn0njqypvbv7ru,male,journey,check-1.png,1.0,check1,,,
+2,3397,,image-button-response,2,24027,0.0-2.0,e6cr1dtn0njqypvbv7ru,male,journey,check-2.png,2.0,check2,,,
+3,22931,,instructions,3,46959,0.0-3.0,e6cr1dtn0njqypvbv7ru,male,journey,,,,"[{""page_index"":0,""viewing_time"":5501},{""page_index"":1,""viewing_time"":12670},{""page_index"":2,""viewing_time"":3989},{""page_index"":3,""viewing_time"":770}]",,
+4,31181,,html-slider-response,4,78143,0.0-4.0,e6cr1dtn0njqypvbv7ru,male,journey,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_journey.png"" class=""main-trial""/>",,trial,,20.0,
+5,63608,,survey-text,5,141754,0.0-5.0,e6cr1dtn0njqypvbv7ru,male,journey,,,description,,,"{""Q0"":""Jason is suffering from lymphoma and will undergo chemo for the next few months. Jason was suffering some minor nausea from his first treatment but has a long road of recovery. Each round of chemo will be every few weeks. Jason's best friend has raised a fundraiser to contribute money to his recovery.""}"
+6,5325,,survey-likert,6,147082,0.0-6.0-0.0,e6cr1dtn0njqypvbv7ru,male,journey,,,sympathy,,,"{""Q0"":4}"
+7,3476,,survey-likert,7,150566,0.0-6.0-1.0,e6cr1dtn0njqypvbv7ru,male,journey,,,urgent,,,"{""Q0"":3}"
+8,3212,,survey-text,8,153785,0.0-7.0,e6cr1dtn0njqypvbv7ru,male,journey,,,past-donations,,,"{""Q0"":""1""}"
+9,2398,,survey-multi-choice,9,156188,0.0-8.0-0.0,e6cr1dtn0njqypvbv7ru,male,journey,,,self-cancer,,,"{""Q0"":""No""}"
+10,2429,,survey-multi-choice,10,158625,0.0-8.0-1.0,e6cr1dtn0njqypvbv7ru,male,journey,,,ff-cancer,,,"{""Q0"":""No""}"
+11,10035,,survey-multi-choice,11,168674,0.0-9.0,e6cr1dtn0njqypvbv7ru,male,journey,,,demographics,,,"{""Q0"":""Female"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$50,000 through $74,999"",""Q3"":""Yes""}"
+12,4043,,survey-text,12,172722,0.0-10.0,e6cr1dtn0njqypvbv7ru,male,journey,,,age,,,"{""Q0"":""25""}"
+13,26165,,survey-text,13,198889,0.0-11.0,e6cr1dtn0njqypvbv7ru,male,journey,,,purpose,,,"{""Q0"":""The survey measures how far one is willing to give money considering a situation and money for their personal gain.""}"
+14,1530,,survey-text,14,200421,0.0-12.0,e6cr1dtn0njqypvbv7ru,male,journey,,,feedback,,,"{""Q0"":""""}"
+15,24946,debrief.html,external-html,15,225690,0.0-13.0,e6cr1dtn0njqypvbv7ru,male,journey,,,,,,

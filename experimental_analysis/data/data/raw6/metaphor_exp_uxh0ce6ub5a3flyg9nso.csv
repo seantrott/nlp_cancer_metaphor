@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,12205,consent.html,external-html,0,12218,0.0-0.0,uxh0ce6ub5a3flyg9nso,female,battle,,,,,,
+1,2745,,image-button-response,1,14964,0.0-1.0,uxh0ce6ub5a3flyg9nso,female,battle,check-1.png,1.0,check1,,,
+2,3618,,image-button-response,2,18584,0.0-2.0,uxh0ce6ub5a3flyg9nso,female,battle,check-2.png,2.0,check2,,,
+3,25132,,instructions,3,43716,0.0-3.0,uxh0ce6ub5a3flyg9nso,female,battle,,,,"[{""page_index"":0,""viewing_time"":4534},{""page_index"":1,""viewing_time"":14361},{""page_index"":2,""viewing_time"":4924},{""page_index"":3,""viewing_time"":1312}]",,
+4,38002,,html-slider-response,4,81720,0.0-4.0,uxh0ce6ub5a3flyg9nso,female,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_female_battle.png"" class=""main-trial""/>",,trial,,30.0,
+5,66216,,survey-text,5,147938,0.0-5.0,uxh0ce6ub5a3flyg9nso,female,battle,,,description,,,"{""Q0"":""Jennifer's situation is one that she has recently gotten Cancer. She is battling with this for a week now and is just going to set off into the journey of months battling cancer. She is going to experience many hardships with the Cancer and will need help to cover some of the expenses.""}"
+6,18375,,survey-likert,6,166315,0.0-6.0-0.0,uxh0ce6ub5a3flyg9nso,female,battle,,,urgent,,,"{""Q0"":5}"
+7,7340,,survey-likert,7,173660,0.0-6.0-1.0,uxh0ce6ub5a3flyg9nso,female,battle,,,sympathy,,,"{""Q0"":5}"
+8,4078,,survey-text,8,177741,0.0-7.0,uxh0ce6ub5a3flyg9nso,female,battle,,,past-donations,,,"{""Q0"":""2""}"
+9,2962,,survey-multi-choice,9,180705,0.0-8.0-0.0,uxh0ce6ub5a3flyg9nso,female,battle,,,ff-cancer,,,"{""Q0"":""No""}"
+10,2343,,survey-multi-choice,10,183054,0.0-8.0-1.0,uxh0ce6ub5a3flyg9nso,female,battle,,,self-cancer,,,"{""Q0"":""No""}"
+11,12706,,survey-multi-choice,11,195768,0.0-9.0,uxh0ce6ub5a3flyg9nso,female,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$10,000 through $24,999"",""Q3"":""Yes""}"
+12,3266,,survey-text,12,199038,0.0-10.0,uxh0ce6ub5a3flyg9nso,female,battle,,,age,,,"{""Q0"":""20""}"
+13,28580,,survey-text,13,227619,0.0-11.0,uxh0ce6ub5a3flyg9nso,female,battle,,,purpose,,,"{""Q0"":""To see how much a person is willing to donate if given $50. How kind human nature is?""}"
+14,2266,,survey-text,14,229886,0.0-12.0,uxh0ce6ub5a3flyg9nso,female,battle,,,feedback,,,"{""Q0"":""""}"
+15,35280,debrief.html,external-html,15,265232,0.0-13.0,uxh0ce6ub5a3flyg9nso,female,battle,,,,,,

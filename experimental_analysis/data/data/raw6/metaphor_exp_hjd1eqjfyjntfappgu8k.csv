@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,16456,consent.html,external-html,0,16574,0.0-0.0,hjd1eqjfyjntfappgu8k,male,literal,,,,,,
+1,7600,,image-button-response,1,24189,0.0-1.0,hjd1eqjfyjntfappgu8k,male,literal,check-1.png,1.0,check1,,,
+2,11349,,image-button-response,2,35543,0.0-2.0,hjd1eqjfyjntfappgu8k,male,literal,check-2.png,2.0,check2,,,
+3,41768,,instructions,3,77313,0.0-3.0,hjd1eqjfyjntfappgu8k,male,literal,,,,"[{""page_index"":0,""viewing_time"":26415},{""page_index"":1,""viewing_time"":3053},{""page_index"":2,""viewing_time"":8317},{""page_index"":3,""viewing_time"":3981}]",,
+4,92560,,html-slider-response,4,169880,0.0-4.0,hjd1eqjfyjntfappgu8k,male,literal,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_male_literal.png"" class=""main-trial""/>",,trial,,39.0,
+5,56189,,survey-text,5,226073,0.0-5.0,hjd1eqjfyjntfappgu8k,male,literal,,,description,,,"{""Q0"":""VERY CRITICAL.. NEED HELP TO RECOVER...""}"
+6,24068,,survey-likert,6,250147,0.0-6.0-0.0,hjd1eqjfyjntfappgu8k,male,literal,,,sympathy,,,"{""Q0"":5}"
+7,17046,,survey-likert,7,267198,0.0-6.0-1.0,hjd1eqjfyjntfappgu8k,male,literal,,,urgent,,,"{""Q0"":4}"
+8,10010,,survey-text,8,277212,0.0-7.0,hjd1eqjfyjntfappgu8k,male,literal,,,past-donations,,,"{""Q0"":""2""}"
+9,7357,,survey-multi-choice,9,284627,0.0-8.0-0.0,hjd1eqjfyjntfappgu8k,male,literal,,,ff-cancer,,,"{""Q0"":""Yes""}"
+10,17002,,survey-multi-choice,10,301638,0.0-8.0-1.0,hjd1eqjfyjntfappgu8k,male,literal,,,self-cancer,,,"{""Q0"":""No""}"
+11,25401,,survey-multi-choice,11,327084,0.0-9.0,hjd1eqjfyjntfappgu8k,male,literal,,,demographics,,,"{""Q0"":""Male"",""Q1"":""High school degree or equivalent (e.g. GED)"",""Q2"":""$25,000 through $49,999"",""Q3"":""Yes""}"
+12,6979,,survey-text,12,334068,0.0-10.0,hjd1eqjfyjntfappgu8k,male,literal,,,age,,,"{""Q0"":""41""}"
+13,22506,,survey-text,13,356577,0.0-11.0,hjd1eqjfyjntfappgu8k,male,literal,,,purpose,,,"{""Q0"":""""}"
+14,52814,,survey-text,14,409395,0.0-12.0,hjd1eqjfyjntfappgu8k,male,literal,,,feedback,,,"{""Q0"":""THIS EXPERIMENT GOOD FOR CANCER PATIENTS... ""}"
+15,14786,debrief.html,external-html,15,426567,0.0-13.0,hjd1eqjfyjntfappgu8k,male,literal,,,,,,

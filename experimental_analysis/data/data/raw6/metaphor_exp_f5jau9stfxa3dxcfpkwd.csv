@@ -1,0 +1,17 @@
+,rt,url,trial_type,trial_index,time_elapsed,internal_node_id,ppt,recipient_sex,metaphor,stimulus,button_pressed,qtype,view_history,response,responses
+0,13800,consent.html,external-html,0,13832,0.0-0.0,f5jau9stfxa3dxcfpkwd,male,battle,,,,,,
+1,5425,,image-button-response,1,19261,0.0-1.0,f5jau9stfxa3dxcfpkwd,male,battle,check-1.png,1.0,check1,,,
+2,9705,,image-button-response,2,28969,0.0-2.0,f5jau9stfxa3dxcfpkwd,male,battle,check-2.png,0.0,check2,,,
+3,65695,,instructions,3,94665,0.0-3.0,f5jau9stfxa3dxcfpkwd,male,battle,,,,"[{""page_index"":0,""viewing_time"":8722},{""page_index"":1,""viewing_time"":51035},{""page_index"":2,""viewing_time"":2500},{""page_index"":3,""viewing_time"":3436}]",,
+4,23038,,html-slider-response,4,117711,0.0-4.0,f5jau9stfxa3dxcfpkwd,male,battle,"<h3>Please carefully read the following campaign, and indicate below how     much you would donate.</h3><p>Once you are satisfied, press ""Continue"" at the bottom.</p>    <br><img src=""condition_mb.png"" class=""main-trial""/>",,trial,,39.0,
+5,178293,,survey-text,5,296006,0.0-5.0,f5jau9stfxa3dxcfpkwd,male,battle,,,description,,,"{""Q0"":""\n\n least he had found the correct profession. ...\nThe government operating in its correct role is instrumental to civilization. ...\nMaybe. ...\nLater, as she looked down at his sleeping form, she was silently cursing the doctor because his diagnosis was correct, but for the wrong partner.""}"
+6,12509,,survey-likert,6,308519,0.0-6.0-0.0,f5jau9stfxa3dxcfpkwd,male,battle,,,sympathy,,,"{""Q0"":3}"
+7,5607,,survey-likert,7,314128,0.0-6.0-1.0,f5jau9stfxa3dxcfpkwd,male,battle,,,urgent,,,"{""Q0"":3}"
+8,13000,,survey-text,8,327130,0.0-7.0,f5jau9stfxa3dxcfpkwd,male,battle,,,past-donations,,,"{""Q0"":""2""}"
+9,7976,,survey-multi-choice,9,335110,0.0-8.0-0.0,f5jau9stfxa3dxcfpkwd,male,battle,,,self-cancer,,,"{""Q0"":""No""}"
+10,8289,,survey-multi-choice,10,343401,0.0-8.0-1.0,f5jau9stfxa3dxcfpkwd,male,battle,,,ff-cancer,,,"{""Q0"":""No""}"
+11,27830,,survey-multi-choice,11,371246,0.0-9.0,f5jau9stfxa3dxcfpkwd,male,battle,,,demographics,,,"{""Q0"":""Male"",""Q1"":""Bachelor’s degree (e.g. BA, BS)"",""Q2"":""$100,000 through $149,999"",""Q3"":""Yes""}"
+12,8843,,survey-text,12,380090,0.0-10.0,f5jau9stfxa3dxcfpkwd,male,battle,,,age,,,"{""Q0"":""35""}"
+13,15562,,survey-text,13,395653,0.0-11.0,f5jau9stfxa3dxcfpkwd,male,battle,,,purpose,,,"{""Q0"":""""}"
+14,98533,,survey-text,14,494187,0.0-12.0,f5jau9stfxa3dxcfpkwd,male,battle,,,feedback,,,"{""Q0"":""Use a one-question pop-up poll to gather feedback on specific web pages. Because this question is completely open-ended, meaning that you are not restricting""}"
+15,8358,debrief.html,external-html,15,502960,0.0-13.0,f5jau9stfxa3dxcfpkwd,male,battle,,,,,,
