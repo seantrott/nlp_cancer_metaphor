@@ -1,0 +1,52 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+dat = read.csv("../../data/processed/gofundme_projects.csv")
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+dat = dat[dat$year >= 2013, ]
+dat = dat[dat$from_US == 1, ]
+
+dat$no_metaphor = dat$battle_salience == 0.0 & dat$journey_salience == 0.0
+dat$any_metaphor = as.logical(1 - dat$no_metaphor)
+dat$dom_journey = dat$journey_salience > dat$battle_salience
+dat$dom_battle = dat$battle_salience > dat$journey_salience
+dat$only_journey = dat$journey_salience > 0 & dat$battle_salience == 0.0
+dat$only_battle = dat$journey_salience == 0.0 & dat$battle_salience > 0
+dat$both_metaphor = dat$battle_salience > 0.0 & dat$journey_salience > 0.0
+
+dat$battle_prod = scale(dat$battle_prod)
+dat$journey_prod = scale(dat$journey_prod)
+dat$battle_salience = scale(dat$battle_salience)
+dat$journey_salience = scale(dat$journey_salience)
+
+metaphor_counts = data.frame(counts = colSums(dat[, c("no_metaphor", "any_metaphor", "dom_journey", "dom_battle", "only_journey", "only_battle", "both_metaphor")]))
+```
+
+In order to find projects to use for Experiment 2, using
+
+```{r}
+mask = dat$text_length_words > 250 & 
+       dat$text_length_words < 750 &
+       dat$goal > 5000
+
+dat[mask, ] %>%
+  ggplot() + geom_boxplot(aes(x=cancer_type, y=battle_salience), varwidth=T, outlier.alpha = 0.2) + coord_flip()
+```
+
+```{r}
+d = dat[mask & dat$cancer_type == "lymphoma", c("url", "journey_salience", "battle_salience")]
+d[order(d$battle_salience), ]
+```
