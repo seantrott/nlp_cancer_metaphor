@@ -1,28 +1,8 @@
 # Metaphors {#metaphors}
 
-```{r}
-library(pwr)
+This file asks a variety of exploratory questions related to the impact that metaphor framing has on donation.
 
-r.sq = function(mod.base, mod.full) {
-  #' Calculate the R-squared value given two nested models
-  #' 
-  #' The variance explained by a full model beyond that which is explained by the reduced model.
-  #' Technically, a difference in sum of squared residuals divided by the base model's sum of squared residuals
-  #' Adapted from Larsen & Marx (2018) pg. 566
-  
-  return((sum(resid(mod.base)^2) - sum(resid(mod.full)^2)) / sum(resid(mod.base)^2))
-}
-f.sq = function(mod.null, mod.base, mod.full) {
-  #' Calculate the f-squared effect size from two R-squared values
-  #'
-  #' Adapted from Cohen (1988) pg. 409
-  
-  R2.base = r.sq(mod.null, mod.base)
-  R2.full = r.sq(mod.null, mod.full)
-  
-  return((R2.full - R2.base) / (1 - R2.full))
-}
-```
+First, we ask some immediately interesting alternative questions following our confirmatory analysis. After this, we test the relationship between metaphor framing and donation behavior on a more coarse scale. We then assess several other models, including tree based models.
 
 ## Immediate Alternative Questions
 
@@ -34,9 +14,7 @@ model_journey_literal_base = lm(update(base.formula, donation ~ .), data = trial
 model_journey_literal_full = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[journey_mask, ])
 
 compare_lm(model_journey_literal_base, model_journey_literal_full)
-```
 
-```{r}
 f.sq(
   lm(update(base.formula, donation ~ 1), data = trials[journey_mask, ]),
   model_journey_literal_base,
@@ -54,9 +32,7 @@ model_battle_literal_base = lm(update(base.formula, donation ~ .), data = trials
 model_battle_literal_full = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[battle_mask, ])
 
 compare_lm(model_battle_literal_base, model_battle_literal_full)
-```
 
-```{r}
 f.sq(
   lm(update(base.formula, donation ~ 1), data = trials[battle_mask, ]),
   model_battle_literal_base,
@@ -74,70 +50,35 @@ model_battle_journey_base = lm(update(base.formula, donation ~ .), data = trials
 model_battle_journey_full = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[literal_mask, ])
 
 compare_lm(model_battle_journey_base, model_battle_journey_full)
-```
 
-a = 0.05, u = 1, N = `r sum(literal_mask)` 2971, f2 = `r f` 0.0013, w = 24, v = N - u - w - 1 = 2945
-
-lam = 0.0013 * (1 + 2945 + 1) = 3.83
-
-
-```{r}
 f <- f.sq(
   lm(donation ~ 1, data = trials[literal_mask, ]),
   model_battle_journey_base,
   model_battle_journey_full
 )
-f
-length(coef(model_battle_journey_base))-1
 ```
+
+With the hold-out data of 1,012, we'd have 23% power to detect a significant main effect of metaphor given the two conditions levels.
 
 There is a significant difference in donation amounts between participants exposed to battle metaphors and participants exposed to journey metaphors (Chisq = 4.0, p < 0.05).
 
 ```{r}
+f
+length(coef(model_battle_journey_base))-1
 power = pwr.f2.test(u = 1, v = NULL, f2 = f, power = 0.9)
 power
 ```
 
-
 ```{r}
-# g = trials %>%
-#   ggplot(aes(cond_anymet, donation)) + ptheme +
-#   stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2) +
-#   stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
-#   scale_x_discrete(labels = c("FALSE" = "Literal\n", "TRUE" = "Any\nMetaphor")) +
-#   scale_y_continuous(labels = scales::dollar) +
-#   coord_cartesian(ylim = c(22, 27)) +
-#   labs(x = element_blank(), y = "Donation") +
-#   geom_signif(comparisons = list(c("FALSE", "TRUE")),
-#               y_position = 26,
-#               tip_length = 0.01,
-#               textsize = 2.75,
-#               annotations = "list({\U03C7^2}(1) == 0.8, ~~ ns)",
-#               parse = T)
-# 
-# g
-
-# ggsave("any_metaphor_donation.png", g, width = pwidth/3, height = pheight, bg = "transparent")
-```
-
-```{r}
-x <- rnorm(100, 5, 2)
-Hmisc::smean.sd(x)
-mean_sdl(x, mult=1.96)
-```
-
-```{r}
-ggplot(trials, aes(cond_metaphor, donation)) +
+trials %>%
+  filter(gender %in% c("M", "F")) %>%
+  ggplot(aes(cond_metaphor, donation, color = gender)) +
   theme_minimal() +
-  geom_jitter(width = 0.05, alpha = 0.05, height = 1) +
-  stat_summary(fun.data = mean_sdl, geom = "errorbar", width = 0.1)
+  # geom_jitter(alpha = 0.05, position = position_dodge(width = 0.3), ) +
+  geom_point(alpha = 0.1, position = position_jitterdodge(jitter.width = 0.2, jitter.height = 0.2, dodge.width = 0.4)) +
+  stat_summary(fun.data = mean_sdl, geom = "errorbar", width = 0.1, position = position_dodge(width = 0.4)) +
+  facet_grid(~cond_sex)
 ```
-
-```{r}
-nrow(trials)
-```
-
-
 
 ```{r}
 g = trials %>%

@@ -25,6 +25,7 @@ library(gridExtra) # for combining plots
 # library(showtext) # for custom fonts in presentation graphs
 library(ggsignif)
 library(glue)
+library(pwr)
 ```
 
 ## Load Data
@@ -32,7 +33,7 @@ library(glue)
 Created via `exclusion.Rmd`, originally from `clean_data.R`. Here, we trim off some outliers in the `age` and `past_donations` columns (then fill in missing values with the new mean).
 
 ```{r}
-trials <- read_csv("../experimental/data/data_clean_excluded.csv", col_types = cols()) %>%
+trials <- read_csv("../../data/data_clean_trial_large_filtered.csv", col_types = cols()) %>%
 
   # remove outliers in past_donations and age which lie greater than 3 SDs away
   # filter(past_donations < (mean(past_donations, na.rm = T) + 3*sd(past_donations, na.rm = T))) %>%
@@ -102,6 +103,9 @@ print_crosstabs <- function(tab) {
 pvalue_show_summary <- 0.1
 
 compare_lm <- function (base, full, force_summary = F) {
+  #' Compare two linear or generalized linear models using a Chisq difference test
+  #'
+  
   a <- anova(base, full, test = "Chisq")
   print(a)
   print.noquote(paste("Chisq Stat: ", as.numeric(round(2*(logLik(full) - logLik(base)), 3))))
@@ -114,6 +118,25 @@ compare_lm <- function (base, full, force_summary = F) {
       print(summary(full))
     }
   }
+}
+r.sq = function(mod.base, mod.full) {
+  #' Calculate the R-squared value given two nested models
+  #' 
+  #' The variance explained by a full model beyond that which is explained by the reduced model.
+  #' Technically, a difference in sum of squared residuals divided by the base model's sum of squared residuals
+  #' Adapted from Larsen & Marx (2018) pg. 566
+  
+  return((sum(resid(mod.base)^2) - sum(resid(mod.full)^2)) / sum(resid(mod.base)^2))
+}
+f.sq = function(mod.null, mod.base, mod.full) {
+  #' Calculate the f-squared effect size from two R-squared values
+  #'
+  #' Adapted from Cohen (1988) pg. 409
+  
+  R2.base = r.sq(mod.null, mod.base)
+  R2.full = r.sq(mod.null, mod.full)
+  
+  return((R2.full - R2.base) / (1 - R2.full))
 }
 ```
 

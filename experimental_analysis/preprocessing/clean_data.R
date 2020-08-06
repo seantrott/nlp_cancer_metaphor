@@ -6,14 +6,17 @@ library(glue)
 library(crayon)
 
 # set the working directory to the project base directory
-setwd("/Users/alex/Documents/BergenLab/nlp_cancer_metaphor/experimental/")
+setwd("/Users/alex/Documents/BergenLab/nlp_cancer_metaphor/experimental_analysis/")
 
 # Load Data ------------------------------------------------------------------
 
 # directory with all the individual files from each participant
-input.dir <- "data/raw/"
+# either "data/raw_pilot_large/" or "data/raw_holdout/"
+input.dir <- "data/raw_pilot_large/"
+
 # name of the file which to save to
-output.file <- "data/data_clean_test.csv"
+# either "data/data_clean_trial_large.csv" or "data/data_clean_holdout.csv"
+output.file <- "data/data_clean_trial_large.csv"
 
 read <- function (x) {
   #, Read the raw data from the experiment (from .csv form)

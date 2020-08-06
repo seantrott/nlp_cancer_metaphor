@@ -33,6 +33,10 @@ compare_lm = function (base, full, summary = FALSE) {
     print(summ(full, confint = T, digits = 3))
   }
 }
+
+chisq_stat <- function (base, full) {
+  round(2*(logLik(full) - logLik(base)), 3)
+}
 ```
 
 ```{r}
@@ -63,12 +67,12 @@ pheight = 3
 Created via `exclusion.Rmd`, originally from `clean_data.R`. Here, we trim off some outliers in the `age` and `past_donations` columns (then fill in missing values with the new mean).
 
 ```{r}
-trials <- read_csv("data/data_clean_excluded.csv", col_types = cols()) %>%
+trials <- read_csv("../data/data_clean_trial_large_filtered.csv", col_types = cols()) %>%
 
   # remove outliers in past_donations and age which lie greater than 3 SDs away
-  filter(past_donations < (mean(past_donations, na.rm = T) + 3*sd(past_donations, na.rm = T))) %>%
-  filter(age < (mean(age, na.rm = T) + 3*sd(age, na.rm = T))) %>%
-  filter(age >= 18) %>%
+  # filter(past_donations < (mean(past_donations, na.rm = T) + 3*sd(past_donations, na.rm = T))) %>%
+  # filter(age < (mean(age, na.rm = T) + 3*sd(age, na.rm = T))) %>%
+  # filter(age >= 18) %>%
   
   # set the levels of the factors variables and rescale age and past_donations
   mutate(
@@ -892,10 +896,18 @@ model_gender_full  = lm(update(base.formula, donation ~ .),
 
 anova(model_gender_base, model_gender_full, test = "Chisq")
 chisq_stat(model_gender_base, model_gender_full)
+f.sq(
+  lm(donation ~ 1, data = filter(trials, gender %in% c("M", "F"))),
+  model_gender_base,
+  model_gender_full
+)
+length(coef(model_gender_base))-1
 summ(model_gender_full, confint = T, digits = 3)
 ```
 
 Gender has a marginally signficant relationship to donation amount (Chisq = 3.8, p < 0.06), with females donating about \$0.95 more than males.
+
+On our holdout set of 1,012, we'd have 16.3% power to detect a main effect of gender (given the above ES).
 
 H: Men and women contribute to the campaigns differently depending on the family of metaphor they were exposed to
 
@@ -913,7 +925,7 @@ g = trials %>%
   labs(x = "Metaphor Condition", y = "Donation")
 
 g
-ggsave("gender_metaphor.png", g, width = 7, height = 3)
+# ggsave("gender_metaphor.png", g, width = 7, height = 3)
 ```
 
 ```{r}
@@ -947,7 +959,7 @@ g = trials %>%
                            "male" = "Male",
                            "female" = "Female")) %>%
   # filter(cond_anymet) %>%
-  ggplot(aes(cond_metaphor, sympathy, color = gender)) + itheme +
+  ggplot(aes(cond_metaphor, donation, color = gender)) + itheme +
   stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.35), width = 0.2) +
   stat_summary(fun.data = mean_se, geom = "point", shape = 5, position = position_dodge(width = 0.35)) +
   labs(x = "Metaphor condition",
@@ -955,9 +967,9 @@ g = trials %>%
        color = "Gender",
        title = "Donation by metaphor, sex, and participent gender") +
   facet_grid(~ cond_sex) +
-  # coord_cartesian(ylim = c(18, 30)) +
+  coord_cartesian(ylim = c(18, 30)) +
   scale_x_discrete(labels = c("literal" = "Literal", "battle" = "Battle", "journey" = "Journey")) +
-  # scale_y_continuous(labels = scales::dollar) +
+  scale_y_continuous(labels = scales::dollar) +
   scale_color_brewer(palette = "Dark2")
 
 # ggsave("3way-int.png", g, width = 8)
@@ -1030,6 +1042,8 @@ length(coef(m5))-1
 ```
 
 Using G*Power, to detect a true difference at 80% between the 3-way interaction and the model just prior, we'd need N=2,492
+
+With the holdout data of 1,012, we'd have 37.2% power to detect the 3-way interaction.
 
 There appears to be a difference between some of these factors (male and female participants exposed to the female battle condition and the male literal condition), although they could be suprious at this level of factorization.
 

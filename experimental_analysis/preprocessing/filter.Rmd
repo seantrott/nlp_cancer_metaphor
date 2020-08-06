@@ -1,0 +1,152 @@
+---
+title: "Exclusion"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data Exclusion Criteria
+
+## Load Libraries
+
+```{r}
+library(tidyverse)
+library(crayon)
+library(glue)
+```
+
+## Set Global Variables
+
+```{r}
+print_exclusion_change <- function(title, start, pre_exclusion, post_exclusion) {
+  removed <- pre_exclusion - post_exclusion
+  percent_change <- round(-100 * removed / pre_exclusion, 2)
+  percent_total_change <- round(100 * (post_exclusion - start) / start, 2)
+  print(glue_col("{red {title}: {removed} ({percent_change}%) just removed\tNow: {post_exclusion} ppts ({percent_total_change}% decrease)}"))
+}
+
+# bot check correct answers
+CHECK1_ANS = 1
+CHECK2_ANS = 2
+
+# minimum amount of time required on the stimulus
+MINIMUM_TRIAL_RT = 5000 # in Milliseconds
+```
+
+## Load Data
+
+Load the data straight from `clean_data.R`. Execution of the steps below *must* occur before the main analysis and exploratory analysis.
+
+```{r}
+input.file <- "../data/data_clean_trial_large.csv"
+output.file <- "../data/data_clean_trial_large_filtered.csv"
+
+trials <- read_csv(input.file, col_types = cols())
+
+nStart <- nrow(trials)
+glue("{format(nStart, big.mark=",")} participants to begin with")
+```
+
+## Exclusion Criteria
+
+### Native English check
+
+Exclude ppts who didn't indicate that English was their native language.
+
+```{r}
+pre_exclusion = nrow(trials)
+
+trials = trials %>% filter(english == "Y")
+print_exclusion_change("Non-Native English", nStart, pre_exclusion, nrow(trials))
+```
+
+### Bot check
+
+Exclude ppts who failed to correctly answer the bot check questions
+
+```{r}
+pre_exclusion = nrow(trials)
+
+trials = trials %>% filter(check1 == CHECK1_ANS & check2 == CHECK2_ANS)
+
+print_exclusion_change("Failed 1+ bot check questions", nStart, pre_exclusion, nrow(trials))
+```
+
+### Comprehension check
+
+Exclude ppts who fail to demonstrate comprehension of the stimulus
+
+```{r}
+pre_exclusion <- nrow(trials)
+
+trials = trials %>% filter(rt_trial >= MINIMUM_TRIAL_RT)
+
+print_exclusion_change("Minimum Trial RT", nStart, pre_exclusion, nrow(trials))
+```
+
+```{r}
+pre_exclusion <- nrow(trials)
+
+trials$description = trimws(trials$description)
+trials[is.na(trials$description), ]$description = ""
+
+# remove all empty description responses
+trials = trials %>% filter(description != "")
+
+print_exclusion_change("Empty Description Responses", nStart, pre_exclusion, nrow(trials))
+```
+
+### Manipulation Identification check
+
+Flag all responses to the purpose identification question that include at least one of several critical keywords.
+
+```{r}
+keywords = c("metaphor", "metaphors", "framing", "manipulate", "manipulates", "manipulated", "manipulating", "worded", "wording", "phrased", "phrasing", "measure", "measuring", "measured", "journey", "battle", "path", "fight", "road", "fighting", "fought")
+
+purpose_flag = function(text) {
+  # lowercase
+  t = tolower(text)
+  # remove all punctuation and extra spacing from the text
+  t = gsub('[[:punct:] ]+', ' ', t)
+  # return a string of the keywords mentioned in the reponse
+  return(paste(intersect(keywords, strsplit(t, " ")[[1]]), collapse = ","))
+}
+
+# each participant now has a column with any keywords they mentioned
+trials$purpose_flag = sapply(trials$purpose, purpose_flag)
+```
+
+Manually inspect all responses flagged for ones which identify our metaphor manipulation.
+
+```{r}
+trials %>% 
+  filter(purpose_flag != "") %>%
+  select(ppt, purpose, purpose_flag) %>%
+  arrange(purpose_flag)
+```
+
+```{r}
+pre_exclusion <- nrow(trials)
+
+exclude_ppts = c("hs3taunav6pcbu4uceap", "ogruj45dtbc6h2duxh90")
+trials = trials %>% filter(!(ppt %in% exclude_ppts))
+
+print_exclusion_change("Identified Manipulation", nStart, pre_exclusion, nrow(trials))
+```
+
+## Final Summary of Exclusions
+
+```{r}
+glue("{nrow(trials)} participants remaining")
+glue("{nStart - nrow(trials)} participants removed in total")
+glue("{round((nStart - nrow(trials)) / nStart,4)*100}% of original participants")
+```
+
+## Save Data
+
+```{r}
+write_csv(trials, output.file)
+```
+
