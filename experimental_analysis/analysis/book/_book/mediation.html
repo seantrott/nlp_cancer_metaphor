@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 8 Mediation | Metaphors on Charitable Donations</title>
+  <title>8 Mediation | Metaphors on Charitable Donations</title>
   <meta name="description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
   <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 8 Mediation | Metaphors on Charitable Donations" />
+  <meta property="og:title" content="8 Mediation | Metaphors on Charitable Donations" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 8 Mediation | Metaphors on Charitable Donations" />
+  <meta name="twitter:title" content="8 Mediation | Metaphors on Charitable Donations" />
   
   <meta name="twitter:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Alex Liebscher" />
 
 
-<meta name="date" content="2020-06-22" />
+<meta name="date" content="2020-08-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="response-times.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="setup-of-the-holdout-analysis.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -90,7 +90,6 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
-<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -103,9 +102,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Metaphors on Charitable Donations</a></li>
-
-<li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#load-libraries"><i class="fa fa-check"></i><b>1.1</b> Load Libraries</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#load-data"><i class="fa fa-check"></i><b>1.2</b> Load Data</a></li>
@@ -117,6 +113,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.2" data-path="overview.html"><a href="overview.html#visualization-summaries"><i class="fa fa-check"></i><b>2.2</b> Visualization Summaries</a></li>
 <li class="chapter" data-level="2.3" data-path="overview.html"><a href="overview.html#duration-statistics"><i class="fa fa-check"></i><b>2.3</b> Duration Statistics</a></li>
 <li class="chapter" data-level="2.4" data-path="overview.html"><a href="overview.html#coarse-donation-behavior"><i class="fa fa-check"></i><b>2.4</b> Coarse Donation Behavior</a></li>
+<li class="chapter" data-level="2.5" data-path="overview.html"><a href="overview.html#summary"><i class="fa fa-check"></i><b>2.5</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="metaphors.html"><a href="metaphors.html"><i class="fa fa-check"></i><b>3</b> Metaphors</a><ul>
 <li class="chapter" data-level="3.1" data-path="metaphors.html"><a href="metaphors.html#immediate-alternative-questions"><i class="fa fa-check"></i><b>3.1</b> Immediate Alternative Questions</a></li>
@@ -125,12 +122,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.2.2" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-narrow-donation-group"><i class="fa fa-check"></i><b>3.2.2</b> Metaphor Condition and Presence on Likelihood of Narrow Donation Group</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="metaphors.html"><a href="metaphors.html#broader-alternative-questions"><i class="fa fa-check"></i><b>3.3</b> Broader Alternative Questions</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="metaphors.html"><a href="metaphors.html#gaussian-mixture-model"><i class="fa fa-check"></i><b>3.3.1</b> Gaussian Mixture Model</a></li>
-<li class="chapter" data-level="3.3.2" data-path="metaphors.html"><a href="metaphors.html#decision-tree"><i class="fa fa-check"></i><b>3.3.2</b> Decision Tree</a></li>
-<li class="chapter" data-level="3.3.3" data-path="metaphors.html"><a href="metaphors.html#random-forest-regression"><i class="fa fa-check"></i><b>3.3.3</b> Random Forest Regression</a></li>
-<li class="chapter" data-level="3.3.4" data-path="metaphors.html"><a href="metaphors.html#xgboost"><i class="fa fa-check"></i><b>3.3.4</b> xgboost</a></li>
+<li class="chapter" data-level="3.3.1" data-path="metaphors.html"><a href="metaphors.html#random-forest-regression"><i class="fa fa-check"></i><b>3.3.1</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="3.3.2" data-path="metaphors.html"><a href="metaphors.html#gradient-boosted-trees"><i class="fa fa-check"></i><b>3.3.2</b> Gradient Boosted Trees</a></li>
+<li class="chapter" data-level="3.3.3" data-path="metaphors.html"><a href="metaphors.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.3.3</b> Generalized Additive Models</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="metaphors.html"><a href="metaphors.html#gams"><i class="fa fa-check"></i><b>3.4</b> GAMs</a></li>
+<li class="chapter" data-level="3.4" data-path="metaphors.html"><a href="metaphors.html#summary-1"><i class="fa fa-check"></i><b>3.4</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html"><i class="fa fa-check"></i><b>4</b> Sympathy and Urgency</a><ul>
 <li class="chapter" data-level="4.1" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#sympathy"><i class="fa fa-check"></i><b>4.1</b> Sympathy</a></li>
@@ -139,6 +135,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-urgency"><i class="fa fa-check"></i><b>4.4</b> Metaphor on Urgency</a></li>
 <li class="chapter" data-level="4.5" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-sympathy"><i class="fa fa-check"></i><b>4.5</b> Cancer Experience on Sympathy</a></li>
 <li class="chapter" data-level="4.6" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-urgency"><i class="fa fa-check"></i><b>4.6</b> Cancer Experience on Urgency</a></li>
+<li class="chapter" data-level="4.7" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#summary-2"><i class="fa fa-check"></i><b>4.7</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="demographics.html"><a href="demographics.html"><i class="fa fa-check"></i><b>5</b> Demographics</a><ul>
 <li class="chapter" data-level="5.1" data-path="demographics.html"><a href="demographics.html#patient-gender"><i class="fa fa-check"></i><b>5.1</b> Patient Gender</a></li>
@@ -153,10 +150,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.7" data-path="demographics.html"><a href="demographics.html#socioeconomics"><i class="fa fa-check"></i><b>5.7</b> Socioeconomics</a></li>
 <li class="chapter" data-level="5.8" data-path="demographics.html"><a href="demographics.html#past-donations"><i class="fa fa-check"></i><b>5.8</b> Past Donations</a></li>
 <li class="chapter" data-level="5.9" data-path="demographics.html"><a href="demographics.html#age"><i class="fa fa-check"></i><b>5.9</b> Age</a></li>
+<li class="chapter" data-level="5.10" data-path="demographics.html"><a href="demographics.html#summary-3"><i class="fa fa-check"></i><b>5.10</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="descriptions.html"><a href="descriptions.html"><i class="fa fa-check"></i><b>6</b> Descriptions</a><ul>
 <li class="chapter" data-level="6.0.1" data-path="descriptions.html"><a href="descriptions.html#quality"><i class="fa fa-check"></i><b>6.0.1</b> Quality</a></li>
-<li class="chapter" data-level="6.0.2" data-path="descriptions.html"><a href="descriptions.html#metaphor"><i class="fa fa-check"></i><b>6.0.2</b> Metaphor</a></li>
+<li class="chapter" data-level="6.1" data-path="descriptions.html"><a href="descriptions.html#summary-4"><i class="fa fa-check"></i><b>6.1</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="response-times.html"><a href="response-times.html"><i class="fa fa-check"></i><b>7</b> Response Times</a><ul>
 <li class="chapter" data-level="7.1" data-path="response-times.html"><a href="response-times.html#main-stimulus-timing"><i class="fa fa-check"></i><b>7.1</b> Main Stimulus Timing</a><ul>
@@ -166,6 +164,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="response-times.html"><a href="response-times.html#experiment-content-timing"><i class="fa fa-check"></i><b>7.2</b> Experiment Content Timing</a></li>
 <li class="chapter" data-level="7.3" data-path="response-times.html"><a href="response-times.html#experiment-timing"><i class="fa fa-check"></i><b>7.3</b> Experiment Timing</a></li>
+<li class="chapter" data-level="7.4" data-path="response-times.html"><a href="response-times.html#summary-5"><i class="fa fa-check"></i><b>7.4</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="mediation.html"><a href="mediation.html"><i class="fa fa-check"></i><b>8</b> Mediation</a><ul>
 <li class="chapter" data-level="8.1" data-path="mediation.html"><a href="mediation.html#any-metaphor-to-literal-condition"><i class="fa fa-check"></i><b>8.1</b> Any Metaphor to Literal condition</a></li>
@@ -181,13 +180,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.4.1" data-path="mediation.html"><a href="mediation.html#sympathy-3"><i class="fa fa-check"></i><b>8.4.1</b> Sympathy</a></li>
 <li class="chapter" data-level="8.4.2" data-path="mediation.html"><a href="mediation.html#urgency-3"><i class="fa fa-check"></i><b>8.4.2</b> Urgency</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="mediation.html"><a href="mediation.html#summary"><i class="fa fa-check"></i><b>8.5</b> Summary</a></li>
+<li class="chapter" data-level="8.5" data-path="mediation.html"><a href="mediation.html#summary-6"><i class="fa fa-check"></i><b>8.5</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="9" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>9</b> Introduction</a></li>
-<li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-
+<li class="chapter" data-level="9" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html"><i class="fa fa-check"></i><b>9</b> Setup of the Holdout Analysis</a><ul>
+<li class="chapter" data-level="9.1" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#battle-and-journey-on-donations"><i class="fa fa-check"></i><b>9.1</b> Battle and Journey on Donations</a></li>
+<li class="chapter" data-level="9.2" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#three-way-interaction-on-donations"><i class="fa fa-check"></i><b>9.2</b> Three-way Interaction on Donations</a></li>
+<li class="chapter" data-level="9.3" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#metaphor-on-urgency-1"><i class="fa fa-check"></i><b>9.3</b> Metaphor on Urgency</a></li>
+<li class="chapter" data-level="9.4" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#urgency-on-donations"><i class="fa fa-check"></i><b>9.4</b> Urgency on Donations</a></li>
+<li class="chapter" data-level="9.5" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#summary-7"><i class="fa fa-check"></i><b>9.5</b> Summary</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -206,7 +207,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="mediation" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Mediation</h1>
+<h1><span class="header-section-number">8</span> Mediation</h1>
 <p><a href="https://crumplab.github.io/psyc7709/book/docs/bootstrapped-mediation-tutorial.html" class="uri">https://crumplab.github.io/psyc7709/book/docs/bootstrapped-mediation-tutorial.html</a></p>
 <p><a href="https://www.annualreviews.org/doi/pdf/10.1146/annurev.psych.58.110405.085542" class="uri">https://www.annualreviews.org/doi/pdf/10.1146/annurev.psych.58.110405.085542</a></p>
 <p>We will use the responses to the questions about perceived urgency and sympathy toward the patient as variables in a mediation analysis to explore their role in mediating metaphor’s effect on donation amounts.</p>
@@ -218,13 +219,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ol>
 <p>Alternatively, we may use resampling techniques (e.g. bootstrap) to create confidence intervals on the indirect effect and therefore construct a NHT.</p>
 <p>The two mediation techniques aren’t neccessarily mutually exclusive, however using BCa bootstrapped CIs tends to lead to much higher power (Fritz &amp; MacKinnon, 2007) and doesn’t rely on the same assumptions (although similarities exists).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(crayon)</code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;crayon&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
-## 
-##     %+%</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(glue)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(crayon)
 <span class="kw">library</span>(mediation)</code></pre></div>
 <pre><code>## Loading required package: MASS</code></pre>
 <pre><code>## 
@@ -275,17 +270,17 @@ check_mediation_assumptions =<span class="st"> </span><span class="cf">function<
   formula_covars &lt;-<span class="st"> </span><span class="kw">as.character</span>(base.formula)[<span class="dv">2</span>]
   type_i_error &lt;-<span class="st"> </span><span class="fl">0.1</span>
   
-  model_x_m &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(<span class="kw">reformulate</span>(<span class="kw">c</span>(formula_covars, iv), md), <span class="dt">data =</span> data))
+  model_x_m &lt;-<span class="st">  </span><span class="kw">summary</span>(<span class="kw">lm</span>(<span class="kw">reformulate</span>(<span class="kw">c</span>(formula_covars, iv), md), <span class="dt">data =</span> data))
   model_mx_y &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(<span class="kw">reformulate</span>(<span class="kw">c</span>(formula_covars, md, iv), dv), <span class="dt">data =</span> data))
-  model_x_y &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(<span class="kw">reformulate</span>(<span class="kw">c</span>(formula_covars, iv), dv), <span class="dt">data =</span> data))
+  model_x_y &lt;-<span class="st">  </span><span class="kw">summary</span>(<span class="kw">lm</span>(<span class="kw">reformulate</span>(<span class="kw">c</span>(formula_covars, iv), dv), <span class="dt">data =</span> data))
   
-  total_effect &lt;-<span class="st"> </span>model_x_y<span class="op">$</span>coefficients[iv_key, <span class="dv">1</span>]
-  direct_effect &lt;-<span class="st"> </span>model_mx_y<span class="op">$</span>coefficients[md, <span class="dv">1</span>]
-  beta &lt;-<span class="st"> </span>model_mx_y<span class="op">$</span>coefficients[iv_key, <span class="dv">1</span>]
-  alpha &lt;-<span class="st"> </span>model_x_m<span class="op">$</span>coefficients[iv_key, <span class="dv">1</span>]
+  total_effect &lt;-<span class="st">   </span>model_x_y<span class="op">$</span>coefficients[iv_key, ]
+  direct_effect &lt;-<span class="st">  </span>model_mx_y<span class="op">$</span>coefficients[iv_key, ]
+  beta &lt;-<span class="st">           </span>model_mx_y<span class="op">$</span>coefficients[md, ]
+  alpha &lt;-<span class="st">          </span>model_x_m<span class="op">$</span>coefficients[iv_key, ]
   
-  <span class="kw">print</span>(<span class="kw">glue</span>(<span class="st">&quot;total effect = {round(total_effect, 2)}, direct effect = {round(direct_effect, 2)}, beta = {round(beta, 2)}, alpha = {round(alpha, 2)}&quot;</span>))
-  <span class="kw">print</span>(<span class="kw">glue</span>(<span class="st">&quot;indirect effect = {round(alpha * beta,3)}&quot;</span>))
+  <span class="kw">print</span>(<span class="kw">glue</span>(<span class="st">&quot;total effect = {round(total_effect[1] / total_effect[2], 2)}, direct effect = {round(direct_effect[1] / direct_effect[2], 2)}, beta = {round(beta[1] / beta[2], 2)}, alpha = {round(alpha[1] / alpha[2], 2)}&quot;</span>))
+  <span class="kw">print</span>(<span class="kw">glue</span>(<span class="st">&quot;indirect effect = {round((alpha[1] / alpha[2]) * (beta[1] / beta[2]),3)}&quot;</span>))
   
   <span class="kw">check_BK86_assumption_1</span>(model_x_y<span class="op">$</span>coefficients[iv_key, <span class="dv">4</span>], type_i_error)
   
@@ -293,7 +288,7 @@ check_mediation_assumptions =<span class="st"> </span><span class="cf">function<
   
   <span class="kw">check_BK86_assumption_3</span>(model_mx_y<span class="op">$</span>coefficients[md, <span class="dv">4</span>], type_i_error)
   
-  <span class="kw">check_BK86_assumption_4</span>(direct_effect, total_effect, model_mx_y<span class="op">$</span>coefficients[iv_key, <span class="dv">4</span>], type_i_error)
+  <span class="kw">check_BK86_assumption_4</span>(direct_effect[<span class="dv">1</span>], total_effect[<span class="dv">1</span>], model_mx_y<span class="op">$</span>coefficients[iv_key, <span class="dv">4</span>], type_i_error)
 }</code></pre></div>
 <div id="any-metaphor-to-literal-condition" class="section level2">
 <h2><span class="header-section-number">8.1</span> Any Metaphor to Literal condition</h2>
@@ -307,8 +302,8 @@ check_mediation_assumptions =<span class="st"> </span><span class="cf">function<
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask &lt;-<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;journey&quot;</span>
 
 <span class="kw">check_mediation_assumptions</span>(<span class="st">&quot;donation&quot;</span>, <span class="st">&quot;sympathy&quot;</span>, <span class="st">&quot;cond_metaphor&quot;</span>, <span class="st">&quot;cond_metaphorbattle&quot;</span>, trials[mask, ])</code></pre></div>
-<pre><code>## total effect = 0.74, direct effect = 3.4, beta = 0.72, alpha = 0
-## indirect effect = 0.003
+<pre><code>## total effect = 1.29, direct effect = 1.23, beta = 15.66, alpha = 0.38
+## indirect effect = 5.952
 ## The total effect of X on Y is not significant.
 ## The effect of X on M is not significant.
 ## The effect of M on Y controlled for X is significant.
@@ -320,8 +315,8 @@ check_mediation_assumptions =<span class="st"> </span><span class="cf">function<
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask &lt;-<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;journey&quot;</span>
 
 <span class="kw">check_mediation_assumptions</span>(<span class="st">&quot;donation&quot;</span>, <span class="st">&quot;urgent&quot;</span>, <span class="st">&quot;cond_metaphor&quot;</span>, <span class="st">&quot;cond_metaphorbattle&quot;</span>, trials[mask, ])</code></pre></div>
-<pre><code>## total effect = 0.74, direct effect = 3.4, beta = 0.31, alpha = 0.13
-## indirect effect = 0.039
+<pre><code>## total effect = 1.29, direct effect = 0.51, beta = 14.93, alpha = 3.07
+## indirect effect = 45.865
 ## The total effect of X on Y is not significant.
 ## The effect of X on M is significant.
 ## The effect of M on Y controlled for X is significant.
@@ -336,8 +331,8 @@ check_mediation_assumptions =<span class="st"> </span><span class="cf">function<
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask &lt;-<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;battle&quot;</span>
 
 <span class="kw">check_mediation_assumptions</span>(<span class="st">&quot;donation&quot;</span>, <span class="st">&quot;sympathy&quot;</span>, <span class="st">&quot;cond_metaphor&quot;</span>, <span class="st">&quot;cond_metaphorjourney&quot;</span>, trials[mask, ])</code></pre></div>
-<pre><code>## total effect = -0.45, direct effect = 3.36, beta = -0.51, alpha = 0.02
-## indirect effect = -0.009
+<pre><code>## total effect = -0.89, direct effect = -1.02, beta = 14.88, alpha = 0.39
+## indirect effect = 5.745
 ## The total effect of X on Y is not significant.
 ## The effect of X on M is not significant.
 ## The effect of M on Y controlled for X is significant.
@@ -349,8 +344,8 @@ check_mediation_assumptions =<span class="st"> </span><span class="cf">function<
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask &lt;-<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;battle&quot;</span>
 
 <span class="kw">check_mediation_assumptions</span>(<span class="st">&quot;donation&quot;</span>, <span class="st">&quot;urgent&quot;</span>, <span class="st">&quot;cond_metaphor&quot;</span>, <span class="st">&quot;cond_metaphorjourney&quot;</span>, trials[mask, ])</code></pre></div>
-<pre><code>## total effect = -0.45, direct effect = 3.33, beta = -0.38, alpha = -0.02
-## indirect effect = 0.008
+<pre><code>## total effect = -0.89, direct effect = -0.87, beta = 14.89, alpha = -0.2
+## indirect effect = -2.965
 ## The total effect of X on Y is not significant.
 ## The effect of X on M is not significant.
 ## The effect of M on Y controlled for X is significant.
@@ -366,47 +361,31 @@ check_mediation_assumptions =<span class="st"> </span><span class="cf">function<
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask &lt;-<span class="st"> </span>trials<span class="op">$</span>cond_anymet
 
 <span class="kw">check_mediation_assumptions</span>(<span class="st">&quot;donation&quot;</span>, <span class="st">&quot;sympathy&quot;</span>, <span class="st">&quot;cond_metaphor&quot;</span>, <span class="st">&quot;cond_metaphorjourney&quot;</span>, trials[mask, ])</code></pre></div>
-<pre><code>## total effect = -1.15, direct effect = 3.27, beta = -1.2, alpha = 0.01
-## indirect effect = -0.016
+<pre><code>## total effect = -2.1, direct effect = -2.21, beta = 14.95, alpha = 0.14
+## indirect effect = 2.021
 ## The total effect of X on Y is significant.
 ## The effect of X on M is not significant.
 ## The effect of M on Y controlled for X is significant.
 ## The direct effect is significant or greater than the total effect.</code></pre>
 <p>We remove the OptOut level of the gender factor due to numerical computation issues.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_x_m &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, sympathy <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
-                <span class="dt">data =</span> trials[mask, ] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(gender <span class="op">!=</span><span class="st"> &quot;OO&quot;</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">temp_data &lt;-<span class="st"> </span>trials[mask, ] <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(gender <span class="op">!=</span><span class="st"> &quot;OO&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cond_metaphor =</span> <span class="kw">factor</span>(cond_metaphor))
+
+model_x_m &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, sympathy <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                <span class="dt">data =</span> temp_data)
 model_mx_y &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>sympathy <span class="op">+</span><span class="st"> </span>cond_metaphor), 
-                 <span class="dt">data =</span> trials[mask, ] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(gender <span class="op">!=</span><span class="st"> &quot;OO&quot;</span>))
+                 <span class="dt">data =</span> temp_data)
   
-med.anlys &lt;-<span class="st"> </span><span class="kw">mediate</span>(<span class="dt">model.m =</span> model_x_m,
-                    <span class="dt">model.y =</span> model_mx_y, 
-                    <span class="dt">treat =</span> <span class="st">&quot;cond_metaphor&quot;</span>, 
-                    <span class="dt">mediator =</span> <span class="st">&quot;sympathy&quot;</span>,
-                    <span class="dt">boot =</span> T, 
-                    <span class="dt">boot.ci.type =</span> <span class="st">&quot;bca&quot;</span>,
-                    <span class="dt">sims =</span> <span class="dv">2000</span>)</code></pre></div>
-<pre><code>## Warning in mediate(model.m = model_x_m, model.y = model_mx_y, treat =
-## &quot;cond_metaphor&quot;, : treatment and control values do not match factor levels;
-## using battle and journey as control and treatment, respectively</code></pre>
-<pre><code>## Running nonparametric bootstrap</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(med.anlys)</code></pre></div>
-<pre><code>## 
-## Causal Mediation Analysis 
-## 
-## Nonparametric Bootstrap Confidence Intervals with the BCa Method
-## 
-##                Estimate 95% CI Lower 95% CI Upper p-value  
-## ACME             0.0464      -0.2515         0.36   0.783  
-## ADE             -1.2253      -2.2716        -0.10   0.033 *
-## Total Effect    -1.1789      -2.2741        -0.06   0.041 *
-## Prop. Mediated  -0.0394      -5.6895         0.14   0.804  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Sample Size Used: 2963 
-## 
-## 
-## Simulations: 2000</code></pre>
+<span class="co"># med.anlys &lt;- mediate(model.m = model_x_m,</span>
+<span class="co">#                     model.y = model_mx_y, </span>
+<span class="co">#                     treat = &quot;cond_metaphor&quot;,</span>
+<span class="co">#                     mediator = &quot;sympathy&quot;,</span>
+<span class="co">#                     boot = T, </span>
+<span class="co">#                     boot.ci.type = &quot;bca&quot;,</span>
+<span class="co">#                     sims = 2000)</span>
+<span class="co"># </span>
+<span class="co"># summary(med.anlys)</span></code></pre></div>
 <p>Based upon Baron &amp; Kenny’s (1986) causal-steps, sympathy cannot mediate the relation between metaphor condition and donation amount. Moreover, based upon resampling, the same conclusion is also drawn.</p>
 </div>
 <div id="urgency-3" class="section level3">
@@ -414,51 +393,57 @@ med.anlys &lt;-<span class="st"> </span><span class="kw">mediate</span>(<span cl
 <p>Does Urgency mediate the relation between metaphor condition (between battle and journey conditions) and donation amounts?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mask &lt;-<span class="st"> </span>trials<span class="op">$</span>cond_anymet
 
-<span class="kw">check_mediation_assumptions</span>(<span class="st">&quot;donation&quot;</span>, <span class="st">&quot;urgent&quot;</span>, <span class="st">&quot;cond_metaphor&quot;</span>, <span class="st">&quot;cond_metaphorjourney&quot;</span>, trials[mask, ])</code></pre></div>
-<pre><code>## total effect = -1.15, direct effect = 3.23, beta = -0.67, alpha = -0.15
-## indirect effect = 0.1
-## The total effect of X on Y is significant.
+<span class="kw">check_mediation_assumptions</span>(<span class="st">&quot;donation&quot;</span>, <span class="st">&quot;urgent&quot;</span>, <span class="st">&quot;cond_metaphor&quot;</span>, <span class="st">&quot;cond_metaphorjourney&quot;</span>, trials[mask, ] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_n</span>(<span class="dv">1000</span>))</code></pre></div>
+<pre><code>## total effect = -1.12, direct effect = -0.65, beta = 7.23, alpha = -2.14
+## indirect effect = -15.495
+## The total effect of X on Y is not significant.
 ## The effect of X on M is significant.
 ## The effect of M on Y controlled for X is significant.
 ## The direct effect of X on Y adjusted for M is non-significant.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_x_m &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, urgent <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
-                <span class="dt">data =</span> trials[mask, ] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(gender <span class="op">!=</span><span class="st"> &quot;OO&quot;</span>))
+<p>For an alpha of magnitude -0.15 and a beta of magnitude 3.23, we should expect, according to Fritz and MacKinnon (2007), a required sample size of 385 participants for 80% power (and 5% type I error). We’ll keep this in mind for testing the hold-out set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">temp_data &lt;-<span class="st"> </span>trials[mask, ] <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(gender <span class="op">!=</span><span class="st"> &quot;OO&quot;</span>)
+
+model_x_m &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, urgent <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), 
+                <span class="dt">data =</span> temp_data)
 model_mx_y &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>urgent <span class="op">+</span><span class="st"> </span>cond_metaphor), 
-                 <span class="dt">data =</span> trials[mask, ] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(gender <span class="op">!=</span><span class="st"> &quot;OO&quot;</span>))
-  
-med.anlys &lt;-<span class="st"> </span><span class="kw">mediate</span>(<span class="dt">model.m =</span> model_x_m,
-                    <span class="dt">model.y =</span> model_mx_y, 
-                    <span class="dt">treat =</span> <span class="st">&quot;cond_metaphor&quot;</span>, 
-                    <span class="dt">mediator =</span> <span class="st">&quot;urgent&quot;</span>, 
-                    <span class="dt">boot =</span> T, 
-                    <span class="dt">boot.ci.type =</span> <span class="st">&quot;bca&quot;</span>,
-                    <span class="dt">sims =</span> <span class="dv">2000</span>)</code></pre></div>
-<pre><code>## Warning in mediate(model.m = model_x_m, model.y = model_mx_y, treat =
-## &quot;cond_metaphor&quot;, : treatment and control values do not match factor levels;
-## using battle and journey as control and treatment, respectively</code></pre>
-<pre><code>## Running nonparametric bootstrap</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(med.anlys)</code></pre></div>
-<pre><code>## 
-## Causal Mediation Analysis 
-## 
-## Nonparametric Bootstrap Confidence Intervals with the BCa Method
-## 
-##                Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME             -0.484       -0.806        -0.19   0.001 ***
-## ADE              -0.695       -1.815         0.42   0.231    
-## Total Effect     -1.179       -2.327        -0.02   0.050 *  
-## Prop. Mediated    0.411        0.189         9.78   0.051 .  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Sample Size Used: 2963 
-## 
-## 
-## Simulations: 2000</code></pre>
+                 <span class="dt">data =</span> temp_data)
+
+
+<span class="co"># med.anlys &lt;- mediate(model.m = model_x_m,</span>
+<span class="co">#                     model.y = model_mx_y,</span>
+<span class="co">#                     treat = &quot;cond_metaphor&quot;,</span>
+<span class="co">#                     mediator = &quot;urgent&quot;, </span>
+<span class="co">#                     boot = T, </span>
+<span class="co">#                     boot.ci.type = &quot;bca&quot;,</span>
+<span class="co">#                     sims = 2000)</span>
+<span class="co"># </span>
+<span class="co"># summary(med.anlys)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library(lavaan)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># full_med &lt;- &#39;</span>
+<span class="co"># urgent ~ cond_metaphor + cond_sex + past_donations.z + age.z</span>
+<span class="co"># donation ~ urgent + cond_sex + past_donations.z + age.z</span>
+<span class="co"># &#39;</span>
+<span class="co"># </span>
+<span class="co"># sem_full &lt;- sem(full_med, data = temp_data %&gt;% </span>
+<span class="co">#                   mutate(</span>
+<span class="co">#                     cond_metaphor = scale(as.integer(cond_metaphor)),</span>
+<span class="co">#                     cond_sex = scale(as.integer(cond_sex))))</span>
+<span class="co"># </span>
+<span class="co"># partial_med &lt;- &#39;</span>
+<span class="co"># urgent ~ cond_metaphor + cond_sex + past_donations.z + age.z</span>
+<span class="co"># donation ~ cond_metaphor + urgent + cond_sex + past_donations.z + age.z</span>
+<span class="co"># &#39;</span>
+<span class="co"># </span>
+<span class="co"># sem_partial &lt;- sem(partial_med, data = temp_data %&gt;% </span>
+<span class="co">#                   mutate(</span>
+<span class="co">#                     cond_metaphor = scale(as.integer(cond_metaphor)),</span>
+<span class="co">#                     cond_sex = scale(as.integer(cond_sex))))</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># summary(sem_partial)</span></code></pre></div>
 <p>Based upon Baron &amp; Kenny’s (1986) causal-steps, urgency does fully mediate the relation between metaphor condition and donation amount. Moreover, based upon resampling methods, the same conclusion can be drawn.</p>
 </div>
 </div>
-<div id="summary" class="section level2">
+<div id="summary-6" class="section level2">
 <h2><span class="header-section-number">8.5</span> Summary</h2>
 <p>Any Metaphor did not significantly predict donation amounts, so we skipped those two mediation checks all together.</p>
 <p>Next, we looked at whether the relation between the battle condition compared to the literal condition and donation amounts was mediated. The metaphor condition did not predict donation amounts, so we don’t run these mediation analyses either.</p>
@@ -473,7 +458,7 @@ med.anlys &lt;-<span class="st"> </span><span class="kw">mediate</span>(<span cl
         </div>
       </div>
 <a href="response-times.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="setup-of-the-holdout-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -515,7 +500,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["book.pdf", "book.epub"],
+"download": null,
 "toc": {
 "collapse": "subsection"
 }

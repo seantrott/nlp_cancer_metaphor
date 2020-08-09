@@ -1,0 +1,198 @@
+# Setup of the Holdout Analysis
+
+Four power analyses are run here to determine what relationships may be validated in the holdout set. First, the relationship between the battle and journey conditions on donation amount. Second, the three-way interaction between metaphor, ppt gender, and patient gender. Third, the relationship between metaphor and urgency. Fourth, the relationship between urgency and donation.
+
+Two approaches are performed: numerical calculations and G*Power. These should align.
+
+Numerical calculations are done by calculating the effect size, the number of samples, and the number of predictors, and finally using Cohen (1988) to determine the power.
+
+We make the assumption that we'll have the same number of covariates (this relies on no factor levels having 0 samples).
+
+## Battle and Journey on Donations
+
+Null hypothesis: The metaphor condition does not predict donation amounts
+
+```{r holdout_1}
+# first, use only responses which were exposed to either metaphor
+literal_mask = trials$cond_metaphor != "literal"
+
+# then construct a base model and full model (includes the metaphor predictor)
+model_battle_journey_base = lm(update(base.formula, donation ~ .), data = trials[literal_mask, ])
+model_battle_journey_full = lm(update(base.formula, donation ~ . + cond_metaphor), data = trials[literal_mask, ])
+
+# then calculate the effect size (Cohens f-squared between two models)
+f <- f.sq(
+  lm(donation ~ 1, data = trials[literal_mask, ]),
+  model_battle_journey_base,
+  model_battle_journey_full
+)
+
+# print the effect size, the sample size, and the number of predictors
+f
+nrow(model_battle_journey_base$model)
+length(coef(model_battle_journey_base))-1
+```
+
+Power calculation for finding a true effect:
+
+```{r}
+pwr.f2.test(u = 1, v = 3023 - 24 - 1, f2 = f, power = NULL)
+```
+
+Post-hoc Power: 55.62%
+
+G*Power:        55.94%, confirmed
+
+Power calculation for finding a true effect in the holdout data:
+
+```{r}
+pwr.f2.test(u = 1, v = 1012 - 24 - 1, f2 = f, power = NULL)
+```
+
+Power:    22.61%
+
+G*Power:  23.03%, confirmed
+
+## Three-way Interaction on Donations
+
+Null hypothesis: A three-way interaction between Metaphor-Ppt Gender-Patient Gender does not improve the correlation coefficient (the population parameter tested in )
+
+```{r holdout_2}
+# first, use only responses which were exposed to either metaphor and limit the ppt gender
+threeway_mask = trials$cond_metaphor != "literal" & trials$gender %in% c("M", "F")
+
+# then construct a base model and full model (includes the three-way predictor)
+model_threeway_base = lm(update(base.formula, donation ~ . + cond_metaphor * gender + cond_metaphor * cond_sex + gender * cond_sex),
+                         data = trials[threeway_mask, ])
+model_threeway_full = lm(update(base.formula, donation ~ . + cond_metaphor * cond_sex * gender),
+                         data = trials[threeway_mask, ])
+
+# then calculate the effect size (Cohens f-squared between two models)
+f <- f.sq(
+  lm(donation ~ 1, data = trials[threeway_mask, ]),
+  model_threeway_base,
+  model_threeway_full
+)
+
+# print the effect size, the sample size, and the number of predictors
+f
+nrow(model_threeway_base$model)
+length(coef(model_threeway_base))-1
+```
+
+Power calculation for finding a true effect:
+
+```{r}
+pwr.f2.test(u = 1, v = 2998 - 26 - 1, f2 = f, power = NULL)
+```
+
+Post-hoc Power: 80.01%
+
+G*Power:        80.33%, confirmed
+
+Power calculation for finding a true effect in the holdout data:
+
+```{r}
+pwr.f2.test(u = 1, v = 1012 - 26 - 1, f2 = f, power = NULL)
+```
+
+Power:    36.46%
+
+G*Power:  37.22%, confirmed
+
+## Metaphor on Urgency
+
+Null hypothesis: Metaphor does not predict urgency
+
+```{r holdout_3}
+# first, use only responses which were exposed to either metaphor
+literal_mask = trials$cond_metaphor != "literal"
+
+# then construct a base model and full model (includes the metaphor predictor)
+model_battle_journey_base = lm(update(base.formula, urgent ~ .), data = trials[literal_mask, ])
+model_battle_journey_full = lm(update(base.formula, urgent ~ . + cond_metaphor), data = trials[literal_mask, ])
+
+# then calculate the effect size (Cohens f-squared between two models)
+f <- f.sq(
+  lm(donation ~ 1, data = trials[literal_mask, ]),
+  model_battle_journey_base,
+  model_battle_journey_full
+)
+
+# print the effect size, the sample size, and the number of predictors
+f
+nrow(model_battle_journey_base$model)
+length(coef(model_battle_journey_base))-1
+```
+
+Power calculation for finding a true effect:
+
+```{r}
+pwr.f2.test(u = 1, v = 3023 - 24 - 1, f2 = f, power = NULL)
+```
+
+Post-hoc Power: 90.03%
+
+G*Power:        90.24%, confirmed
+
+Power calculation for finding a true effect in the holdout data:
+
+```{r}
+pwr.f2.test(u = 1, v = 1012 - 24 - 1, f2 = f, power = NULL)
+```
+
+Power:    46.06%
+
+G*Power:  46.92%, confirmed
+
+## Urgency on Donations
+
+Null hypothesis: Urgency does not predict donation amounts
+
+```{r holdout_4}
+# first, use only responses which were exposed to either metaphor
+literal_mask = trials$cond_metaphor != "literal"
+
+# then construct a base model and full model (includes the urgency predictor)
+model_battle_journey_base = lm(update(base.formula, donation ~ .), data = trials[literal_mask, ])
+model_battle_journey_full = lm(update(base.formula, donation ~ . + urgent), data = trials[literal_mask, ])
+
+# then calculate the effect size (Cohens f-squared between two models)
+f <- f.sq(
+  lm(donation ~ 1, data = trials[literal_mask, ]),
+  model_battle_journey_base,
+  model_battle_journey_full
+)
+
+# print the effect size, the sample size, and the number of predictors
+f
+nrow(model_battle_journey_base$model)
+length(coef(model_battle_journey_base))-1
+```
+
+Power calculation for finding a true effect:
+
+```{r}
+pwr.f2.test(u = 1, v = 3023 - 24 - 1, f2 = f, power = NULL)
+```
+
+Post-hoc Power: 100.00%
+G*Power:        100.00%, confirmed
+
+Power calculation for finding a true effect in the holdout data:
+
+```{r}
+pwr.f2.test(u = 1, v = 1012 - 24 - 1, f2 = f, power = NULL)
+```
+
+Power:    100.00%
+G*Power:  100.00%, confirmed
+
+## Summary
+
+Power to reject the null if in fact the alternative is true on the holdout set given the ES from the large pilot:
+
+ - 23.03% - Metaphor Predictor on Donation
+ - 37.22% - Metaphor/Ppt Gender/Patient Gender Interaction Predictor on Donation
+ - 46.92% - Metaphor Predictor on Urgency
+ - 100.0% - Urgency on Donations

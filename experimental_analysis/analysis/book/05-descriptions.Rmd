@@ -4,120 +4,6 @@
 ### Quality
 
 H: Higher quality descriptions lead to more pronounced effects of metaphor
-
-```{r}
-on = c("tf3xonytl4jagsno9cql",
-"smh4v9rqeytrb2yegyqw",
-"b0cfxvjb6q2vya1cesbo",
-"3b9w0bh94du4phw3wsos",
-"reqfg8cx246zoszmrnff",
-"3dkdcw9ekafjqz1v2w87",
-"hct0sxcek1473jxxe8fl",
-"xznwx3jeunh9jk5lh787",
-"f2rmnlfbsanlttcfne6y",
-"fpyospteggoemb59nuxw",
-"m77sun1swt96wjlejhj6",
-"87swbk6cknu3hdbmapv5",
-"8wvbwfbnuwpumphgu940",
-"xz0dwsq3erfumzdk6g3u",
-"6yv9fs9rw94r7q9eph9c",
-"lzpwuq5kjk1clpq2lt16",
-"2jzymuz60avswfz729e6",
-"vqbjja5qhfyvdcvakwur",
-"7srebzx2pfdv2yx03v05",
-"tdv6duh9sarj5s60pwm3",
-"z5brs0mevdumpjuevm8v",
-"kt20270j5t571c8z3xn9",
-"cccex8n929kjh1y8mzre",
-"tn0jgbbqmhghfw196c61",
-"xp86x9vm339usdvxlfza",
-"t3lu8b4ftr1by3lpap4e",
-"xyofqyp1nh9q97v9wfyr",
-"lkbdt5nzgzmkhurkkwye",
-"zphy1s3uahrw79lo6mgb",
-"0w96jzbx6rdxxs1ennv1",
-"4rd5bhz5mbns2md570oc",
-"ahc5yd008ex82nru2km3",
-"yzd7ffgsxonycgctlwga",
-"yo8hsz0wgqzm509mght8",
-"1dj947x3sc3yy2wuvvya",
-"mxz5ekm89vlybuhn45mf",
-"pbja5q8hatb1x8pznvb4",
-"tc64drmbb8x3uyr99lab",
-"ja3fc6jnmpma4hm93w63",
-"g6jnvll7m4fxlu5nb2my",
-"pwge07onacepsxu8ba4j",
-"kghh5kbbucbp2mndl166",
-"cd7f7jhhw8ktzobf5fg2",
-"buhomawfdyuurlb0nnre",
-"24g8fky5nr8myjgjv1au",
-"5ca7r126ycutz4435shn",
-"dy96zubatwjfjnoafvq7",
-"o963w232hcuton7o0wwe",
-"yrymka12ud48yor18fgs",
-"165hlrnwg8zjg0kkd326",
-"xzutvogrmy61h1uhmsms",
-"vzrg2pv9yx73wdy1vrjf",
-"wg0gstttpx8chpre3u4y",
-"su4l0tfwd1bmt97epd8v",
-"g45swcjf8fdr5g3o486h",
-"50s8fq827n3j3xb2pge1",
-"v8aauzyac07yh0dw57j5",
-"99bujlc9qce15w9kkq3w",
-"x3elx8ryobdby1qskvle",
-"9qyfkvaqwdenrguloyck",
-"fyrxw8fvway3odnpx7k7",
-"1ta7ybxtkrz9ooc76cvc",
-"0ajaoxsy3347gmp5cazv",
-"34tqgyvfj9n2cb0y0jok",
-"sum9001yhghvel368vlp",
-"c4hw391phy51jro89k0j",
-"6rfmwmzr79ozthsvraug",
-"484fpe4p96clmbe7n0t8",
-"qkfy72l6ejvbop9ancku",
-"jzlusqash832fk2ex4k1",
-"zb21gmjo80u9ek8rd8nw",
-"x2qk2ah2h3e2r7qylde5",
-"jqcf9p69pkyu7gskhtyr",
-"bvrgr53v0g5nlqz0xb6g",
-"sp9byj7fyme5tt5om2ug",
-"kg9hm5p8q9e27x6o15y4",
-"71h2qmqd9rygbn0t61lz",
-"fdf356gfqc40gbbuavtc")
-
-off = c(
-  "hhw1u9my0wb4mmloq5y1",
-  "qfuprcslsqhvsj8m0204",
-  "om5tgdnye66bl2op1gn9",
-  "laol6h7mwr9vo7ck33pa",
-  "x7shu9mtsmpkepgvw8x0",
-  "wffsbmhstf2k0ttl0g62",
-  "yy5wq00249pxqchykw10",
-  "6h4czt8gx5la9zm1fkdk",
-  "0my60drm8ju1mw1c6aza",
-  "3o12tk6lf73ykhpwop0o",
-  "7hmwgza7hkmrn7zhq2n6",
-  "aqv3l25op1er93152tl1",
-  "wl17338rdug8ga22xeo6",
-  "naqlakmus7gzy4y962ge",
-  "fzbdpsr2n7o8q1pgk8h2",
-  "hzp8n2szsjvw3j3pz6dd",
-  "va5md1g5j1cmw5pb8v78",
-  "6dt1dlktrcgsb68yeyko"
-)
-
-trials[trials$ppt %in% on, "on_topic"] = 1
-trials[trials$ppt %in% off, "on_topic"] = 0
-```
-
-```{r}
-m1 = lm(update(base.formula, donation ~ .), data = filter(trials, on_topic == 1))
-m2 = lm(update(base.formula, donation ~ . + on_topic), data = filter(trials, on_topic == 1))
-
-summary(m2)
-```
-
-
 ### Metaphor
 
 Define some keywords under two main families and one exploratory family of metaphor (only lemmas).
@@ -148,7 +34,7 @@ search_description_for_journey <- function(row) {
 ```
 
 ```{r}
-labeled <- read_csv("../experimental/data/free_responses_pre15.csv")
+labeled <- read_csv("../../data/data/free_responses_pre15.csv")
 
 labeled$auto_battle = unname(sapply(labeled$description, search_description_for_battle))
 labeled$auto_journey = unname(sapply(labeled$description, search_description_for_journey))
@@ -166,13 +52,6 @@ trials_with_desc_count_fil <- trials_with_desc_count[!is.na(trials_with_desc_cou
 
 table(trials_with_desc_count_fil$desc_journey_present, trials_with_desc_count_fil$auto_journey)
 table(trials_with_desc_count_fil$desc_battle_present, trials_with_desc_count_fil$auto_battle)
-```
-
-```{r}
-trials_with_desc_count_fil %>% 
-  filter(desc_battle_present != auto_battle) %>%
-  dplyr::select(description, desc_journey_present, auto_journey, desc_battle_present, auto_battle) %>%
-  as.matrix()
 ```
 
 ```{r}
@@ -199,7 +78,7 @@ Approxiamtely 9.5 battle metaphors per 1,000 words and 2.9 journey metaphors per
 
 ```{r, fig.align='center'}
 trials %>%
-  ggplot(aes(cond_metaphor, 1000 * battle_words / word_count)) + itheme +
+  ggplot(aes(cond_metaphor, 1000 * battle_presv / word_count)) + itheme +
   geom_errorbars +
   coord_cartesian(ylim = c(0, 20)) +
   labs(title = "Battle Metaphor Frequency by Metaphor Condition")
@@ -207,7 +86,7 @@ trials %>%
 
 ```{r, fig.align='center'}
 trials %>%
-  ggplot(aes(cond_metaphor, 1000 * journey_words / word_count)) + itheme +
+  ggplot(aes(cond_metaphor, 1000 * journey_presv / word_count)) + itheme +
   geom_errorbars +
   coord_cartesian(ylim = c(0, 10)) +
   labs(title = "Journey Metaphor Frequency by Metaphor Condition")
@@ -286,11 +165,11 @@ m3 <- lm(update(base.formula, donation ~ . + preservation + cond_metaphor),
 
 # compare_lm(m1, m2)
 
-med <- mediate(m2, m3,
-               treat = "cond_metaphor", mediator = "preservation", 
-               boot = T, boot.ci.type = "perc", sims = 1000)
-
-summary(med)
+# med <- mediate(m2, m3,
+#                treat = "cond_metaphor", mediator = "preservation", 
+#                boot = T, boot.ci.type = "perc", sims = 1000)
+# 
+# summary(med)
 ```
 
 

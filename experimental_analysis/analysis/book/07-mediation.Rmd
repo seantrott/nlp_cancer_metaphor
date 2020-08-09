@@ -19,7 +19,6 @@ The two mediation techniques aren't neccessarily mutually exclusive, however usi
 
 ```{r}
 library(crayon)
-library(glue)
 library(mediation)
 ```
 
@@ -144,18 +143,6 @@ check_mediation_assumptions("donation", "sympathy", "cond_metaphor", "cond_metap
 
 We remove the OptOut level of the gender factor due to numerical computation issues.
 
-```{r}
-ggplot() +
-  geom_jitter(aes(sympathy, donation, color = cond_metaphor), alpha = 0.5, data = temp_data) +
-  geom_vline(xintercept = coef(model_x_m)["(Intercept)"]) +
-  geom_vline(xintercept = coef(model_x_m)["(Intercept)"] + coef(model_x_m)["cond_metaphorjourney"]) +
-  geom_abline(intercept = coef(model_mx_y)["(Intercept)"],
-              slope = coef(model_mx_y)["sympathy"]) +
-  geom_abline(intercept = sum(coef(model_mx_y)[c("(Intercept)", "cond_metaphorjourney")]),
-              slope = coef(model_mx_y)["sympathy"])
-```
-
-
 ```{r battle_journey_sympathy_mediation}
 temp_data <- trials[mask, ] %>% 
   filter(gender != "OO") %>%
@@ -166,15 +153,15 @@ model_x_m <- lm(update(base.formula, sympathy ~ . + cond_metaphor),
 model_mx_y <- lm(update(base.formula, donation ~ . + sympathy + cond_metaphor), 
                  data = temp_data)
   
-med.anlys <- mediate(model.m = model_x_m,
-                    model.y = model_mx_y, 
-                    treat = "cond_metaphor",
-                    mediator = "sympathy",
-                    boot = T, 
-                    boot.ci.type = "bca",
-                    sims = 2000)
-
-summary(med.anlys)
+# med.anlys <- mediate(model.m = model_x_m,
+#                     model.y = model_mx_y, 
+#                     treat = "cond_metaphor",
+#                     mediator = "sympathy",
+#                     boot = T, 
+#                     boot.ci.type = "bca",
+#                     sims = 2000)
+# 
+# summary(med.anlys)
 ```
 
 Based upon Baron & Kenny's (1986) causal-steps, sympathy cannot mediate the relation between metaphor condition and donation amount. Moreover, based upon resampling, the same conclusion is also drawn.
@@ -194,167 +181,55 @@ For an alpha of magnitude -0.15 and a beta of magnitude 3.23, we should expect, 
 ```{r battle_journey_urgency_mediation}
 temp_data <- trials[mask, ] %>%
   filter(gender != "OO")
-  #        gender != "OO",
-  #        education != "<HS",
-  #        education != "OO",
-  #        self_cancer != "OO",
-  #        ff_cancer != "OO",
-  #        socioeconomic != "OO") %>%
-  # sample_n(1000)
 
 model_x_m <- lm(update(base.formula, urgent ~ . + cond_metaphor), 
                 data = temp_data)
 model_mx_y <- lm(update(base.formula, donation ~ . + urgent + cond_metaphor), 
                  data = temp_data)
 
-# summary(model_x_m)$coefficients[, c(1,2)]
 
-med.anlys <- mediate(model.m = model_x_m,
-                    model.y = model_mx_y,
-                    treat = "cond_metaphor",
-                    mediator = "urgent", 
-                    boot = T, 
-                    boot.ci.type = "bca",
-                    sims = 2000)
-
-summary(med.anlys)
+# med.anlys <- mediate(model.m = model_x_m,
+#                     model.y = model_mx_y,
+#                     treat = "cond_metaphor",
+#                     mediator = "urgent", 
+#                     boot = T, 
+#                     boot.ci.type = "bca",
+#                     sims = 2000)
+# 
+# summary(med.anlys)
 ```
 
 ```{r}
-temp_data <- trials[mask, ] %>%
-  filter(gender != "OO") %>%
-  mutate(cond_metaphor = factor(cond_metaphor))
-
-model_x_m_r <- lm(update(base.formula, donation ~ . + cond_metaphor), 
-                data = temp_data)
-model_mx_y_r <- lm(update(base.formula, urgent ~ . + donation + cond_metaphor), 
-                 data = temp_data)
-
-med.anlys <- mediate(model.m = model_x_m_r,
-                    model.y = model_mx_y_r,
-                    treat = "cond_metaphor",
-                    mediator = "donation", 
-                    boot = T,
-                    boot.ci.type = "bca",
-                    sims = 2000)
-
-summary(med.anlys)
+# library(lavaan)
 ```
 
 ```{r}
-mm <- model.matrix(update(base.formula, donation ~ . + urgent + cond_metaphor), 
-                 data = temp_data)
-
-3.75313643 * sd(mm[, "urgent"]) / sd(temp_data$donation) # b
--2.3086208 * sd(mm[, "cond_metaphorjourney"]) / sd(temp_data$donation) # c'
-
--0.1475918 * sd(mm[, "cond_metaphorjourney"]) / sd(temp_data$donation) # a
+# full_med <- '
+# urgent ~ cond_metaphor + cond_sex + past_donations.z + age.z
+# donation ~ urgent + cond_sex + past_donations.z + age.z
+# '
+# 
+# sem_full <- sem(full_med, data = temp_data %>% 
+#                   mutate(
+#                     cond_metaphor = scale(as.integer(cond_metaphor)),
+#                     cond_sex = scale(as.integer(cond_sex))))
+# 
+# partial_med <- '
+# urgent ~ cond_metaphor + cond_sex + past_donations.z + age.z
+# donation ~ cond_metaphor + urgent + cond_sex + past_donations.z + age.z
+# '
+# 
+# sem_partial <- sem(partial_med, data = temp_data %>% 
+#                   mutate(
+#                     cond_metaphor = scale(as.integer(cond_metaphor)),
+#                     cond_sex = scale(as.integer(cond_sex))))
 ```
 
 ```{r}
-ggplot() +
-  geom_jitter(aes(urgent, donation, color = cond_metaphor), alpha = 0.5, data = temp_data) +
-  geom_vline(xintercept = coef(model_x_m)["(Intercept)"]) +
-  geom_vline(xintercept = coef(model_x_m)["(Intercept)"] + coef(model_x_m)["cond_metaphorjourney"]) +
-  geom_abline(intercept = coef(model_mx_y)["(Intercept)"],
-              slope = coef(model_mx_y)["urgent"]) +
-  geom_abline(intercept = sum(coef(model_mx_y)[c("(Intercept)", "cond_metaphorjourney")]),
-              slope = coef(model_mx_y)["urgent"])
+# summary(sem_partial)
 ```
-
-```{r}
-library(lavaan)
-```
-
-```{r}
-base.formula
-```
-
-
-```{r}
-full_med <- '
-urgent ~ cond_metaphor + cond_sex + past_donations.z + age.z
-donation ~ urgent + cond_sex + past_donations.z + age.z
-'
-
-sem_full <- sem(full_med, data = temp_data %>% 
-                  mutate(
-                    cond_metaphor = scale(as.integer(cond_metaphor)),
-                    cond_sex = scale(as.integer(cond_sex))))
-
-partial_med <- '
-urgent ~ cond_metaphor + cond_sex + past_donations.z + age.z
-donation ~ cond_metaphor + urgent + cond_sex + past_donations.z + age.z
-'
-
-sem_partial <- sem(partial_med, data = temp_data %>% 
-                  mutate(
-                    cond_metaphor = scale(as.integer(cond_metaphor)),
-                    cond_sex = scale(as.integer(cond_sex))))
-```
-
-```{r}
-summary(sem_partial)
-```
-
 
 Based upon Baron & Kenny's (1986) causal-steps, urgency does fully mediate the relation between metaphor condition and donation amount. Moreover, based upon resampling methods, the same conclusion can be drawn.
-
-```{r}
-library(tictoc)
-```
-
-
-```{r}
-b <- 1000
-N_trials <- 2
-
-mediate_sim <- function(data, indices) {
-  d <- data[indices, ]
-  model_x_m <- lm(update(base.formula, urgent ~ . + cond_metaphor), 
-                data = d)
-  model_mx_y <- lm(update(base.formula, donation ~ . + urgent + cond_metaphor), 
-                 data = d)
-  
-  a <- coef(model_mx_y)["urgent"]
-  # b <- coef(model_x_m)["cond_metaphorjourney"]
-  return(unname(a))
-}
-
-generate <- function() {
-  bs_out <- boot::boot(temp_data, mediate_sim, R = b, parallel = "multicore")
-  bs_ci_out <- boot::boot.ci(bs_out, type = "perc")
-  
-  return(c(est = bs_out$t0, L = bs_ci_out$percent[4], U = bs_ci_out$percent[5]))
-}
-
-tic()
-trials <- as.data.frame(t(replicate(N_trials, generate())))
-toc()
-trials
-```
-
-```{r}
-mean(trials$U < 0)
-```
-
-
-```{r}
-m = mean_se(unname(unlist(est[1,])))
-m = quantile(unname(unlist(est[1,])), c(0.025, 0.5, 0.975))
-m
-g = ggplot() + theme_minimal() +
-  theme(axis.title = element_blank()) +
-  stat_density(geom = "line", aes(c(-1.5, unname(unlist(est[1,])), 0.5))) +
-  geom_vline(xintercept = m[2]) +
-  geom_vline(xintercept = m[1], color = "red") +
-  geom_vline(xintercept = m[3], color = "red") +
-  geom_vline(xintercept = 0, linetype = 2) +
-  coord_cartesian(xlim = c(-1.5, 0.5))
-
-```
-
-
 
 ## Summary
 

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Sympathy and Urgency | Metaphors on Charitable Donations</title>
+  <title>4 Sympathy and Urgency | Metaphors on Charitable Donations</title>
   <meta name="description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
   <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Sympathy and Urgency | Metaphors on Charitable Donations" />
+  <meta property="og:title" content="4 Sympathy and Urgency | Metaphors on Charitable Donations" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Sympathy and Urgency | Metaphors on Charitable Donations" />
+  <meta name="twitter:title" content="4 Sympathy and Urgency | Metaphors on Charitable Donations" />
   
   <meta name="twitter:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Alex Liebscher" />
 
 
-<meta name="date" content="2020-06-22" />
+<meta name="date" content="2020-08-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -90,7 +90,6 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
-<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -103,9 +102,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Metaphors on Charitable Donations</a></li>
-
-<li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#load-libraries"><i class="fa fa-check"></i><b>1.1</b> Load Libraries</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#load-data"><i class="fa fa-check"></i><b>1.2</b> Load Data</a></li>
@@ -117,6 +113,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.2" data-path="overview.html"><a href="overview.html#visualization-summaries"><i class="fa fa-check"></i><b>2.2</b> Visualization Summaries</a></li>
 <li class="chapter" data-level="2.3" data-path="overview.html"><a href="overview.html#duration-statistics"><i class="fa fa-check"></i><b>2.3</b> Duration Statistics</a></li>
 <li class="chapter" data-level="2.4" data-path="overview.html"><a href="overview.html#coarse-donation-behavior"><i class="fa fa-check"></i><b>2.4</b> Coarse Donation Behavior</a></li>
+<li class="chapter" data-level="2.5" data-path="overview.html"><a href="overview.html#summary"><i class="fa fa-check"></i><b>2.5</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="metaphors.html"><a href="metaphors.html"><i class="fa fa-check"></i><b>3</b> Metaphors</a><ul>
 <li class="chapter" data-level="3.1" data-path="metaphors.html"><a href="metaphors.html#immediate-alternative-questions"><i class="fa fa-check"></i><b>3.1</b> Immediate Alternative Questions</a></li>
@@ -125,12 +122,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.2.2" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-narrow-donation-group"><i class="fa fa-check"></i><b>3.2.2</b> Metaphor Condition and Presence on Likelihood of Narrow Donation Group</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="metaphors.html"><a href="metaphors.html#broader-alternative-questions"><i class="fa fa-check"></i><b>3.3</b> Broader Alternative Questions</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="metaphors.html"><a href="metaphors.html#gaussian-mixture-model"><i class="fa fa-check"></i><b>3.3.1</b> Gaussian Mixture Model</a></li>
-<li class="chapter" data-level="3.3.2" data-path="metaphors.html"><a href="metaphors.html#decision-tree"><i class="fa fa-check"></i><b>3.3.2</b> Decision Tree</a></li>
-<li class="chapter" data-level="3.3.3" data-path="metaphors.html"><a href="metaphors.html#random-forest-regression"><i class="fa fa-check"></i><b>3.3.3</b> Random Forest Regression</a></li>
-<li class="chapter" data-level="3.3.4" data-path="metaphors.html"><a href="metaphors.html#xgboost"><i class="fa fa-check"></i><b>3.3.4</b> xgboost</a></li>
+<li class="chapter" data-level="3.3.1" data-path="metaphors.html"><a href="metaphors.html#random-forest-regression"><i class="fa fa-check"></i><b>3.3.1</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="3.3.2" data-path="metaphors.html"><a href="metaphors.html#gradient-boosted-trees"><i class="fa fa-check"></i><b>3.3.2</b> Gradient Boosted Trees</a></li>
+<li class="chapter" data-level="3.3.3" data-path="metaphors.html"><a href="metaphors.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.3.3</b> Generalized Additive Models</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="metaphors.html"><a href="metaphors.html#gams"><i class="fa fa-check"></i><b>3.4</b> GAMs</a></li>
+<li class="chapter" data-level="3.4" data-path="metaphors.html"><a href="metaphors.html#summary-1"><i class="fa fa-check"></i><b>3.4</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html"><i class="fa fa-check"></i><b>4</b> Sympathy and Urgency</a><ul>
 <li class="chapter" data-level="4.1" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#sympathy"><i class="fa fa-check"></i><b>4.1</b> Sympathy</a></li>
@@ -139,6 +135,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-urgency"><i class="fa fa-check"></i><b>4.4</b> Metaphor on Urgency</a></li>
 <li class="chapter" data-level="4.5" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-sympathy"><i class="fa fa-check"></i><b>4.5</b> Cancer Experience on Sympathy</a></li>
 <li class="chapter" data-level="4.6" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-urgency"><i class="fa fa-check"></i><b>4.6</b> Cancer Experience on Urgency</a></li>
+<li class="chapter" data-level="4.7" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#summary-2"><i class="fa fa-check"></i><b>4.7</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="demographics.html"><a href="demographics.html"><i class="fa fa-check"></i><b>5</b> Demographics</a><ul>
 <li class="chapter" data-level="5.1" data-path="demographics.html"><a href="demographics.html#patient-gender"><i class="fa fa-check"></i><b>5.1</b> Patient Gender</a></li>
@@ -153,10 +150,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.7" data-path="demographics.html"><a href="demographics.html#socioeconomics"><i class="fa fa-check"></i><b>5.7</b> Socioeconomics</a></li>
 <li class="chapter" data-level="5.8" data-path="demographics.html"><a href="demographics.html#past-donations"><i class="fa fa-check"></i><b>5.8</b> Past Donations</a></li>
 <li class="chapter" data-level="5.9" data-path="demographics.html"><a href="demographics.html#age"><i class="fa fa-check"></i><b>5.9</b> Age</a></li>
+<li class="chapter" data-level="5.10" data-path="demographics.html"><a href="demographics.html#summary-3"><i class="fa fa-check"></i><b>5.10</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="descriptions.html"><a href="descriptions.html"><i class="fa fa-check"></i><b>6</b> Descriptions</a><ul>
 <li class="chapter" data-level="6.0.1" data-path="descriptions.html"><a href="descriptions.html#quality"><i class="fa fa-check"></i><b>6.0.1</b> Quality</a></li>
-<li class="chapter" data-level="6.0.2" data-path="descriptions.html"><a href="descriptions.html#metaphor"><i class="fa fa-check"></i><b>6.0.2</b> Metaphor</a></li>
+<li class="chapter" data-level="6.1" data-path="descriptions.html"><a href="descriptions.html#summary-4"><i class="fa fa-check"></i><b>6.1</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="response-times.html"><a href="response-times.html"><i class="fa fa-check"></i><b>7</b> Response Times</a><ul>
 <li class="chapter" data-level="7.1" data-path="response-times.html"><a href="response-times.html#main-stimulus-timing"><i class="fa fa-check"></i><b>7.1</b> Main Stimulus Timing</a><ul>
@@ -166,6 +164,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="response-times.html"><a href="response-times.html#experiment-content-timing"><i class="fa fa-check"></i><b>7.2</b> Experiment Content Timing</a></li>
 <li class="chapter" data-level="7.3" data-path="response-times.html"><a href="response-times.html#experiment-timing"><i class="fa fa-check"></i><b>7.3</b> Experiment Timing</a></li>
+<li class="chapter" data-level="7.4" data-path="response-times.html"><a href="response-times.html#summary-5"><i class="fa fa-check"></i><b>7.4</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="mediation.html"><a href="mediation.html"><i class="fa fa-check"></i><b>8</b> Mediation</a><ul>
 <li class="chapter" data-level="8.1" data-path="mediation.html"><a href="mediation.html#any-metaphor-to-literal-condition"><i class="fa fa-check"></i><b>8.1</b> Any Metaphor to Literal condition</a></li>
@@ -181,13 +180,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.4.1" data-path="mediation.html"><a href="mediation.html#sympathy-3"><i class="fa fa-check"></i><b>8.4.1</b> Sympathy</a></li>
 <li class="chapter" data-level="8.4.2" data-path="mediation.html"><a href="mediation.html#urgency-3"><i class="fa fa-check"></i><b>8.4.2</b> Urgency</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="mediation.html"><a href="mediation.html#summary"><i class="fa fa-check"></i><b>8.5</b> Summary</a></li>
+<li class="chapter" data-level="8.5" data-path="mediation.html"><a href="mediation.html#summary-6"><i class="fa fa-check"></i><b>8.5</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="chapter" data-level="9" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>9</b> Introduction</a></li>
-<li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-
+<li class="chapter" data-level="9" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html"><i class="fa fa-check"></i><b>9</b> Setup of the Holdout Analysis</a><ul>
+<li class="chapter" data-level="9.1" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#battle-and-journey-on-donations"><i class="fa fa-check"></i><b>9.1</b> Battle and Journey on Donations</a></li>
+<li class="chapter" data-level="9.2" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#three-way-interaction-on-donations"><i class="fa fa-check"></i><b>9.2</b> Three-way Interaction on Donations</a></li>
+<li class="chapter" data-level="9.3" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#metaphor-on-urgency-1"><i class="fa fa-check"></i><b>9.3</b> Metaphor on Urgency</a></li>
+<li class="chapter" data-level="9.4" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#urgency-on-donations"><i class="fa fa-check"></i><b>9.4</b> Urgency on Donations</a></li>
+<li class="chapter" data-level="9.5" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#summary-7"><i class="fa fa-check"></i><b>9.5</b> Summary</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -206,7 +207,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="sympathy-urgency" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Sympathy and Urgency</h1>
+<h1><span class="header-section-number">4</span> Sympathy and Urgency</h1>
 <p>Summary statistics of sympathy and urgency</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(trials<span class="op">$</span>sympathy, <span class="dt">digits =</span> <span class="dv">2</span>)</code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -219,22 +220,22 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(urgent, <span class="dt">group=</span><span class="dv">1</span>, <span class="dt">y=</span>..prop..)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">6</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Urgent&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Proportion&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Urgent Distribution&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">Her situation is urgent.</span><span class="ch">\&quot;</span><span class="st">&quot;</span>)</code></pre></div>
-<p><img src="book_files/figure-html/unnamed-chunk-82-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-82-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(trials) <span class="op">+</span><span class="st"> </span>itheme <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(sympathy, <span class="dt">group=</span><span class="dv">1</span>, <span class="dt">y=</span>..prop..)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">6</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Sympathy&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Proportion&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Sympathy Distribution&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">Her situation is one I sympathize with.</span><span class="ch">\&quot;</span><span class="st">&quot;</span>)</code></pre></div>
-<p><img src="book_files/figure-html/unnamed-chunk-83-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-83-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(trials) <span class="op">+</span><span class="st"> </span>itheme <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="kw">as.factor</span>(urgent), <span class="dt">fill =</span> cond_metaphor), <span class="dt">width =</span> <span class="fl">0.9</span>, <span class="dt">position =</span> <span class="kw">position_dodge2</span>(<span class="dt">preserve =</span> <span class="st">&quot;single&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Urgent&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Urgent Distribution&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">Her situation is urgent.</span><span class="ch">\&quot;</span><span class="st">&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Pastel1&quot;</span>)</code></pre></div>
-<p><img src="book_files/figure-html/unnamed-chunk-84-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-84-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(trials) <span class="op">+</span><span class="st"> </span>itheme <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="kw">as.factor</span>(sympathy), <span class="dt">fill =</span> cond_metaphor), <span class="dt">width =</span> <span class="fl">0.9</span>, <span class="dt">position =</span> <span class="kw">position_dodge2</span>(<span class="dt">preserve =</span> <span class="st">&quot;single&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Sympathy&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Sympathy Distribution&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">Her situation is sympathy</span><span class="ch">\&quot;</span><span class="st">&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Pastel1&quot;</span>)</code></pre></div>
-<p><img src="book_files/figure-html/unnamed-chunk-85-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-85-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="sympathy" class="section level2">
 <h2><span class="header-section-number">4.1</span> Sympathy</h2>
 <p>Does the metaphorical condition have a relationship to participant’s rating of perceived sympathy?</p>
@@ -250,52 +251,53 @@ model_sympathy_full =<span class="st"> </span><span class="kw">lm</span>(<span c
 ## Model 2: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
 ##     socioeconomic + past_donations.z + age.z + sympathy
 ##   Res.Df     RSS Df Sum of Sq  Pr(&gt;Chi)    
-## 1   4477 1145461                           
-## 2   4476 1064382  1     81079 &lt; 2.2e-16 ***
+## 1   4560 1172938                           
+## 2   4559 1090313  1     82625 &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## Chisq Stat:  330.504 
-## NULL
-## MODEL INFO:
-## Observations: 4502
+## [1] Chisq Stat:  334.919</code></pre>
+<pre><code>## Warning in if (cls == c(&quot;lm&quot;) | cls == c(&quot;glm&quot;, &quot;lm&quot;)) {: the condition has
+## length &gt; 1 and only the first element will be used</code></pre>
+<pre><code>## MODEL INFO:
+## Observations: 4585
 ## Dependent Variable: donation
 ## Type: OLS linear regression 
 ## 
 ## MODEL FIT:
-## F(25,4476) = 19.077, p = 0.000
-## R² = 0.096
-## Adj. R² = 0.091 
+## F(25,4559) = 18.522, p = 0.000
+## R² = 0.092
+## Adj. R² = 0.087 
 ## 
 ## Standard errors: OLS
 ## ------------------------------------------------------------------------
 ##                                 Est.      2.5%    97.5%   t val.       p
 ## --------------------------- -------- --------- -------- -------- -------
-## (Intercept)                    8.658     2.287   15.028    2.664   0.008
-## cond_sexfemale                -0.330    -1.235    0.575   -0.715   0.474
-## self_cancerY                   4.343     2.122    6.565    3.833   0.000
-## self_cancerOO                  6.053     1.252   10.854    2.472   0.013
-## ff_cancerY                     0.917    -0.067    1.902    1.827   0.068
-## ff_cancerOO                    4.137     0.630    7.644    2.313   0.021
-## genderF                        0.537    -0.389    1.463    1.137   0.256
-## genderNB                       2.040    -4.066    8.146    0.655   0.513
-## genderOO                      -3.339   -12.682    6.004   -0.701   0.484
-## educationHS                   -3.912   -10.056    2.232   -1.248   0.212
-## educationA                    -3.608    -9.836    2.620   -1.136   0.256
-## educationB                    -2.359    -8.489    3.771   -0.754   0.451
-## educationM                    -0.776    -7.001    5.450   -0.244   0.807
-## educationP                    -2.294    -8.998    4.410   -0.671   0.502
-## educationD                    -3.027    -9.959    3.904   -0.856   0.392
-## educationOO                   -4.088   -13.710    5.534   -0.833   0.405
-## socioeconomic10-25k           -0.319    -2.039    1.401   -0.363   0.716
-## socioeconomic25-50k            0.144    -1.418    1.707    0.181   0.856
-## socioeconomic50-75k            0.805    -0.857    2.466    0.950   0.342
-## socioeconomic75-100k           1.902    -0.004    3.808    1.956   0.050
-## socioeconomic100-150k          1.296    -0.896    3.487    1.159   0.246
-## socioeconomic&gt;150k             2.198    -0.862    5.257    1.408   0.159
-## socioeconomicOO               -2.132    -5.256    0.992   -1.338   0.181
-## past_donations.z               2.295     1.375    3.215    4.892   0.000
-## age.z                         -1.302    -2.258   -0.345   -2.667   0.008
-## sympathy                       3.339     2.984    3.693   18.465   0.000
+## (Intercept)                    8.810     2.564   15.056    2.765   0.006
+## cond_sexfemale                -0.300    -1.199    0.598   -0.656   0.512
+## self_cancerY                   4.763     2.609    6.917    4.335   0.000
+## self_cancerOO                  5.901     1.190   10.611    2.456   0.014
+## ff_cancerY                     0.824    -0.150    1.798    1.659   0.097
+## ff_cancerOO                    3.566     0.145    6.987    2.044   0.041
+## genderF                        0.508    -0.410    1.425    1.085   0.278
+## genderNB                       2.277    -3.844    8.398    0.729   0.466
+## genderOO                      -6.211   -14.804    2.382   -1.417   0.157
+## educationHS                   -3.757    -9.802    2.288   -1.219   0.223
+## educationA                    -3.595    -9.724    2.535   -1.150   0.250
+## educationB                    -2.075    -8.104    3.955   -0.675   0.500
+## educationM                    -0.654    -6.780    5.472   -0.209   0.834
+## educationP                    -2.040    -8.653    4.573   -0.605   0.545
+## educationD                    -2.772    -9.601    4.057   -0.796   0.426
+## educationOO                   -3.422   -12.953    6.108   -0.704   0.481
+## socioeconomic10-25k           -0.635    -2.331    1.062   -0.733   0.463
+## socioeconomic25-50k           -0.094    -1.633    1.445   -0.120   0.905
+## socioeconomic50-75k            0.814    -0.822    2.450    0.975   0.329
+## socioeconomic75-100k           1.715    -0.166    3.597    1.787   0.074
+## socioeconomic100-150k          1.212    -0.954    3.378    1.097   0.273
+## socioeconomic&gt;150k             2.141    -0.907    5.188    1.377   0.169
+## socioeconomicOO               -2.001    -5.067    1.065   -1.280   0.201
+## past_donations.z               1.111     0.212    2.009    2.424   0.015
+## age.z                         -0.017    -0.935    0.900   -0.037   0.970
+## sympathy                       3.327     2.976    3.677   18.587   0.000
 ## ------------------------------------------------------------------------</code></pre>
 </div>
 <div id="urgency" class="section level2">
@@ -325,52 +327,53 @@ model_urgent_full =<span class="st"> </span><span class="kw">lm</span>(<span cla
 ## Model 2: donation ~ cond_sex + self_cancer + ff_cancer + gender + education + 
 ##     socioeconomic + past_donations.z + age.z + urgent
 ##   Res.Df     RSS Df Sum of Sq  Pr(&gt;Chi)    
-## 1   4477 1145461                           
-## 2   4476 1064422  1     81039 &lt; 2.2e-16 ***
+## 1   4560 1172938                           
+## 2   4559 1093712  1     79226 &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## Chisq Stat:  330.336 
-## NULL
-## MODEL INFO:
-## Observations: 4502
+## [1] Chisq Stat:  320.647</code></pre>
+<pre><code>## Warning in if (cls == c(&quot;lm&quot;) | cls == c(&quot;glm&quot;, &quot;lm&quot;)) {: the condition has
+## length &gt; 1 and only the first element will be used</code></pre>
+<pre><code>## MODEL INFO:
+## Observations: 4585
 ## Dependent Variable: donation
 ## Type: OLS linear regression 
 ## 
 ## MODEL FIT:
-## F(25,4476) = 19.069, p = 0.000
-## R² = 0.096
-## Adj. R² = 0.091 
+## F(25,4559) = 17.898, p = 0.000
+## R² = 0.089
+## Adj. R² = 0.084 
 ## 
 ## Standard errors: OLS
 ## ------------------------------------------------------------------------
 ##                                 Est.      2.5%    97.5%   t val.       p
 ## --------------------------- -------- --------- -------- -------- -------
-## (Intercept)                    8.916     2.552   15.280    2.747   0.006
-## cond_sexfemale                -0.344    -1.249    0.561   -0.746   0.456
-## self_cancerY                   4.458     2.237    6.680    3.934   0.000
-## self_cancerOO                  5.595     0.795   10.395    2.285   0.022
-## ff_cancerY                     1.684     0.705    2.664    3.371   0.001
-## ff_cancerOO                    4.677     1.169    8.184    2.614   0.009
-## genderF                        1.076     0.151    2.001    2.280   0.023
-## genderNB                       2.518    -3.588    8.624    0.809   0.419
-## genderOO                      -2.315   -11.658    7.029   -0.486   0.627
-## educationHS                   -4.426   -10.570    1.719   -1.412   0.158
-## educationA                    -3.954   -10.182    2.274   -1.245   0.213
-## educationB                    -2.560    -8.690    3.571   -0.819   0.413
-## educationM                    -0.619    -6.845    5.607   -0.195   0.845
-## educationP                    -1.642    -8.346    5.063   -0.480   0.631
-## educationD                    -2.982    -9.914    3.950   -0.843   0.399
-## educationOO                   -4.808   -14.431    4.815   -0.980   0.327
-## socioeconomic10-25k           -0.640    -2.359    1.080   -0.729   0.466
-## socioeconomic25-50k            0.005    -1.557    1.568    0.006   0.995
-## socioeconomic50-75k            0.662    -1.000    2.323    0.781   0.435
-## socioeconomic75-100k           2.077     0.170    3.983    2.136   0.033
-## socioeconomic100-150k          1.260    -0.932    3.451    1.127   0.260
-## socioeconomic&gt;150k             2.138    -0.921    5.198    1.370   0.171
-## socioeconomicOO               -1.651    -4.776    1.474   -1.036   0.300
-## past_donations.z               2.529     1.610    3.448    5.394   0.000
-## age.z                         -0.835    -1.789    0.118   -1.717   0.086
-## urgent                         3.330     2.976    3.683   18.460   0.000
+## (Intercept)                    8.924     2.663   15.185    2.794   0.005
+## cond_sexfemale                -0.307    -1.206    0.593   -0.668   0.504
+## self_cancerY                   4.988     2.831    7.145    4.533   0.000
+## self_cancerOO                  5.205     0.488    9.922    2.163   0.031
+## ff_cancerY                     1.617     0.648    2.586    3.270   0.001
+## ff_cancerOO                    4.323     0.896    7.749    2.473   0.013
+## genderF                        1.094     0.176    2.011    2.337   0.019
+## genderNB                       2.739    -3.392    8.869    0.876   0.381
+## genderOO                      -5.741   -14.347    2.866   -1.308   0.191
+## educationHS                   -3.973   -10.027    2.082   -1.286   0.198
+## educationA                    -3.601    -9.740    2.538   -1.150   0.250
+## educationB                    -1.930    -7.968    4.109   -0.626   0.531
+## educationM                    -0.162    -6.297    5.973   -0.052   0.959
+## educationP                    -1.065    -7.688    5.558   -0.315   0.753
+## educationD                    -2.264    -9.104    4.575   -0.649   0.516
+## educationOO                   -3.665   -13.210    5.880   -0.753   0.452
+## socioeconomic10-25k           -0.834    -2.533    0.864   -0.963   0.336
+## socioeconomic25-50k           -0.094    -1.635    1.448   -0.119   0.905
+## socioeconomic50-75k            0.788    -0.850    2.426    0.943   0.346
+## socioeconomic75-100k           2.012     0.128    3.897    2.094   0.036
+## socioeconomic100-150k          1.322    -0.848    3.492    1.194   0.232
+## socioeconomic&gt;150k             2.227    -0.825    5.279    1.431   0.153
+## socioeconomicOO               -1.463    -4.535    1.608   -0.934   0.350
+## past_donations.z               1.065     0.165    1.964    2.320   0.020
+## age.z                          0.167    -0.750    1.085    0.358   0.721
+## urgent                         3.244     2.894    3.594   18.173   0.000
 ## ------------------------------------------------------------------------</code></pre>
 </div>
 <div id="metaphor-on-sympathy" class="section level2">
@@ -406,10 +409,9 @@ model_sympathy_full =<span class="st"> </span><span class="kw">lm</span>(<span c
 ## Model 2: sympathy ~ cond_sex + self_cancer + ff_cancer + gender + education + 
 ##     socioeconomic + past_donations.z + age.z + cond_metaphor
 ##   Res.Df    RSS Df Sum of Sq Pr(&gt;Chi)
-## 1   4477 7274.2                      
-## 2   4475 7274.0  2    0.2518   0.9255
-## Chisq Stat:  0.156 
-## NULL</code></pre>
+## 1   4560 7466.7                      
+## 2   4558 7466.4  2   0.32801   0.9047
+## [1] Chisq Stat:  0.201</code></pre>
 </div>
 <div id="metaphor-on-urgency" class="section level2">
 <h2><span class="header-section-number">4.4</span> Metaphor on Urgency</h2>
@@ -425,19 +427,20 @@ model_urgent_full =<span class="st"> </span><span class="kw">lm</span>(<span cla
 ## Model 2: urgent ~ cond_sex + self_cancer + ff_cancer + gender + education + 
 ##     socioeconomic + past_donations.z + age.z + cond_metaphor
 ##   Res.Df    RSS Df Sum of Sq Pr(&gt;Chi)   
-## 1   2946 4838.1                         
-## 2   2945 4821.4  1    16.733 0.001388 **
+## 1   2998 4940.5                         
+## 2   2997 4923.2  1    17.272 0.001184 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## Chisq Stat:  10.293 
-## NULL
-## MODEL INFO:
-## Observations: 2971
+## [1] Chisq Stat:  10.587</code></pre>
+<pre><code>## Warning in if (cls == c(&quot;lm&quot;) | cls == c(&quot;glm&quot;, &quot;lm&quot;)) {: the condition has
+## length &gt; 1 and only the first element will be used</code></pre>
+<pre><code>## MODEL INFO:
+## Observations: 3023
 ## Dependent Variable: urgent
 ## Type: OLS linear regression 
 ## 
 ## MODEL FIT:
-## F(25,2945) = 2.099, p = 0.001
+## F(25,2997) = 2.153, p = 0.001
 ## R² = 0.018
 ## Adj. R² = 0.009 
 ## 
@@ -445,32 +448,32 @@ model_urgent_full =<span class="st"> </span><span class="kw">lm</span>(<span cla
 ## -----------------------------------------------------------------------
 ##                                 Est.     2.5%    97.5%   t val.       p
 ## --------------------------- -------- -------- -------- -------- -------
-## (Intercept)                    4.683    4.061    5.304   14.770   0.000
-## cond_sexfemale                -0.025   -0.118    0.067   -0.537   0.592
-## self_cancerY                  -0.016   -0.236    0.205   -0.139   0.890
-## self_cancerOO                 -0.221   -0.718    0.275   -0.874   0.382
-## ff_cancerY                     0.075   -0.026    0.176    1.453   0.146
-## ff_cancerOO                   -0.085   -0.425    0.255   -0.489   0.625
-## genderF                       -0.016   -0.110    0.079   -0.326   0.745
-## genderNB                       0.012   -0.643    0.666    0.034   0.973
-## genderOO                       0.260   -0.654    1.174    0.558   0.577
-## educationHS                    0.044   -0.575    0.662    0.139   0.890
-## educationA                    -0.050   -0.678    0.577   -0.157   0.875
-## educationB                    -0.082   -0.699    0.535   -0.261   0.794
-## educationM                    -0.136   -0.763    0.491   -0.426   0.670
-## educationP                    -0.272   -0.954    0.409   -0.784   0.433
-## educationD                    -0.110   -0.809    0.590   -0.307   0.759
-## educationOO                   -0.103   -1.024    0.818   -0.219   0.827
-## socioeconomic10-25k           -0.000   -0.175    0.174   -0.003   0.998
-## socioeconomic25-50k            0.141   -0.019    0.301    1.723   0.085
-## socioeconomic50-75k            0.129   -0.041    0.300    1.487   0.137
-## socioeconomic75-100k          -0.018   -0.213    0.176   -0.186   0.852
-## socioeconomic100-150k         -0.141   -0.366    0.084   -1.227   0.220
-## socioeconomic&gt;150k            -0.077   -0.383    0.228   -0.495   0.620
-## socioeconomicOO               -0.145   -0.454    0.164   -0.921   0.357
-## past_donations.z               0.035   -0.056    0.125    0.750   0.453
-## age.z                          0.158    0.059    0.257    3.143   0.002
-## cond_metaphorjourney          -0.151   -0.243   -0.058   -3.197   0.001
+## (Intercept)                    4.674    4.052    5.296   14.726   0.000
+## cond_sexfemale                -0.021   -0.113    0.071   -0.455   0.649
+## self_cancerY                  -0.018   -0.234    0.199   -0.161   0.872
+## self_cancerOO                 -0.229   -0.716    0.258   -0.921   0.357
+## ff_cancerY                     0.097   -0.003    0.197    1.894   0.058
+## ff_cancerOO                   -0.065   -0.397    0.267   -0.386   0.700
+## genderF                       -0.022   -0.116    0.072   -0.451   0.652
+## genderNB                       0.013   -0.643    0.668    0.038   0.970
+## genderOO                       0.438   -0.378    1.253    1.053   0.293
+## educationHS                    0.050   -0.570    0.669    0.157   0.875
+## educationA                    -0.032   -0.660    0.596   -0.100   0.920
+## educationB                    -0.076   -0.693    0.542   -0.240   0.810
+## educationM                    -0.146   -0.774    0.482   -0.456   0.648
+## educationP                    -0.245   -0.927    0.437   -0.704   0.481
+## educationD                    -0.114   -0.812    0.583   -0.322   0.748
+## educationOO                   -0.143   -1.064    0.778   -0.304   0.761
+## socioeconomic10-25k           -0.014   -0.187    0.159   -0.159   0.874
+## socioeconomic25-50k            0.116   -0.043    0.274    1.428   0.153
+## socioeconomic50-75k            0.124   -0.045    0.292    1.438   0.150
+## socioeconomic75-100k          -0.019   -0.212    0.175   -0.189   0.850
+## socioeconomic100-150k         -0.143   -0.367    0.081   -1.250   0.211
+## socioeconomic&gt;150k            -0.078   -0.382    0.227   -0.499   0.618
+## socioeconomicOO               -0.117   -0.421    0.187   -0.756   0.450
+## past_donations.z               0.027   -0.059    0.113    0.612   0.541
+## age.z                          0.268    0.107    0.429    3.263   0.001
+## cond_metaphorjourney          -0.152   -0.244   -0.060   -3.243   0.001
 ## -----------------------------------------------------------------------</code></pre>
 </div>
 <div id="cancer-experience-on-sympathy" class="section level2">
@@ -486,10 +489,9 @@ model_selfcancer_sympathy_full =<span class="st"> </span><span class="kw">lm</sp
 ## Model 2: sympathy ~ cond_sex + self_cancer + ff_cancer + gender + education + 
 ##     socioeconomic + past_donations.z + age.z
 ##   Res.Df    RSS Df Sum of Sq Pr(&gt;Chi)
-## 1   4479 7276.2                      
-## 2   4477 7274.2  2    1.9125   0.5551
-## Chisq Stat:  1.183 
-## NULL</code></pre>
+## 1   4562 7469.7                      
+## 2   4560 7466.7  2    2.9599    0.405
+## [1] Chisq Stat:  1.817</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_ffcancer_sympathy_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, sympathy <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>ff_cancer), <span class="dt">data =</span> trials)
 model_ffcancer_sympathy_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, sympathy <span class="op">~</span><span class="st"> </span>.), <span class="dt">data =</span> trials)
 
@@ -501,52 +503,53 @@ model_ffcancer_sympathy_full =<span class="st"> </span><span class="kw">lm</span
 ## Model 2: sympathy ~ cond_sex + self_cancer + ff_cancer + gender + education + 
 ##     socioeconomic + past_donations.z + age.z
 ##   Res.Df    RSS Df Sum of Sq  Pr(&gt;Chi)    
-## 1   4479 7349.8                           
-## 2   4477 7274.2  2      75.6 7.879e-11 ***
+## 1   4562 7565.5                           
+## 2   4560 7466.7  2    98.769 7.977e-14 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## Chisq Stat:  46.547 
-## NULL
-## MODEL INFO:
-## Observations: 4502
+## [1] Chisq Stat:  60.252</code></pre>
+<pre><code>## Warning in if (cls == c(&quot;lm&quot;) | cls == c(&quot;glm&quot;, &quot;lm&quot;)) {: the condition has
+## length &gt; 1 and only the first element will be used</code></pre>
+<pre><code>## MODEL INFO:
+## Observations: 4585
 ## Dependent Variable: sympathy
 ## Type: OLS linear regression 
 ## 
 ## MODEL FIT:
-## F(24,4477) = 6.780, p = 0.000
-## R² = 0.035
-## Adj. R² = 0.030 
+## F(24,4560) = 5.319, p = 0.000
+## R² = 0.027
+## Adj. R² = 0.022 
 ## 
 ## Standard errors: OLS
-## -----------------------------------------------------------------------
-##                                 Est.     2.5%    97.5%   t val.       p
-## --------------------------- -------- -------- -------- -------- -------
-## (Intercept)                    4.571    4.062    5.080   17.595   0.000
-## cond_sexfemale                -0.059   -0.134    0.016   -1.544   0.123
-## self_cancerY                  -0.004   -0.188    0.180   -0.043   0.966
-## self_cancerOO                 -0.220   -0.616    0.177   -1.085   0.278
-## ff_cancerY                     0.277    0.197    0.358    6.720   0.000
-## ff_cancerOO                    0.006   -0.284    0.296    0.040   0.968
-## genderF                        0.125    0.049    0.202    3.216   0.001
-## genderNB                       0.045   -0.460    0.550    0.174   0.862
-## genderOO                       0.077   -0.695    0.849    0.195   0.845
-## educationHS                    0.109   -0.399    0.617    0.422   0.673
-## educationA                     0.020   -0.494    0.535    0.078   0.938
-## educationB                     0.016   -0.491    0.523    0.062   0.951
-## educationM                     0.085   -0.430    0.599    0.322   0.747
-## educationP                     0.093   -0.461    0.647    0.330   0.742
-## educationD                    -0.099   -0.672    0.474   -0.340   0.734
-## educationOO                   -0.015   -0.810    0.780   -0.037   0.970
-## socioeconomic10-25k           -0.151   -0.293   -0.009   -2.086   0.037
-## socioeconomic25-50k            0.017   -0.112    0.146    0.262   0.793
-## socioeconomic50-75k            0.045   -0.092    0.183    0.646   0.518
-## socioeconomic75-100k           0.022   -0.135    0.180    0.277   0.782
-## socioeconomic100-150k         -0.126   -0.307    0.055   -1.363   0.173
-## socioeconomic&gt;150k            -0.212   -0.465    0.041   -1.645   0.100
-## socioeconomicOO               -0.072   -0.330    0.186   -0.548   0.583
-## past_donations.z               0.098    0.022    0.174    2.529   0.011
-## age.z                          0.250    0.171    0.328    6.213   0.000
-## -----------------------------------------------------------------------</code></pre>
+## ----------------------------------------------------------------------
+##                                 Est.     2.5%   97.5%   t val.       p
+## --------------------------- -------- -------- ------- -------- -------
+## (Intercept)                    4.385    3.885   4.886   17.165   0.000
+## cond_sexfemale                -0.046   -0.120   0.028   -1.215   0.224
+## self_cancerY                  -0.001   -0.179   0.177   -0.013   0.990
+## self_cancerOO                 -0.267   -0.657   0.122   -1.344   0.179
+## ff_cancerY                     0.315    0.235   0.395    7.711   0.000
+## ff_cancerOO                    0.068   -0.215   0.351    0.473   0.636
+## genderF                        0.146    0.070   0.222    3.783   0.000
+## genderNB                       0.045   -0.462   0.551    0.174   0.862
+## genderOO                       0.154   -0.557   0.865    0.425   0.671
+## educationHS                    0.196   -0.304   0.696    0.768   0.443
+## educationA                     0.144   -0.363   0.652    0.559   0.577
+## educationB                     0.124   -0.375   0.622    0.485   0.627
+## educationM                     0.196   -0.310   0.703    0.760   0.447
+## educationP                     0.222   -0.325   0.770    0.797   0.425
+## educationD                     0.064   -0.501   0.629    0.222   0.824
+## educationOO                    0.079   -0.709   0.868    0.197   0.844
+## socioeconomic10-25k           -0.116   -0.256   0.025   -1.617   0.106
+## socioeconomic25-50k            0.057   -0.071   0.184    0.873   0.383
+## socioeconomic50-75k            0.083   -0.053   0.218    1.198   0.231
+## socioeconomic75-100k           0.070   -0.086   0.225    0.879   0.380
+## socioeconomic100-150k         -0.059   -0.238   0.121   -0.642   0.521
+## socioeconomic&gt;150k            -0.148   -0.400   0.104   -1.150   0.250
+## socioeconomicOO               -0.047   -0.300   0.207   -0.360   0.719
+## past_donations.z              -0.009   -0.083   0.065   -0.238   0.812
+## age.z                          0.129    0.053   0.205    3.337   0.001
+## ----------------------------------------------------------------------</code></pre>
 </div>
 <div id="cancer-experience-on-urgency" class="section level2">
 <h2><span class="header-section-number">4.6</span> Cancer Experience on Urgency</h2>
@@ -561,10 +564,9 @@ model_selfcancer_urgent_full =<span class="st"> </span><span class="kw">lm</span
 ## Model 2: urgent ~ cond_sex + self_cancer + ff_cancer + gender + education + 
 ##     socioeconomic + past_donations.z + age.z
 ##   Res.Df    RSS Df Sum of Sq Pr(&gt;Chi)
-## 1   4479 7309.7                      
-## 2   4477 7309.2  2   0.53564   0.8487
-## Chisq Stat:  0.33 
-## NULL</code></pre>
+## 1   4562 7529.9                      
+## 2   4560 7528.8  2    1.1205   0.7122
+## [1] Chisq Stat:  0.682</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_ffcancer_urgent_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, urgent <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>ff_cancer), <span class="dt">data =</span> trials)
 model_ffcancer_urgent_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, urgent <span class="op">~</span><span class="st"> </span>.), <span class="dt">data =</span> trials)
 
@@ -575,11 +577,57 @@ model_ffcancer_urgent_full =<span class="st"> </span><span class="kw">lm</span>(
 ##     past_donations.z + age.z
 ## Model 2: urgent ~ cond_sex + self_cancer + ff_cancer + gender + education + 
 ##     socioeconomic + past_donations.z + age.z
-##   Res.Df    RSS Df Sum of Sq Pr(&gt;Chi)
-## 1   4479 7314.1                      
-## 2   4477 7309.2  2    4.8578   0.2259
-## Chisq Stat:  2.991 
-## NULL</code></pre>
+##   Res.Df    RSS Df Sum of Sq Pr(&gt;Chi)  
+## 1   4562 7538.5                        
+## 2   4560 7528.8  2    9.7228  0.05263 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## [1] Chisq Stat:  5.917</code></pre>
+<pre><code>## Warning in if (cls == c(&quot;lm&quot;) | cls == c(&quot;glm&quot;, &quot;lm&quot;)) {: the condition has
+## length &gt; 1 and only the first element will be used</code></pre>
+<pre><code>## MODEL INFO:
+## Observations: 4585
+## Dependent Variable: urgent
+## Type: OLS linear regression 
+## 
+## MODEL FIT:
+## F(24,4560) = 2.152, p = 0.001
+## R² = 0.011
+## Adj. R² = 0.006 
+## 
+## Standard errors: OLS
+## ----------------------------------------------------------------------
+##                                 Est.     2.5%   97.5%   t val.       p
+## --------------------------- -------- -------- ------- -------- -------
+## (Intercept)                    4.462    3.959   4.965   17.392   0.000
+## cond_sexfemale                -0.045   -0.120   0.029   -1.191   0.234
+## self_cancerY                  -0.071   -0.250   0.108   -0.773   0.440
+## self_cancerOO                 -0.060   -0.451   0.332   -0.299   0.765
+## ff_cancerY                     0.078   -0.002   0.159    1.913   0.056
+## ff_cancerOO                   -0.163   -0.447   0.121   -1.125   0.260
+## genderF                       -0.031   -0.107   0.045   -0.790   0.429
+## genderNB                      -0.096   -0.605   0.412   -0.371   0.711
+## genderOO                       0.013   -0.701   0.727    0.036   0.971
+## educationHS                    0.267   -0.235   0.770    1.044   0.297
+## educationA                     0.150   -0.359   0.659    0.577   0.564
+## educationB                     0.082   -0.419   0.583    0.320   0.749
+## educationM                     0.050   -0.459   0.559    0.192   0.848
+## educationP                    -0.072   -0.622   0.477   -0.259   0.796
+## educationD                    -0.091   -0.658   0.477   -0.313   0.754
+## educationOO                    0.156   -0.636   0.948    0.386   0.699
+## socioeconomic10-25k           -0.057   -0.198   0.084   -0.794   0.427
+## socioeconomic25-50k            0.058   -0.070   0.186    0.890   0.373
+## socioeconomic50-75k            0.093   -0.043   0.229    1.339   0.181
+## socioeconomic75-100k          -0.020   -0.176   0.136   -0.251   0.802
+## socioeconomic100-150k         -0.094   -0.274   0.086   -1.025   0.305
+## socioeconomic&gt;150k            -0.178   -0.431   0.075   -1.381   0.167
+## socioeconomicOO               -0.214   -0.468   0.041   -1.644   0.100
+## past_donations.z               0.005   -0.070   0.080    0.128   0.898
+## age.z                          0.075   -0.001   0.151    1.941   0.052
+## ----------------------------------------------------------------------</code></pre>
+</div>
+<div id="summary-2" class="section level2">
+<h2><span class="header-section-number">4.7</span> Summary</h2>
 
 </div>
 </div>
@@ -631,7 +679,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["book.pdf", "book.epub"],
+"download": null,
 "toc": {
 "collapse": "subsection"
 }

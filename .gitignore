@@ -12,12 +12,9 @@ experiment_analysis/materials/web/debrief.pdf
 experiment_analysis/materials/web/consent.pdf
 experiment_analysis/materials/web/campaign_src
 
-gofundme_analysis/exploration/labeling_times.txt
-
 .idea
 
 */.ipynb_checkpoints
-*.Rproj
 .Rproj.user
 .RData
 .Rhistory

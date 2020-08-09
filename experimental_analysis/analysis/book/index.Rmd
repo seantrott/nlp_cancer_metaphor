@@ -3,12 +3,10 @@ title: "Metaphors on Charitable Donations"
 author: "Alex Liebscher"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-rmd_files: ["index.Rmd", "01-overview.Rmd"]
 documentclass: book
-bibliography: [book.bib, packages.bib]
-biblio-style: apalike
-link-citations: yes
 description: "Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients"
+output:
+  bookdown::gitbook: default
 ---
 
 # Prerequisites
@@ -25,6 +23,7 @@ library(gridExtra) # for combining plots
 # library(showtext) # for custom fonts in presentation graphs
 library(ggsignif)
 library(glue)
+library(crayon)
 library(pwr)
 ```
 

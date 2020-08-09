@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>9 Setup of the Holdout Analysis | Metaphors on Charitable Donations</title>
+  <meta name="description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="9 Setup of the Holdout Analysis | Metaphors on Charitable Donations" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="9 Setup of the Holdout Analysis | Metaphors on Charitable Donations" />
+  
+  <meta name="twitter:description" content="Effects of Battle and Journey Metaphors on Charitable Donations for Cancer Patients" />
+  
+
+<meta name="author" content="Alex Liebscher" />
+
+
+<meta name="date" content="2020-08-09" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="mediation.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#load-libraries"><i class="fa fa-check"></i><b>1.1</b> Load Libraries</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#load-data"><i class="fa fa-check"></i><b>1.2</b> Load Data</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#build-custom-functions"><i class="fa fa-check"></i><b>1.3</b> Build Custom Functions</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#set-custom-plot-themes"><i class="fa fa-check"></i><b>1.4</b> Set Custom Plot Themes</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>2</b> Data Overview</a><ul>
+<li class="chapter" data-level="2.1" data-path="overview.html"><a href="overview.html#tabular-summaries"><i class="fa fa-check"></i><b>2.1</b> Tabular Summaries</a></li>
+<li class="chapter" data-level="2.2" data-path="overview.html"><a href="overview.html#visualization-summaries"><i class="fa fa-check"></i><b>2.2</b> Visualization Summaries</a></li>
+<li class="chapter" data-level="2.3" data-path="overview.html"><a href="overview.html#duration-statistics"><i class="fa fa-check"></i><b>2.3</b> Duration Statistics</a></li>
+<li class="chapter" data-level="2.4" data-path="overview.html"><a href="overview.html#coarse-donation-behavior"><i class="fa fa-check"></i><b>2.4</b> Coarse Donation Behavior</a></li>
+<li class="chapter" data-level="2.5" data-path="overview.html"><a href="overview.html#summary"><i class="fa fa-check"></i><b>2.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="metaphors.html"><a href="metaphors.html"><i class="fa fa-check"></i><b>3</b> Metaphors</a><ul>
+<li class="chapter" data-level="3.1" data-path="metaphors.html"><a href="metaphors.html#immediate-alternative-questions"><i class="fa fa-check"></i><b>3.1</b> Immediate Alternative Questions</a></li>
+<li class="chapter" data-level="3.2" data-path="metaphors.html"><a href="metaphors.html#coarse-donation-groups"><i class="fa fa-check"></i><b>3.2</b> Coarse Donation Groups</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-wide-donation-group"><i class="fa fa-check"></i><b>3.2.1</b> Metaphor Condition and Presence on Likelihood of Wide Donation Group</a></li>
+<li class="chapter" data-level="3.2.2" data-path="metaphors.html"><a href="metaphors.html#metaphor-condition-and-presence-on-likelihood-of-narrow-donation-group"><i class="fa fa-check"></i><b>3.2.2</b> Metaphor Condition and Presence on Likelihood of Narrow Donation Group</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="metaphors.html"><a href="metaphors.html#broader-alternative-questions"><i class="fa fa-check"></i><b>3.3</b> Broader Alternative Questions</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="metaphors.html"><a href="metaphors.html#random-forest-regression"><i class="fa fa-check"></i><b>3.3.1</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="3.3.2" data-path="metaphors.html"><a href="metaphors.html#gradient-boosted-trees"><i class="fa fa-check"></i><b>3.3.2</b> Gradient Boosted Trees</a></li>
+<li class="chapter" data-level="3.3.3" data-path="metaphors.html"><a href="metaphors.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.3.3</b> Generalized Additive Models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="metaphors.html"><a href="metaphors.html#summary-1"><i class="fa fa-check"></i><b>3.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html"><i class="fa fa-check"></i><b>4</b> Sympathy and Urgency</a><ul>
+<li class="chapter" data-level="4.1" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#sympathy"><i class="fa fa-check"></i><b>4.1</b> Sympathy</a></li>
+<li class="chapter" data-level="4.2" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#urgency"><i class="fa fa-check"></i><b>4.2</b> Urgency</a></li>
+<li class="chapter" data-level="4.3" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-sympathy"><i class="fa fa-check"></i><b>4.3</b> Metaphor on Sympathy</a></li>
+<li class="chapter" data-level="4.4" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#metaphor-on-urgency"><i class="fa fa-check"></i><b>4.4</b> Metaphor on Urgency</a></li>
+<li class="chapter" data-level="4.5" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-sympathy"><i class="fa fa-check"></i><b>4.5</b> Cancer Experience on Sympathy</a></li>
+<li class="chapter" data-level="4.6" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#cancer-experience-on-urgency"><i class="fa fa-check"></i><b>4.6</b> Cancer Experience on Urgency</a></li>
+<li class="chapter" data-level="4.7" data-path="sympathy-urgency.html"><a href="sympathy-urgency.html#summary-2"><i class="fa fa-check"></i><b>4.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="demographics.html"><a href="demographics.html"><i class="fa fa-check"></i><b>5</b> Demographics</a><ul>
+<li class="chapter" data-level="5.1" data-path="demographics.html"><a href="demographics.html#patient-gender"><i class="fa fa-check"></i><b>5.1</b> Patient Gender</a></li>
+<li class="chapter" data-level="5.2" data-path="demographics.html"><a href="demographics.html#gender"><i class="fa fa-check"></i><b>5.2</b> Gender</a></li>
+<li class="chapter" data-level="5.3" data-path="demographics.html"><a href="demographics.html#gender-congruency-effects"><i class="fa fa-check"></i><b>5.3</b> Gender Congruency Effects</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="demographics.html"><a href="demographics.html#gender-congruence-on-sympathy"><i class="fa fa-check"></i><b>5.3.1</b> Gender Congruence on Sympathy</a></li>
+<li class="chapter" data-level="5.3.2" data-path="demographics.html"><a href="demographics.html#gender-congruence-on-urgency"><i class="fa fa-check"></i><b>5.3.2</b> Gender Congruence on Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="demographics.html"><a href="demographics.html#self-cancer"><i class="fa fa-check"></i><b>5.4</b> Self Cancer</a></li>
+<li class="chapter" data-level="5.5" data-path="demographics.html"><a href="demographics.html#friends-and-family-cancer"><i class="fa fa-check"></i><b>5.5</b> Friends and Family Cancer</a></li>
+<li class="chapter" data-level="5.6" data-path="demographics.html"><a href="demographics.html#education"><i class="fa fa-check"></i><b>5.6</b> Education</a></li>
+<li class="chapter" data-level="5.7" data-path="demographics.html"><a href="demographics.html#socioeconomics"><i class="fa fa-check"></i><b>5.7</b> Socioeconomics</a></li>
+<li class="chapter" data-level="5.8" data-path="demographics.html"><a href="demographics.html#past-donations"><i class="fa fa-check"></i><b>5.8</b> Past Donations</a></li>
+<li class="chapter" data-level="5.9" data-path="demographics.html"><a href="demographics.html#age"><i class="fa fa-check"></i><b>5.9</b> Age</a></li>
+<li class="chapter" data-level="5.10" data-path="demographics.html"><a href="demographics.html#summary-3"><i class="fa fa-check"></i><b>5.10</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="descriptions.html"><a href="descriptions.html"><i class="fa fa-check"></i><b>6</b> Descriptions</a><ul>
+<li class="chapter" data-level="6.0.1" data-path="descriptions.html"><a href="descriptions.html#quality"><i class="fa fa-check"></i><b>6.0.1</b> Quality</a></li>
+<li class="chapter" data-level="6.1" data-path="descriptions.html"><a href="descriptions.html#summary-4"><i class="fa fa-check"></i><b>6.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="response-times.html"><a href="response-times.html"><i class="fa fa-check"></i><b>7</b> Response Times</a><ul>
+<li class="chapter" data-level="7.1" data-path="response-times.html"><a href="response-times.html#main-stimulus-timing"><i class="fa fa-check"></i><b>7.1</b> Main Stimulus Timing</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="response-times.html"><a href="response-times.html#relationship-with-metaphor-condition"><i class="fa fa-check"></i><b>7.1.1</b> Relationship with Metaphor Condition</a></li>
+<li class="chapter" data-level="7.1.2" data-path="response-times.html"><a href="response-times.html#continuous-rt"><i class="fa fa-check"></i><b>7.1.2</b> Continuous RT</a></li>
+<li class="chapter" data-level="7.1.3" data-path="response-times.html"><a href="response-times.html#discretized-rt"><i class="fa fa-check"></i><b>7.1.3</b> Discretized RT</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="response-times.html"><a href="response-times.html#experiment-content-timing"><i class="fa fa-check"></i><b>7.2</b> Experiment Content Timing</a></li>
+<li class="chapter" data-level="7.3" data-path="response-times.html"><a href="response-times.html#experiment-timing"><i class="fa fa-check"></i><b>7.3</b> Experiment Timing</a></li>
+<li class="chapter" data-level="7.4" data-path="response-times.html"><a href="response-times.html#summary-5"><i class="fa fa-check"></i><b>7.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="mediation.html"><a href="mediation.html"><i class="fa fa-check"></i><b>8</b> Mediation</a><ul>
+<li class="chapter" data-level="8.1" data-path="mediation.html"><a href="mediation.html#any-metaphor-to-literal-condition"><i class="fa fa-check"></i><b>8.1</b> Any Metaphor to Literal condition</a></li>
+<li class="chapter" data-level="8.2" data-path="mediation.html"><a href="mediation.html#battle-to-literal-condition"><i class="fa fa-check"></i><b>8.2</b> Battle to Literal condition</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="mediation.html"><a href="mediation.html#sympathy-1"><i class="fa fa-check"></i><b>8.2.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.2.2" data-path="mediation.html"><a href="mediation.html#urgency-1"><i class="fa fa-check"></i><b>8.2.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="mediation.html"><a href="mediation.html#journey-to-literal-condition"><i class="fa fa-check"></i><b>8.3</b> Journey to Literal condition</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="mediation.html"><a href="mediation.html#sympathy-2"><i class="fa fa-check"></i><b>8.3.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.3.2" data-path="mediation.html"><a href="mediation.html#urgency-2"><i class="fa fa-check"></i><b>8.3.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="mediation.html"><a href="mediation.html#battle-to-journey-condition"><i class="fa fa-check"></i><b>8.4</b> Battle to Journey condition</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="mediation.html"><a href="mediation.html#sympathy-3"><i class="fa fa-check"></i><b>8.4.1</b> Sympathy</a></li>
+<li class="chapter" data-level="8.4.2" data-path="mediation.html"><a href="mediation.html#urgency-3"><i class="fa fa-check"></i><b>8.4.2</b> Urgency</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="mediation.html"><a href="mediation.html#summary-6"><i class="fa fa-check"></i><b>8.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html"><i class="fa fa-check"></i><b>9</b> Setup of the Holdout Analysis</a><ul>
+<li class="chapter" data-level="9.1" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#battle-and-journey-on-donations"><i class="fa fa-check"></i><b>9.1</b> Battle and Journey on Donations</a></li>
+<li class="chapter" data-level="9.2" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#three-way-interaction-on-donations"><i class="fa fa-check"></i><b>9.2</b> Three-way Interaction on Donations</a></li>
+<li class="chapter" data-level="9.3" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#metaphor-on-urgency-1"><i class="fa fa-check"></i><b>9.3</b> Metaphor on Urgency</a></li>
+<li class="chapter" data-level="9.4" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#urgency-on-donations"><i class="fa fa-check"></i><b>9.4</b> Urgency on Donations</a></li>
+<li class="chapter" data-level="9.5" data-path="setup-of-the-holdout-analysis.html"><a href="setup-of-the-holdout-analysis.html#summary-7"><i class="fa fa-check"></i><b>9.5</b> Summary</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Metaphors on Charitable Donations</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="setup-of-the-holdout-analysis" class="section level1">
+<h1><span class="header-section-number">9</span> Setup of the Holdout Analysis</h1>
+<p>Four power analyses are run here to determine what relationships may be validated in the holdout set. First, the relationship between the battle and journey conditions on donation amount. Second, the three-way interaction between metaphor, ppt gender, and patient gender. Third, the relationship between metaphor and urgency. Fourth, the relationship between urgency and donation.</p>
+<p>Two approaches are performed: numerical calculations and G*Power. These should align.</p>
+<p>Numerical calculations are done by calculating the effect size, the number of samples, and the number of predictors, and finally using Cohen (1988) to determine the power.</p>
+<p>We make the assumption that we’ll have the same number of covariates (this relies on no factor levels having 0 samples).</p>
+<div id="battle-and-journey-on-donations" class="section level2">
+<h2><span class="header-section-number">9.1</span> Battle and Journey on Donations</h2>
+<p>Null hypothesis: The metaphor condition does not predict donation amounts</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># first, use only responses which were exposed to either metaphor</span>
+literal_mask =<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;literal&quot;</span>
+
+<span class="co"># then construct a base model and full model (includes the metaphor predictor)</span>
+model_battle_journey_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>.), <span class="dt">data =</span> trials[literal_mask, ])
+model_battle_journey_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), <span class="dt">data =</span> trials[literal_mask, ])
+
+<span class="co"># then calculate the effect size (Cohens f-squared between two models)</span>
+f &lt;-<span class="st"> </span><span class="kw">f.sq</span>(
+  <span class="kw">lm</span>(donation <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> trials[literal_mask, ]),
+  model_battle_journey_base,
+  model_battle_journey_full
+)
+
+<span class="co"># print the effect size, the sample size, and the number of predictors</span>
+f</code></pre></div>
+<pre><code>## [1] 0.001472744</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(model_battle_journey_base<span class="op">$</span>model)</code></pre></div>
+<pre><code>## [1] 3023</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">coef</span>(model_battle_journey_base))<span class="op">-</span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] 24</code></pre>
+<p>Power calculation for finding a true effect:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pwr.f2.test</span>(<span class="dt">u =</span> <span class="dv">1</span>, <span class="dt">v =</span> <span class="dv">3023</span> <span class="op">-</span><span class="st"> </span><span class="dv">24</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">f2 =</span> f, <span class="dt">power =</span> <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 1
+##               v = 2998
+##              f2 = 0.001472744
+##       sig.level = 0.05
+##           power = 0.5562165</code></pre>
+<p>Post-hoc Power: 55.62%</p>
+<p>G*Power: 55.94%, confirmed</p>
+<p>Power calculation for finding a true effect in the holdout data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pwr.f2.test</span>(<span class="dt">u =</span> <span class="dv">1</span>, <span class="dt">v =</span> <span class="dv">1012</span> <span class="op">-</span><span class="st"> </span><span class="dv">24</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">f2 =</span> f, <span class="dt">power =</span> <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 1
+##               v = 987
+##              f2 = 0.001472744
+##       sig.level = 0.05
+##           power = 0.2261188</code></pre>
+<p>Power: 22.61%</p>
+<p>G*Power: 23.03%, confirmed</p>
+</div>
+<div id="three-way-interaction-on-donations" class="section level2">
+<h2><span class="header-section-number">9.2</span> Three-way Interaction on Donations</h2>
+<p>Null hypothesis: A three-way interaction between Metaphor-Ppt Gender-Patient Gender does not improve the correlation coefficient (the population parameter tested in )</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># first, use only responses which were exposed to either metaphor and limit the ppt gender</span>
+threeway_mask =<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;literal&quot;</span> <span class="op">&amp;</span><span class="st"> </span>trials<span class="op">$</span>gender <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>)
+
+<span class="co"># then construct a base model and full model (includes the three-way predictor)</span>
+model_threeway_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor <span class="op">*</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>cond_metaphor <span class="op">*</span><span class="st"> </span>cond_sex <span class="op">+</span><span class="st"> </span>gender <span class="op">*</span><span class="st"> </span>cond_sex),
+                         <span class="dt">data =</span> trials[threeway_mask, ])
+model_threeway_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor <span class="op">*</span><span class="st"> </span>cond_sex <span class="op">*</span><span class="st"> </span>gender),
+                         <span class="dt">data =</span> trials[threeway_mask, ])
+
+<span class="co"># then calculate the effect size (Cohens f-squared between two models)</span>
+f &lt;-<span class="st"> </span><span class="kw">f.sq</span>(
+  <span class="kw">lm</span>(donation <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> trials[threeway_mask, ]),
+  model_threeway_base,
+  model_threeway_full
+)
+
+<span class="co"># print the effect size, the sample size, and the number of predictors</span>
+f</code></pre></div>
+<pre><code>## [1] 0.002642116</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(model_threeway_base<span class="op">$</span>model)</code></pre></div>
+<pre><code>## [1] 2998</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">coef</span>(model_threeway_base))<span class="op">-</span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] 26</code></pre>
+<p>Power calculation for finding a true effect:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pwr.f2.test</span>(<span class="dt">u =</span> <span class="dv">1</span>, <span class="dt">v =</span> <span class="dv">2998</span> <span class="op">-</span><span class="st"> </span><span class="dv">26</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">f2 =</span> f, <span class="dt">power =</span> <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 1
+##               v = 2971
+##              f2 = 0.002642116
+##       sig.level = 0.05
+##           power = 0.8000536</code></pre>
+<p>Post-hoc Power: 80.01%</p>
+<p>G*Power: 80.33%, confirmed</p>
+<p>Power calculation for finding a true effect in the holdout data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pwr.f2.test</span>(<span class="dt">u =</span> <span class="dv">1</span>, <span class="dt">v =</span> <span class="dv">1012</span> <span class="op">-</span><span class="st"> </span><span class="dv">26</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">f2 =</span> f, <span class="dt">power =</span> <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 1
+##               v = 985
+##              f2 = 0.002642116
+##       sig.level = 0.05
+##           power = 0.3645923</code></pre>
+<p>Power: 36.46%</p>
+<p>G*Power: 37.22%, confirmed</p>
+</div>
+<div id="metaphor-on-urgency-1" class="section level2">
+<h2><span class="header-section-number">9.3</span> Metaphor on Urgency</h2>
+<p>Null hypothesis: Metaphor does not predict urgency</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># first, use only responses which were exposed to either metaphor</span>
+literal_mask =<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;literal&quot;</span>
+
+<span class="co"># then construct a base model and full model (includes the metaphor predictor)</span>
+model_battle_journey_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, urgent <span class="op">~</span><span class="st"> </span>.), <span class="dt">data =</span> trials[literal_mask, ])
+model_battle_journey_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, urgent <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>cond_metaphor), <span class="dt">data =</span> trials[literal_mask, ])
+
+<span class="co"># then calculate the effect size (Cohens f-squared between two models)</span>
+f &lt;-<span class="st"> </span><span class="kw">f.sq</span>(
+  <span class="kw">lm</span>(donation <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> trials[literal_mask, ]),
+  model_battle_journey_base,
+  model_battle_journey_full
+)
+
+<span class="co"># print the effect size, the sample size, and the number of predictors</span>
+f</code></pre></div>
+<pre><code>## [1] 0.00350833</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(model_battle_journey_base<span class="op">$</span>model)</code></pre></div>
+<pre><code>## [1] 3023</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">coef</span>(model_battle_journey_base))<span class="op">-</span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] 24</code></pre>
+<p>Power calculation for finding a true effect:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pwr.f2.test</span>(<span class="dt">u =</span> <span class="dv">1</span>, <span class="dt">v =</span> <span class="dv">3023</span> <span class="op">-</span><span class="st"> </span><span class="dv">24</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">f2 =</span> f, <span class="dt">power =</span> <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 1
+##               v = 2998
+##              f2 = 0.00350833
+##       sig.level = 0.05
+##           power = 0.9002927</code></pre>
+<p>Post-hoc Power: 90.03%</p>
+<p>G*Power: 90.24%, confirmed</p>
+<p>Power calculation for finding a true effect in the holdout data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pwr.f2.test</span>(<span class="dt">u =</span> <span class="dv">1</span>, <span class="dt">v =</span> <span class="dv">1012</span> <span class="op">-</span><span class="st"> </span><span class="dv">24</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">f2 =</span> f, <span class="dt">power =</span> <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 1
+##               v = 987
+##              f2 = 0.00350833
+##       sig.level = 0.05
+##           power = 0.4606146</code></pre>
+<p>Power: 46.06%</p>
+<p>G*Power: 46.92%, confirmed</p>
+</div>
+<div id="urgency-on-donations" class="section level2">
+<h2><span class="header-section-number">9.4</span> Urgency on Donations</h2>
+<p>Null hypothesis: Urgency does not predict donation amounts</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># first, use only responses which were exposed to either metaphor</span>
+literal_mask =<span class="st"> </span>trials<span class="op">$</span>cond_metaphor <span class="op">!=</span><span class="st"> &quot;literal&quot;</span>
+
+<span class="co"># then construct a base model and full model (includes the urgency predictor)</span>
+model_battle_journey_base =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>.), <span class="dt">data =</span> trials[literal_mask, ])
+model_battle_journey_full =<span class="st"> </span><span class="kw">lm</span>(<span class="kw">update</span>(base.formula, donation <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>urgent), <span class="dt">data =</span> trials[literal_mask, ])
+
+<span class="co"># then calculate the effect size (Cohens f-squared between two models)</span>
+f &lt;-<span class="st"> </span><span class="kw">f.sq</span>(
+  <span class="kw">lm</span>(donation <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> trials[literal_mask, ]),
+  model_battle_journey_base,
+  model_battle_journey_full
+)
+
+<span class="co"># print the effect size, the sample size, and the number of predictors</span>
+f</code></pre></div>
+<pre><code>## [1] 0.0700667</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(model_battle_journey_base<span class="op">$</span>model)</code></pre></div>
+<pre><code>## [1] 3023</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">coef</span>(model_battle_journey_base))<span class="op">-</span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] 24</code></pre>
+<p>Power calculation for finding a true effect:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pwr.f2.test</span>(<span class="dt">u =</span> <span class="dv">1</span>, <span class="dt">v =</span> <span class="dv">3023</span> <span class="op">-</span><span class="st"> </span><span class="dv">24</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">f2 =</span> f, <span class="dt">power =</span> <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 1
+##               v = 2998
+##              f2 = 0.0700667
+##       sig.level = 0.05
+##           power = 1</code></pre>
+<p>Post-hoc Power: 100.00% G*Power: 100.00%, confirmed</p>
+<p>Power calculation for finding a true effect in the holdout data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pwr.f2.test</span>(<span class="dt">u =</span> <span class="dv">1</span>, <span class="dt">v =</span> <span class="dv">1012</span> <span class="op">-</span><span class="st"> </span><span class="dv">24</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">f2 =</span> f, <span class="dt">power =</span> <span class="ot">NULL</span>)</code></pre></div>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 1
+##               v = 987
+##              f2 = 0.0700667
+##       sig.level = 0.05
+##           power = 1</code></pre>
+<p>Power: 100.00% G*Power: 100.00%, confirmed</p>
+</div>
+<div id="summary-7" class="section level2">
+<h2><span class="header-section-number">9.5</span> Summary</h2>
+<p>Power to reject the null if in fact the alternative is true on the holdout set given the ES from the large pilot:</p>
+<ul>
+<li>23.03% - Metaphor Predictor on Donation</li>
+<li>37.22% - Metaphor/Ppt Gender/Patient Gender Interaction Predictor on Donation</li>
+<li>46.92% - Metaphor Predictor on Urgency</li>
+<li>100.0% - Urgency on Donations</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="mediation.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

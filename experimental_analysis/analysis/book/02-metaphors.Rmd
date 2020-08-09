@@ -475,103 +475,103 @@ library(randomForest)
 #### Any Metaphor compared to Literal
 
 ```{r}
-estimate <- function(data, ix) {
-  rf_null = randomForest(update(base.formula, donation ~ . ),
-                    data = data[ix, ],
-                    mtry = 2,
-                    nPerm = 3,
-                    ntree = 100)
-  
-  rf_anymet = randomForest(update(base.formula, donation ~ . + cond_anymet),
-                    data = data[ix, ],
-                    mtry = 2,
-                    nPerm = 3,
-                    ntree = 100)
-  
-  return(mean(rf_null$mse) - mean(rf_anymet$mse))
-}
-  
-tic()
-bs <- boot(trials, estimate, R = 16)
-toc()
-
-tic()
-ci <- boot.ci(bs, type = "perc")
-toc()
+# estimate <- function(data, ix) {
+#   rf_null = randomForest(update(base.formula, donation ~ . ),
+#                     data = data[ix, ],
+#                     mtry = 2,
+#                     nPerm = 3,
+#                     ntree = 100)
+#   
+#   rf_anymet = randomForest(update(base.formula, donation ~ . + cond_anymet),
+#                     data = data[ix, ],
+#                     mtry = 2,
+#                     nPerm = 3,
+#                     ntree = 100)
+#   
+#   return(mean(rf_null$mse) - mean(rf_anymet$mse))
+# }
+#   
+# tic()
+# bs <- boot(trials, estimate, R = 16)
+# toc()
+# 
+# tic()
+# ci <- boot.ci(bs, type = "perc")
+# toc()
 ```
 
 ```{r}
-ci
+# ci
 ```
 
 ```{r}
-cor(model.matrix(~ 0 + past_donations + urgent + sympathy + self_cancer + ff_cancer + age, data = trials))
+# cor(model.matrix(~ 0 + past_donations + urgent + sympathy + self_cancer + ff_cancer + age, data = trials))
 ```
 
 
 Here are the relative variable importance measures for each variable over 1,000 trees, including `cond_anymet`.
 
 ```{r}
-imp <- cbind(importance(rf_anymet), se = rf_anymet$importanceSD) %>%
-  as.data.frame()
-imp <- cbind(imp, var = rownames(imp))
-rownames(imp) <- NULL
-colnames(imp)[1] <- "PercentMSEInc"
-imp %>%
-  arrange(PercentMSEInc)
+# imp <- cbind(importance(rf_anymet), se = rf_anymet$importanceSD) %>%
+#   as.data.frame()
+# imp <- cbind(imp, var = rownames(imp))
+# rownames(imp) <- NULL
+# colnames(imp)[1] <- "PercentMSEInc"
+# imp %>%
+#   arrange(PercentMSEInc)
 ```
 
 Here are the same numbers but plotted with two standard errors (derived via permutation). 
 
 ```{r, fig.align='center'}
-imp %>%
-  arrange(PercentMSEInc) %>%
-  mutate(var = factor(var, var)) %>%
-  ggplot(aes(var, PercentMSEInc)) + itheme +
-  labs(x = "Predictor", y = "Percent MSE Increase") +
-  geom_errorbar(aes(ymin = PercentMSEInc - 2*se, ymax = PercentMSEInc + 2*se), width = 0.15) +
-  geom_point(shape = 16) +
-  geom_text(aes(label = round(PercentMSEInc, 2)), nudge_x = 0.3, size = 3) +
-  coord_flip()
+# imp %>%
+#   arrange(PercentMSEInc) %>%
+#   mutate(var = factor(var, var)) %>%
+#   ggplot(aes(var, PercentMSEInc)) + itheme +
+#   labs(x = "Predictor", y = "Percent MSE Increase") +
+#   geom_errorbar(aes(ymin = PercentMSEInc - 2*se, ymax = PercentMSEInc + 2*se), width = 0.15) +
+#   geom_point(shape = 16) +
+#   geom_text(aes(label = round(PercentMSEInc, 2)), nudge_x = 0.3, size = 3) +
+#   coord_flip()
 ```
 
 #### Battle compared to Journey
 
 ```{r}
-rf_battle_journey = randomForest(update(base.formula, donation ~ . + cond_metaphor),
-                  data = trials %>% filter(cond_metaphor %in% c("battle", "journey")),
-                  mtry = 2,
-                  nPerm = 3,
-                  importance = T,
-                  ntree = 1000,
-                  do.trace = 250)
-rf_battle_journey
+# rf_battle_journey = randomForest(update(base.formula, donation ~ . + cond_metaphor),
+#                   data = trials %>% filter(cond_metaphor %in% c("battle", "journey")),
+#                   mtry = 2,
+#                   nPerm = 3,
+#                   importance = T,
+#                   ntree = 1000,
+#                   do.trace = 250)
+# rf_battle_journey
 ```
 
 Here are the relative variable importance measures for each variable, including `cond_anymet`.
 
 ```{r}
-imp <- cbind(importance(rf_battle_journey), se = rf_battle_journey$importanceSD) %>%
-  as.data.frame()
-imp <- cbind(imp, var = rownames(imp))
-rownames(imp) <- NULL
-colnames(imp)[1] <- "PercentMSEInc"
-imp %>%
-  arrange(PercentMSEInc)
+# imp <- cbind(importance(rf_battle_journey), se = rf_battle_journey$importanceSD) %>%
+#   as.data.frame()
+# imp <- cbind(imp, var = rownames(imp))
+# rownames(imp) <- NULL
+# colnames(imp)[1] <- "PercentMSEInc"
+# imp %>%
+#   arrange(PercentMSEInc)
 ```
 
 Here are the same numbers but plotted with two standard errors (derived via permutation). 
 
 ```{r, fig.align='center'}
-imp %>%
-  arrange(PercentMSEInc) %>%
-  mutate(var = factor(var, var)) %>%
-  ggplot(aes(var, PercentMSEInc)) + itheme +
-  labs(x = "Predictor", y = "Percent MSE Increase") +
-  geom_errorbar(aes(ymin = PercentMSEInc - 2*se, ymax = PercentMSEInc + 2*se), width = 0.15) +
-  geom_point(shape = 16) +
-  geom_text(aes(label = round(PercentMSEInc, 2)), nudge_x = 0.3, size = 3) +
-  coord_flip()
+# imp %>%
+#   arrange(PercentMSEInc) %>%
+#   mutate(var = factor(var, var)) %>%
+#   ggplot(aes(var, PercentMSEInc)) + itheme +
+#   labs(x = "Predictor", y = "Percent MSE Increase") +
+#   geom_errorbar(aes(ymin = PercentMSEInc - 2*se, ymax = PercentMSEInc + 2*se), width = 0.15) +
+#   geom_point(shape = 16) +
+#   geom_text(aes(label = round(PercentMSEInc, 2)), nudge_x = 0.3, size = 3) +
+#   coord_flip()
 ```
 
 ### Gradient Boosted Trees
